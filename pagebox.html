@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pagebox</title>
+    <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
+    <script type="text/javascript" src="Scripts/pagebox.js"></script>
+</head>
+
+<body>
+    <div style="margin: 40px;">
+        <h1>说明</h1>
+        <div>我想它应该如下功能：</div>
+        <ul>
+            <li>可拖放，可缩放，模拟windows桌面窗体</li>
+            <li>上溯父级，查找父对像，父对象文档对象</li>
+            <li>遍历下级，以及子对象的文档对象</li>
+            <li>事件：多播事件，可追加、可去除</li>
+        </ul>
+    </div>
+</body>
+<script type="text/javascript">
+var page=new pagebox();
+page.open();
+</script>
+
+
+</html>

@@ -1,0 +1,9 @@
+html,body{
+    background-color: #eee;
+    margin: 0px;
+    padding: 0px;
+}
+
+.pagebox{
+    background-color: blue;
+}
