@@ -1,11 +1,88 @@
-html,body{
+html,
+body {
     background-color: #eee;
     margin: 0px;
     padding: 0px;
 }
 
-.pagebox{
+.pagebox {
     background-color: white;
     border-radius: 4px;
-    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3) 
+    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
+    position: relative;
+}
+
+.pagebox margin {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.pagebox margin>* {
+    position: absolute;
+    display: block;
+    //background-color: aquamarine;
+}
+
+.pagebox margin lefttop {
+    width: 10px;
+    height: 10px;
+    cursor: nw-resize;
+}
+
+.pagebox margin left {
+    width: 10px;
+    height: calc(100% - 20px);
+    top: 10px;
+    left: 0px;
+    cursor: w-resize;
+}
+
+.pagebox margin leftbottom {
+    width: 10px;
+    height: 10px;
+    bottom: 0px;
+    left: 0px;
+    cursor: sw-resize;
+}
+
+.pagebox margin righttop {
+    width: 10px;
+    height: 10px;
+    top: 0px;
+    right: 0px;
+    cursor: ne-resize;
+}
+
+.pagebox margin right {
+    width: 10px;
+    height: calc(100% - 20px);
+    top: 10px;
+    right: 0px;
+    cursor: e-resize;
+}
+
+.pagebox margin rightbottom {
+    width: 10px;
+    height: 10px;
+    bottom: 0px;
+    right: 0px;
+    cursor: se-resize;
+}
+
+.pagebox margin top {
+    width: calc(100% - 20px);
+    height: 10px;
+    top: 0px;
+    left: 10px;
+    cursor: n-resize;
+}
+
+.pagebox margin bottom {
+    width: calc(100% - 20px);
+    height: 10px;
+    bottom: 0px;
+    left: 10px;
+    cursor: s-resize;
 }
