@@ -23,8 +23,13 @@
     </div>
 </body>
 <script type="text/javascript">
-var page=new pagebox();
-page.open();
+    var page = new pagebox({ width: 300, height: 200, att: 89 });
+    page.width = 200;
+    page.open();
+    //
+
+    var box=new pagebox({top:100,left:200});
+    box.open();
 </script>
 
 

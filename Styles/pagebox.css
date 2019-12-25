@@ -5,5 +5,7 @@ html,body{
 }
 
 .pagebox{
-    background-color: blue;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3) 
 }
