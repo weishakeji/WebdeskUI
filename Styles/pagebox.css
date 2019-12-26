@@ -6,17 +6,24 @@ body {
 }
 
 .pagebox {
-    background-color: white;
-    border-radius: 4px;
+    background-color: rgba(78, 147, 236, 0.8);
+    border-radius: 6px;
     box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
     position: relative;
+    border: 1px solid rgba(62, 63, 63, 0.6);
 }
+
+
+/*边框元素*/
 
 .pagebox margin {
     display: block;
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    border: 1px solid #fff;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .pagebox margin>* {
@@ -85,4 +92,157 @@ body {
     bottom: 0px;
     left: 10px;
     cursor: s-resize;
+}
+
+
+/*标题栏*/
+
+.pagebox pagebox_title {
+    display: block;
+    position: absolute;
+    width: calc(100% - 12px);
+    height: 30px;
+    top: 0px;
+    left: 6px;
+    cursor: default;
+}
+
+.pagebox pagebox_title>div>* {
+    display: block;
+}
+
+.pagebox pagebox_title ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    line-height: 32px;
+    font-size: 18px;
+    float: left;
+    margin-right: 5px;
+}
+
+.pagebox pagebox_title text {
+    height: 100%;
+    line-height: 32px;
+    width: calc(100% - 110px);
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: .2rem 0rem .5rem rgba(255, 255, 255, 0.6), -.2rem 0rem .5rem rgba(255, 255, 255, 0.6), 0rem .2rem .5rem rgba(255, 255, 255, 0.6), 0rem -.2rem .5rem rgba(255, 255, 255, 0.6);
+}
+
+.pagebox pagebox_title btnbox {
+    width: 107px;
+    height: 20px;
+    float: right;
+    border: 1px solid rgba(62, 63, 63, 0.6);
+    margin-top: -1px;
+    border-radius: 0px 0px 4px 4px;
+    box-shadow: -2px 0px 2px rgba(255, 255, 255, 0.6), 2px 0px 2px rgba(255, 255, 255, 0.6), 0px 2px 2px rgba(255, 255, 255, 0.6);
+}
+
+.pagebox pagebox_title btnbox>* {
+    width: 30px;
+    height: 20px;
+    float: left;
+    color: #fff;
+}
+
+.pagebox pagebox_title btnbox>*::before {
+    text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.6), -1px 0px 1px rgba(0, 0, 0, 0.6), 0px 1px 1px rgba(0, 0, 0, 0.6), 0px -1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.pagebox pagebox_title btn_min {
+    border-radius: 0px 0px 0px 4px;
+    width: 30px;
+    border-right: 1px solid #666;
+}
+
+.pagebox pagebox_title btn_min:hover {
+    background-color: rgb(64, 210, 255);
+}
+
+.pagebox pagebox_title btn_min::before {
+    content: "\2013";
+    width: 30px;
+    display: block;
+    text-align: center;
+    height: 20px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .6), rgba(255, 255, 255, .1));
+}
+
+.pagebox pagebox_title btn_max:hover {
+    background-color: rgb(64, 210, 255);
+}
+
+.pagebox pagebox_title btn_max::before {
+    content: "\2610";
+    width: 30px;
+    display: block;
+    text-align: center;
+    height: 20px;
+    line-height: 22px;
+    color: #fff;
+    font-size: 6px;
+    font-weight: 900;
+    transform: scale(1.2, 1);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .6), rgba(255, 255, 255, .1));
+}
+
+.pagebox pagebox_title btn_close {
+    border-left: 1px solid #666;
+    background-color: rgb(226, 12, 12);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    border-radius: 0px 0px 4px 0px;
+    width: 45px;
+}
+
+.pagebox pagebox_title btn_close:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.pagebox pagebox_title btn_close::before {
+    content: "\2716";
+    width: 45px;
+    display: block;
+    text-align: center;
+    height: 20px;
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 22px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .9) 1%, rgba(255, 255, 255, 0.6) 5%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, .1) 55%);
+    border-radius: 0px 0px 4px 0px;
+}
+
+
+/*内容区*/
+
+.pagebox iframe {
+    width: calc(100% - 12px - 2px);
+    height: calc(100% - 30px - 6px - 2px);
+    bottom: 5px;
+    left: 6px;
+    position: absolute;
+    background-color: #fff;
+    background-color: rgb(218, 230, 245);
+    border: 1px inset #999;
+    border-radius: 0px 0px 6px 6px;
+}
+
+
+/*遮罩*/
+
+.pagebox pagebox_mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(219, 190, 23, 0.3);
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    display: none;
 }
