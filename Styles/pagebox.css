@@ -6,7 +6,7 @@ body {
 }
 
 .pagebox {
-    background-color: rgba(78, 147, 236, 0.8);
+    background-color: rgba(161, 197, 247, 0.8);
     border-radius: 6px;
     box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
     position:absolute;
@@ -24,7 +24,7 @@ body {
     border: 1px solid #fff;
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.5);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 35%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 5%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 35%);
 }
 
 .pagebox margin>* {
@@ -135,12 +135,13 @@ body {
     white-space: nowrap;
     text-shadow: .2rem 0rem .5rem rgba(255, 255, 255, 0.6), -.2rem 0rem .5rem rgba(255, 255, 255, 0.6), 0rem .2rem .5rem rgba(255, 255, 255, 0.6), 0rem -.2rem .5rem rgba(255, 255, 255, 0.6);
 }
-
+/*标题栏右上角按钮组*/
 .pagebox pagebox_title btnbox {
-    width: 107px;
-    height: 20px;
+    width: auto;
+    height: 18px;
     float: right;
-    border: 1px solid rgba(62, 63, 63, 0.6);
+    display: block;
+    border: 1px solid rgba(62, 63, 63, 0.6);   
     margin-top: -7px;
     border-radius: 0px 0px 4px 4px;
     box-shadow: -2px 0px 2px rgba(255, 255, 255, 0.6), 2px 0px 2px rgba(255, 255, 255, 0.6), 0px 2px 2px rgba(255, 255, 255, 0.6);
@@ -148,60 +149,55 @@ body {
 
 .pagebox pagebox_title btnbox>* {
     width: 30px;
-    height: 20px;
+    height: 18px;
+    display: block;
     float: left;
     color: #fff;
+    border-right: 1px solid rgba(62, 63, 63, 0.6);
 }
-
-.pagebox pagebox_title btnbox>*::before {
-    text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.6), -1px 0px 1px rgba(0, 0, 0, 0.6), 0px 1px 1px rgba(0, 0, 0, 0.6), 0px -1px 1px rgba(0, 0, 0, 0.6);
-}
-
-.pagebox pagebox_title btn_min {
-    border-radius: 0px 0px 0px 4px;
-    width: 30px;
-    border-right: 1px solid #666;
-}
-
-.pagebox pagebox_title btn_min:hover {
+.pagebox pagebox_title btnbox>*:hover {
     background-color: rgb(64, 210, 255);
 }
-
-.pagebox pagebox_title btn_min::before {
-    content: "\2013";
+.pagebox pagebox_title btnbox>*:first-child {    
+    border-radius: 0px 0px 0px 4px;
+}
+.pagebox pagebox_title btnbox>*:last-child {   
+   border-radius: 0px 0px 4px 0px;
+    
+    border-right:  none;
+}
+.pagebox pagebox_title btnbox>*::before {
+    text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.6), -1px 0px 1px rgba(0, 0, 0, 0.6), 0px 1px 1px rgba(0, 0, 0, 0.6), 0px -1px 1px rgba(0, 0, 0, 0.6);
+    color: #fff;
     width: 30px;
     display: block;
     text-align: center;
-    height: 20px;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 900;
+    height: 18px;
+    line-height: 18px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .6), rgba(255, 255, 255, .1));
 }
 
-.pagebox pagebox_title btn_max:hover {
-    background-color: rgb(64, 210, 255);
+.pagebox pagebox_title btn_min {  
+    
+}
+
+.pagebox pagebox_title btn_min::before {
+    content: "\2013";    
+    font-size: 20px;
+    font-weight: 900;   
+    line-height: 22px;
 }
 
 .pagebox pagebox_title btn_max::before {
     content: "\2610";
-    width: 30px;
-    display: block;
-    text-align: center;
-    height: 20px;
-    line-height: 22px;
-    color: #fff;
     font-size: 6px;
     font-weight: 900;
-    transform: scale(1.2, 1);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .6), rgba(255, 255, 255, .1));
+    transform: scale(1.2, 1);    
 }
 
-.pagebox pagebox_title btn_close {
-    border-left: 1px solid #666;
-    background-color: rgb(226, 12, 12);
+.pagebox pagebox_title btn_close {    
+    background-color: rgb(195, 7, 7);
     box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
-    border-radius: 0px 0px 4px 0px;
     width: 45px;
 }
 
@@ -214,10 +210,10 @@ body {
     width: 45px;
     display: block;
     text-align: center;
-    height: 20px;
+    height: 18px;
     font-size: 13px;
     font-weight: 900;
-    line-height: 22px;
+    line-height: 18px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .9) 1%, rgba(255, 255, 255, 0.6) 5%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, .1) 55%);
     border-radius: 0px 0px 4px 0px;
 }
@@ -230,8 +226,7 @@ body {
     height: calc(100% - 28px - 6px - 2px);
     bottom: 5px;
     left: 6px;
-    position: absolute;
-    background-color: #fff;
+    position: absolute;    
     background-color: rgb(218, 230, 245);
     border: 1px solid #777;
     border-radius: 0px 0px 6px 6px;
