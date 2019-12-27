@@ -9,7 +9,7 @@ body {
     background-color: rgba(78, 147, 236, 0.8);
     border-radius: 6px;
     box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
-    position: relative;
+    position:absolute;
     border: 1px solid rgba(62, 63, 63, 0.6);
 }
 
@@ -24,6 +24,7 @@ body {
     border: 1px solid #fff;
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 35%);
 }
 
 .pagebox margin>* {
@@ -101,9 +102,10 @@ body {
     display: block;
     position: absolute;
     width: calc(100% - 12px);
-    height: 30px;
-    top: 0px;
+    height: 22px;
+    top: 6px;
     left: 6px;
+    user-select: none;
     cursor: default;
 }
 
@@ -115,18 +117,20 @@ body {
     height: 30px;
     width: auto;
     max-width: 30px;
-    line-height: 32px;
+    line-height: 20px;
     font-size: 18px;
     float: left;
-    margin-right: 5px;
 }
 
 .pagebox pagebox_title text {
+    display: block;
     height: 100%;
-    line-height: 32px;
-    width: calc(100% - 110px);
+    line-height: 20px;
+    width: calc(100% - 110px - 30px);
     font-size: 14px;
+    float: left;
     overflow: hidden;
+    text-indent: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-shadow: .2rem 0rem .5rem rgba(255, 255, 255, 0.6), -.2rem 0rem .5rem rgba(255, 255, 255, 0.6), 0rem .2rem .5rem rgba(255, 255, 255, 0.6), 0rem -.2rem .5rem rgba(255, 255, 255, 0.6);
@@ -137,7 +141,7 @@ body {
     height: 20px;
     float: right;
     border: 1px solid rgba(62, 63, 63, 0.6);
-    margin-top: -1px;
+    margin-top: -7px;
     border-radius: 0px 0px 4px 4px;
     box-shadow: -2px 0px 2px rgba(255, 255, 255, 0.6), 2px 0px 2px rgba(255, 255, 255, 0.6), 0px 2px 2px rgba(255, 255, 255, 0.6);
 }
@@ -223,14 +227,15 @@ body {
 
 .pagebox iframe {
     width: calc(100% - 12px - 2px);
-    height: calc(100% - 30px - 6px - 2px);
+    height: calc(100% - 28px - 6px - 2px);
     bottom: 5px;
     left: 6px;
     position: absolute;
     background-color: #fff;
     background-color: rgb(218, 230, 245);
-    border: 1px inset #999;
+    border: 1px solid #777;
     border-radius: 0px 0px 6px 6px;
+    box-shadow: 0px -1px 2px 1px rgba(255, 255, 255, 0.8);
 }
 
 
@@ -238,11 +243,11 @@ body {
 
 .pagebox pagebox_mask {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: calc(100% - 12px - 2px);
+    height: calc(100% - 28px - 6px - 2px);
     background-color: rgba(219, 190, 23, 0.3);
-    top: 0px;
-    left: 0px;
+     bottom: 5px;
+    left: 6px;
     z-index: 1;
     display: none;
 }

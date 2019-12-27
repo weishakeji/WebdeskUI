@@ -71,7 +71,7 @@
                 div.setAttribute('level', box.level);
                 div.style.width = (box.width - 2) + 'px';
                 div.style.height = (box.height - 2) + 'px';
-                div.style.position = "absolute";
+                //div.style.position = "absolute";
                 div.style.top = box.top + 'px';
                 div.style.left = box.left + 'px';
                 div.style.zIndex = box.level;
