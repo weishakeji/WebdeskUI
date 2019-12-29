@@ -133,7 +133,7 @@ body {
     text-indent: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-shadow: .2rem 0rem .5rem rgba(255, 255, 255, 0.6), -.2rem 0rem .5rem rgba(255, 255, 255, 0.6), 0rem .2rem .5rem rgba(255, 255, 255, 0.6), 0rem -.2rem .5rem rgba(255, 255, 255, 0.6);
+    text-shadow: .2rem 0rem .8rem rgba(255, 255, 255, 0.6), -.2rem 0rem .8rem rgba(255, 255, 255, 0.6), 0rem .2rem .8rem rgba(255, 255, 255, 0.6), 0rem -.2rem .8rem rgba(255, 255, 255, 0.6);
 }
 /*标题栏右上角按钮组*/
 .pagebox pagebox_title btnbox {
@@ -153,10 +153,27 @@ body {
     display: block;
     float: left;
     color: #fff;
+overflow: hidden;
+    position: relative;
     border-right: 1px solid rgba(62, 63, 63, 0.6);
 }
 .pagebox pagebox_title btnbox>*:hover {
-    background-color: rgb(64, 210, 255);
+    background-color: rgb(7, 119, 195);
+    box-shadow:rgb(255,255,255) 0px 0px 3px inset;
+}
+.pagebox pagebox_title btnbox>*:hover:after {  
+content: "";     
+    width: 30px;
+    margin-left: 0px;
+    margin-top: 10px;
+    height: 100%;
+    display: block;
+    position: absolute;
+    z-index: 2;
+    text-align: center; 
+
+    background-image: radial-gradient(rgba(66, 251, 240,0.8) 50%,  rgba(66, 251, 240, 0));
+     
 }
 .pagebox pagebox_title btnbox>*:first-child {    
     border-radius: 0px 0px 0px 4px;
@@ -167,6 +184,8 @@ body {
     border-right:  none;
 }
 .pagebox pagebox_title btnbox>*::before {
+    position: absolute;
+    z-index: 3;
     text-shadow: 1px 0px 1px rgba(0, 0, 0, 0.6), -1px 0px 1px rgba(0, 0, 0, 0.6), 0px 1px 1px rgba(0, 0, 0, 0.6), 0px -1px 1px rgba(0, 0, 0, 0.6);
     color: #fff;
     width: 30px;
@@ -174,7 +193,7 @@ body {
     text-align: center;
     height: 18px;
     line-height: 18px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .6), rgba(255, 255, 255, .1));
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .8), rgba(255, 255, 255, .1));
 }
 
 .pagebox pagebox_title btn_min {  
@@ -217,7 +236,9 @@ body {
     background: linear-gradient(to bottom, rgba(255, 255, 255, .9) 1%, rgba(255, 255, 255, 0.6) 5%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, .1) 55%);
     border-radius: 0px 0px 4px 0px;
 }
-
+.pagebox pagebox_title btn_close:hover::after { 
+    display: none;
+}
 
 /*内容区*/
 
