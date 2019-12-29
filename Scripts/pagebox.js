@@ -124,6 +124,9 @@
                 boxele.appendChild(document.createElement('pagebox_mask'));
             }
         }
+        this.event={
+            
+        }
     };
     window.pagebox = box;
 })();
