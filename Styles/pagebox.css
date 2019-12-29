@@ -163,6 +163,7 @@ overflow: hidden;
 }
 .pagebox pagebox_title btnbox>*:active   {
     background-color: rgb(23, 119, 197);   
+    box-shadow:rgb(255,255,255) 0px 0px 3px inset;
 }
 .pagebox pagebox_title btnbox>*:hover:after {  
 content: "";     
@@ -177,11 +178,9 @@ content: "";
     background-image: radial-gradient(rgba(66, 251, 240,0.8) 50%,  rgba(66, 251, 240, 0));     
 }
 .pagebox pagebox_title btnbox>*:active:after  {
-    //display: none;
      background-image: radial-gradient(rgba(66, 251, 240,0.8) 40%,  rgba(66, 251, 240, 0) 85%);     
 }
 .pagebox pagebox_title btnbox>*:active:before  {
-    //background: transparent;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .5), rgba(255, 255, 255, .1));
 }
 .pagebox pagebox_title btnbox>*:first-child {    
