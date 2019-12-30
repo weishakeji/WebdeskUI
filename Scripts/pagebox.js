@@ -139,8 +139,10 @@
         this.event = {
             pagebox_click: function(box) {
                 box.addEventListener('click', function(event) {
-                    var s = event.srcElement;
-                    console.log(s.innerText);
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+
+                    console.log(node.innerText);
                 });
                 IframeOnClick.track(box.querySelector('iframe'), function(sender, boxid) {
                     sender.click();
