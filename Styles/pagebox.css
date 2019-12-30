@@ -120,21 +120,25 @@ body {
     line-height: 20px;
     font-size: 18px;
     float: left;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
 }
 
 .pagebox pagebox_title text {
     display: block;
-    height: 100%;
-    line-height: 20px;
+    height: 30px;
+    line-height: 30px;
     width: calc(100% - 110px - 30px);
     font-size: 14px;
+    margin-top: -6px;
     float: left;
     overflow: hidden;
+    padding-right: 5px;
     text-indent: 5px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-shadow: .2rem 0rem .8rem rgba(255, 255, 255, 0.6), -.2rem 0rem .8rem rgba(255, 255, 255, 0.6), 0rem .2rem .8rem rgba(255, 255, 255, 0.6), 0rem -.2rem .8rem rgba(255, 255, 255, 0.6);
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
 }
+
 /*标题栏右上角按钮组*/
 .pagebox pagebox_title btnbox {
     width: auto;

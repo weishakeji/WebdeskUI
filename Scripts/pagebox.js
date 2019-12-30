@@ -31,6 +31,7 @@
             if (this.ico == null) this.ico = '&#174;';
 
         }
+        //方法
         this.method = {
             //获取所有pagebox窗体元素
             getboxs: function() {
@@ -52,12 +53,14 @@
                 return level;
             }
         }
+        //打开pagebox窗体，并触发shown事件 
         this.open = function() {
             this.init();
             for (var t in this.builder) {
                 this.builder[t](this);
             }
         }
+        //构建pagebox窗体
         this.builder = {
             //生成随机id
             randomid: function(box) {
@@ -108,7 +111,7 @@
                 ico.innerHTML = box.ico;
                 title.appendChild(ico);
                 //添加标题文字
-                var text = document.createElement('text');
+                var text = document.createElement('text');                
                 text.innerHTML = box.title;
                 title.appendChild(text);
                 //添加最小化，最大化，关闭按钮
@@ -124,9 +127,10 @@
                 boxele.appendChild(document.createElement('pagebox_mask'));
             }
         }
+        //添加pagebox自身事件，例如拖放、缩放、关闭等
         this.event={
-            
-        }
+
+        }        
     };
     window.pagebox = box;
 })();
