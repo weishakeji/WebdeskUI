@@ -56,8 +56,14 @@
         //打开pagebox窗体，并触发shown事件 
         this.open = function() {
             this.init();
+            //创建窗体
             for (var t in this.builder) {
                 this.builder[t](this);
+            }
+            //添加事件
+            var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+            for (var t in this.event) {
+                this.event[t](boxele);
             }
         }
         //构建pagebox窗体
@@ -93,6 +99,8 @@
             body: function(box) {
                 var boxele = document.querySelector('.pagebox[boxid=\'' + box.id + '\']');
                 var iframe = document.createElement('iframe');
+                iframe.setAttribute('name', box.id);
+                iframe.setAttribute('id', box.id);
                 iframe.setAttribute('src', box.url);
                 iframe.setAttribute('frameborder', 'no');
                 iframe.setAttribute('border', 0);
@@ -111,7 +119,7 @@
                 ico.innerHTML = box.ico;
                 title.appendChild(ico);
                 //添加标题文字
-                var text = document.createElement('text');                
+                var text = document.createElement('text');
                 text.innerHTML = box.title;
                 title.appendChild(text);
                 //添加最小化，最大化，关闭按钮
@@ -128,9 +136,58 @@
             }
         }
         //添加pagebox自身事件，例如拖放、缩放、关闭等
-        this.event={
-
-        }        
+        this.event = {
+            pagebox_click: function(box) {
+                box.addEventListener('click', function(event) {
+                     var s= event.srcElement;
+                    console.log(s.innerText);
+                });
+                IframeOnClick.track(box.querySelector('iframe'), function(sender) {
+                    var s= sender;
+                    // console.log(sender.innerText);
+                    sender.click();
+                });
+            }
+        }
     };
     window.pagebox = box;
 })();
+
+//iframe中的点击事件
+var IframeOnClick = {
+    resolution: 200,
+    iframes: [],
+    interval: null,
+    Iframe: function() {
+        this.element = arguments[0];
+        this.cb = arguments[1];
+        this.hasTracked = false;
+    },
+    track: function(element, cb) {
+        this.iframes.push(new this.Iframe(element, cb));
+        if (!this.interval) {
+            var _this = this;
+            this.interval = setInterval(function() {
+                _this.checkClick();
+            }, this.resolution);
+        }
+    },
+    checkClick: function() {
+        if (document.activeElement) {
+            var activeElement = document.activeElement;
+            for (var i in this.iframes) {
+                var iframe=this.iframes[i];
+                var name=iframe.element.getAttribute('name');
+                var pagebox= document.querySelector('.pagebox[boxid=\'' + name + '\']');
+                if (activeElement === this.iframes[i].element) { // user is in this Iframe  
+                    if (this.iframes[i].hasTracked == false) {
+                        this.iframes[i].cb.apply(window, [pagebox]);
+                        this.iframes[i].hasTracked = true;
+                    }
+                } else {
+                    this.iframes[i].hasTracked = false;
+                }
+            }
+        }
+    }
+};
