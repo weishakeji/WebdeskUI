@@ -139,12 +139,10 @@
         this.event = {
             pagebox_click: function(box) {
                 box.addEventListener('click', function(event) {
-                     var s= event.srcElement;
+                    var s = event.srcElement;
                     console.log(s.innerText);
                 });
-                IframeOnClick.track(box.querySelector('iframe'), function(sender) {
-                    var s= sender;
-                    // console.log(sender.innerText);
+                IframeOnClick.track(box.querySelector('iframe'), function(sender, boxid) {
                     sender.click();
                 });
             }
@@ -176,12 +174,12 @@ var IframeOnClick = {
         if (document.activeElement) {
             var activeElement = document.activeElement;
             for (var i in this.iframes) {
-                var iframe=this.iframes[i];
-                var name=iframe.element.getAttribute('name');
-                var pagebox= document.querySelector('.pagebox[boxid=\'' + name + '\']');
+                var iframe = this.iframes[i];
+                var name = iframe.element.getAttribute('name');
+                var pagebox = document.querySelector('.pagebox[boxid=\'' + name + '\']');
                 if (activeElement === this.iframes[i].element) { // user is in this Iframe  
                     if (this.iframes[i].hasTracked == false) {
-                        this.iframes[i].cb.apply(window, [pagebox]);
+                        this.iframes[i].cb.apply(window, [pagebox, name]);
                         this.iframes[i].hasTracked = true;
                     }
                 } else {
