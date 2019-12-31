@@ -90,10 +90,35 @@
             margin: function(box) {
                 var boxele = document.querySelector('.pagebox[boxid=\'' + box.id + '\']');
                 var marginbox = boxele.appendChild(document.createElement('margin'));
-                var arr = ['lefttop', 'left', 'leftbottom', 'top', 'bottom', 'righttop', 'right', 'rightbottom'];
+                var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
                 for (var i = 0; i < arr.length; i++) {
-                    marginbox.appendChild(document.createElement(arr[i]));
+                    var node = document.createElement(arr[i]);
+                    node.style.cursor = arr[i]+'-resize';
+                    marginbox.appendChild(node);
                 }
+            },
+            //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
+            title: function(box) {
+                var boxele = document.querySelector('.pagebox[boxid=\'' + box.id + '\']');
+                //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
+                var marginbox = boxele.querySelector('margin');               
+                //添加图标
+                var ico = document.createElement('ico');
+                ico.innerHTML = box.ico;
+                marginbox.appendChild(ico);
+                //添加标题文字
+                var text = document.createElement('text');
+                text.innerHTML = box.title;
+                marginbox.appendChild(text);
+
+                //添加最小化，最大化，关闭按钮
+                var title = document.createElement('pagebox_title');
+                boxele.appendChild(title);                
+                var btnbox = document.createElement('btnbox');
+                btnbox.appendChild(document.createElement('btn_min'));
+                btnbox.appendChild(document.createElement('btn_max'));
+                btnbox.appendChild(document.createElement('btn_close'));
+                title.appendChild(btnbox);
             },
             //主体内容区
             body: function(box) {
@@ -108,27 +133,7 @@
                 iframe.setAttribute('marginheight', 0);
                 //iframe.setAttribute('allowTransparency', true);   //背景透明
                 boxele.appendChild(iframe);
-            },
-            //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
-            title: function(box) {
-                var boxele = document.querySelector('.pagebox[boxid=\'' + box.id + '\']');
-                var title = document.createElement('pagebox_title');
-                boxele.appendChild(title);
-                //添加图标
-                var ico = document.createElement('ico');
-                ico.innerHTML = box.ico;
-                title.appendChild(ico);
-                //添加标题文字
-                var text = document.createElement('text');
-                text.innerHTML = box.title;
-                title.appendChild(text);
-                //添加最小化，最大化，关闭按钮
-                var btnbox = document.createElement('btnbox');
-                btnbox.appendChild(document.createElement('btn_min'));
-                btnbox.appendChild(document.createElement('btn_max'));
-                btnbox.appendChild(document.createElement('btn_close'));
-                title.appendChild(btnbox);
-            },
+            },            
             //遮罩
             mask: function(box) {
                 var boxele = document.querySelector('.pagebox[boxid=\'' + box.id + '\']');

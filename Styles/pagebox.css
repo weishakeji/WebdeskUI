@@ -24,75 +24,88 @@ body {
     border: 1px solid #fff;
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.5);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 5%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 35%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 5%, rgba(255, 255, 255, 0.6) 120px, rgba(255, 255, 255, 0) 130px);
 }
 
 .pagebox margin>* {
     position: absolute;
     display: block;
-    //background-color: aquamarine;
-}
-
-.pagebox margin lefttop {
-    width: 10px;
+     width: 10px;
     height: 10px;
-    cursor: nw-resize;
+    z-index: 2;
 }
 
-.pagebox margin left {
-    width: 10px;
+.pagebox margin nw {    
+}
+
+.pagebox margin w {
     height: calc(100% - 20px);
     top: 10px;
     left: 0px;
-    cursor: w-resize;
 }
 
-.pagebox margin leftbottom {
-    width: 10px;
-    height: 10px;
+.pagebox margin sw {
     bottom: 0px;
     left: 0px;
-    cursor: sw-resize;
 }
 
-.pagebox margin righttop {
-    width: 10px;
-    height: 10px;
+.pagebox margin ne{
     top: 0px;
     right: 0px;
-    cursor: ne-resize;
 }
 
-.pagebox margin right {
-    width: 10px;
+.pagebox margin e {
     height: calc(100% - 20px);
     top: 10px;
     right: 0px;
-    cursor: e-resize;
 }
 
-.pagebox margin rightbottom {
-    width: 10px;
-    height: 10px;
+.pagebox margin se{
     bottom: 0px;
     right: 0px;
-    cursor: se-resize;
 }
 
-.pagebox margin top {
+.pagebox margin n {
     width: calc(100% - 20px);
-    height: 10px;
+    height: 6px;
     top: 0px;
     left: 10px;
-    cursor: n-resize;
 }
 
-.pagebox margin bottom {
+.pagebox margin s {
     width: calc(100% - 20px);
-    height: 10px;
     bottom: 0px;
     left: 10px;
-    cursor: s-resize;
+}
+.pagebox ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    line-height: 20px;
+    font-size: 18px;
+    top: 3px;
+    left: 6px;
+    z-index: 1;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
+}
+
+.pagebox text {
+
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 110px - 30px);
+    font-size: 14px;
+    top: -2px;
+    left: 15px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+     user-select: none;
+    cursor: default;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
 }
 
 
@@ -113,31 +126,6 @@ body {
     display: block;
 }
 
-.pagebox pagebox_title ico {
-    height: 30px;
-    width: auto;
-    max-width: 30px;
-    line-height: 20px;
-    font-size: 18px;
-    float: left;
-    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
-}
-
-.pagebox pagebox_title text {
-    display: block;
-    height: 30px;
-    line-height: 30px;
-    width: calc(100% - 110px - 30px);
-    font-size: 14px;
-    margin-top: -6px;
-    float: left;
-    overflow: hidden;
-    padding-right: 5px;
-    text-indent: 5px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255,1);
-}
 
 /*标题栏右上角按钮组*/
 .pagebox pagebox_title btnbox {
