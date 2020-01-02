@@ -5,9 +5,11 @@
 2、事件管理
 3、状态管理
 */
-(function(argument) {
+(function() {
 	var webui = function(element) {
 
 	}
-	window.$ui = webui;
+	window.$ui = function(element) {
+		return new webui(element);
+	};
 })();
