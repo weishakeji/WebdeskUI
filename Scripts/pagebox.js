@@ -147,11 +147,21 @@
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
 
-                    console.log(node.innerText);
+                    console.log('点击窗体：'+node.innerText);
                 });
                 IframeOnClick.track(box.querySelector('iframe'), function(sender, boxid) {
                     sender.click();
                 });
+            },
+            title_click:function(box){
+                var title=box.querySelector('pagebox_title');
+                title.addEventListener('click', function(event) {
+                    var node = event.target ? event.target : event.srcElement;
+                    //while (!node.getAttribute('boxid')) node = node.parentNode;
+
+                    console.log('点击标题：'+node.innerText);
+                    event.stopPropagation();
+                },false);
             }
         }
     };
