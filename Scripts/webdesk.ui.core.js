@@ -22,10 +22,11 @@
     //遍历节点元素，并执行fun函数
     //ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
     fn.each = function(fun, ret) {
-        var results = [];
+        var results = [],
+            res;
         for (var i = 0; i < this.length; i++) {
-            var res = fun.call(this[i], i);
-            if (res instanceof Node && res.nodeType && res.nodeType == 1) results[i] = res;
+            res = fun.call(this[i], i);
+            if (res instanceof Node && res.nodeType && res.nodeType == 1) results.push(res);
             if (res instanceof NodeList) {
                 for (var j = 0; j < res.length; j++) {
                     if (res[j].nodeType && res[j].nodeType == 1)
@@ -36,9 +37,9 @@
                 for (var j = 0; j < res.length; j++)
                     results.push(res[j]);
             }
+            if (typeof(res) == 'string') results.push(res.replace(/^\s*|\s*$/g, ""));
         }
         if (ret) {
-            if (typeof(res) == 'string') return res.replace(/^\s*|\s*$/g, "");
             if (results instanceof NodeList || results instanceof Array)
                 return results.length == 1 ? results[0] : results;
         }
@@ -58,7 +59,6 @@
         }
         return new webdom(nodes);
     };
-
     //获取第n个元素,如果为负，则倒序取，例如-1为最后一个
     fn.get = function(index) {
         if (arguments.length < 1 || index == 0 || typeof index !== 'number') return this;
@@ -230,6 +230,24 @@
             this.remove();
         });
     };
+    //设置或读取层深，即z-index的值
+    fn.level = function(num) {
+        if (arguments.length < 1) {
+            var res = this.each(function() {
+                return this.style.getPropertyValue("z-Index");
+            }, 1);
+            if (typeof(res) == 'string') return parseInt(res);
+            var l = 0;
+            for (var i = 0; i < res.length; i++) {
+                var n = parseInt(res[i]);
+                if (n > l) l = n;
+            }
+            return l;
+        } else {
+            this.css("z-Index", num);
+        }
+        return this;
+    };
     fn.width = function(num) {
         if (arguments.length < 1) {
             return this[0] ? this[0].offsetWidth : 0;
@@ -288,5 +306,10 @@
     //创建全局对象，方便调用
     window.$dom = function(query, context) {
         return new webdom(query, context);
+    };
+    window.$dom.create = function(name) {
+        var node = null;
+        if (typeof(name) == 'string') node = document.createElement(name);
+        return new webdom(node);
     };
 })();
