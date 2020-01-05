@@ -8,9 +8,9 @@ body {
 .pagebox {
     background-color: rgba(226, 224, 224, 0.8);
     border-radius: 6px;
-    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
     position: absolute;
     border: 1px solid rgba(62, 63, 63, 0.6);
+    box-shadow: 1px 1px 1px rgba(122, 122, 122, 0.3), -1px -1px 1px rgba(122, 122, 122, 0.3);
 }
 
 
@@ -280,6 +280,7 @@ body {
 
 .pagebox_focus {
     background-color: rgba(161, 197, 247, 0.8);
+    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
 }
 
 .pagebox_focus btnbox btn_close {
