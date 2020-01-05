@@ -22,9 +22,25 @@
     //ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
     fn.each = function(fun, ret) {
         var results = [];
-        for (var i = 0; i < this.length; i++)
-            results[i] = fun.call(this[i], i);
-        if (ret) return results.length == 1 ? results[0] : results;
+        for (var i = 0; i < this.length; i++) {
+            var res = fun.call(this[i], i);
+            if (res instanceof Node && res.nodeType && res.nodeType == 1) results[i] = res;
+            if (res instanceof NodeList) {
+                for (var j = 0; j < res.length; j++) {
+                    if (res[j].nodeType && res[j].nodeType == 1)
+                        results.push(res[j])
+                };
+            }
+            if (res instanceof Array) {
+                for (var j = 0; j < res.length; j++)
+                    results.push(res[j]);
+            }
+        }
+        if (ret) {
+            if (typeof(res) == 'string') return res.replace(/^\s*|\s*$/g, "");
+            if (results instanceof NodeList || results instanceof Array)
+                return results.length == 1 ? results[0] : results;
+        }
         return this;
     };
     fn.find = function(query) {
@@ -34,15 +50,14 @@
         }, 1);
         if (res instanceof Array) {
             for (var i = 0; i < res.length; i++) {
-                for (var j = 0; j < res[i].length; j++) {
-                    nodes.push(res[i][j]);
-                }
+                nodes.push(res[i]);
             }
         } else {
             nodes = res;
         }
         return new webui(nodes);
     };
+
     //获取第n个元素,如果为负，则倒序取，例如-1为最后一个
     fn.get = function(index) {
         if (arguments.length < 1 || index == 0 || typeof index !== 'number') return this;
@@ -56,25 +71,28 @@
         return this.length > 0 ? this.get(-1) : null;
     };
     fn.parent = function() {
-        return this.each(function() {
-            return this.parentNode;
+        var nodes = this.each(function() {
+            var p = this.parentNode;
+            while (p.nodeType != 1) p = p.previousSibling;
+            return p;
         }, 1);
+        return new webui(nodes);
     };
-    fn.parents = function() {
-        //.......
-    };
-
     fn.next = function() {
-        return this.each(function() {
+        var nodes = this.each(function() {
             var cur = this.nextSibling;
             while (cur.nodeType != 1) cur = cur.nextSibling;
             return cur;
         }, 1);
+        return new webui(nodes);
     };
     fn.prev = function() {
-        return this.each(function() {
-            return this.previousSibling;
+        var nodes = this.each(function() {
+            var p = this.previousSibling;
+            while (p.nodeType != 1) p = p.previousSibling;
+            return p;
         }, 1);
+        return new webui(nodes);
     };
     fn.siblings = function() {
         return this.each(function() {
@@ -82,9 +100,10 @@
         }, 1);
     };
     fn.childs = function() {
-        return this.each(function() {
+        var nodes = this.each(function() {
             return this.childNodes;
         }, 1);
+        return new webui(nodes);
     }
     fn.hide = function() {
         return this.each(function() {
@@ -115,6 +134,28 @@
         } else {
             return this.each(function() {
                 return this.innerHTML;
+            }, 1);
+        }
+    };
+    fn.outHtml = function(str) {
+        if (str != undefined) {
+            return this.each(function() {
+                this.outerHTML = str;
+            });
+        } else {
+            return this.each(function() {
+                return this.outerHTML;
+            }, 1);
+        }
+    };
+    fn.val = function(str) {
+        if (str != undefined) {
+            return this.each(function() {
+                this.value = str;
+            });
+        } else {
+            return this.each(function() {
+                return this.value;
             }, 1);
         }
     };
@@ -182,6 +223,40 @@
         return this.each(function() {
             return this.classList.remove(str);
         });
+    };
+    fn.remove = function() {
+        return this.each(function() {
+            this.remove();
+        });
+    };
+    fn.width = function(num) {
+        if (arguments.length < 1) {
+            return this[0] ? this[0].offsetWidth : 0;
+        } else {
+            if (typeof arguments[0] == 'number')
+                return this.css('width', arguments[0] + 'px');
+        }
+    };
+    fn.height = function(num) {
+        if (arguments.length < 1) {
+            return this[0] ? this[0].offsetHeight : 0;
+        } else {
+            if (typeof arguments[0] == 'number')
+                return this.css('height', arguments[0] + 'px');
+        }
+    };
+    fn.append = function(ele) {
+        if (typeof(ele) == 'string') {
+            return this.each(function() {
+                var element = document.createElement(ele);
+                this.appendChild(element);
+            });
+        }
+        if (ele instanceof Node) {
+            return this.each(function() {
+                this.appendChild(ele);
+            });
+        }
     };
     //创建全局对象，方便调用
     window.$ui = function(query, context) {
