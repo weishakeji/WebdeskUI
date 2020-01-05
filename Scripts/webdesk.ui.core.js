@@ -15,6 +15,7 @@
         //查询结果附加到对象自身
         this.length = nodes.length;
         for (var i = 0; i < this.length; i++) this[i] = nodes[i];
+        this.typeof = 'webui.element';
         return this;
     }
     var fn = webui.prototype;
@@ -245,11 +246,22 @@
                 return this.css('height', arguments[0] + 'px');
         }
     };
+    fn.create = function(name) {
+        var node = null;
+        if (typeof(ele) == 'string') node = document.createElement(name);
+        return new webui(node);
+    };
     fn.append = function(ele) {
         if (typeof(ele) == 'string') {
             return this.each(function() {
                 var element = document.createElement(ele);
                 this.appendChild(element);
+            });
+        }
+        if (typeof(ele) == 'object' && ele.typeof == 'webui.element') {
+            return this.each(function() {
+                if (ele.length > 0)
+                    this.appendChild(ele[0]);
             });
         }
         if (ele instanceof Node) {
@@ -258,8 +270,23 @@
             });
         }
     };
+    //若含有参数就注册事件，无参数就触发事件
+    fn.click = function(f) {
+        if (typeof(f) == "function") {
+            this.each(function() {
+                this.addEventListener("click", f);
+            });
+        } else {
+            //触发事件
+            this.each(function() {
+                var event = document.createEvent('HTMLEvents');
+                event.initEvent("click", true, true);
+                this.dispatchEvent(event);
+            });
+        }
+    };
     //创建全局对象，方便调用
-    window.$ui = function(query, context) {
+    window.$dom = function(query, context) {
         return new webui(query, context);
     };
 })();
