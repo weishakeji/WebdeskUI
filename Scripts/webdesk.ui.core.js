@@ -7,7 +7,7 @@
 */
 (function() {
     //html节点查询，类似jquery
-    var webui = function(query, context) {
+    var webdom = function(query, context) {
         var nodes = [];
         if (typeof(query) == 'string') nodes = (context || document).querySelectorAll(query);
         if (query instanceof Node) nodes[0] = query;
@@ -18,7 +18,7 @@
         this.typeof = 'webui.element';
         return this;
     }
-    var fn = webui.prototype;
+    var fn = webdom.prototype;
     //遍历节点元素，并执行fun函数
     //ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
     fn.each = function(fun, ret) {
@@ -56,14 +56,14 @@
         } else {
             nodes = res;
         }
-        return new webui(nodes);
+        return new webdom(nodes);
     };
 
     //获取第n个元素,如果为负，则倒序取，例如-1为最后一个
     fn.get = function(index) {
         if (arguments.length < 1 || index == 0 || typeof index !== 'number') return this;
-        if (this.length < Math.abs(index)) throw 'webui.get error : index greater than length';
-        return index > 0 ? new webui(this[index - 1]) : new webui(this[this.length - Math.abs(index)]);
+        if (this.length < Math.abs(index)) throw 'webdom.get error : index greater than length';
+        return index > 0 ? new webdom(this[index - 1]) : new webdom(this[this.length - Math.abs(index)]);
     };
     fn.first = function() {
         return this.length > 0 ? this.get(1) : null;
@@ -77,7 +77,7 @@
             while (p.nodeType != 1) p = p.previousSibling;
             return p;
         }, 1);
-        return new webui(nodes);
+        return new webdom(nodes);
     };
     fn.next = function() {
         var nodes = this.each(function() {
@@ -85,7 +85,7 @@
             while (cur.nodeType != 1) cur = cur.nextSibling;
             return cur;
         }, 1);
-        return new webui(nodes);
+        return new webdom(nodes);
     };
     fn.prev = function() {
         var nodes = this.each(function() {
@@ -93,7 +93,7 @@
             while (p.nodeType != 1) p = p.previousSibling;
             return p;
         }, 1);
-        return new webui(nodes);
+        return new webdom(nodes);
     };
     fn.siblings = function() {
         return this.each(function() {
@@ -104,7 +104,7 @@
         var nodes = this.each(function() {
             return this.childNodes;
         }, 1);
-        return new webui(nodes);
+        return new webdom(nodes);
     }
     fn.hide = function() {
         return this.each(function() {
@@ -249,7 +249,7 @@
     fn.create = function(name) {
         var node = null;
         if (typeof(ele) == 'string') node = document.createElement(name);
-        return new webui(node);
+        return new webdom(node);
     };
     fn.append = function(ele) {
         if (typeof(ele) == 'string') {
@@ -287,6 +287,6 @@
     };
     //创建全局对象，方便调用
     window.$dom = function(query, context) {
-        return new webui(query, context);
+        return new webdom(query, context);
     };
 })();
