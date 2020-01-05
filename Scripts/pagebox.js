@@ -44,18 +44,23 @@
             }
             //打开pagebox窗体，并触发shown事件 
         this.open = function() {
-                this.init();
-                //创建窗体
-                for (var t in this.builder) {
-                    this.builder[t](this);
-                }
-                //添加事件
-                var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-                for (var t in this.event) {
-                    this.event[t](boxele);
-                }
+            this.init();
+            //创建窗体
+            for (var t in this.builder) {
+                this.builder[t](this);
             }
-            //构建pagebox窗体
+            //添加事件
+            var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+            for (var t in this.event) {
+                this.event[t](boxele);
+            }
+            this.focus();
+        };
+        //设置当前窗体为焦点
+        this.focus = function() {
+            box.focus(this.id);
+        };
+        //构建pagebox窗体
         this.builder = {
                 //生成随机id
                 randomid: function(box) {
@@ -63,11 +68,11 @@
                 },
                 //生成外壳
                 shell: function(box) {
-                    var div = $dom.create('div');
+                    var div = $dom(document.body).append('div').childs().last();
                     div.attr({ 'boxid': box.id, 'class': 'pagebox' });
-                    div.css({ 'top': box.top + 'px', 'left': box.left + 'px', 'z-Index': box.level });
+                    //div.css({ 'top': box.top + 'px', 'left': box.left + 'px', 'z-Index': box.level });
+                    div.css({ 'top': box.top + 'px', 'left': box.left + 'px' });
                     div.width((box.width - 2)).height((box.height - 2));
-                    document.body.appendChild(div[0]);
                 },
                 //边缘部分，主要是用于控制缩放
                 margin: function(box) {
@@ -115,66 +120,43 @@
             //添加pagebox自身事件，例如拖放、缩放、关闭等
         this.event = {
             pagebox_click: function(box) {
-                box.addEventListener('click', function(event) {
+                $dom(box).click(function(event) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-
-                    console.log('点击窗体：' + node.innerText);
-                });
-                IframeOnClick.track(box.querySelector('iframe'), function(sender, boxid) {
-                    sender.click();
+                    var boxid = $dom(node).attr('boxid');
+                    pagebox.focus(boxid);
                 });
             },
             title_click: function(box) {
-                var title = box.querySelector('pagebox_title');
-                title.addEventListener('click', function(event) {
+                $dom(box).find('pagebox_title').click(function(event) {
                     var node = event.target ? event.target : event.srcElement;
-                    //while (!node.getAttribute('boxid')) node = node.parentNode;
-
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
                     console.log('点击标题：' + node.innerText);
                     event.stopPropagation();
-                }, false);
+                });
+            },
+            title_dbClick: function(box) {
+                $dom(box).find('pagebox_title').dblclick(function(event) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    console.log('双击：' + node.innerText);
+                    event.stopPropagation();
+                });
             }
         }
     };
-    window.pagebox = box;
-})();
-
-//iframe中的点击事件
-var IframeOnClick = {
-    resolution: 200,
-    iframes: [],
-    interval: null,
-    Iframe: function() {
-        this.element = arguments[0];
-        this.cb = arguments[1];
-        this.hasTracked = false;
-    },
-    track: function(element, cb) {
-        this.iframes.push(new this.Iframe(element, cb));
-        if (!this.interval) {
-            var _this = this;
-            this.interval = setInterval(function() {
-                _this.checkClick();
-            }, this.resolution);
-        }
-    },
-    checkClick: function() {
-        if (document.activeElement) {
-            var activeElement = document.activeElement;
-            for (var i in this.iframes) {
-                var iframe = this.iframes[i];
-                var name = iframe.element.getAttribute('name');
-                var pagebox = document.querySelector('.pagebox[boxid=\'' + name + '\']');
-                if (activeElement === this.iframes[i].element) { // user is in this Iframe  
-                    if (this.iframes[i].hasTracked == false) {
-                        this.iframes[i].cb.apply(window, [pagebox, name]);
-                        this.iframes[i].hasTracked = true;
-                    }
-                } else {
-                    this.iframes[i].hasTracked = false;
-                }
-            }
+    //*** 以下是静态方法 */
+    //设置某个窗体为焦点
+    box.focus = function(boxid) {
+        if (!boxid) return;
+        var curr = $dom('.pagebox[boxid=\'' + boxid + '\']');
+        if (!curr.hasClass('.pagebox_focus')) {
+            var boxs = $dom('.pagebox');
+            boxs.removeClass('pagebox_focus');
+            curr.addClass('pagebox_focus');
+            var level = boxs.level();
+            curr.level(level < 1 ? 10000 : level + 1);
         }
     }
-};
+    window.pagebox = box;
+})();

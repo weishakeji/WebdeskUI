@@ -38,6 +38,7 @@
                     results.push(res[j]);
             }
             if (typeof(res) == 'string') results.push(res.replace(/^\s*|\s*$/g, ""));
+            if (typeof(res) == 'boolean' || typeof(res) == 'number') results.push(res);
         }
         if (ret) {
             if (results instanceof NodeList || results instanceof Array)
@@ -264,11 +265,6 @@
                 return this.css('height', arguments[0] + 'px');
         }
     };
-    fn.create = function(name) {
-        var node = null;
-        if (typeof(ele) == 'string') node = document.createElement(name);
-        return new webdom(node);
-    };
     fn.append = function(ele) {
         if (typeof(ele) == 'string') {
             return this.each(function() {
@@ -288,28 +284,85 @@
             });
         }
     };
+    //绑定事件
+    fn.bind = function(event, func, useCapture) {
+        this.each(function() {
+            this.addEventListener(event, func, useCapture);
+            if (event == 'click') {
+                var iframe = this.querySelector('iframe');
+                if (iframe) {
+                    window.$dom.IframeOnClick.track(this.querySelector('iframe'),
+                        function(sender, boxid) {
+                            sender.click();
+                        });
+                }
+            }
+        });
+    };
+    //触发事件
+    fn.trigger = function(event) {
+        this.each(function() {
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent(event, true, true);
+            this.dispatchEvent(event);
+        });
+    };
     //若含有参数就注册事件，无参数就触发事件
     fn.click = function(f) {
         if (typeof(f) == "function") {
-            this.each(function() {
-                this.addEventListener("click", f);
-            });
+            this.bind('click', f, true);
         } else {
-            //触发事件
-            this.each(function() {
-                var event = document.createEvent('HTMLEvents');
-                event.initEvent("click", true, true);
-                this.dispatchEvent(event);
-            });
+            this.trigger('click');
+        }
+    };
+    fn.dblclick = function(f) {
+        if (typeof(f) == "function") {
+            this.bind('dblclick', f, true);
+        } else {
+            this.trigger('dblclick');
         }
     };
     //创建全局对象，方便调用
     window.$dom = function(query, context) {
         return new webdom(query, context);
     };
-    window.$dom.create = function(name) {
-        var node = null;
-        if (typeof(name) == 'string') node = document.createElement(name);
-        return new webdom(node);
+    //如果有
+    window.$dom.IframeOnClick = {
+        resolution: 200,
+        iframes: [],
+        interval: null,
+        Iframe: function() {
+            this.element = arguments[0];
+            this.cb = arguments[1];
+            this.hasTracked = false;
+        },
+        track: function(element, cb) {
+            this.iframes.push(new this.Iframe(element, cb));
+            if (!this.interval) {
+                var _this = this;
+                this.interval = setInterval(function() {
+                    _this.checkClick();
+                }, this.resolution);
+            }
+        },
+        checkClick: function() {
+            if (document.activeElement) {
+                var activeElement = document.activeElement;
+                for (var i in this.iframes) {
+                    var iframe = this.iframes[i];
+                    if (!(iframe && iframe.element)) continue;
+                    var name = iframe.element.getAttribute('name');
+                    var pagebox = document.querySelector('.pagebox[boxid=\'' + name + '\']');
+                    if (activeElement === this.iframes[i].element) { // user is in this Iframe  
+                        if (this.iframes[i].hasTracked == false) {
+                            this.iframes[i].cb.apply(window, [pagebox, name]);
+                            this.iframes[i].hasTracked = true;
+                        }
+                    } else {
+                        this.iframes[i].hasTracked = false;
+                    }
+                }
+            }
+        }
     };
 })();
