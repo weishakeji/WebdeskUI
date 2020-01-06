@@ -1,24 +1,9 @@
 webui.core.js 应该增加如下
 
-2020-1-5 完成
-parent 父
-parents 所有父级，从当前上溯到Html
-next 弟 （一些浏览器换行也会当成节点，必须判断处理）
-prev 兄
-siblings 兄弟
-childs 子级节点
-find  查询自身下级节点
-html,outhtml,val
-width,height
-remove 清除自身节点
-append(节点名称，节点内容),prepend 增加子节点,或文本
-click,事件
-about
-
-2020-1-5 计划
-拖动，拖放事件
-事件管理
-
-
+备注
+pagebox.js拖放已经实现
+当窗体不得离开window区域
+标题文字禁止选择
+margin中不要ico,title，另行放置
 
 

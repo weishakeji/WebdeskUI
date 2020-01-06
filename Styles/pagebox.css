@@ -255,7 +255,7 @@ body {
     bottom: 5px;
     left: 6px;
     position: absolute;
-    background-color: rgba(226, 224, 224,1);
+    background-color: rgba(226, 224, 224, 1);
     border: 1px solid #777;
     border-radius: 0px 0px 6px 6px;
     box-shadow: 0px -1px 2px 1px rgba(255, 255, 255, 0.8);
@@ -291,6 +291,14 @@ body {
 .pagebox_focus iframe {
     background-color: rgb(218, 230, 245);
 }
-.pagebox_focus pagebox_mask{
-display: none;
+
+
+/*正在拖动窗体时，显示遮罩*/
+
+.pagebox_drag pagebox_mask {
+    display: block !important;
+}
+
+.pagebox_focus pagebox_mask {
+    display: none;
 }

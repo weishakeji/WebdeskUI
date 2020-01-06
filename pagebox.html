@@ -23,7 +23,7 @@
             <li>事件：多播事件，可追加、可去除</li>
         </ul>
     </div>
-   
+
     备注：<br> 宽度高度可以百分比
     <br> 设置最小宽高度
     <br> 设置自动宽高（应用于当浏览器窗体变化时，pagebox能自动调整位置）
@@ -32,10 +32,10 @@
     <br> 参数增加，title,url,ico,iconfont
 </body>
 <script type="text/javascript">
-    window.setInterval(function(){
-var show=$dom('#show');
-show.text(window.msg);
-    },10);
+    window.setInterval(function() {
+        var show = $dom('#show');
+        show.text(window.msg);
+    }, 10);
     var page = new pagebox({
         width: 300,
         height: 400,
@@ -47,24 +47,30 @@ show.text(window.msg);
     //
 
     new pagebox({
-        height: 590, width: 320, top: 120,left:300,
-        //url:'http://www.168fff.cn/mobile/default.ashx?skip=false',
-        title:'测试四'
+        height: 590,
+        width: 320,
+        top: 120,
+        left: 300,
+        url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
+        title: '测试四'
     }).open();
 
-     new pagebox({
-         height: 200, width: 320, top: 40,left:150,
-        //url:'https://m.zol.com.cn/mobile/',
-        title:'测试三'
+    new pagebox({
+        height: 200,
+        width: 320,
+        top: 40,
+        left: 150,
+        url: 'https://m.zol.com.cn/mobile/',
+        title: '测试三'
     }).open();
- new pagebox({
-        height: 400,        width: 320, top: 120,left:450,
-        //url:'http://www.168fff.cn/mobile/default.ashx?skip=false',
-        title:'测试四'
+    new pagebox({
+        height: 400,
+        width: 320,
+        top: 120,
+        left: 450,
+        url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
+        title: '测试四'
     }).open();
-
-
-
 </script>
 
 
