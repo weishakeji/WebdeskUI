@@ -17,32 +17,32 @@
         }
         //初始化
         this.init = function() {
-                //如果位置没有设置
-                if (!this.top) {
-                    this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
-                }
-                if (!this.left) {
-                    this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
-                }
-                //设置层深
-                var maxlevel = this.method.maxlevel();
-                this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
-                //默认图标
-                if (this.ico == null) this.ico = '&#174;';
+            //如果位置没有设置
+            if (!this.top) {
+                this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
+            }
+            if (!this.left) {
+                this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
+            }
+            //设置层深
+            var maxlevel = this.method.maxlevel();
+            this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
+            //默认图标
+            if (this.ico == null) this.ico = '&#174;';
 
-            }
-            //方法
+        }
+        //方法
         this.method = {
-                //获取所有pagebox窗体元素
-                getboxs: function() {
-                    return $dom('.pagebox');
-                },
-                //最大层深值
-                maxlevel: function() {
-                    return $dom('.pagebox').level();
-                }
+            //获取所有pagebox窗体元素
+            getboxs: function() {
+                return $dom('.pagebox');
+            },
+            //最大层深值
+            maxlevel: function() {
+                return $dom('.pagebox').level();
             }
-            //打开pagebox窗体，并触发shown事件 
+        }
+        //打开pagebox窗体，并触发shown事件 
         this.open = function() {
             this.init();
             //创建窗体
@@ -62,64 +62,71 @@
         };
         //构建pagebox窗体
         this.builder = {
-                //生成随机id
-                randomid: function(box) {
-                    box.id = new Date().getTime();
-                },
-                //生成外壳
-                shell: function(box) {
-                    var div = $dom(document.body).append('div').childs().last();
-                    div.attr({ 'boxid': box.id, 'class': 'pagebox' });
-                    //div.css({ 'top': box.top + 'px', 'left': box.left + 'px', 'z-Index': box.level });
-                    div.css({ 'top': box.top + 'px', 'left': box.left + 'px' });
-                    div.width((box.width - 2)).height((box.height - 2));
-                },
-                //边缘部分，主要是用于控制缩放
-                margin: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    var margin = pagebox.append('margin').find('margin');
-                    var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
-                    for (var i = 0; i < arr.length; i++) {
-                        var node = margin.append(arr[i]).find(arr[i]);
-                        node.css('cursor', arr[i] + '-resize');
-                    }
-                },
-                //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
-                title: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
-                    var margin = pagebox.find('margin');
-                    //添加图标
-                    margin.append('ico').find('ico').html(box.ico);
-                    //添加标题文字
-                    margin.append('text').find('text').html(box.title);
-                    //添加最小化，最大化，关闭按钮
-                    var title = pagebox.append('pagebox_title').find('pagebox_title');
-                    var btnbox = pagebox.append('btnbox').find('btnbox');
-                    btnbox.append('btn_min').append('btn_max').append('btn_close');
-                },
-                //主体内容区
-                body: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    var iframe = pagebox.append('iframe').find('iframe');
-                    iframe.attr({
-                        'name': box.id,
-                        'id': box.id,
-                        'frameborder': 0,
-                        'border': 0,
-                        'marginwidth': 0,
-                        'marginheight': 0,
-                        'src': box.url
-                    });
-                },
-                //遮罩
-                mask: function(box) {
-                    $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
+            //生成随机id
+            randomid: function(box) {
+                box.id = new Date().getTime();
+            },
+            //生成外壳
+            shell: function(box) {
+                var div = $dom(document.body).append('div').childs().last();
+                div.attr({
+                    'boxid': box.id,
+                    'class': 'pagebox'
+                });
+                //div.css({ 'top': box.top + 'px', 'left': box.left + 'px', 'z-Index': box.level });
+                div.css({
+                    'top': box.top + 'px',
+                    'left': box.left + 'px'
+                });
+                div.width((box.width - 2)).height((box.height - 2));
+            },
+            //边缘部分，主要是用于控制缩放
+            margin: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                var margin = pagebox.append('margin').find('margin');
+                var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
+                for (var i = 0; i < arr.length; i++) {
+                    var node = margin.append(arr[i]).find(arr[i]);
+                    node.css('cursor', arr[i] + '-resize');
                 }
+            },
+            //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
+            title: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
+                var margin = pagebox.find('margin');
+                //添加图标
+                margin.append('ico').find('ico').html(box.ico);
+                //添加标题文字
+                margin.append('text').find('text').html(box.title);
+                //添加最小化，最大化，关闭按钮
+                var title = pagebox.append('pagebox_title').find('pagebox_title');
+                var btnbox = pagebox.append('btnbox').find('btnbox');
+                btnbox.append('btn_min').append('btn_max').append('btn_close');
+            },
+            //主体内容区
+            body: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                var iframe = pagebox.append('iframe').find('iframe');
+                iframe.attr({
+                    'name': box.id,
+                    'id': box.id,
+                    'frameborder': 0,
+                    'border': 0,
+                    'marginwidth': 0,
+                    'marginheight': 0,
+                    'src': box.url
+                });
+            },
+            //遮罩
+            mask: function(box) {
+                $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
             }
-            //添加pagebox自身事件，例如拖放、缩放、关闭等
+        }
+        //添加pagebox自身事件，例如拖放、缩放、关闭等
         this.event = {
             pagebox_click: function(box) {
+                //窗体点击事件，主要是为了设置焦点
                 $dom(box).click(function(event) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
@@ -139,8 +146,22 @@
                 $dom(box).find('pagebox_title').dblclick(function(event) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-                    console.log('双击：' + node.innerText);
-                    event.stopPropagation();
+
+                    //event.stopPropagation();
+                });
+            },
+            //拖动事件
+            pagebox_drag: function(box) {
+                var title = box.querySelectorAll('pagebox_title')[0];
+                title.addEventListener('mousedown', function(e) {
+                    var mouse = window.$mouse(e);
+                    var page = $dom(box);
+                    page.attr('drag', 'start').attr({
+                        'downx': mouse.x,
+                        'downy': mouse.y
+                    });
+                    var boxid = page.attr('boxid');
+                    pagebox.focus(boxid);
                 });
             }
         }
@@ -157,6 +178,52 @@
             var level = boxs.level();
             curr.level(level < 1 ? 10000 : level + 1);
         }
+    };
+    box.dragRealize = function() {
+        /*
+        document.addEventListener('mousedown', function(e) {
+            var mouse = window.$mouse(e);
+            var pagebox = null;
+            //var title=$dom('div[boxid].pagebox_focus pagebox_title');
+            $dom('div[boxid].pagebox_focus').each(function() {
+                var th = $dom(this);
+                var offset = th.offset();
+                var pxx = mouse.x > offset.left && mouse.x < (offset.left + th.width());
+                var pyy = mouse.y > offset.top && mouse.y < (offset.top + th.height());
+                if (pxx && pyy) pagebox = th;
+            });
+            if (pagebox != null) {
+                //var id = pagebox.attr("boxid");
+                pagebox.css({
+                    'background-color': 'red'
+                });
+            }
+
+        });*/
+        document.addEventListener('mousemove', function(e) {
+            var mouse = window.$mouse(e);
+            var pagebox = $dom('div[drag=start].pagebox_focus');
+            var downx = parseFloat(pagebox.attr('downx'));
+            var downy = parseFloat(pagebox.attr('downy'));
+            window.msg = pagebox.text();
+            $dom('div[boxid]').each(function() {
+                var th = $dom(this);
+                var offset = th.offset();
+                var pxx = mouse.x > offset.left && mouse.x < (offset.left + th.width());
+                var pyy = mouse.y > offset.top && mouse.y < (offset.top + th.height());
+                if (pxx && pyy) pagebox = th;
+            });
+            pagebox.each(function() {
+                var th = $dom(this);
+                var offset = th.offset();
+            });
+
+        });
+        document.addEventListener('mouseup', function(e) {
+            $dom('.pagebox').removeAttr('drag');
+        });
+
     }
     window.pagebox = box;
+    window.pagebox.dragRealize();
 })();

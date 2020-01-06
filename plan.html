@@ -15,8 +15,7 @@ dt {
 }
 dd {
 	position: relative;
-	counter-increment: item;
-	display:none;
+	counter-increment: item;	
 }
 dd:before {
 	content: counter(item)".";
@@ -60,16 +59,9 @@ dl.last dd {
     $dom('dl dt').click(function(){
     	$dom(this).parent().find('dd').toggle();
 	});
-	var last=$dom('dl');
-	//.click();
-var dd=document.getElementById('first');
- var tt= document.defaultView.getComputedStyle(dd,null);  
- var display1=tt['display'];
- //alert(display1);
- var display2=dd.style.getPropertyValue('display');  
- //alert(display2);
-//或者
-//window.getComputedStyle(element[,pseudo-element]);
+	$dom('dl dd').hide();
+	$dom('dl').last().find('dd').show();
+	
 </script>
 </body>
 </html>

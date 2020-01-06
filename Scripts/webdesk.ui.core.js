@@ -17,7 +17,7 @@
 		for (var i = 0; i < this.length; i++) this[i] = nodes[i];
 		this.typeof = 'webui.element';
 		return this;
-	}
+	};
 	var fn = webdom.prototype;
 	//遍历节点元素，并执行fun函数
 	//ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
@@ -26,33 +26,33 @@
 			res;
 		for (var i = 0; i < this.length; i++) {
 			res = fun.call(this[i], i);
-			if (res instanceof Node && res.nodeType && res.nodeType == 1) results.push(res);
-			if (res instanceof NodeList) {
+			if (res instanceof NodeList || res instanceof Array) {
 				for (var j = 0; j < res.length; j++) {
-					if (res[j].nodeType && res[j].nodeType == 1)
-						results.push(res[j])
-				};
+					if (res[j] instanceof Node) {
+						if (res[j].nodeType == 1) results.push(res[j])
+					} else {
+						results.push(res[j]);
+					}
+				}
+			} else {
+				switch (typeof(res)) {
+					case 'string':
+						results.push(res.replace(/^\s*|\s*$/g, ""));
+						break;
+					case 'boolean':
+					case 'number':
+						results.push(res);
+						break;
+					default:
+						if (res instanceof Node) {
+							if (res.nodeType && res.nodeType == 1)
+								results.push(res);
+						} else {
+							results.push(res);
+						}
+						break;
+				}
 			}
-			if (res instanceof Array) {
-				for (var j = 0; j < res.length; j++)
-					results.push(res[j]);
-			}
-			switch (typeof(res)) {
-				case 'string':
-					results.push(res.replace(/^\s*|\s*$/g, ""));
-					break;
-				case 'boolean':
-				case 'number':
-					results.push(res);
-					break;
-				default:
-					if (res == null) results.push(res);
-					break;
-			}
-			/*
-			if (typeof(res) == 'string') results.push(res.replace(/^\s*|\s*$/g, ""));
-			if (typeof(res) == 'boolean' || typeof(res) == 'number') results.push(res);
-			*/
 		}
 		if (ret) {
 			if (results instanceof NodeList || results instanceof Array)
@@ -288,6 +288,15 @@
 				return this.css('height', arguments[0] + 'px');
 		}
 	};
+	fn.offset = function() {
+		return this.each(function() {
+			var styles = document.defaultView.getComputedStyle(this, null);
+			return {
+				left: parseFloat(styles.getPropertyValue('left')),
+				top: parseFloat(styles.getPropertyValue('top'))
+			};
+		}, 1);
+	};
 	fn.append = function(ele) {
 		if (typeof(ele) == 'string') {
 			return this.each(function() {
@@ -348,7 +357,7 @@
 	window.$dom = function(query, context) {
 		return new webdom(query, context);
 	};
-	//如果有
+	//当click事件时，如果有iframe时，添加iframe的点击事件
 	window.$dom.IframeOnClick = {
 		resolution: 200,
 		iframes: [],
@@ -387,4 +396,22 @@
 			}
 		}
 	};
+	//获取鼠标位置
+	window.$mouse = function(e) {
+		var x = 0,
+			y = 0;
+		var e = e || window.event;
+		if (e.pageX || e.pageY) {
+			x = e.pageX;
+			y = e.pageY;
+		} else if (e.clientX || e.clientY) {
+			x = e.clientX;
+			y = e.clientY;
+		}
+		return {
+			'x': x,
+			'y': y
+		};
+	}
+
 })();

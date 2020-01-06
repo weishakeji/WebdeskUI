@@ -12,6 +12,7 @@
 </head>
 
 <body>
+    <div id="show"></div>
     <div style="margin: 40px;">
         <h1>说明</h1>
         <div>我想它应该有如下功能：</div>
@@ -31,6 +32,10 @@
     <br> 参数增加，title,url,ico,iconfont
 </body>
 <script type="text/javascript">
+    window.setInterval(function(){
+var show=$dom('#show');
+show.text(window.msg);
+    },10);
     var page = new pagebox({
         width: 300,
         height: 400,
@@ -42,10 +47,24 @@
     //
 
     new pagebox({
-        height: 590,        width: 320,        top: 120,left:350,
-        url:'http://www.168fff.cn/mobile/default.ashx?skip=false',
+        height: 590, width: 320, top: 120,left:300,
+        //url:'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title:'测试四'
     }).open();
+
+     new pagebox({
+         height: 200, width: 320, top: 40,left:150,
+        //url:'https://m.zol.com.cn/mobile/',
+        title:'测试三'
+    }).open();
+ new pagebox({
+        height: 400,        width: 320, top: 120,left:450,
+        //url:'http://www.168fff.cn/mobile/default.ashx?skip=false',
+        title:'测试四'
+    }).open();
+
+
+
 </script>
 
 
