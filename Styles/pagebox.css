@@ -77,40 +77,11 @@ body {
     left: 10px;
 }
 
-.pagebox ico {
-    height: 30px;
-    width: auto;
-    max-width: 30px;
-    line-height: 20px;
-    font-size: 18px;
-    top: 3px;
-    left: 6px;
-    z-index: 1;
-    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
-}
-
-.pagebox text {
-    height: 30px;
-    line-height: 30px;
-    width: calc(100% - 110px - 30px);
-    font-size: 14px;
-    top: -2px;
-    left: 15px;
-    overflow: hidden;
-    padding-right: 5px;
-    text-indent: 15px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    z-index: 1;
-    user-select: none;
-    cursor: default;
-    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
-}
 
 
-/*标题栏*/
+/*移动窗体的响应条*/
 
-.pagebox pagebox_title {
+.pagebox pagebox_dragbar {
     display: block;
     position: absolute;
     width: calc(100% - 12px);
@@ -119,9 +90,50 @@ body {
     left: 6px;
     user-select: none;
     cursor: default;
+    z-index: 2;
+}
+.pagebox pagebox_title {
+    display: block;
+    position: absolute;
+    width: calc(100% - 12px);
+    height: 30px;
+    top: 0px;
+    left: 6px;
+    user-select: none;
+    cursor: default;
     z-index: 1;
 }
+.pagebox pagebox_title>*{
+     display: block;
+     float: left;
+}
+.pagebox pagebox_title ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    top: 3px;
+    left: 6px;
+    z-index: 1;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+}
 
+.pagebox pagebox_title text {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 110px - 20px);
+    font-size: 14px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    user-select: none;
+    cursor: default;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+}
 
 /*标题栏右上角按钮组*/
 
@@ -134,7 +146,7 @@ body {
     display: block;
     border: 1px solid rgba(62, 63, 63, 0.6);
     border-top: none;
-    z-index: 2;
+    z-index: 3;
     border-radius: 0px 0px 4px 4px;
     box-shadow: -2px 0px 2px rgba(255, 255, 255, 0.6), 2px 0px 2px rgba(255, 255, 255, 0.6), 0px 2px 2px rgba(255, 255, 255, 0.6);
 }

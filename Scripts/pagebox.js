@@ -94,13 +94,13 @@
                 title: function(box) {
                     var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
                     //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
-                    var margin = pagebox.find('margin');
-                    //添加图标
-                    margin.append('ico').find('ico').html(box.ico);
-                    //添加标题文字
-                    margin.append('text').find('text').html(box.title);
-                    //添加最小化，最大化，关闭按钮
                     var title = pagebox.append('pagebox_title').find('pagebox_title');
+                    //添加图标,标题文字
+                    title.append('ico').find('ico').html(box.ico);
+                    title.append('text').find('text').html(box.title);
+                    //移动窗体的响应条
+                    pagebox.append('pagebox_dragbar');
+                    //添加最小化，最大化，关闭按钮
                     var btnbox = pagebox.append('btnbox').find('btnbox');
                     btnbox.append('btn_min').append('btn_max').append('btn_close');
                 },
@@ -152,8 +152,8 @@
             },
             //拖动事件
             pagebox_drag: function(box) {
-                var title = box.querySelectorAll('pagebox_title')[0];
-                title.addEventListener('mousedown', function(e) {
+                var dragbar = box.querySelectorAll('pagebox_dragbar')[0];
+                dragbar.addEventListener('mousedown', function(e) {
                     var mouse = window.$mouse(e);
                     var page = $dom(box);
                     var offset = page.offset();
@@ -219,7 +219,7 @@
             $dom('.pagebox_focus').removeClass('pagebox_drag');
         });
         window.addEventListener('blur', function(e) {
-            document.onmouseup();
+            //document.onmouseup();
         });
     };
     window.pagebox = box;
