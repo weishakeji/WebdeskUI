@@ -152,8 +152,8 @@
             },
             //拖动事件
             pagebox_drag: function(box) {
-                var dragbar = box.querySelectorAll('pagebox_dragbar')[0];
-                dragbar.addEventListener('mousedown', function(e) {
+                var dragbar = $dom(box).find('pagebox_dragbar');
+                dragbar.mousedown(function(e) {
                     var mouse = window.$mouse(e);
                     var page = $dom(box);
                     var offset = page.offset();
@@ -168,6 +168,7 @@
                     pagebox.focus(boxid);
 
                 });
+                //dragbar.addEventListener('mousedown', );
             }
         }
     };
