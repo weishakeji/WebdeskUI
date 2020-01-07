@@ -1,4 +1,4 @@
-//
+﻿//
 /*
 我想它应该有如下功能：
 1、获取元素，设置属性，类似Jquery
@@ -278,18 +278,51 @@
 	};
 	fn.width = function(num) {
 		if (arguments.length < 1) {
-			return this[0] ? this[0].offsetWidth : 0;
+			var ele = this[0] ? this[0] : null;
+			if (ele == null) return 0;
+			var styles = document.defaultView.getComputedStyle(ele, null);
+			var bleft = parseInt(styles.getPropertyValue('border-left-width'));
+			var bright = parseInt(styles.getPropertyValue('border-right-width'));
+			var width = ele.offsetWidth - bleft - bright;
+			return width;
 		} else {
 			if (typeof arguments[0] == 'number')
 				return this.css('width', arguments[0] + 'px');
 		}
 	};
+
 	fn.height = function(num) {
 		if (arguments.length < 1) {
-			return this[0] ? this[0].offsetHeight : 0;
+			//return this[0] ? this[0].offsetHeight : 0;
+
+			var ele = this[0] ? this[0] : null;
+			if (ele == null) return 0;
+			var styles = document.defaultView.getComputedStyle(ele, null);
+			var bleft = parseInt(styles.getPropertyValue('border-top-width'));
+			var bright = parseInt(styles.getPropertyValue('border-bottom-width'));
+			var height = ele.offsetHeight - bleft - bright;
+			return height;
 		} else {
 			if (typeof arguments[0] == 'number')
 				return this.css('height', arguments[0] + 'px');
+		}
+	};
+	fn.left = function(num) {
+		if (arguments.length < 1) {
+			var offset = this.offset();
+			return offset.length ? offset[0].left : offset.left;
+		} else {
+			if (typeof arguments[0] == 'number')
+				return this.css('left', arguments[0] + 'px');
+		}
+	};
+	fn.top = function(num) {
+		if (arguments.length < 1) {
+			var offset = this.offset();
+			return offset.length ? offset[0].top : offset.top;
+		} else {
+			if (typeof arguments[0] == 'number')
+				return this.css('top', arguments[0] + 'px');
 		}
 	};
 	fn.offset = function() {
