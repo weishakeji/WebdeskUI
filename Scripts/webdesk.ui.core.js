@@ -8,6 +8,10 @@
 (function() {
 	//html节点查询，类似jquery
 	var webdom = function(query, context) {
+		return new webdom.init(query, context);
+	};
+
+	webdom.init = function(query, context) {
 		var nodes = [];
 		if (typeof(query) == 'string') nodes = (context || document).querySelectorAll(query);
 		if (query instanceof Node) nodes[0] = query;
@@ -18,7 +22,7 @@
 		this.typeof = 'webui.element';
 		return this;
 	};
-	var fn = webdom.prototype;
+	var fn = webdom.init.prototype;
 	//遍历节点元素，并执行fun函数
 	//ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
 	fn.each = function(fun, ret) {
@@ -304,7 +308,7 @@
 				this.appendChild(element);
 			});
 		}
-		if (typeof(ele) == 'object' && ele.typeof == 'webui.element') {
+		if (webdom.isdom(obj)) {
 			return this.each(function() {
 				if (ele.length > 0)
 					this.appendChild(ele[0]);
@@ -325,7 +329,7 @@
 		if (obj instanceof Node) {
 			arr.push(obj);
 		} else {
-			if (typeof(obj) == 'object' && obj.typeof == 'webui.element') {
+			if (webdom.isdom(obj)) {
 				obj.each(function(index) {
 					arr.push(this);
 				});
@@ -340,7 +344,7 @@
 			if (event == 'click') {
 				var iframe = this.querySelector('iframe');
 				if (iframe) {
-					window.$dom.IframeOnClick.track(iframe, function(sender, boxid) {
+					webdom.IframeOnClick.track(iframe, function(sender, boxid) {
 						sender.click();
 					});
 				}
@@ -377,12 +381,32 @@
 			this.trigger('mousedown');
 		}
 	};
-	//创建全局对象，方便调用
-	window.$dom = function(query, context) {
-		return new webdom(query, context);
+	/*
+	静态方法
+	*/
+	//是否是webdom对象
+	webdom.isdom = function(obj) {
+		return typeof(obj) == 'object' && obj.typeof == 'webui.element';
+	}
+	//鼠标的坐标值
+	webdom.mouse = function(e) {
+		var x = 0,
+			y = 0;
+		var e = e || window.event;
+		if (e.pageX || e.pageY) {
+			x = e.pageX;
+			y = e.pageY;
+		} else if (e.clientX || e.clientY) {
+			x = e.clientX;
+			y = e.clientY;
+		}
+		return {
+			'x': x,
+			'y': y
+		};
 	};
 	//当click事件时，如果有iframe时，添加iframe的点击事件
-	window.$dom.IframeOnClick = {
+	webdom.IframeOnClick = {
 		resolution: 200,
 		iframes: [],
 		interval: null,
@@ -420,22 +444,6 @@
 			}
 		}
 	};
-	//获取鼠标位置
-	window.$mouse = function(e) {
-		var x = 0,
-			y = 0;
-		var e = e || window.event;
-		if (e.pageX || e.pageY) {
-			x = e.pageX;
-			y = e.pageY;
-		} else if (e.clientX || e.clientY) {
-			x = e.clientX;
-			y = e.clientY;
-		}
-		return {
-			'x': x,
-			'y': y
-		};
-	}
-
+	//创建全局对象，方便调用
+	window.$dom = webdom;
 })();

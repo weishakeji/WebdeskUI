@@ -154,7 +154,7 @@
             pagebox_drag: function(box) {
                 var dragbar = $dom(box).find('pagebox_dragbar');
                 dragbar.mousedown(function(e) {
-                    var mouse = window.$mouse(e);
+                    var mouse = $dom.mouse(e);
                     var page = $dom(box);
                     var offset = page.offset();
                     page.attr('drag', 'start').attr({
@@ -197,7 +197,7 @@
                 var left = parseFloat(pagebox.attr('down_left'));
                 var top = parseFloat(pagebox.attr('down_top'));
                 //获取移动距离
-                var mouse = window.$mouse(e);
+                var mouse = $dom.mouse(e);
                 mouse.x = mouse.x < 0 ? 0 : (mouse.x > window.innerWidth ? window.innerWidth : mouse.x);
                 mouse.y = mouse.y < 0 ? 0 : (mouse.y > window.innerHeight ? window.innerHeight : mouse.y);
                 var movex = mouse.x - downx;
