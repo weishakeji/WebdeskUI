@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
     <script type="text/javascript" src="Scripts/pagebox.js"></script>
     <style type="text/css">
+        html,body{
+            overflow: hidden;
+        }
 dl {
 	counter-reset: show-list;
 	margin-left:20px;
@@ -59,6 +62,19 @@ dl.last dd {
 </dl>
    <dl>
 <dt>事件：</dt>
+<div>click(sender,e);<br>
+
+参数：sender：pagebox对象；<br>
+
+参数：e:<br>
+
+e.target pagebox html元素（即Node型对象）<br>
+
+e.x,e.y：当鼠标点击或移动事件的鼠标坐标<br>
+
+e.movex,e.movey：鼠标移动的移动距离<br>
+
+e.left,e.top：pagebox的坐标</div>
 <dd>Init 初始化完成</dd>
 <dd>Shown 当第一次显示</dd>
 <dd>Click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>

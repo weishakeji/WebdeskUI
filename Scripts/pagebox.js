@@ -1,4 +1,6 @@
 ﻿(function() {
+    //窗体最小化时所处位置区域
+    window.$collectbar = '';
     //param: 初始化时的参数
     var box = function(param) {
         //默认参数
@@ -44,6 +46,12 @@
         }
         //打开pagebox窗体，并触发shown事件 
         this.open = function() {
+            //如果窗体已经存在
+            var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+            if (boxele != null) {
+                pagebox.focus(this.id);
+                return;
+            }
             this.init();
             //创建窗体
             for (var t in this.builder) {
@@ -60,11 +68,14 @@
         this.focus = function() {
             box.focus(this.id);
         };
+        this.close = function() {
+            box.close(this.id);
+        };
         //构建pagebox窗体
         this.builder = {
             //生成随机id
             randomid: function(box) {
-                box.id = new Date().getTime();
+                box.id = 'pagebox_' + new Date().getTime();
             },
             //生成外壳
             shell: function(box) {
@@ -159,7 +170,7 @@
                     //鼠标点中的对象
                     var node = event.target ? event.target : event.srcElement;
                     var tagname = node.tagName.toLowerCase(); //点中的节点名称
-                    console.log(tagname);
+                    //console.log(tagname);
                     //获取窗体对象
                     while (!node.getAttribute('boxid')) node = node.parentNode;
                     var page = $dom(node);
@@ -177,14 +188,49 @@
                     pagebox.focus(boxid);
                 });
                 //dragbar.addEventListener('mousedown', );
+            },
+            //关闭，最大化，最小化
+            pagebox_button: function(pageboxElement) {
+                var boxdom = $dom(pageboxElement);
+                //关闭窗体
+                boxdom.find('btnbox btn_close').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    box.close(node);
+                });
+                //最大化
+                boxdom.find('btnbox btn_max').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    if ($dom(node).hasClass('pagebox_full')) box.toWindow(node);
+                    else
+                        box.toFull(node);
+                });
+                boxdom.find('pagebox_dragbar').dblclick(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    if ($dom(node).hasClass('pagebox_full')) box.toWindow(node);
+                    else
+                        box.toFull(node);
+                });
+
             }
         }
     };
     //*** 以下是静态方法 */
+    box.dom = function(boxid) {
+        var page = null;
+        if (typeof(boxid) == 'string')
+            page = $dom('.pagebox[boxid=\'' + boxid + '\']');
+        else
+        if ($dom.isdom(boxid)) page = boxid;
+        else
+        if (boxid instanceof Node) page = $dom(boxid);
+        return page;
+    };
     //设置某个窗体为焦点
     box.focus = function(boxid) {
-        if (!boxid) return;
-        var curr = $dom('.pagebox[boxid=\'' + boxid + '\']');
+        var curr = box.dom(boxid);
         if (!curr.hasClass('.pagebox_focus')) {
             var boxs = $dom('.pagebox');
             boxs.removeClass('pagebox_focus');
@@ -193,6 +239,53 @@
             curr.level(level < 1 ? 10000 : level + 1);
         }
     };
+    //关闭窗体
+    box.close = function(boxid) {
+        var page = box.dom(boxid);
+        //关闭窗体
+         page.css('transition', 'opacity 0.3s');
+        page.css('opacity', 0);
+        setTimeout(function() {
+            page.remove();
+            var last = $dom('.pagebox').last();
+            if (last != null) pagebox.focus(last.attr('boxid'));
+        }, 300);
+    };
+    //最大化
+    box.toFull = function(boxid) {
+        var page = box.dom(boxid);
+        //禁止移动和调整大小
+        page.attr('move', 'false').attr('resize', 'false');
+        var offset = page.offset();
+        page.attr({
+            'win_left': offset.left,
+            'win_top': offset.top,
+            'win_width': page.width(),
+            'win_height': page.height()
+        }).addClass('pagebox_full');
+        page.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s');
+        page.width(window.innerWidth - 3).height(innerHeight - 2).left(1).top(0);
+    };
+    //最小化
+    box.toMinimize = function(boxid) {
+
+    };
+    //恢复窗体状态
+    box.toWindow = function(boxid) {
+        var page = box.dom(boxid);
+        //原始坐标与宽高
+        var dl = parseFloat(page.attr('win_left'));
+        var dt = parseFloat(page.attr('win_top'));
+        var dw = parseFloat(page.attr('win_width'));
+        var dh = parseFloat(page.attr('win_height'));
+        //
+        page.width(dw).height(dh).left(dl).top(dt);
+        window.setTimeout(function() {
+            page.css('transition', '');
+        }, 300);
+        page.removeAttr('resize').removeAttr('move').removeClass('pagebox_full');
+    };
+    //拖动窗体所需的事件
     box.dragRealize = function() {
         document.addEventListener('mousemove', function(e) {
             var box = $dom('div[dragtrigger].pagebox_focus');
@@ -214,58 +307,60 @@
             //触发拖动的对象，即当鼠标点下时，点中的对象
             var target = box.attr('dragtrigger');
             //移动窗体   
-            if (target == 'pagebox_dragbar') {
+            if (target == 'pagebox_dragbar' && box.attr('move') != 'false') {
                 box.left(dl + movex).top(dt + movey);
             }
             var minWidth = 200,
                 minHeight = 150;
-            //向右放大
-            if (target == 'e') {
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-            }
-            //向左放大
-            if (target == 'w') {
-                movex = -movex;
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                if (box.width() > minWidth) box.left(dl - movex);
-            }
-            //向下放大
-            if (target == 's') {
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-            }
-            //向上放大
-            if (target == 'n') {
-                movey = -movey;
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-                if (box.height() > minHeight) box.top(dt - movey);
-            }
-            //向右下方放大
-            if (target == 'se') {
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-            }
-            //向右上方放大
-            if (target == 'ne') {
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                movey = -movey;
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-                if (box.height() > minHeight) box.top(dt - movey);
-            }
-            //向左下方放大
-            if (target == 'sw') {
-                movex = -movex;
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                if (box.width() > minWidth) box.left(dl - movex);
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-            }
-            //向左上方放大
-            if (target == 'nw') {
-                movex = -movex;
-                box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                if (box.width() > minWidth) box.left(dl - movex);
-                movey = -movey;
-                box.height(dh + movey < minHeight ? minHeight : dh + movey);
-                if (box.height() > minHeight) box.top(dt - movey);
+            if (box.attr('resize') != 'false') {
+                //向右放大
+                if (target == 'e') {
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                }
+                //向左放大
+                if (target == 'w') {
+                    movex = -movex;
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                    if (box.width() > minWidth) box.left(dl - movex);
+                }
+                //向下放大
+                if (target == 's') {
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                }
+                //向上放大
+                if (target == 'n') {
+                    movey = -movey;
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                    if (box.height() > minHeight) box.top(dt - movey);
+                }
+                //向右下方放大
+                if (target == 'se') {
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                }
+                //向右上方放大
+                if (target == 'ne') {
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                    movey = -movey;
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                    if (box.height() > minHeight) box.top(dt - movey);
+                }
+                //向左下方放大
+                if (target == 'sw') {
+                    movex = -movex;
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                    if (box.width() > minWidth) box.left(dl - movex);
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                }
+                //向左上方放大
+                if (target == 'nw') {
+                    movex = -movex;
+                    box.width(dw + movex < minWidth ? minWidth : dw + movex);
+                    if (box.width() > minWidth) box.left(dl - movex);
+                    movey = -movey;
+                    box.height(dh + movey < minHeight ? minHeight : dh + movey);
+                    if (box.height() > minHeight) box.top(dt - movey);
+                }
             }
             window.msg = '移动：x_' + movex + ",y_" + movey + ',pagebox宽度：' + box.width();
         });
