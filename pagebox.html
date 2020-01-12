@@ -8,6 +8,7 @@
     <title>Pagebox</title>
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
     <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
+    <script type="text/javascript" src="Scripts/events.js"></script>
     <script type="text/javascript" src="Scripts/pagebox.js"></script>
     <style type="text/css">
         html,
@@ -125,6 +126,7 @@
     var firstbox = pagebox.open({
         width: 640,
         height: 480,
+        resize: false,
         //url: 'http://www.baidu.com',
         title: '测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题'
     });
@@ -141,26 +143,27 @@
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
-
-    new pagebox({
-        height: 200,
-        width: 320,
-        top: 40,
-        left: 150,
-        resize: false,
-        //url: 'https://m.zol.com.cn/mobile/',
-        title: '禁止缩放'
-    }).open();
-    new pagebox({
-        height: 400,
-        width: 320,
-        top: 120,
-        left: 450,
-        url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
-        title: '测试四'
-    }).open();
-    var last = $dom('.pagebox').last();
-    console.log(last.width());
+    /*
+        new pagebox({
+            height: 200,
+            width: 320,
+            top: 40,
+            left: 150,
+            resize: false,
+            //url: 'https://m.zol.com.cn/mobile/',
+            title: '禁止缩放'
+        }).open();
+        new pagebox({
+            height: 400,
+            width: 320,
+            top: 120,
+            left: 450,
+            //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
+            title: '测试四'
+        }).open();
+        var last = $dom('.pagebox').last();
+        */
+    console.log($ctrls.size());
 </script>
 
 
