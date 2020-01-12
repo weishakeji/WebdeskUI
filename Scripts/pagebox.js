@@ -66,8 +66,8 @@
             }
             //添加事件（基础事件，例如移动、拖放等，并不包括自定义事件）
             boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-            for (var t in this.event) {
-                this.event[t](boxele);
+            for (var t in this.events) {
+                this.events[t](boxele);
             }
             this.focus();
             $ctrls.update({ id: this.id, dom: $dom(boxele) });
@@ -140,7 +140,7 @@
                 }
             }
             //添加pagebox自身事件，例如拖放、缩放、关闭等
-        this.event = {
+        this.events = {
             pagebox_click: function(box) {
                 //窗体点击事件，主要是为了设置焦点
                 $dom(box).click(function(event) {
@@ -349,6 +349,11 @@
         });
         window.addEventListener('blur', function(e) {
             //document.onmouseup();
+        });
+        window.addEventListener('resize', function(e) {
+            $dom('div.pagebox_full')
+                .width(window.innerWidth - 3).height(innerHeight - 2)
+                .left(1).top(0);
         });
     };
     window.pagebox = box;

@@ -18,7 +18,8 @@
         
         dl {
             counter-reset: show-list;
-            margin-left: 20px;
+            margin: 0px;
+            padding-left: 20px;
         }
         
         dt {
@@ -44,7 +45,7 @@
         
         #show {
             position: absolute;
-            top: 0px;
+            left: 0px;
             right: 0px;
         }
     </style>
@@ -52,7 +53,7 @@
 
 <body>
     <div id="show"></div>
-    <div style="margin: 40px;">
+    <div style="margin: 0px;height: 30%;padding: 40px;">
         <h1>说明</h1>
         <div>我想它应该有如下功能：</div>
         <ul>
@@ -63,25 +64,15 @@
         </ul>
     </div>
 
-    <dl>
+    <dl style="height: 20%;width: 30%; position: absolute;right: 0px;top:0px;">
         <dt>备注一下</dt>
         <dd> 宽度高度可以百分比</dd>
         <dd> 设置最小宽高度</dd>
         <dd> 设置自动宽高（应用于当浏览器窗体变化时，pagebox能自动调整位置）</dd>
     </dl>
-    <dl>
+    <dl style="height: 60%;width:60%; position: absolute;bottom: 0px;left:0px;overflow: auto;">
         <dt>事件：</dt>
-        <div>click(sender,e);<br> 参数：sender：pagebox对象；
 
-            <br> 参数：e:
-
-            <br> e.target pagebox html元素（即Node型对象）<br> e.x,e.y：当鼠标点击或移动事件的鼠标坐标
-
-            <br> e.movex,e.movey：鼠标移动的移动距离
-
-            <br> e.left,e.top：pagebox的坐标
-
-        </div>
         <dd>Init 初始化完成</dd>
         <dd>Shown 当第一次显示</dd>
         <dd>Click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>
@@ -96,8 +87,20 @@
         <dd>Close 当窗体关闭时</dd>
         <dd>Min,Full,Minrestore,Fullrestore,最小化时，最大化时，还原时</dd>
         <dd>Load，当iframe加载完成时，触发pagebox的load事件</dd>
+        <hr/>
+        <div>click(sender,e);<br> 参数：sender：pagebox对象；
+
+            <br> 参数：e:
+
+            <br> e.target pagebox html元素（即Node型对象）<br> e.x,e.y：当鼠标点击或移动事件的鼠标坐标
+
+            <br> e.movex,e.movey：鼠标移动的移动距离
+
+            <br> e.left,e.top：pagebox的坐标
+
+        </div>
     </dl>
-    <dl>
+    <dl style="height: 60%;width:20%; position: absolute;bottom: 0px;right: 0px;overflow: auto;">
         <dt>左上图标，点击弹出下拉菜单</dt>
 
         <dd>关闭</dd>
@@ -126,7 +129,7 @@
     var firstbox = pagebox.open({
         width: 640,
         height: 480,
-        resize: false,
+        resize: true,
         //url: 'http://www.baidu.com',
         title: '测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题'
     });
