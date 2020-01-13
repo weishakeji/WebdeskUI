@@ -477,6 +477,25 @@
 			}
 		}
 	};
+	//加载css或js文件
+	webdom.load = {
+		css: function(url) {
+			var head = document.getElementsByTagName('head')[0];
+			var link = document.createElement('link');
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+			link.href = url;
+			head.appendChild(link);
+		},
+		js: function(url) {
+			var body = document.getElementsByTagName('body').item(0);
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = url;
+			body.appendChild(script);
+		}
+	};
 	//创建全局对象，方便调用
 	window.$dom = webdom;
+	window.$dom.load.css('styles/webdesk.ui.core.css');
 })();

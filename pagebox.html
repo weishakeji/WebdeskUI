@@ -48,13 +48,18 @@
             left: 0px;
             right: 0px;
         }
+        h1:before{
+            content: "\e77e";
+            font-size: 40px;
+            margin-right: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="show"></div>
     <div style="margin: 0px;height: 30%;padding: 40px;">
-        <h1>说明</h1>
+        <h1 class="webdesk_icon">说明</h1>
         <div>我想它应该有如下功能：</div>
         <ul>
             <li>可拖放，可缩放，模拟windows桌面窗体</li>
@@ -127,18 +132,18 @@
     }, 10);
 
     var firstbox = pagebox.open({
-        width: 640,
-        height: 480,
+        width: 400,
+        height: 300,
         resize: true,
         //url: 'http://www.baidu.com',
-        title: '测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题测试标题'
+        title: '可移动，可缩放；双击标题栏全屏'
     });
     console.log(firstbox.id);
 
     //
 
     new pagebox({
-        height: 590,
+        height: 220,
         width: 320,
         top: 120,
         left: 300,
@@ -146,7 +151,7 @@
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
-    /*
+    
         new pagebox({
             height: 200,
             width: 320,
@@ -156,6 +161,7 @@
             //url: 'https://m.zol.com.cn/mobile/',
             title: '禁止缩放'
         }).open();
+        /*
         new pagebox({
             height: 400,
             width: 320,

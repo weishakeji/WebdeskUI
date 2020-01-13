@@ -119,6 +119,7 @@ body {
     top: 3px;
     left: 6px;
     z-index: 1;
+     font-family: "webdesk_icon" !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
@@ -163,6 +164,8 @@ body {
     overflow: hidden;
     position: relative;
     border-right: 1px solid rgba(62, 63, 63, 0.6);
+    font-family: "webdesk_icon" !important;
+    cursor: pointer;
 }
 
 .pagebox btnbox>*:hover {
@@ -215,26 +218,30 @@ body {
     text-align: center;
     height: 18px;
     line-height: 18px;
+    cursor: pointer;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .8), rgba(255, 255, 255, .1));
 }
 
 .pagebox btnbox btn_min {}
 
 .pagebox btnbox btn_min::before {
-    content: "\2013";
-    font-size: 20px;
+    content: "\e600";
+    font-size: 16px;
     font-weight: 900;
     line-height: 22px;
 }
 
 .pagebox btnbox btn_max::before {
-    content: "\2610";
-    font-size: 6px;
-    font-weight: 900;
+    content: "\e693";
+     font-size: 10px;  
+    font-weight: 600;
+    padding-top: 1px;
     transform: scale(1.2, 1);
 }
 .pagebox_full btnbox btn_max::before {
-    content: "满";    
+    content: "\e6c4"; 
+    font-size: 10px;  
+    font-weight: 600;   
 }
 .pagebox btnbox btn_close {
     --background-color: rgb(195, 7, 7);
@@ -247,13 +254,13 @@ body {
 }
 
 .pagebox btnbox btn_close::before {
-    content: "\2716";
+    content: "\e606";
     width: 45px;
     display: block;
     text-align: center;
     height: 18px;
-    font-size: 13px;
-    font-weight: 900;
+    font-size: 12px;
+    font-weight: 800;
     line-height: 18px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, .9) 1%, rgba(255, 255, 255, 0.6) 5%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, .1) 55%);
     border-radius: 0px 0px 4px 0px;

@@ -112,7 +112,7 @@
                     //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
                     var title = pagebox.append('pagebox_title').find('pagebox_title');
                     //添加图标,标题文字
-                    title.append('ico').find('ico').html(box.ico);
+                    title.append('ico').find('ico').html('&#xe77c');
                     title.append('text').find('text').html(box.title);
                     //移动窗体的响应条
                     pagebox.append('pagebox_dragbar');
