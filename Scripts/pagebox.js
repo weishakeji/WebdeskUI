@@ -116,9 +116,8 @@
             //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
             title: function(box) {
                 var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
+                //图标和标题文字
                 var title = pagebox.append('pagebox_title').find('pagebox_title');
-                //添加图标,标题文字
                 title.append('ico').find('ico').html('&#xe77c');
                 title.append('text').find('text').html(box.title);
                 //移动窗体的响应条
@@ -127,8 +126,8 @@
                 var btnbox = pagebox.append('btnbox').find('btnbox');
                 if (box.min || box.max) {
                     btnbox.append('btn_min').append('btn_max');
-                    if(!box.min)btnbox.find('btn_min').addClass('btndisable');
-                    if(!box.max)btnbox.find('btn_max').addClass('btndisable');
+                    if (!box.min) btnbox.find('btn_min').addClass('btndisable');
+                    if (!box.max) btnbox.find('btn_max').addClass('btndisable');
                 }
                 if (box.close) btnbox.append('btn_close');
             },
@@ -146,6 +145,16 @@
                     'src': box.url
                 });
             },
+            //左上角图标的下拉菜单
+            dropmenu: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                var menu = pagebox.append('dropmenu').find('dropmenu');
+                menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
+                menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
+                menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
+                menu.append('hr');
+                menu.append('menu_close').find('menu_close').html('关闭').addClass(box.close ? 'enable' : 'disable');
+            },
             //遮罩
             mask: function(box) {
                 $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
@@ -160,6 +169,7 @@
                     while (!node.getAttribute('boxid')) node = node.parentNode;
                     var boxid = $dom(node).attr('boxid');
                     pagebox.focus(boxid);
+                    $dom('.pagebox dropmenu').hide();
                 });
             },
             //拖动事件的起始，当鼠标点下时
@@ -192,8 +202,14 @@
             //关闭，最大化，最小化
             pagebox_button: function(pageboxElement) {
                 var boxdom = $dom(pageboxElement);
-                //关闭窗体
-                boxdom.find('btnbox btn_close').click(function(e) {
+                //关闭窗体，点击右上角关闭按钮，或下拉菜单的关闭项
+                boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    box.close(node);
+                });
+                //双击左侧图标关闭
+                boxdom.find('pagebox_title ico').dblclick(function(e) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
                     box.close(node);
@@ -217,6 +233,30 @@
                         box.toFull(boxid);
                 });
 
+            },
+            //左上角下拉菜单
+            pagebox_dropmenu: function(pageboxElement) {
+                var boxdom = $dom(pageboxElement);
+                boxdom.find('pagebox_title ico').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    var boxdom = $dom(node);
+                    boxdom.find('dropmenu').show();
+                    //var boxid = node.getAttribute('boxid');                   
+                });
+                //最大化
+                boxdom.find('dropmenu menu_max').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                     var boxid = node.getAttribute('boxid');
+                   if (!$dom(node).hasClass('pagebox_full')) box.toFull(boxid);               
+                });
+                boxdom.find('dropmenu menu_win').click(function(e) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                     var boxid = node.getAttribute('boxid');
+                   if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);               
+                });
             }
         };
         this.init();
@@ -267,7 +307,7 @@
     //最大化
     box.toFull = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        if(!ctrl.obj.max)return;
+        if (!ctrl.obj.max) return;
         //记录放大前的数据，用于还原
         ctrl.win_offset = ctrl.dom.offset();
         ctrl.win_size = {
@@ -364,7 +404,7 @@
                     }
                 }
             }
-            window.msg = '移动：x_' + movex + ",y_" + movey + ',pagebox宽度：' + box.width();
+            //window.msg = '移动：x_' + movex + ",y_" + movey + ',pagebox宽度：' + box.width();
         });
         document.addEventListener('mouseup', function(e) {
             $dom('.pagebox_focus').removeClass('pagebox_drag');
@@ -376,6 +416,9 @@
             $dom('div.pagebox_full')
                 .width(window.innerWidth - 3).height(innerHeight - 2)
                 .left(1).top(0);
+        });
+        document.addEventListener('mousedown', function(e) {
+            //$dom('.pagebox dropmenu').hide();
         });
     };
     window.pagebox = box;
