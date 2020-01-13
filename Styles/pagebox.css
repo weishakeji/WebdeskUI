@@ -269,8 +269,21 @@ body {
 .pagebox btnbox btn_close:hover::after {
     display: none;
 }
+/*禁用最大化按钮*/
+.pagebox btnbox>*.btndisable{
+    background-color: #333;
 
 
+}
+.pagebox btnbox>*.btndisable::before{
+    background: #eee;
+    color: #333;
+    text-shadow:none;
+    cursor: default;
+}
+.pagebox btnbox>*.btndisable::after{
+    background: #eee;
+}
 /*内容区*/
 
 .pagebox iframe {

@@ -14,9 +14,9 @@
         this.id = 0;
         this.resize = true; //是否允许缩放大小
         this.move = true; //是否允许移动
-        this.btnmin = true; //是否允许最小化按钮
-        this.btnmax = true; //是否允许最大化按钮
-        this.btnclose = true; //是否允许关闭按钮
+        this.min = true; //是否允许最小化按钮
+        this.max = true; //是否允许最大化按钮
+        this.close = true; //是否允许关闭按钮
         //将传入的参数赋给相应的属性
         if (typeof(param) == 'object') {
             for (var t in param)
@@ -37,22 +37,26 @@
             this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
             //默认图标
             if (this.ico == null) this.ico = '&#174;';
-            $ctrls.add({ id: this.id, obj: this, type: 'pagebox' });
+            $ctrls.add({
+                id: this.id,
+                obj: this,
+                type: 'pagebox'
+            });
             return this;
         };
 
         //方法
         this.method = {
-                //获取所有pagebox窗体元素
-                getboxs: function() {
-                    return $dom('.pagebox');
-                },
-                //最大层深值
-                maxlevel: function() {
-                    return $dom('.pagebox').level();
-                }
+            //获取所有pagebox窗体元素
+            getboxs: function() {
+                return $dom('.pagebox');
+            },
+            //最大层深值
+            maxlevel: function() {
+                return $dom('.pagebox').level();
             }
-            //打开pagebox窗体，并触发shown事件 
+        }
+        //打开pagebox窗体，并触发shown事件 
         this.open = function() {
             //如果窗体已经存在
             var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
@@ -70,7 +74,10 @@
                 this.events[t](boxele);
             }
             this.focus();
-            $ctrls.update({ id: this.id, dom: $dom(boxele) });
+            $ctrls.update({
+                id: this.id,
+                dom: $dom(boxele)
+            });
             return this;
         };
         //设置当前窗体为焦点
@@ -82,64 +89,69 @@
         };
         //构建pagebox窗体
         this.builder = {
-                //生成外壳
-                shell: function(box) {
-                    var div = $dom(document.body).append('div').childs().last();
-                    div.attr({
-                        'boxid': box.id,
-                        'class': 'pagebox'
-                    });
-                    div.css({
-                        'top': box.top + 'px',
-                        'left': box.left + 'px'
-                    });
-                    div.width((box.width - 2)).height((box.height - 2));
-                },
-                //边缘部分，主要是用于控制缩放
-                margin: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    var margin = pagebox.append('margin').find('margin');
-                    var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
-                    for (var i = 0; i < arr.length; i++) {
-                        var node = margin.append(arr[i]).find(arr[i]);
-                        if (box.resize)
-                            node.css('cursor', arr[i] + '-resize');
-                    }
-                },
-                //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
-                title: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
-                    var title = pagebox.append('pagebox_title').find('pagebox_title');
-                    //添加图标,标题文字
-                    title.append('ico').find('ico').html('&#xe77c');
-                    title.append('text').find('text').html(box.title);
-                    //移动窗体的响应条
-                    pagebox.append('pagebox_dragbar');
-                    //添加最小化，最大化，关闭按钮
-                    var btnbox = pagebox.append('btnbox').find('btnbox');
-                    btnbox.append('btn_min').append('btn_max').append('btn_close');
-                },
-                //主体内容区
-                body: function(box) {
-                    var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                    var iframe = pagebox.append('iframe').find('iframe');
-                    iframe.attr({
-                        'name': box.id,
-                        'id': box.id,
-                        'frameborder': 0,
-                        'border': 0,
-                        'marginwidth': 0,
-                        'marginheight': 0,
-                        'src': box.url
-                    });
-                },
-                //遮罩
-                mask: function(box) {
-                    $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
+            //生成外壳
+            shell: function(box) {
+                var div = $dom(document.body).append('div').childs().last();
+                div.attr({
+                    'boxid': box.id,
+                    'class': 'pagebox'
+                });
+                div.css({
+                    'top': box.top + 'px',
+                    'left': box.left + 'px'
+                });
+                div.width((box.width - 2)).height((box.height - 2));
+            },
+            //边缘部分，主要是用于控制缩放
+            margin: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                var margin = pagebox.append('margin').find('margin');
+                var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
+                for (var i = 0; i < arr.length; i++) {
+                    var node = margin.append(arr[i]).find(arr[i]);
+                    if (box.resize)
+                        node.css('cursor', arr[i] + '-resize');
                 }
+            },
+            //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
+            title: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                //图标和标题文字，放到margin元素中，防止遮盖上方的鼠标拖放
+                var title = pagebox.append('pagebox_title').find('pagebox_title');
+                //添加图标,标题文字
+                title.append('ico').find('ico').html('&#xe77c');
+                title.append('text').find('text').html(box.title);
+                //移动窗体的响应条
+                pagebox.append('pagebox_dragbar');
+                //添加最小化，最大化，关闭按钮
+                var btnbox = pagebox.append('btnbox').find('btnbox');
+                if (box.min || box.max) {
+                    btnbox.append('btn_min').append('btn_max');
+                    if(!box.min)btnbox.find('btn_min').addClass('btndisable');
+                    if(!box.max)btnbox.find('btn_max').addClass('btndisable');
+                }
+                if (box.close) btnbox.append('btn_close');
+            },
+            //主体内容区
+            body: function(box) {
+                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+                var iframe = pagebox.append('iframe').find('iframe');
+                iframe.attr({
+                    'name': box.id,
+                    'id': box.id,
+                    'frameborder': 0,
+                    'border': 0,
+                    'marginwidth': 0,
+                    'marginheight': 0,
+                    'src': box.url
+                });
+            },
+            //遮罩
+            mask: function(box) {
+                $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
             }
-            //添加pagebox自身事件，例如拖放、缩放、关闭等
+        }
+        //添加pagebox自身事件，例如拖放、缩放、关闭等
         this.events = {
             pagebox_click: function(box) {
                 //窗体点击事件，主要是为了设置焦点
@@ -167,7 +179,10 @@
                     ctrl.dragtrigger = tagname;
                     ctrl.down_mouse = $dom.mouse(e);
                     ctrl.down_offset = ctrl.dom.offset();
-                    ctrl.down_size = { width: ctrl.dom.width(), height: ctrl.dom.height() };
+                    ctrl.down_size = {
+                        width: ctrl.dom.width(),
+                        height: ctrl.dom.height()
+                    };
                     ctrl.dom.addClass('pagebox_drag');
                     //设置当前窗体为焦点窗
                     pagebox.focus(ctrl.id);
@@ -209,9 +224,9 @@
     //*** 以下是静态方法 */
     //他对一个窗体对象
     box.create = function(param) {
-            return new box(param);
-        }
-        //创建窗体对象并打开
+        return new box(param);
+    }
+    //创建窗体对象并打开
     box.open = function(param) {
         return new box(param).open();
     };
@@ -252,10 +267,17 @@
     //最大化
     box.toFull = function(boxid) {
         var ctrl = $ctrls.get(boxid);
+        if(!ctrl.obj.max)return;
         //记录放大前的数据，用于还原
         ctrl.win_offset = ctrl.dom.offset();
-        ctrl.win_size = { width: ctrl.dom.width(), height: ctrl.dom.height() };
-        ctrl.win_state = { move: ctrl.obj.move, resize: ctrl.obj.resize };
+        ctrl.win_size = {
+            width: ctrl.dom.width(),
+            height: ctrl.dom.height()
+        };
+        ctrl.win_state = {
+            move: ctrl.obj.move,
+            resize: ctrl.obj.resize
+        };
         ctrl.obj.move = ctrl.obj.resize = false;
         //开始全屏放大        
         ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s').addClass('pagebox_full');

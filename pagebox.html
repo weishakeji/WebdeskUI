@@ -130,19 +130,8 @@
         var show = $dom('#show');
         show.text(window.msg);
     }, 10);
-
-    var firstbox = pagebox.open({
-        width: 400,
-        height: 300,
-        resize: true,
-        //url: 'http://www.baidu.com',
-        title: '可移动，可缩放；双击标题栏全屏'
-    });
-    console.log(firstbox.id);
-
-    //
-
-    new pagebox({
+    //直接创建
+new pagebox({
         height: 220,
         width: 320,
         top: 120,
@@ -151,27 +140,40 @@
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
-    
-        new pagebox({
+//直接创建
+    pagebox.open({
+        width: 400,
+        height: 300,
+        resize: true,
+        //url: 'http://www.baidu.com',
+        title: '可移动，可缩放；双击标题栏全屏'
+    }); 
+
+    //
+    pagebox.create({
             height: 200,
             width: 320,
             top: 40,
             left: 150,
             resize: false,
+              min:false,
+            max:false,
             //url: 'https://m.zol.com.cn/mobile/',
             title: '禁止缩放'
         }).open();
-        /*
-        new pagebox({
+       //直接创建
+        pagebox.create({
             height: 400,
             width: 320,
             top: 120,
             left: 450,
+            min:true,
+            max:false,
             //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
-            title: '测试四'
+            title: '禁用最大化按钮'
         }).open();
         var last = $dom('.pagebox').last();
-        */
+        
     console.log($ctrls.size());
 </script>
 
