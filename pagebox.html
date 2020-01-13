@@ -48,7 +48,8 @@
             left: 0px;
             right: 0px;
         }
-        h1:before{
+        
+        h1:before {
             content: "\e77e";
             font-size: 40px;
             margin-right: 10px;
@@ -78,20 +79,20 @@
     <dl style="height: 60%;width:60%; position: absolute;bottom: 0px;left:0px;overflow: auto;">
         <dt>事件：</dt>
 
-        <dd>Init 初始化完成</dd>
-        <dd>Shown 当第一次显示</dd>
-        <dd>Click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>
-        <dd>Resize 当窗体大小变化时</dd>
-        <dd>ResizeBegin, ResizeEnd 窗体大小开始变化，结束变化时</dd>
-        <dd>Move 移动时</dd>
-        <dd>MoveBegin,MoveEnd，开始移动，结束移动</dd>
-        <dd>Focus 当窗体获取焦点时</dd>
-        <dd>Blur 当窗体失去焦点时</dd>
-        <dd>Hover 当鼠标滑过或悬停窗体时</dd>
-        <dd>Hoverout 鼠标离开窗体时</dd>
-        <dd>Close 当窗体关闭时</dd>
-        <dd>Min,Full,Minrestore,Fullrestore,最小化时，最大化时，还原时</dd>
-        <dd>Load，当iframe加载完成时，触发pagebox的load事件</dd>
+        <dd>init 初始化完成</dd>
+        <dd>shown 当第一次显示</dd>
+        <dd>click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>
+        <dd>resize 当窗体大小变化时</dd>
+        <dd>resizeBegin, resizeEnd 窗体大小开始变化，结束变化时</dd>
+        <dd>move 移动时</dd>
+        <dd>moveBegin,moveEnd，开始移动，结束移动</dd>
+        <dd>focus 当窗体获取焦点时</dd>
+        <dd>blur 当窗体失去焦点时</dd>
+        <dd>hover 当鼠标滑过或悬停窗体时</dd>
+        <dd>hoverout 鼠标离开窗体时</dd>
+        <dd>close 当窗体关闭时</dd>
+        <dd>min,full,minrestore,fullrestore,最小化时，最大化时，还原时</dd>
+        <dd>load，当iframe加载完成时，触发pagebox的load事件</dd>
         <hr/>
         <div>click(sender,e);<br> 参数：sender：pagebox对象；
 
@@ -131,7 +132,7 @@
         show.text(window.msg);
     }, 10);
     //直接创建
-new pagebox({
+    new pagebox({
         height: 220,
         width: 320,
         top: 120,
@@ -140,41 +141,50 @@ new pagebox({
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
-//直接创建
+    //直接创建
     pagebox.open({
         width: 400,
         height: 300,
         resize: true,
         //url: 'http://www.baidu.com',
         title: '可移动，可缩放；双击标题栏全屏'
-    }); 
+    });
 
     //
     pagebox.create({
-            height: 200,
-            width: 320,
-            top: 40,
-            left: 150,
-            resize: false,
-              min:false,
-            max:false,
-            //url: 'https://m.zol.com.cn/mobile/',
-            title: '禁止缩放'
-        }).open();
-       //直接创建
-        pagebox.create({
-            height: 400,
-            width: 320,
-            top: 120,
-            left: 450,
-            min:true,
-            max:false,
-            //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
-            title: '禁用最大化按钮'
-        }).open();
-        var last = $dom('.pagebox').last();
-        
-    console.log($ctrls.size());
+        height: 200,
+        width: 320,
+        top: 40,
+        left: 150,
+        resize: false,
+        min: false,
+        max: false,
+        //url: 'https://m.zol.com.cn/mobile/',
+        title: '禁止缩放'
+    }).open();
+    //直接创建
+    var box = pagebox.create({
+        height: 400,
+        width: 320,
+        top: 120,
+        left: 450,
+        min: true,
+        max: false,
+        //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
+        title: '禁用最大化按钮'
+    });
+    box.init(function(sender, e) {
+        console.log('初始化：' + e);
+    });
+    box.move(function(sender, e) {
+        window.msg = '移动：x_' + e.x + ",y_" + e.y + ',pagebox宽度：' + e.x;
+    });
+    box.open();
+
+    //box.init('测试事件');
+    var last = $dom('.pagebox').last();
+
+    //console.log($ctrls.size());
 </script>
 
 
