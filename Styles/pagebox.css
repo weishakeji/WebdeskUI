@@ -12,8 +12,7 @@ body {
     position: absolute;
     border: 1px solid rgba(62, 63, 63, 0.6);
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.3), -1px -1px 2px rgba(122, 122, 122, 0.3);
-     user-select: none;
-    // transition: opacity 0.3s,width 0.3s,height 0.3s,left 0.3s,top 0.3s;
+    user-select: none;
 }
 
 
@@ -81,7 +80,6 @@ body {
 }
 
 
-
 /*移动窗体的响应条*/
 
 .pagebox pagebox_dragbar {
@@ -95,6 +93,7 @@ body {
     cursor: default;
     z-index: 2;
 }
+
 .pagebox pagebox_title {
     display: block;
     position: absolute;
@@ -106,11 +105,13 @@ body {
     cursor: default;
     z-index: 1;
 }
-.pagebox pagebox_title>*{
-     display: block;
-     float: left;
+
+.pagebox pagebox_title>* {
+    display: block;
+    float: left;
 }
-.pagebox pagebox_title ico {
+
+.pagebox pagebox_title pb-ico {
     height: 30px;
     width: auto;
     max-width: 30px;
@@ -119,11 +120,11 @@ body {
     top: 3px;
     left: 6px;
     z-index: 1;
-     font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon" !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
-.pagebox pagebox_title text {
+.pagebox pagebox_title pb-text {
     height: 30px;
     line-height: 30px;
     width: calc(100% - 110px - 20px);
@@ -138,30 +139,34 @@ body {
     cursor: default;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
-/*左上角图标下拉菜单*/
-.pagebox dropmenu{
-display: none;
-width: 150px;
-position: absolute;
-z-index: 5;
-background-color: #eee;
-top: 30px;
-left: 7px;
-border: 1px solid #999;
-border-top: none;
-border-left: none;
 
+
+/*左上角图标下拉菜单*/
+
+.pagebox dropmenu {
+    display: none;
+    width: 150px;
+    position: absolute;
+    z-index: 5;
+    background-color: #eee;
+    top: 30px;
+    left: 7px;
+    border: 1px solid #999;
+    border-top: none;
+    border-left: none;
 }
-.pagebox dropmenu>*:not(hr){
+
+.pagebox dropmenu>*:not(hr) {
     display: block;
     font-size: 13px;
     height: 25px;
-    line-height: 25px;  
+    line-height: 25px;
     position: relative;
 }
-.pagebox dropmenu>*:not(hr):before{
+
+.pagebox dropmenu>*:not(hr):before {
     content: '\e77c';
-     font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon" !important;
     display: block;
     height: 25px;
     width: 30px;
@@ -172,45 +177,57 @@ border-left: none;
     text-align: center;
     margin-right: 6px;
 }
-.pagebox dropmenu>*.disable,.pagebox dropmenu>*.disable::before{
+
+.pagebox dropmenu>*.disable,
+.pagebox dropmenu>*.disable::before {
     color: #ccc;
 }
-.pagebox dropmenu>*:hover{
- box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+
+.pagebox dropmenu>*:hover {
+    box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
 }
-.pagebox dropmenu>*:not(hr):hover:after{
- content: '';
- width: calc(100% - 5px);
- height: calc(100% - 5px);
- border: solid 1px rgba(161, 197, 247, 0.8);
- position: absolute;
- left: 2px;
- top:2px;
- border-radius: 3px;
- background: rgba(161, 197, 247,0.2);
- background: linear-gradient(to bottom, rgba(161, 197, 247,0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247,0.1) 50%, rgba(161, 197, 247,0.3) 55%);
+
+.pagebox dropmenu>*:not(hr):hover:after {
+    content: '';
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+    border: solid 1px rgba(161, 197, 247, 0.8);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 3px;
+    background: rgba(161, 197, 247, 0.2);
+    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
-.pagebox dropmenu>hr{
+
+.pagebox dropmenu>hr {
     height: 1px;
-    border: 0px;   
+    border: 0px;
     margin: 0px;
     margin-left: 30px;
     background: #ddd;
 }
 
+
 /*关闭*/
-.pagebox dropmenu>menu_close:before{
+
+.pagebox dropmenu>menu_close:before {
     content: '\e606';
 }
-.pagebox dropmenu>menu_min:before{
+
+.pagebox dropmenu>menu_min:before {
     content: '\e600';
 }
-.pagebox dropmenu>menu_max:before{
+
+.pagebox dropmenu>menu_max:before {
     content: '\e693';
 }
-.pagebox dropmenu>menu_win:before{
+
+.pagebox dropmenu>menu_win:before {
     content: '\e6c4';
 }
+
+
 /*标题栏右上角按钮组*/
 
 .pagebox btnbox {
@@ -305,16 +322,18 @@ border-left: none;
 
 .pagebox btnbox btn_max::before {
     content: "\e693";
-     font-size: 10px;  
+    font-size: 10px;
     font-weight: 600;
     padding-top: 1px;
     transform: scale(1.2, 1);
 }
+
 .pagebox_full btnbox btn_max::before {
-    content: "\e6c4"; 
-    font-size: 10px;  
-    font-weight: 600;   
+    content: "\e6c4";
+    font-size: 10px;
+    font-weight: 600;
 }
+
 .pagebox btnbox btn_close {
     --background-color: rgb(195, 7, 7);
     box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
@@ -341,24 +360,32 @@ border-left: none;
 .pagebox btnbox btn_close:hover::after {
     display: none;
 }
+
+
 /*禁用按钮*/
-.pagebox btnbox>*.btndisable{
-    background: rgba(220,220,220,.4);
+
+.pagebox btnbox>*.btndisable {
+    background: rgba(220, 220, 220, .4);
     box-shadow: none;
 }
-.pagebox btnbox>*.btndisable::before{
-   background: rgba(220,220,220,.3);
+
+.pagebox btnbox>*.btndisable::before {
+    background: rgba(220, 220, 220, .3);
     color: #333;
-    text-shadow:none;
+    text-shadow: none;
     cursor: default;
 }
-.pagebox btnbox>*.btndisable::after{
+
+.pagebox btnbox>*.btndisable::after {
     background: #eee;
 }
+
 .pagebox btnbox>*.btndisable:hover::after {
     background-image: none;
     background: none;
 }
+
+
 /*内容区*/
 
 .pagebox iframe {
