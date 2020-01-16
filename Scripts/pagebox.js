@@ -51,6 +51,10 @@
                     arrEvent.push(this.events[i].event);
             }
             if (arrEvent.length < 1) return null;
+            //事件参数处理，增加事件名称与形为
+            if (!eventArgs) eventArgs = {};
+            if (!eventArgs['eventName']) eventArgs['eventName'] = eventName;
+            if (!eventArgs['action']) eventArgs['action'] = eventName;
             //执行事件
             var results = [];
             for (var i = 0; i < arrEvent.length; i++) {
@@ -112,12 +116,12 @@
             for (var t in this._baseEvents) {
                 this._baseEvents[t](boxele);
             }
-            this.focus();
             $ctrls.update({
                 id: this.id,
                 dom: $dom(boxele)
             });
             this.trigger('shown');
+            this.focus();
             return this;
         };
 
@@ -222,14 +226,13 @@
                     while (!node.getAttribute('boxid')) node = node.parentNode;
                     var ctrl = $ctrls.get(node.getAttribute('boxid'));
                     //记录当鼠标点下时的数据
-                    var offset = ctrl.dom.offset();
-                    ctrl.dragtrigger = tagname;
-                    ctrl.down_mouse = $dom.mouse(e);
-                    ctrl.down_offset = ctrl.dom.offset();
-                    ctrl.down_size = {
-                        width: ctrl.dom.width(),
+                    ctrl.mousedown = {
+                        target: tagname, //鼠标点下时的Html元素
+                        mouse: $dom.mouse(e), //鼠标坐标：x，y值
+                        offset: ctrl.dom.offset(), //窗体位置：left,top
+                        width: ctrl.dom.width(), //窗体宽高
                         height: ctrl.dom.height()
-                    };
+                    }
                     ctrl.dom.addClass('pagebox_drag');
                     //设置当前窗体为焦点窗
                     pagebox.focus(ctrl.id);
@@ -243,13 +246,13 @@
                 boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-                    box.close(node);
+                    box.close(node.getAttribute('boxid'));
                 });
                 //双击左侧图标关闭
                 boxdom.find('pagebox_title pb-ico').dblclick(function(e) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-                    box.close(node);
+                    box.close(node.getAttribute('boxid'));
                 });
                 //最大化或还原
                 boxdom.find('btnbox btn_max').click(function(e) {
@@ -298,7 +301,7 @@
         };
         //设置当前窗体为焦点
         this.focus = function() {
-            box.focus(this.id);
+            box.focus(this.id);            
         };
         this.close = function() {
             box.close(this.id);
@@ -327,26 +330,36 @@
     };
     //设置某个窗体为焦点
     box.focus = function(boxid) {
-        var curr = box.dom(boxid);
-        if (!curr.hasClass('.pagebox_focus')) {
+        var ctrl = $ctrls.get(boxid);
+        if (!ctrl.dom.hasClass('pagebox_focus')) {
+            //之前的焦点窗体，触发失去焦点事件
+            var focusbox = $dom('.pagebox_focus');
+            if (focusbox.length > 0 && focusbox.attr('boxid') != boxid) {
+                var ctr = $ctrls.get(focusbox.attr('boxid'));
+                ctr.obj.trigger('blur');
+            }
             var boxs = $dom('.pagebox');
             boxs.removeClass('pagebox_focus');
-            curr.addClass('pagebox_focus');
+            ctrl.dom.addClass('pagebox_focus');
             var level = boxs.level();
-            curr.level(level < 1 ? 10000 : level + 1);
+            ctrl.dom.level(level < 1 ? 10000 : level + 1);
+            //激活当前窗体的焦点事件
+            ctrl.obj.trigger('focus');
         }
     };
     //关闭窗体
     box.close = function(boxid) {
+        var ctrl = $ctrls.get(boxid);
         var page = box.dom(boxid);
         //关闭窗体
-        page.css('transition', 'opacity 0.3s');
-        page.css('opacity', 0);
+        ctrl.dom.css('transition', 'opacity 0.3s');
+        ctrl.dom.css('opacity', 0);
         setTimeout(function() {
-            page.remove();
+            ctrl.remove();
             var last = $dom('.pagebox').last();
             if (last != null) pagebox.focus(last.attr('boxid'));
         }, 300);
+        ctrl.obj.trigger('close');
     };
     //最大化
     box.toFull = function(boxid) {
@@ -413,27 +426,30 @@
             var box = $dom('div.pagebox_drag');
             if (box.length < 1) return;
             var ctrl = $ctrls.get(box.attr('boxid'));
-            //当鼠标点下时的历史坐标            
-            var dl = ctrl.down_offset.left;
-            var dt = ctrl.down_offset.top;
-            var dw = ctrl.down_size.width;
-            var dh = ctrl.down_size.height;
+            //当鼠标点下时的历史信息，例如位置、宽高    
+            var ago = ctrl.mousedown;
             //获取移动距离
             var mouse = $dom.mouse(e);
             mouse.x = mouse.x < 0 ? 0 : (mouse.x > window.innerWidth ? window.innerWidth : mouse.x);
             mouse.y = mouse.y < 0 ? 0 : (mouse.y > window.innerHeight ? window.innerHeight : mouse.y);
-            var movex = mouse.x - ctrl.down_mouse.x;
-            var movey = mouse.y - ctrl.down_mouse.y;
-            //触发拖动的对象，即当鼠标点下时，点中的对象
-            var target = ctrl.dragtrigger;
+            //事件参数
+            var eargs = {
+                'mouse': mouse,
+                'move': {
+                    x: mouse.x - ago.mouse.x,
+                    y: mouse.y - ago.mouse.y
+                },
+                target: ago.target
+            };
             //移动窗体   
-            if (target == 'pagebox_dragbar') {
+            if (ago.target == 'pagebox_dragbar') {
                 if (ctrl.obj.move) {
-                    box.left(dl + movex).top(dt + movey);
-                    ctrl.obj.trigger('drag', {
-                        x: mouse.x,
-                        y: mouse.y
-                    });
+                    box.left(ago.offset.left + eargs.move.x)
+                        .top(ago.offset.top + eargs.move.y);
+                    //触发拖动事件
+                    eargs.left = ctrl.dom.offset().left;
+                    eargs.top = ctrl.dom.offset().top;
+                    ctrl.obj.trigger('drag', eargs);
                 }
             } else {
                 //缩放窗体
@@ -441,24 +457,32 @@
                     var minWidth = 200,
                         minHeight = 150;
                     if (box.attr('resize') != 'false') {
-                        if (target.indexOf('e') > -1) box.width(dw + movex < minWidth ? minWidth : dw + movex);
-                        if (target.indexOf('s') > -1) box.height(dh + movey < minHeight ? minHeight : dh + movey);
-                        if (target.indexOf('w') > -1) {
-                            box.width(dw - movex < minWidth ? minWidth : dw - movex);
-                            if (box.width() > minWidth) box.left(dl + movex);
+                        if (ago.target.indexOf('e') > -1) box.width(ago.width + eargs.move.x < minWidth ? minWidth : ago.width + eargs.move.x);
+                        if (ago.target.indexOf('s') > -1) box.height(ago.height + eargs.move.y < minHeight ? minHeight : ago.height + eargs.move.y);
+                        if (ago.target.indexOf('w') > -1) {
+                            box.width(ago.width - eargs.move.x < minWidth ? minWidth : ago.width - eargs.move.x);
+                            if (box.width() > minWidth) box.left(dl + eargs.move.x);
                         }
-                        if (target.indexOf('n') > -1) {
-                            box.height(dh - movey < minHeight ? minHeight : dh - movey);
-                            if (box.height() > minHeight) box.top(dt + movey);
+                        if (ago.target.indexOf('n') > -1) {
+                            box.height(ago.height - eargs.move.y < minHeight ? minHeight : ago.height - eargs.move.y);
+                            if (box.height() > minHeight) box.top(dt + eargs.move.y);
                         }
+                        //触发resize事件
+                        eargs.left = ctrl.dom.offset().left;
+                        eargs.top = ctrl.dom.offset().top;
+                        eargs.width = ctrl.dom.width();
+                        eargs.height = ctrl.dom.height();
+                        ctrl.obj.trigger('resize', eargs);
                     }
                 }
             }
-            //window.msg = '移动：x_' + movex + ",y_" + movey + ',pagebox宽度：' + box.width();
+            //
         });
         document.addEventListener('mouseup', function(e) {
-             var mouse = $dom.mouse(e);
-            $dom('.pagebox_focus').removeClass('pagebox_drag');
+            var mouse = $dom.mouse(e);
+            $ctrls.removeAttr('mousedown');
+            var page = $dom('.pagebox_focus');
+            page.removeClass('pagebox_drag');
         });
         window.addEventListener('blur', function(e) {
             //document.onmouseup();
