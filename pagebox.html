@@ -84,14 +84,14 @@
         <dd>click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>
         <dd>resize 当窗体大小变化时</dd>
         <dd>resizeBegin, resizeEnd 窗体大小开始变化，结束变化时</dd>
-        <dd>move 移动时</dd>
-        <dd>moveBegin,moveEnd，开始移动，结束移动</dd>
+        <dd>drop 拖放操作时</dd>
+        <dd>dropBegin,dropEnd，开始移动，结束移动</dd>
         <dd>focus 当窗体获取焦点时</dd>
         <dd>blur 当窗体失去焦点时</dd>
         <dd>hover 当鼠标滑过或悬停窗体时</dd>
         <dd>hoverout 鼠标离开窗体时</dd>
         <dd>close 当窗体关闭时</dd>
-        <dd>min,full,minrestore,fullrestore,最小化时，最大化时，还原时</dd>
+        <dd>min,full,restore,最小化时，最大化时，还原时,e参数将用于识别哪种方式还原</dd>
         <dd>load，当iframe加载完成时，触发pagebox的load事件</dd>
         <hr/>
         <div>click(sender,e);<br> 参数：sender：pagebox对象；
@@ -102,7 +102,8 @@
 
             <br> e.movex,e.movey：鼠标移动的移动距离
 
-            <br> e.left,e.top：pagebox的坐标
+            <br> e.left,e.top：pagebox的坐标<br> 
+            e.action,动作，一般情况下为事件名称，也可能不是，例如restore还原窗体时，为提示是fullrestore，还是minrestore，即从最大化还原来的，还是最小化还原来的
 
         </div>
     </dl>
@@ -173,18 +174,26 @@
         //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
         title: '禁用最大化按钮'
     });
-    box.init(function(sender, e) {
-        console.log('初始化：' + e);
+    box.onshown(function(sender,e){
+        console.log('onshown');
     });
-    box.move(function(sender, e) {
+    box.oninit(function(sender, e) {
+        console.log('初始化时的ID：' + sender.id);
+    });
+    box.ondrag(function(sender, e) {
         window.msg = '移动：x_' + e.x + ",y_" + e.y + ',pagebox宽度：' + e.x;
     });
+    box.onclick(function(sender,e){
+        console.log('onclick'+sender.title);
+        return 'onlclick';
+    });
     box.open();
-
+var res=box.onclick();
+console.log(res);
     //box.init('测试事件');
     var last = $dom('.pagebox').last();
 
-    //console.log($ctrls.size());
+    console.log($ctrls.size());
 </script>
 
 

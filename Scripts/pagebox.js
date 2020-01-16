@@ -24,16 +24,23 @@
                 this[t] = param[t];
         }
         /* 自定义事件 */
-        var customEvents = ['init', 'shown', 'click', 'move'];
+        var customEvents = ['init', 'shown', 'load', 'reload',
+            'click', 'close', 'min', 'full', 'restore',
+            'resize', 'drag',
+            'focus', 'blur', 'hover'
+        ];
         for (var i = 0; i < customEvents.length; i++) {
-            eval('this.' + customEvents[i] + '=function(f){\
+            eval('this.on' + customEvents[i] + '=function(f){\
                 return arguments.length > 0 ?  \
                 this.bind(\'' + customEvents[i] + '\', f) :  \
                 this.trigger(\'' + customEvents[i] + '\');};');
         }
         this.bind = function(eventName, func) {
             if (typeof(func) == "function")
-                this.events.push({ 'name': eventName, 'event': func });
+                this.events.push({
+                    'name': eventName,
+                    'event': func
+                });
             return this;
         };
         this.trigger = function(eventName, eventArgs) {
@@ -194,8 +201,11 @@
                 $dom(box).click(function(event) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxid = $dom(node).attr('boxid');
-                    pagebox.focus(boxid);
+                    //var boxid = $dom(node).attr('boxid');
+                    var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                    var pbox = ctrl.obj;
+                    pbox.trigger('click', {});
+                    pbox.focus();
                     $dom('.pagebox dropmenu').hide();
                 });
             },
@@ -420,7 +430,10 @@
             if (target == 'pagebox_dragbar') {
                 if (ctrl.obj.move) {
                     box.left(dl + movex).top(dt + movey);
-                    ctrl.obj.trigger('move', { x: mouse.x, y: mouse.y });
+                    ctrl.obj.trigger('drag', {
+                        x: mouse.x,
+                        y: mouse.y
+                    });
                 }
             } else {
                 //缩放窗体
@@ -444,6 +457,7 @@
             //window.msg = '移动：x_' + movex + ",y_" + movey + ',pagebox宽度：' + box.width();
         });
         document.addEventListener('mouseup', function(e) {
+             var mouse = $dom.mouse(e);
             $dom('.pagebox_focus').removeClass('pagebox_drag');
         });
         window.addEventListener('blur', function(e) {
