@@ -26,8 +26,7 @@
         /* 自定义事件 */
         var customEvents = ['init', 'shown', 'load', 'reload',
             'click', 'close', 'min', 'full', 'restore',
-            'resize', 'drag',
-            'focus', 'blur', 'hover'
+            'resize', 'drag', 'focus', 'blur'
         ];
         for (var i = 0; i < customEvents.length; i++) {
             eval('this.on' + customEvents[i] + '=function(f){\
@@ -53,7 +52,7 @@
             if (arrEvent.length < 1) return null;
             //事件参数处理，增加事件名称与形为
             if (!eventArgs) eventArgs = {};
-            if (!eventArgs['eventName']) eventArgs['eventName'] = eventName;
+            if (!eventArgs['event']) eventArgs['event'] = eventName;
             if (!eventArgs['action']) eventArgs['action'] = eventName;
             //执行事件
             var results = [];
@@ -301,7 +300,7 @@
         };
         //设置当前窗体为焦点
         this.focus = function() {
-            box.focus(this.id);            
+            box.focus(this.id);
         };
         this.close = function() {
             box.close(this.id);
@@ -383,6 +382,7 @@
         ctrl.dom.find('margin>*').each(function() {
             $dom(this).css('cursor', 'default');
         });
+        ctrl.obj.trigger('full');
     };
     //最小化
     box.toMinimize = function(boxid) {
@@ -405,6 +405,7 @@
                 $dom(this).css('cursor', this.tagName + '-resize');
             });
         }
+        ctrl.obj.trigger('restore');
     };
     //禁用缩放
     box.disableResize = function(boxid) {
@@ -461,11 +462,11 @@
                         if (ago.target.indexOf('s') > -1) box.height(ago.height + eargs.move.y < minHeight ? minHeight : ago.height + eargs.move.y);
                         if (ago.target.indexOf('w') > -1) {
                             box.width(ago.width - eargs.move.x < minWidth ? minWidth : ago.width - eargs.move.x);
-                            if (box.width() > minWidth) box.left(dl + eargs.move.x);
+                            if (box.width() > minWidth) box.left(ago.offset.left + eargs.move.x);
                         }
                         if (ago.target.indexOf('n') > -1) {
                             box.height(ago.height - eargs.move.y < minHeight ? minHeight : ago.height - eargs.move.y);
-                            if (box.height() > minHeight) box.top(dt + eargs.move.y);
+                            if (box.height() > minHeight) box.top(ago.offset.top + eargs.move.y);
                         }
                         //触发resize事件
                         eargs.left = ctrl.dom.offset().left;

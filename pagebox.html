@@ -93,7 +93,7 @@
         <dd>close 当窗体关闭时</dd>
         <dd>min,full,restore,最小化时，最大化时，还原时,e参数将用于识别哪种方式还原</dd>
         <dd>load，当iframe加载完成时，触发pagebox的load事件</dd>
-        <hr/>
+        <hr />
         <div>click(sender,e);<br> 参数：sender：pagebox对象；
 
             <br> 参数：e:
@@ -102,8 +102,7 @@
 
             <br> e.movex,e.movey：鼠标移动的移动距离
 
-            <br> e.left,e.top：pagebox的坐标<br> 
-            e.action,动作，一般情况下为事件名称，也可能不是，例如restore还原窗体时，为提示是fullrestore，还是minrestore，即从最大化还原来的，还是最小化还原来的
+            <br> e.left,e.top：pagebox的坐标<br> e.action,动作，一般情况下为事件名称，也可能不是，例如restore还原窗体时，为提示是fullrestore，还是minrestore，即从最大化还原来的，还是最小化还原来的
 
         </div>
     </dl>
@@ -174,40 +173,48 @@
         //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
         title: '禁用最大化按钮'
     });
-    box.onshown(function(sender,e){
+    /*
+    box.onshown(function (sender, e) {
         console.log('onshown');
     });
-    box.oninit(function(sender, e) {
+    box.oninit(function (sender, e) {
         console.log('初始化时的ID：' + sender.id);
     });
-    var tm=function(sender, e) {
-        window.msg = '鼠标：x_' + e.mouse.x + ",y_" + e.mouse.y + ',移动：' + e.move.x+'，宽：'+e.width;
+    var tm = function (sender, e) {
+        window.msg = '鼠标：x_' + e.mouse.x + ",y_" + e.mouse.y + ',移动：' + e.move.x + '，宽：' + e.width;
     };
     box.ondrag(tm).onresize(tm);
-    box.onclick(function(sender,e){
-        console.log('onclick'+sender.title);
+    box.onclick(function (sender, e) {
+        console.log('onclick' + sender.title);
         return 'onlclick';
-    });
+    });*/
     box.open();
-   
-var res=box.onclick();
-console.log(res);
+
+    var res = box.onclick();
+    //console.log(res);
     //box.init('测试事件');
     var last = $dom('.pagebox').last();
 
     //批量增加事件
-$ctrls.each(function(){
-    this.onclose(function(sender,e){
-        var size=$ctrls.size();
-        console.log('打开的窗体剩余:'+size);
+    $ctrls.each(function() {
+        this.onclose(function(sender, e) {
+            var size = $ctrls.size();
+            console.log('打开的窗体剩余:' + size);
+        });
+        this.onblur(function(sender, e) {
+            console.log('失去焦点的窗体:' + sender.title);
+        }).onfocus(function(sender, e) {
+            console.log('获取焦点的窗体：' + sender.title);
+        });
+        this.onfull(function(s, e) {
+            console.log('进入：' + s.title);
+
+        });
+        this.onrestore(function(s, e) {
+            console.log('离开：' + s.title);
+
+        });
     });
-    this.onblur(function(sender,e){
-        console.log('失去焦点的窗体:'+sender.title);
-    }).onfocus(function(sender,e){
-        console.log('获取焦点的窗体：'+sender.title);
-    });
-    //this.
-});
     console.log($ctrls.size());
 </script>
 
