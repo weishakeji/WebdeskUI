@@ -235,7 +235,7 @@
                                 });
                             }
                         } catch (e) {
-                            var msg = '当iframe的src与当前页面非同源时，无法判断是否加载错误';
+                            var msg = '当iframe的src与当前页面不同源时，无法触发onfail事件';
                             console.log('pagebox onfail event error : ' + msg + '，' + e.message);
                         }
                     }
@@ -332,11 +332,12 @@
         //设置当前窗体为焦点
         this.focus = function() {
             box.focus(this.id);
+            return this;
         };
         this.close = function() {
             box.close(this.id);
+            return this;
         };
-        //this._initialization();
     };
     //*** 以下是静态方法 */
     //创建一个窗体对象
