@@ -151,7 +151,7 @@
     });
 
     //
-    pagebox.create({
+    var tm=pagebox.create({
         height: 200,
         width: 320,
         top: 40,
@@ -159,9 +159,14 @@
         resize: false,
         min: false,
         max: false,
-        //url: 'https://m.zol.com.cn/mobile/',
+        //url: 'plan.html',
+        url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
         title: '禁止缩放'
-    }).open();
+    });
+    tm.onload(function(sender,e){
+        console.log(e.event);
+    });
+    tm.open();
     //直接创建
     var box = pagebox.create({
         height: 400,
@@ -207,12 +212,15 @@
             console.log('获取焦点的窗体：' + sender.title);
         });
         this.onfull(function(s, e) {
-            console.log('进入：' + s.title);
+            console.log('最大化：' + s.title);
 
         });
         this.onrestore(function(s, e) {
-            console.log('离开：' + s.title);
+            console.log('还原窗体：' + s.title);
 
+        });
+        this.onfail(function(s,e){
+            console.log('加载失败：'+e.url);
         });
     });
     console.log($ctrls.size());

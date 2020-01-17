@@ -17,14 +17,14 @@
         this.min = true; //是否允许最小化按钮
         this.max = true; //是否允许最大化按钮
         this.close = true; //是否允许关闭按钮
-        this.events = new Array(); //自定义事件
+        this.eventlist = new Array(); //自定义的事件集合
         //将传入的参数赋给相应的属性
         if (typeof(param) == 'object') {
             for (var t in param)
                 this[t] = param[t];
         }
         /* 自定义事件 */
-        var customEvents = ['init', 'shown', 'load', 'reload',
+        var customEvents = ['init', 'shown', 'load', 'fail',
             'click', 'close', 'min', 'full', 'restore',
             'resize', 'drag', 'focus', 'blur'
         ];
@@ -34,21 +34,18 @@
                 this.bind(\'' + customEvents[i] + '\', f) :  \
                 this.trigger(\'' + customEvents[i] + '\');};');
         }
+        //绑定自定义事件
         this.bind = function(eventName, func) {
             if (typeof(func) == "function")
-                this.events.push({
+                this.eventlist.push({
                     'name': eventName,
                     'event': func
                 });
             return this;
         };
+        //触发自定义事件
         this.trigger = function(eventName, eventArgs) {
-            if (this.events.length < 1) return null;
-            var arrEvent = new Array();
-            for (var i = 0; i < this.events.length; i++) {
-                if (this.events[i].name == eventName)
-                    arrEvent.push(this.events[i].event);
-            }
+            var arrEvent = this.events(eventName);
             if (arrEvent.length < 1) return null;
             //事件参数处理，增加事件名称与形为
             if (!eventArgs) eventArgs = {};
@@ -61,6 +58,15 @@
                 results.push(res);
             }
             return results.length == 1 ? results[0] : results;
+        };
+        //获取某一类的自定义事件
+        this.events = function(eventName) {
+            var arrEvent = new Array();
+            for (var i = 0; i < this.eventlist.length; i++) {
+                if (this.eventlist[i].name == eventName)
+                    arrEvent.push(this.eventlist[i].event);
+            }
+            return arrEvent;
         };
         //初始化相关参数
         this._initialization = function() {
@@ -204,12 +210,37 @@
                 $dom(box).click(function(event) {
                     var node = event.target ? event.target : event.srcElement;
                     while (!node.getAttribute('boxid')) node = node.parentNode;
-                    //var boxid = $dom(node).attr('boxid');
                     var ctrl = $ctrls.get(node.getAttribute('boxid'));
                     var pbox = ctrl.obj;
                     pbox.trigger('click', {});
                     pbox.focus();
                     $dom('.pagebox dropmenu').hide();
+                });
+            },
+            pagebox_load: function(box) {
+                var src = $dom(box).find('iframe').attr('src');
+                if (src == '') return;
+                $dom(box).find('iframe').bind('load', function(event) {
+                    var node = event.target ? event.target : event.srcElement;
+                    while (!node.getAttribute('boxid')) node = node.parentNode;
+                    var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                    if (ctrl.obj.events('fail').length > 0) {
+                        try {
+                            var ifDoc = ctrl.dom.find('iframe')[0].contentWindow.document;
+                            var ifTitle = ifDoc.title;
+                            if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0) {
+                                //加载失败的事件
+                                ctrl.obj.trigger('fail', {
+                                    url: ctrl.obj.url
+                                });
+                            }
+                        } catch (e) {
+                            var msg = '当iframe的src与当前页面非同源时，无法判断是否加载错误';
+                            console.log('pagebox onfail event error : ' + msg + '，' + e.message);
+                        }
+                    }
+                    //加载完成的事件，不管是否失败             
+                    ctrl.obj.trigger('load');
                 });
             },
             //拖动事件的起始，当鼠标点下时
