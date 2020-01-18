@@ -58,6 +58,13 @@
 			if (!!this.muster[key]) return this.muster[key];
 			return null;
 		};
+		this.index = function(index) {
+			var i = 1;
+			for (var key in this.muster) {
+				if (i++ == index) return this.muster[key];
+			}
+			return null;
+		};
 		//返回控件对象，例如pagebox对象
 		this.obj = function(key) {
 			var val = null;

@@ -68,277 +68,289 @@
             }
             return arrEvent;
         };
-        //初始化相关参数
-        this._initialization = function() {
-            this.id = 'pagebox_' + new Date().getTime();
-            //如果位置没有设置
-            if (!this.top) {
-                this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
-            }
-            if (!this.left) {
-                this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
-            }
-            //设置层深
-            var maxlevel = this.methods.maxlevel();
-            this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
-            //默认图标
-            if (this.ico == null) this.ico = '&#174;';
-            $ctrls.add({
-                id: this.id,
-                obj: this,
-                type: 'pagebox'
-            });
-            this.trigger('init');
-            return this;
-        };
-
-        //方法
-        this.methods = {
-            //获取所有pagebox窗体元素
-            getboxs: function() {
-                return $dom('.pagebox');
-            },
-            //最大层深值
-            maxlevel: function() {
-                return $dom('.pagebox').level();
-            }
-        };
-        //打开pagebox窗体，并触发shown事件 
-        this.open = function() {
-            this._initialization();
-            //如果窗体已经存在
-            var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-            if (boxele != null) {
-                pagebox.focus(this.id);
-                return;
-            }
-            //创建窗体
-            for (var t in this._builder) {
-                this._builder[t](this);
-            }
-            //添加事件（基础事件，例如移动、拖放等，并不包括自定义事件）
-            boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-            for (var t in this._baseEvents) {
-                this._baseEvents[t](boxele);
-            }
-            $ctrls.update({
-                id: this.id,
-                dom: $dom(boxele)
-            });
-            this.trigger('shown');
-            this.focus();
-            return this;
-        };
-
-        //构建pagebox窗体
-        this._builder = {
-            //生成外壳
-            shell: function(box) {
-                var div = $dom(document.body).append('div').childs().last();
-                div.attr({
-                    'boxid': box.id,
-                    'class': 'pagebox'
-                });
-                div.css({
-                    'top': box.top + 'px',
-                    'left': box.left + 'px'
-                });
-                div.width((box.width - 2)).height((box.height - 2));
-            },
-            //边缘部分，主要是用于控制缩放
-            margin: function(box) {
-                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                var margin = pagebox.append('margin').find('margin');
-                var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
-                for (var i = 0; i < arr.length; i++) {
-                    var node = margin.append(arr[i]).find(arr[i]);
-                    if (box.resize)
-                        node.css('cursor', arr[i] + '-resize');
-                }
-            },
-            //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
-            title: function(box) {
-                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                //图标和标题文字
-                var title = pagebox.append('pagebox_title').find('pagebox_title');
-                title.append('pb-ico').find('pb-ico').html('&#xe77c');
-                title.append('pb-text').find('pb-text').html(box.title);
-                //移动窗体的响应条
-                pagebox.append('pagebox_dragbar');
-                //添加最小化，最大化，关闭按钮
-                var btnbox = pagebox.append('btnbox').find('btnbox');
-                if (box.min || box.max) {
-                    btnbox.append('btn_min').append('btn_max');
-                    if (!box.min) btnbox.find('btn_min').addClass('btndisable');
-                    if (!box.max) btnbox.find('btn_max').addClass('btndisable');
-                }
-                if (box.close) btnbox.append('btn_close');
-            },
-            //主体内容区
-            body: function(box) {
-                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                var iframe = pagebox.append('iframe').find('iframe');
-                iframe.attr({
-                    'name': box.id,
-                    'id': box.id,
-                    'frameborder': 0,
-                    'border': 0,
-                    'marginwidth': 0,
-                    'marginheight': 0,
-                    'src': box.url
-                });
-            },
-            //左上角图标的下拉菜单
-            dropmenu: function(box) {
-                var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-                var menu = pagebox.append('dropmenu').find('dropmenu');
-                menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
-                menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
-                menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
-                menu.append('hr');
-                menu.append('menu_close').find('menu_close').html('关闭').addClass(box.close ? 'enable' : 'disable');
-            },
-            //遮罩
-            mask: function(box) {
-                $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
-            }
-        };
-        //添加pagebox自身事件，例如拖放、缩放、关闭等
-        this._baseEvents = {
-            pagebox_click: function(box) {
-                //窗体点击事件，主要是为了设置焦点
-                $dom(box).click(function(event) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                    var pbox = ctrl.obj;
-                    pbox.trigger('click', {});
-                    pbox.focus();
-                    $dom('.pagebox dropmenu').hide();
-                });
-            },
-            pagebox_load: function(box) {
-                var src = $dom(box).find('iframe').attr('src');
-                if (src == '') return;
-                $dom(box).find('iframe').bind('load', function(event) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                    if (ctrl.obj.events('fail').length > 0) {
-                        try {
-                            var ifDoc = ctrl.dom.find('iframe')[0].contentWindow.document;
-                            var ifTitle = ifDoc.title;
-                            if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0) {
-                                //加载失败的事件
-                                ctrl.obj.trigger('fail', {
-                                    url: ctrl.obj.url
-                                });
-                            }
-                        } catch (e) {
-                            var msg = '当iframe的src与当前页面不同源时，无法触发onfail事件';
-                            console.log('pagebox onfail event error : ' + msg + '，' + e.message);
-                        }
-                    }
-                    //加载完成的事件，不管是否失败             
-                    ctrl.obj.trigger('load');
-                });
-            },
-            //拖动事件的起始，当鼠标点下时
-            pagebox_drag: function(pageboxElement) {
-                var box = $dom(pageboxElement);
-                var dragbar = box.find('pagebox_dragbar');
-                dragbar = dragbar.merge(box.find('margin>*'));
-                dragbar.mousedown(function(e) {
-                    //鼠标点中的对象
-                    var node = event.target ? event.target : event.srcElement;
-                    var tagname = node.tagName.toLowerCase(); //点中的节点名称                   
-                    //获取窗体对象
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                    //记录当鼠标点下时的数据
-                    ctrl.mousedown = {
-                        target: tagname, //鼠标点下时的Html元素
-                        mouse: $dom.mouse(e), //鼠标坐标：x，y值
-                        offset: ctrl.dom.offset(), //窗体位置：left,top
-                        width: ctrl.dom.width(), //窗体宽高
-                        height: ctrl.dom.height()
-                    }
-                    ctrl.dom.addClass('pagebox_drag');
-                    //设置当前窗体为焦点窗
-                    pagebox.focus(ctrl.id);
-                });
-                //dragbar.addEventListener('mousedown', );
-            },
-            //关闭，最大化，最小化
-            pagebox_button: function(pageboxElement) {
-                var boxdom = $dom(pageboxElement);
-                //关闭窗体，点击右上角关闭按钮，或下拉菜单的关闭项
-                boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    box.close(node.getAttribute('boxid'));
-                });
-                //双击左侧图标关闭
-                boxdom.find('pagebox_title pb-ico').dblclick(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    box.close(node.getAttribute('boxid'));
-                });
-                //最大化或还原
-                boxdom.find('btnbox btn_max').click(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxid = node.getAttribute('boxid');
-                    if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
-                    else
-                        box.toFull(boxid);
-                });
-                //双击标题栏，最大化或还原
-                boxdom.find('pagebox_dragbar').dblclick(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxid = node.getAttribute('boxid');
-                    if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
-                    else
-                        box.toFull(boxid);
-                });
-
-            },
-            //左上角下拉菜单
-            pagebox_dropmenu: function(pageboxElement) {
-                var boxdom = $dom(pageboxElement);
-                boxdom.find('pagebox_title pb-ico').click(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxdom = $dom(node);
-                    boxdom.find('dropmenu').show();
-                    //var boxid = node.getAttribute('boxid');                   
-                });
-                //最大化
-                boxdom.find('dropmenu menu_max').click(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxid = node.getAttribute('boxid');
-                    if (!$dom(node).hasClass('pagebox_full')) box.toFull(boxid);
-                });
-                boxdom.find('dropmenu menu_win').click(function(e) {
-                    var node = event.target ? event.target : event.srcElement;
-                    while (!node.getAttribute('boxid')) node = node.parentNode;
-                    var boxid = node.getAttribute('boxid');
-                    if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
-                });
-            }
-        };
-        //设置当前窗体为焦点
-        this.focus = function() {
-            box.focus(this.id);
-            return this;
-        };
-        this.close = function() {
-            box.close(this.id);
-            return this;
-        };
     };
+    Object.defineProperty(box, 'test', {
+        get: function() {
+            console.log(this.id);
+            return 0;
+        },
+        set: function(val) {
+             console.log(this.id);
+            this.test = val;
+        }
+    });
+    var fn = box.prototype;
+    //初始化相关参数
+    fn._initialization = function() {
+        this.id = 'pagebox_' + new Date().getTime();
+        //如果位置没有设置
+        if (!this.top) {
+            this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
+        }
+        if (!this.left) {
+            this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
+        }
+        //设置层深
+        var maxlevel = this.methods.maxlevel();
+        this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
+        //默认图标
+        if (this.ico == null) this.ico = '&#174;';
+        $ctrls.add({
+            id: this.id,
+            obj: this,
+            type: 'pagebox'
+        });
+        this.trigger('init');
+        return this;
+    };
+
+    //方法
+    fn.methods = {
+        //获取所有pagebox窗体元素
+        getboxs: function() {
+            return $dom('.pagebox');
+        },
+        //最大层深值
+        maxlevel: function() {
+            return $dom('.pagebox').level();
+        }
+    };
+    //打开pagebox窗体，并触发shown事件 
+    fn.open = function() {
+        this._initialization();
+        //如果窗体已经存在
+        var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+        if (boxele != null) {
+            pagebox.focus(this.id);
+            return;
+        }
+        //创建窗体
+        for (var t in this._builder) {
+            this._builder[t](this);
+        }
+        //添加事件（基础事件，例如移动、拖放等，并不包括自定义事件）
+        boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+        for (var t in this._baseEvents) {
+            this._baseEvents[t](boxele);
+        }
+        $ctrls.update({
+            id: this.id,
+            dom: $dom(boxele)
+        });
+        this.trigger('shown');
+        this.focus();
+        return this;
+    };
+
+    //构建pagebox窗体
+    fn._builder = {
+        //生成外壳
+        shell: function(box) {
+            var div = $dom(document.body).append('div').childs().last();
+            div.attr({
+                'boxid': box.id,
+                'class': 'pagebox'
+            });
+            div.css({
+                'top': box.top + 'px',
+                'left': box.left + 'px'
+            });
+            div.width((box.width - 2)).height((box.height - 2));
+        },
+        //边缘部分，主要是用于控制缩放
+        margin: function(box) {
+            var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+            var margin = pagebox.append('margin').find('margin');
+            var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
+            for (var i = 0; i < arr.length; i++) {
+                var node = margin.append(arr[i]).find(arr[i]);
+                if (box.resize)
+                    node.css('cursor', arr[i] + '-resize');
+            }
+        },
+        //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
+        title: function(box) {
+            var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+            //图标和标题文字
+            var title = pagebox.append('pagebox_title').find('pagebox_title');
+            title.append('pb-ico').find('pb-ico').html('&#xe77c');
+            title.append('pb-text').find('pb-text').html(box.title);
+            //移动窗体的响应条
+            pagebox.append('pagebox_dragbar');
+            //添加最小化，最大化，关闭按钮
+            var btnbox = pagebox.append('btnbox').find('btnbox');
+            if (box.min || box.max) {
+                btnbox.append('btn_min').append('btn_max');
+                if (!box.min) btnbox.find('btn_min').addClass('btndisable');
+                if (!box.max) btnbox.find('btn_max').addClass('btndisable');
+            }
+            if (box.close) btnbox.append('btn_close');
+        },
+        //主体内容区
+        body: function(box) {
+            var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+            var iframe = pagebox.append('iframe').find('iframe');
+            iframe.attr({
+                'name': box.id,
+                'id': box.id,
+                'frameborder': 0,
+                'border': 0,
+                'marginwidth': 0,
+                'marginheight': 0,
+                'src': box.url
+            });
+        },
+        //左上角图标的下拉菜单
+        dropmenu: function(box) {
+            var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+            var menu = pagebox.append('dropmenu').find('dropmenu');
+            menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
+            menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
+            menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
+            menu.append('hr');
+            menu.append('menu_close').find('menu_close').html('关闭').addClass(box.close ? 'enable' : 'disable');
+        },
+        //遮罩
+        mask: function(box) {
+            $dom('.pagebox[boxid=\'' + box.id + '\']').append('pagebox_mask');
+        }
+    };
+    //添加pagebox自身事件，例如拖放、缩放、关闭等
+    fn._baseEvents = {
+        pagebox_click: function(box) {
+            //窗体点击事件，主要是为了设置焦点
+            $dom(box).click(function(event) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                var pbox = ctrl.obj;
+                pbox.trigger('click', {});
+                pbox.focus();
+                $dom('.pagebox dropmenu').hide();
+            });
+        },
+        pagebox_load: function(box) {
+            var src = $dom(box).find('iframe').attr('src');
+            if (src == '') return;
+            $dom(box).find('iframe').bind('load', function(event) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                if (ctrl.obj.events('fail').length > 0) {
+                    try {
+                        var ifDoc = ctrl.dom.find('iframe')[0].contentWindow.document;
+                        var ifTitle = ifDoc.title;
+                        if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0) {
+                            //加载失败的事件
+                            ctrl.obj.trigger('fail', {
+                                url: ctrl.obj.url
+                            });
+                        }
+                    } catch (e) {
+                        var msg = '当iframe的src与当前页面不同源时，无法触发onfail事件';
+                        console.log('pagebox onfail event error : ' + msg + '，' + e.message);
+                    }
+                }
+                //加载完成的事件，不管是否失败             
+                ctrl.obj.trigger('load');
+            });
+        },
+        //拖动事件的起始，当鼠标点下时
+        pagebox_drag: function(pageboxElement) {
+            var box = $dom(pageboxElement);
+            var dragbar = box.find('pagebox_dragbar');
+            dragbar = dragbar.merge(box.find('margin>*'));
+            dragbar.mousedown(function(e) {
+                //鼠标点中的对象
+                var node = event.target ? event.target : event.srcElement;
+                var tagname = node.tagName.toLowerCase(); //点中的节点名称                   
+                //获取窗体对象
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                //记录当鼠标点下时的数据
+                ctrl.mousedown = {
+                    target: tagname, //鼠标点下时的Html元素
+                    mouse: $dom.mouse(e), //鼠标坐标：x，y值
+                    offset: ctrl.dom.offset(), //窗体位置：left,top
+                    width: ctrl.dom.width(), //窗体宽高
+                    height: ctrl.dom.height()
+                }
+                ctrl.dom.addClass('pagebox_drag');
+                //设置当前窗体为焦点窗
+                pagebox.focus(ctrl.id);
+            });
+            //dragbar.addEventListener('mousedown', );
+        },
+        //关闭，最大化，最小化
+        pagebox_button: function(pageboxElement) {
+            var boxdom = $dom(pageboxElement);
+            //关闭窗体，点击右上角关闭按钮，或下拉菜单的关闭项
+            boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                box.close(node.getAttribute('boxid'));
+            });
+            //双击左侧图标关闭
+            boxdom.find('pagebox_title pb-ico').dblclick(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                box.close(node.getAttribute('boxid'));
+            });
+            //最大化或还原
+            boxdom.find('btnbox btn_max').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var boxid = node.getAttribute('boxid');
+                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
+                else
+                    box.toFull(boxid);
+            });
+            //双击标题栏，最大化或还原
+            boxdom.find('pagebox_dragbar').dblclick(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var boxid = node.getAttribute('boxid');
+                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
+                else
+                    box.toFull(boxid);
+            });
+
+        },
+        //左上角下拉菜单
+        pagebox_dropmenu: function(pageboxElement) {
+            var boxdom = $dom(pageboxElement);
+            boxdom.find('pagebox_title pb-ico').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var boxdom = $dom(node);
+                boxdom.find('dropmenu').show();
+                //var boxid = node.getAttribute('boxid');                   
+            });
+            //最大化
+            boxdom.find('dropmenu menu_max').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var boxid = node.getAttribute('boxid');
+                if (!$dom(node).hasClass('pagebox_full')) box.toFull(boxid);
+            });
+            boxdom.find('dropmenu menu_win').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var boxid = node.getAttribute('boxid');
+                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
+            });
+        }
+    };
+    //设置当前窗体为焦点
+    fn.focus = function() {
+        box.focus(this.id);
+        return this;
+    };
+    fn.close = function() {
+        box.close(this.id);
+        return this;
+    };
+
     //*** 以下是静态方法 */
     //创建一个窗体对象
     box.create = function(param) {
