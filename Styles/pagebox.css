@@ -189,6 +189,7 @@ body {
 .pagebox dropmenu>*.disable,
 .pagebox dropmenu>*.disable::before {
     color: #ccc;
+    pointer-events: none;
 }
 
 .pagebox dropmenu>*:hover {
@@ -407,7 +408,6 @@ body {
     border-radius: 0px 0px 6px 6px;
     box-shadow: 0px -1px 2px 1px rgba(255, 255, 255, 0.8);
     z-index: 3;
-    pointer-events: none;
 }
 
 

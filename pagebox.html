@@ -131,6 +131,7 @@
         var show = $dom('#show');
         show.text(window.msg);
     }, 10);
+    /*
     //直接创建
     new pagebox({
         height: 220,
@@ -141,15 +142,16 @@
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
+    */
     //直接创建
     pagebox.open({
         width: 400,
         height: 300,
         resize: true,
-        //url: 'http://www.baidu.com',
+        url: 'pagebox -child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
-
+/*
     //
     var tm=pagebox.create({
         height: 200,
@@ -178,7 +180,7 @@
         //url: 'http://www.weisha100.cn/mobile/default.ashx?skip=false',
         title: '禁用最大化按钮'
     });
-    /*
+    
     box.onshown(function (sender, e) {
         console.log('onshown');
     });
@@ -192,7 +194,7 @@
     box.onclick(function (sender, e) {
         console.log('onclick' + sender.title);
         return 'onlclick';
-    });*/
+    });
     box.open();
 
     var res = box.onclick();
@@ -222,7 +224,7 @@
         this.onfail(function(s,e){
             console.log('加载失败：'+e.url);
         });
-    });
+    });*/
     console.log($ctrls.size());
 </script>
 

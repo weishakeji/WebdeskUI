@@ -341,7 +341,7 @@
 				this.appendChild(element);
 			});
 		}
-		if (webdom.isdom(obj)) {
+		if (webdom.isdom(ele)) {
 			return this.each(function() {
 				if (ele.length > 0)
 					this.appendChild(ele[0]);

@@ -164,7 +164,7 @@
             //图标和标题文字
             var title = pagebox.append('pagebox_title').find('pagebox_title');
             title.append('pb-ico').find('pb-ico').html('&#xe77c');
-            if (box.url != ''){
+            if (box.url != '') {
                 title.find('pb-ico').hide();
                 title.append('pb-ico').find('pb-ico').last().addClass('pb-loading').html('&#xe621');
             }
@@ -183,7 +183,7 @@
         //主体内容区
         body: function(box) {
             var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
-            var iframe = pagebox.append('iframe').find('iframe');
+            var iframe = $dom(document.createElement('iframe'));
             iframe.attr({
                 'name': box.id,
                 'id': box.id,
@@ -193,6 +193,7 @@
                 'marginheight': 0,
                 'src': box.url
             });
+            pagebox.append(iframe);
         },
         //左上角图标的下拉菜单
         dropmenu: function(box) {

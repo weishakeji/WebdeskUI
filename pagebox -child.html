@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pagebox</title>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
+    <script type="text/javascript" src="Scripts/events.js"></script>
+    <script type="text/javascript" src="Scripts/pagebox.js"></script>
+   
+</head>
+
+<body>
+<button type="button" id="openbox">Click Me!</button>
+   </body>
+<script>
+
+
+var btn=$dom('#openbox');
+btn.click(function(){
+    console.log(window.name);
+	 //直接创建
+    window.top.pagebox.open({
+        width: 400,
+        height: 300,
+        resize: true,
+        url: 'pagebox -child.html',
+        title: '可移动，可缩放；双击标题栏全屏'
+    });
+	
+});
+</script>
+</html>
