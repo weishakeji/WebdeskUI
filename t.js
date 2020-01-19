@@ -23,38 +23,46 @@
 
 })();
 
-(function(){
-    var web=function(){
+(function() {
+    var web = function() {
 
     };
-    Object.defineProperty(web,'x',{
-        get:function(){
+    Object.defineProperty(web, 'x', {
+        get: function() {
 
         },
-        set:function(val){
+        set: function(val) {
 
         }
     })
 })();
 
 
-var obj=function(){
-    this.x='this.x';
-    this.func=function(){
-        console.log('this.func:'+this.y);
+var obj = function() {
+    this.x = 'this.x';
+    this.func = function() {
+        console.log('this.func:' + this.y);
     }
-}
- Object.defineProperty(obj,'y',{
-        get:function(){
-return this.y;
+    var param = {
+        id: 1
+    };
+    Object.defineProperty(param, 'y', {
+        get: function() {
+            return this;
         },
-        set:function(val){
-this.y=val;
+        set: function(val) {
+            this.y = val;
         }
+
     });
-obj.prototype.pfunc=function(){
-  console.log('prototype.function:'+this.y);  
+    this.p = param;
+    for (var t in param)
+        this[t] = param[t];
+}
+
+obj.prototype.pfunc = function() {
+    console.log('prototype.function:' + this.p.y);
 };
-var t=new obj();
+var t = new obj();
 t.func();
 t.pfunc();

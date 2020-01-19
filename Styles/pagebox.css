@@ -120,10 +120,18 @@ body {
     top: 3px;
     left: 6px;
     z-index: 1;
+
     font-family: "webdesk_icon" !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
+.pagebox pagebox_title .pb-loading{
+  color: #666;
+     animation: rotate 1s linear infinite;
 
+}
+@keyframes rotate{from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
 .pagebox pagebox_title pb-text {
     height: 30px;
     line-height: 30px;

@@ -69,16 +69,6 @@
             return arrEvent;
         };
     };
-    Object.defineProperty(box, 'test', {
-        get: function() {
-            console.log(this.id);
-            return 0;
-        },
-        set: function(val) {
-             console.log(this.id);
-            this.test = val;
-        }
-    });
     var fn = box.prototype;
     //初始化相关参数
     fn._initialization = function() {
@@ -174,6 +164,10 @@
             //图标和标题文字
             var title = pagebox.append('pagebox_title').find('pagebox_title');
             title.append('pb-ico').find('pb-ico').html('&#xe77c');
+            if (box.url != ''){
+                title.find('pb-ico').hide();
+                title.append('pb-ico').find('pb-ico').last().addClass('pb-loading').html('&#xe621');
+            }
             title.append('pb-text').find('pb-text').html(box.title);
             //移动窗体的响应条
             pagebox.append('pagebox_dragbar');
@@ -251,7 +245,9 @@
                         console.log('pagebox onfail event error : ' + msg + '，' + e.message);
                     }
                 }
-                //加载完成的事件，不管是否失败             
+                //加载完成的事件，不管是否失败
+                ctrl.dom.find('pb-ico').last().hide();
+                ctrl.dom.find('pb-ico').first().show();
                 ctrl.obj.trigger('load');
             });
         },
