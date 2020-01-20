@@ -30,9 +30,12 @@
                 this[t] = param[t];
         }
         /* 自定义事件 */
-        var customEvents = ['init', 'shown', 'load', 'fail',
-            'click', 'close', 'min', 'full', 'restore',
-            'resize', 'drag', 'focus', 'blur'
+        //shown打开，close关闭，load加载，fail加载失败，
+        //click点击，drag拖动,focus得到焦点，blur失去焦点
+        //min最小化，full全屏，restore还原，resize缩放
+        var customEvents = ['shown', 'close', 'load', 'fail',
+            'click', 'drag', 'focus', 'blur',
+            'min', 'full', 'restore', 'resize'
         ];
         for (var i = 0; i < customEvents.length; i++) {
             eval('this.on' + customEvents[i] + '=function(f){\

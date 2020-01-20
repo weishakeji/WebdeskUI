@@ -8,16 +8,20 @@
     
     <title>Pagebox</title>
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
-
+ <style type="text/css">
+    body{
+        padding: 20px;
+    }
+ </style>
    
 </head>
 
 <body>
-<button type="button" id="openbox">Click Me!</button>
-   <span id="show"></span>
-   <div id='pid'></div>
-   <div>
-      
+<button type="button" id="openbox">创建子窗体</button><span id='pid'></span>
+    <div>来自子窗体的输入：<span id="show" style="color: red;"></span></div>
+   
+   <div style="margin-top: 40px">
+      在这里输入，将在父窗体显示
        <input type="text" name="fname" />
    </div> </body>
 <script>
@@ -39,10 +43,6 @@ btn.click(function(){
     box.onfocus(function(sender,e){
          console.log('当前焦点窗体：'+sender.title);
     });*/
-     box.onclose(function(sender,e){
-        var ctrls=window.top.$ctrls;
-        console.log('剩余窗体个数：'+ctrls.size());
-    });
     box.open();
     $dom('#pid').html('child-id:'+box.id);
 
@@ -52,14 +52,14 @@ $dom('input').bind('input',function(){
      var v=$dom('input').val();
     console.log(v);
     var pbx=window.top.$pagebox;
-    if(pbx){
-        //var boxcurr=ctrls.get(window.name);
-        var boxparent=pbx.parent(window.name);
+    var boxparent=window.top.$pagebox.parent(window.name);
         if(boxparent){
             var doc=boxparent.document();
             doc.getChildInput(v);
+        }else{
+             $dom('#show').text('没有父窗体');
         }
-    }
+    
    
 });
 //接收来自子窗体的录入
