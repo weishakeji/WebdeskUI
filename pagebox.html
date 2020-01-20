@@ -1,154 +1,221 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pagebox</title>
-    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
-    <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
-    <script type="text/javascript" src="Scripts/events.js"></script>
-    <script type="text/javascript" src="Scripts/pagebox.js"></script>
-    <style type="text/css">
-        html,
-        body {
-            overflow: hidden;
-        }
-        
-        dl {
-            counter-reset: show-list;
-            margin: 0px;
-            padding-left: 20px;
-        }
-        
-        dt {
-            font-weight: bold;
-        }
-        
-        dd {
-            position: relative;
-            margin-left: 0px;
-            counter-increment: item;
-        }
-        
-        dd:before {
-            content: counter(item)".";
-            display: block;
-            float: left;
-            margin-right: 10px;
-        }
-        
-        dl.last dd {
-            display: block;
-        }
-        
-        #show {
-            position: absolute;
-            left: 0px;
-            right: 0px;
-        }
-        
-        h1:before {
-            content: "\e77e";
-            font-size: 40px;
-            margin-right: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Pagebox</title>
+<script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+<link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
+<script type="text/javascript" src="Scripts/events.js"></script>
+<script type="text/javascript" src="Scripts/pagebox.js"></script>
+<style type="text/css">
+html, body {
+	overflow: hidden;
+}
+dl {
+	counter-reset: show-list;
+	margin: 0px;
+	padding-left: 20px;
+}
+dt {
+	font-weight: bold;
+}
+dd {
+	position: relative;
+	margin-left: 0px;
+	counter-increment: item;
+}
+dd:before {
+	content: counter(item)".";
+	display: block;
+	float: left;
+	margin-right: 10px;
+}
+dl.last dd {
+	display: block;
+}
+#show {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+h1:before {
+	content: "\e77e";
+	font-size: 40px;
+	margin-right: 10px;
+}
+pre {
+	padding: 20px;
+	background-color: #FFC;
+	width: calc(100% - 60px);
+	border: dashed #ccc 1px;
+}
+table {
+	background-color: #ccc;
+	width: calc(100% - 20px);
+}
+table td {
+	background-color: #fff;
+}
+th, td {
+	height: 25px;
+	line-height: 25px;
+}
+td {
+	padding: 0px 10px 0px 10px;
+}
+table tr td:first-child {
+	text-align: center;
+	padding: 0px;
+}
+table tr td:first-child:before {
+	content: 'on'
+}
+</style>
 </head>
 
 <body>
-    <div id="show"></div>
-    <div style="margin: 0px;height: 30%;padding: 40px;">
-        <h1 class="webdesk_icon">说明</h1>
-        <div>我想它应该有如下功能：</div>
-        <ul>
-            <li>可拖放，可缩放，模拟windows桌面窗体</li>
-            <li>上溯父级，查找父对像，父对象文档对象，父子窗体可互动</li>
-            <li>遍历下级，以及子对象的文档对象</li>
-            <li>事件：多播事件，可追加、可去除</li>
-        </ul>
-    </div>
-
-    <dl style="height: 20%;width: 30%; position: absolute;right: 0px;top:0px;">
-        <dt>备注一下</dt>
-        <dd> 宽度高度可以百分比</dd>
-        <dd> 设置最小宽高度</dd>
-        <dd> 设置自动宽高（应用于当浏览器窗体变化时，pagebox能自动调整位置）</dd>
-    </dl>
-    <dl style="height: 60%;width:60%; position: absolute;bottom: 0px;left:0px;overflow: auto;">
-        <dt>事件：</dt>
-
-        <dd>init 初始化完成</dd>
-        <dd>shown 当第一次显示</dd>
-        <dd>click 鼠标单击窗体时，如果iframe中的内容被单击时，Iframe有了焦点，当firame有焦点时，窗体拥有焦点（激发Foucs事件）。</dd>
-        <dd>resize 当窗体大小变化时</dd>
-        <dd>resizeBegin, resizeEnd 窗体大小开始变化，结束变化时</dd>
-        <dd>drop 拖放操作时</dd>
-        <dd>dropBegin,dropEnd，开始移动，结束移动</dd>
-        <dd>focus 当窗体获取焦点时</dd>
-        <dd>blur 当窗体失去焦点时</dd>
-        <dd>hover 当鼠标滑过或悬停窗体时</dd>
-        <dd>hoverout 鼠标离开窗体时</dd>
-        <dd>close 当窗体关闭时</dd>
-        <dd>min,full,restore,最小化时，最大化时，还原时,e参数将用于识别哪种方式还原</dd>
-        <dd>load，当iframe加载完成时，触发pagebox的load事件</dd>
-        <hr />
-        <div>click(sender,e);<br> 参数：sender：pagebox对象；
-
-            <br> 参数：e:
-
-            <br> e.target pagebox html元素（即Node型对象）<br> e.x,e.y：当鼠标点击或移动事件的鼠标坐标
-
-            <br> e.movex,e.movey：鼠标移动的移动距离
-
-            <br> e.left,e.top：pagebox的坐标<br> e.action,动作，一般情况下为事件名称，也可能不是，例如restore还原窗体时，为提示是fullrestore，还是minrestore，即从最大化还原来的，还是最小化还原来的
-
-        </div>
-    </dl>
-    <dl style="height: 60%;width:20%; position: absolute;bottom: 0px;right: 0px;overflow: auto;">
-        <dt>左上图标，点击弹出下拉菜单</dt>
-
-        <dd>关闭</dd>
-        <dd>固定位置（不允许拖动、缩放）</dd>
-        <dd>贴边到右侧</dd>
-        <dd>贴边到右侧</dd>
-        <dd>最上层（所有pagebox最上层）</dd>
-        <div>------------</div>
-        <dd>刷新</dd>
-        <dd>定时刷新（5秒）</dd>
-        <dd>定时刷新（10秒）</dd>
-        <div>------------</div>
-        <dd>最小化</dd>
-        <dd>最大化</dd>
-        <dd>还原</dd>
-    </dl>
-
-
+<div id="show"></div>
+<div style="height: 150px">
+  <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体</h1>
+  <ul>
+    <li>可拖放，可缩放，模拟windows桌面窗体</li>
+    <li>上溯父级，操作父窗体文档对象，父子窗体可互动</li>
+    <li>遍历下级，以及子对象的文档对象</li>
+    <li>事件：多播事件，可追加、可去除</li>
+  </ul>
+</div>
+<dl style="height: calc(100% - 160px);max-width:1000px; position: absolute;bottom: 0px;left:0px;overflow: auto;">
+<b>事件：</b>
+<pre>
+var box=$pagebox.create();
+box.onclick(function(sender,e){
+	//sender:为pagebox对象，即当前代码中的box
+	//e:事件消息，例如e.x,e.y：当鼠标点击或移动事件的鼠标坐标
+   });
+box.open();</pre>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tr>
+    <th scope="col" width="80px">事件</th>
+    <th scope="col" width="180px">说明</th>
+    <th scope="col" width="180px">参数sender</th>
+    <th scope="col">参数e</th>
+  </tr>
+  <tr>
+    <td>shown</td>
+    <td>打开</td>
+    <td>当前pagebox对象</td>
+    <td>e.event：事件名称<br>
+      e.action：动作，默认与e.event同值<br>
+      e.target：响应事件的html元素，此处为窗体的html</td>
+  </tr>
+  <tr>
+    <td>close</td>
+    <td>关闭</td>
+    <td>同上</td>
+    <td>同上</td>
+  </tr>
+  <tr>
+    <td>load</td>
+    <td>加载完成，不管是否失败</td>
+    <td>&nbsp;</td>
+    <td>e.target：窗体iframe中的文档对象（document)<br>
+      e.url：窗体iframe中的页面路径，即src的值</td>
+  </tr>
+  <tr>
+    <td>fail</td>
+    <td>加载失败</td>
+    <td>&nbsp;</td>
+    <td>同上</td>
+  </tr>
+  <tr>
+    <td>click</td>
+    <td>点击</td>
+    <td>&nbsp;</td>
+    <td>与onshown相同</td>
+  </tr>
+  <tr>
+    <td>drag</td>
+    <td>拖动位置</td>
+    <td>&nbsp;</td>
+    <td>e.target：窗体标题栏<br>
+      e.mouse:鼠标当前坐标,{x,y}<br>
+      e.move：移动的偏移量（相较于拖动之前）,{x,y}<br>
+      e.offset:当前窗体的位置,{left,top}</td>
+  </tr>
+  <tr>
+    <td>focus</td>
+    <td>获取焦点</td>
+    <td>&nbsp;</td>
+    <td>与onshown相同</td>
+  </tr>
+  <tr>
+    <td>blur</td>
+    <td>失去焦点</td>
+    <td>&nbsp;</td>
+    <td>与onshown相同</td>
+  </tr>
+  <tr>
+    <td>min</td>
+    <td>最小化</td>
+    <td>暂未实现</td>
+    <td>与onshown相同</td>
+  </tr>
+  <tr>
+    <td>full</td>
+    <td>最大化</td>
+    <td>&nbsp;</td>
+    <td>与onshown相同</td>
+  </tr>
+  <tr>
+    <td>restore</td>
+    <td>还原</td>
+    <td>&nbsp;</td>
+    <td>e.action:如果是全屏还原，为from-full; 最小化还原为from-min</td>
+  </tr>
+  <tr>
+    <td>resize</td>
+    <td>缩放窗体大小</td>
+    <td>&nbsp;</td>
+    <td>e.mouse:鼠标当前坐标,{x,y}<br>
+      e.move：移动的偏移量（相较于拖动之前）,{x,y}<br>
+      e.offset:当前窗体的位置,{left,top}<br>
+      e.width:缩放宽度<br>
+      e.height:缩放高度<br>
+      e.target:缩放控件<br>
+      e.action:缩放的方向</td>
+  </tr>
+</table>
 </body>
-<script type="text/javascript">
-    window.setInterval(function() {
-        var show = $dom('#show');
-        show.text(window.msg);
-    }, 10);
-   
+<script type="text/javascript">   
      //创建窗体
-    var crt=$pagebox.create({
+    var box=$pagebox.create({
         width: 400,
         height: 300,
         resize: true,
+        right:10,
+		top:10,
         url: 'pagebox -child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
-    crt.title=crt.id;
+    box.title=box.id;
+	box.onrestore(function(sender,e){
+		console.log(e);
+	});
     /*
-    crt.onfocus(function(sender,e){
+    box.onfocus(function(sender,e){
         console.log('当前焦点窗体：'+sender.title);
     });*/
-    crt.onclose(function(sender,e){
-        console.log($ctrls.size());
-    });
-    crt.open();
+	//拖放和缩放
+    var tm = function (sender, e) {		 
+        var msg = 'x:' + e.mouse.x + "，y:" + e.mouse.y + '，movex:' + e.move.x + '，movey:' + e.move.y;
+		if(e.width)msg+='，width:'+e.width;
+		if(e.height)msg+='，height:'+e.height;
+		$dom('#show').html(msg);
+    };
+    box.ondrag(tm).onresize(tm);
+    box.open();
 /*
     //
     var tm=pagebox.create({
@@ -181,9 +248,6 @@
     
     box.onshown(function (sender, e) {
         console.log('onshown');
-    });
-    box.oninit(function (sender, e) {
-        console.log('初始化时的ID：' + sender.id);
     });
     var tm = function (sender, e) {
         window.msg = '鼠标：x_' + e.mouse.x + ",y_" + e.mouse.y + ',移动：' + e.move.x + '，宽：' + e.width;
@@ -225,6 +289,4 @@
     });*/
     //console.log($ctrls.size());
 </script>
-
-
 </html>

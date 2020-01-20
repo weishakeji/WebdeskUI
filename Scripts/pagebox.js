@@ -60,6 +60,7 @@
             if (!eventArgs) eventArgs = {};
             if (!eventArgs['event']) eventArgs['event'] = eventName;
             if (!eventArgs['action']) eventArgs['action'] = eventName;
+            if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
             //执行事件
             var results = [];
             for (var i = 0; i < arrEvent.length; i++) {
@@ -89,13 +90,15 @@
             parent.obj.childs.push(this);
         }
         //如果位置没有设置
-        if (!this.top) {
+        if (!this.top && this.bottom) this.top = document.documentElement.clientHeight - this.height - this.bottom;
+        if (!this.top && !this.bottom) {
             if (this.parent == null)
                 this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
             else
                 this.top = this.parent.dom.offset().top + 30;
         }
-        if (!this.left) {
+        if (!this.left && this.right) this.left = document.documentElement.clientWidth - this.width - this.right;
+        if (!this.left && !this.right) {
             if (this.parent == null)
                 this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
             else
@@ -111,22 +114,9 @@
             obj: this,
             type: 'pagebox'
         });
-        this.trigger('init');
         this.isinit = true;
         return this;
     };
-    /*
-        //方法
-        fn.methods = {
-            //获取所有pagebox窗体元素
-            getboxs: function() {
-                return $dom('.pagebox');
-            },
-            //最大层深值
-            maxlevel: function() {
-                return $dom('.pagebox').level();
-            }
-        };*/
     //打开pagebox窗体，并触发shown事件 
     fn.open = function() {
         if (!this.isinit) this._initialization();
@@ -253,15 +243,17 @@
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                var eventArgs = {
+                    url: ctrl.obj.url,
+                    target: ctrl.obj.document()
+                };
                 if (ctrl.obj.events('fail').length > 0) {
                     try {
                         var ifDoc = ctrl.dom.find('iframe')[0].contentWindow.document;
                         var ifTitle = ifDoc.title;
                         if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0) {
                             //加载失败的事件
-                            ctrl.obj.trigger('fail', {
-                                url: ctrl.obj.url
-                            });
+                            ctrl.obj.trigger('fail', eventArgs);
                         }
                     } catch (e) {
                         var msg = '当iframe的src与当前页面不同源时，无法触发onfail事件';
@@ -269,9 +261,10 @@
                     }
                 }
                 //加载完成的事件，不管是否失败
+                ctrl.obj.trigger('load', eventArgs);
+                //操作图标
                 ctrl.dom.find('pb-ico').last().hide();
                 ctrl.dom.find('pb-ico').first().show();
-                ctrl.obj.trigger('load');
             });
         },
         //拖动事件的起始，当鼠标点下时
@@ -479,14 +472,20 @@
         window.setTimeout(function() {
             ctrl.dom.css('transition', '');
         }, 300);
-        ctrl.dom.removeClass('pagebox_full');
+        //从最大化还原
+        if (ctrl.dom.hasClass('pagebox_full')) {
+            ctrl.dom.removeClass('pagebox_full');
+            ctrl.obj.trigger('restore', {
+                'action': 'from-full'
+            });
+        }
         //恢复缩放窗体的鼠标手势
         if (ctrl.obj.resize) {
             ctrl.dom.find('margin>*').each(function() {
                 $dom(this).css('cursor', this.tagName + '-resize');
             });
         }
-        ctrl.obj.trigger('restore');
+
     };
     //禁用缩放
     box.disableResize = function(boxid) {
@@ -506,6 +505,7 @@
     box.dragRealize = function() {
         //var addevent = document.attachEvent || document.addEventListener;
         document.addEventListener('mousemove', function(e) {
+            var node = event.target ? event.target : event.srcElement;
             var box = $dom('div.pagebox_drag');
             if (box.length < 1) return;
             var ctrl = $ctrls.get(box.attr('boxid'));
@@ -522,7 +522,7 @@
                     x: mouse.x - ago.mouse.x,
                     y: mouse.y - ago.mouse.y
                 },
-                target: ago.target
+                target: node
             };
             //移动窗体   
             if (ago.target == 'pagebox_dragbar') {
@@ -530,8 +530,7 @@
                     box.left(ago.offset.left + eargs.move.x)
                         .top(ago.offset.top + eargs.move.y);
                     //触发拖动事件
-                    eargs.left = ctrl.dom.offset().left;
-                    eargs.top = ctrl.dom.offset().top;
+                    eargs.offset = ctrl.dom.offset();
                     ctrl.obj.trigger('drag', eargs);
                 }
             } else {
@@ -550,11 +549,11 @@
                             box.height(ago.height - eargs.move.y < minHeight ? minHeight : ago.height - eargs.move.y);
                             if (box.height() > minHeight) box.top(ago.offset.top + eargs.move.y);
                         }
-                        //触发resize事件
-                        eargs.left = ctrl.dom.offset().left;
-                        eargs.top = ctrl.dom.offset().top;
+                        //触发resize事件                     
+                        eargs.offset = ctrl.dom.offset();
                         eargs.width = ctrl.dom.width();
                         eargs.height = ctrl.dom.height();
+                        eargs.action = eargs.target.tagName;
                         ctrl.obj.trigger('resize', eargs);
                     }
                 }
