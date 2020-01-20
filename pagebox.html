@@ -144,13 +144,20 @@
     }).open();
     */
     //直接创建
-    pagebox.open({
+    var crt=$pagebox.create({
         width: 400,
         height: 300,
         resize: true,
         url: 'pagebox -child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
+    crt.onfocus(function(sender,e){
+        console.log('当前焦点窗体：'+sender.title);
+    });
+    crt.onclose(function(sender,e){
+        console.log($ctrls.size());
+    });
+    crt.open();
 /*
     //
     var tm=pagebox.create({

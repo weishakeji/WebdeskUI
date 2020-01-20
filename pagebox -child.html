@@ -7,15 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pagebox</title>
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
-    <link rel="stylesheet" type="text/css" href="Styles/pagebox.css" />
-    <script type="text/javascript" src="Scripts/events.js"></script>
-    <script type="text/javascript" src="Scripts/pagebox.js"></script>
+
    
 </head>
 
 <body>
 <button type="button" id="openbox">Click Me!</button>
    </body>
+   <div id='pid'></div>
 <script>
 
 
@@ -23,14 +22,26 @@ var btn=$dom('#openbox');
 btn.click(function(){
     console.log(window.name);
 	 //直接创建
-    window.top.pagebox.open({
+    var box=window.top.$pagebox.create({
         width: 400,
         height: 300,
         resize: true,
-        url: 'pagebox -child.html',
-        title: '可移动，可缩放；双击标题栏全屏'
+        pid:window.name,
+        url: 'pagebox -child.html'
+    });	
+    box.title='id:'+box.id;
+    box.onfocus(function(sender,e){
+         console.log('当前焦点窗体：'+sender.title);
     });
-	
+     box.onclose(function(sender,e){
+        var ctrls=window.top.$ctrls;
+        console.log('剩余窗体个数：'+ctrls.size());
+    });
+    box.open();
+    $dom('#pid').html('pid:'+box.id);
 });
+
+//var p={};
+//console.log(typeof(p.pid)=='undefined');
 </script>
 </html>

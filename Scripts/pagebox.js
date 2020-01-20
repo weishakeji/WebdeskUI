@@ -12,12 +12,18 @@
         this.title = '默认标题';
         this.url = '';
         this.id = 0;
+        this.pid = ''; //父级窗体名称
+        this.parent = null; //父窗体对象
+        this.childs = new Array(); //子级窗体
         this.resize = true; //是否允许缩放大小
         this.move = true; //是否允许移动
         this.min = true; //是否允许最小化按钮
         this.max = true; //是否允许最大化按钮
         this.close = true; //是否允许关闭按钮
         this.eventlist = new Array(); //自定义的事件集合
+        this.dom = null; //html对象
+        this.isinit = false; //是否初始化
+
         //将传入的参数赋给相应的属性
         if (typeof(param) == 'object') {
             for (var t in param)
@@ -59,7 +65,7 @@
             }
             return results.length == 1 ? results[0] : results;
         };
-        //获取某一类的自定义事件
+        //获取某类自定义事件的列表
         this.events = function(eventName) {
             var arrEvent = new Array();
             for (var i = 0; i < this.eventlist.length; i++) {
@@ -73,63 +79,70 @@
     //初始化相关参数
     fn._initialization = function() {
         this.id = 'pagebox_' + new Date().getTime();
+        //是否有父级窗体
+        var parent = $ctrls.get(this.pid);
+        if (parent != null) {
+            this.parent = parent.obj;
+            parent.obj.childs.push(this);
+        }
         //如果位置没有设置
         if (!this.top) {
-            this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
+            if (this.parent == null)
+                this.top = (document.documentElement.clientHeight - document.body.scrollTop - this.height) / 2;
+            else
+                this.top = this.parent.dom.offset().top + 30;
         }
         if (!this.left) {
-            this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
+            if (this.parent == null)
+                this.left = (document.documentElement.clientWidth - document.body.scrollLeft - this.width) / 2;
+            else
+                this.left = this.parent.dom.offset().left + 30;
         }
         //设置层深
-        var maxlevel = this.methods.maxlevel();
+        var maxlevel = $dom('.pagebox').level();
         this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
         //默认图标
-        if (this.ico == null) this.ico = '&#174;';
+        if (this.ico == null) this.ico = '&#xe77c';
         $ctrls.add({
             id: this.id,
             obj: this,
             type: 'pagebox'
         });
         this.trigger('init');
+        this.isinit = true;
         return this;
     };
-
-    //方法
-    fn.methods = {
-        //获取所有pagebox窗体元素
-        getboxs: function() {
-            return $dom('.pagebox');
-        },
-        //最大层深值
-        maxlevel: function() {
-            return $dom('.pagebox').level();
-        }
-    };
+    /*
+        //方法
+        fn.methods = {
+            //获取所有pagebox窗体元素
+            getboxs: function() {
+                return $dom('.pagebox');
+            },
+            //最大层深值
+            maxlevel: function() {
+                return $dom('.pagebox').level();
+            }
+        };*/
     //打开pagebox窗体，并触发shown事件 
     fn.open = function() {
-        this._initialization();
+        if (!this.isinit) this._initialization();
         //如果窗体已经存在
-        var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-        if (boxele != null) {
-            pagebox.focus(this.id);
-            return;
-        }
+        var ctrl = $ctrls.get(this.id);
+        if (ctrl != null && ctrl.dom != null) return ctrl.obj.focus();
         //创建窗体
-        for (var t in this._builder) {
-            this._builder[t](this);
-        }
+        for (var t in this._builder) this._builder[t](this);
         //添加事件（基础事件，例如移动、拖放等，并不包括自定义事件）
-        boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
-        for (var t in this._baseEvents) {
-            this._baseEvents[t](boxele);
-        }
+        var boxele = document.querySelector('.pagebox[boxid=\'' + this.id + '\']');
+        for (var t in this._baseEvents) this._baseEvents[t](boxele);
+        //更新dom
+        this.dom = $dom(boxele);
         $ctrls.update({
             id: this.id,
             dom: $dom(boxele)
         });
         this.trigger('shown');
-        this.focus();
-        return this;
+        return this.focus();
     };
 
     //构建pagebox窗体
@@ -139,7 +152,8 @@
             var div = $dom(document.body).append('div').childs().last();
             div.attr({
                 'boxid': box.id,
-                'class': 'pagebox'
+                'class': 'pagebox',
+                'pid': box.pid
             });
             div.css({
                 'top': box.top + 'px',
@@ -163,7 +177,7 @@
             var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
             //图标和标题文字
             var title = pagebox.append('pagebox_title').find('pagebox_title');
-            title.append('pb-ico').find('pb-ico').html('&#xe77c');
+            title.append('pb-ico').find('pb-ico').html(box.ico);
             if (box.url != '') {
                 title.find('pb-ico').hide();
                 title.append('pb-ico').find('pb-ico').last().addClass('pb-loading').html('&#xe621');
@@ -254,9 +268,9 @@
         },
         //拖动事件的起始，当鼠标点下时
         pagebox_drag: function(pageboxElement) {
-            var box = $dom(pageboxElement);
-            var dragbar = box.find('pagebox_dragbar');
-            dragbar = dragbar.merge(box.find('margin>*'));
+            var boxdom = $dom(pageboxElement);
+            var dragbar = boxdom.find('pagebox_dragbar');
+            dragbar = dragbar.merge(boxdom.find('margin>*'));
             dragbar.mousedown(function(e) {
                 //鼠标点中的对象
                 var node = event.target ? event.target : event.srcElement;
@@ -274,7 +288,7 @@
                 }
                 ctrl.dom.addClass('pagebox_drag');
                 //设置当前窗体为焦点窗
-                pagebox.focus(ctrl.id);
+                box.focus(ctrl.id);
             });
             //dragbar.addEventListener('mousedown', );
         },
@@ -340,8 +354,7 @@
     };
     //设置当前窗体为焦点
     fn.focus = function() {
-        box.focus(this.id);
-        return this;
+        return box.focus(this.id);
     };
     fn.close = function() {
         box.close(this.id);
@@ -351,11 +364,16 @@
     //*** 以下是静态方法 */
     //创建一个窗体对象
     box.create = function(param) {
-        return new box(param);
+        if (param == null) param = {};
+        if (typeof(param.pid) == 'undefined') param.pid = window.name;
+        var pbox = new box(param);
+        pbox._initialization();
+        return pbox;
     };
     //创建窗体对象并打开
     box.open = function(param) {
-        return new box(param).open();
+        var pbox = box.create(param);
+        return pbox.open();
     };
     //创建pagebox的dom对象
     box.dom = function(boxid) {
@@ -371,6 +389,7 @@
     //设置某个窗体为焦点
     box.focus = function(boxid) {
         var ctrl = $ctrls.get(boxid);
+        if (ctrl == null) return;
         if (!ctrl.dom.hasClass('pagebox_focus')) {
             //之前的焦点窗体，触发失去焦点事件
             var focusbox = $dom('.pagebox_focus');
@@ -386,6 +405,7 @@
             //激活当前窗体的焦点事件
             ctrl.obj.trigger('focus');
         }
+        return ctrl.obj;
     };
     //关闭窗体
     box.close = function(boxid) {
@@ -395,9 +415,22 @@
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
         setTimeout(function() {
+            //如果存在父级窗体
+            if (ctrl.obj.parent) {
+                var childs = ctrl.obj.parent.childs;
+                console.log('当前父级有几个子窗体：' + ctrl.obj.parent.childs.length);
+                for (var i = 0; i < childs.length; i++) {
+                    if (childs[i].id == ctrl.obj.id) {
+                        ctrl.obj.parent.childs.splice(i, 1);
+                    }
+                }
+                //console.log('关闭后当前父级有几个子窗体：' + ctrl.obj.parent.childs.length);
+                ctrl.obj.parent.focus();
+            } else {
+                var last = $dom('.pagebox').last();
+                if (last != null) box.focus(last.attr('boxid'));
+            }
             ctrl.remove();
-            var last = $dom('.pagebox').last();
-            if (last != null) pagebox.focus(last.attr('boxid'));
         }, 300);
         ctrl.obj.trigger('close');
     };
@@ -538,6 +571,6 @@
             //$dom('.pagebox dropmenu').hide();
         });
     };
-    window.pagebox = box;
-    window.pagebox.dragRealize();
+    window.$pagebox = box;
+    window.$pagebox.dragRealize();
 })();
