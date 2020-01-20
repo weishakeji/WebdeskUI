@@ -3,8 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <title>Pagebox</title>
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
 
@@ -13,8 +14,12 @@
 
 <body>
 <button type="button" id="openbox">Click Me!</button>
-   </body>
+   <span id="show"></span>
    <div id='pid'></div>
+   <div>
+      
+       <input type="text" name="fname" />
+   </div> </body>
 <script>
 
 
@@ -30,18 +35,36 @@ btn.click(function(){
         url: 'pagebox -child.html'
     });	
     box.title='id:'+box.id;
+    /*
     box.onfocus(function(sender,e){
          console.log('当前焦点窗体：'+sender.title);
-    });
+    });*/
      box.onclose(function(sender,e){
         var ctrls=window.top.$ctrls;
         console.log('剩余窗体个数：'+ctrls.size());
     });
     box.open();
-    $dom('#pid').html('pid:'+box.id);
+    $dom('#pid').html('child-id:'+box.id);
+
 });
 
-//var p={};
-//console.log(typeof(p.pid)=='undefined');
+$dom('input').bind('input',function(){
+     var v=$dom('input').val();
+    console.log(v);
+    var pbx=window.top.$pagebox;
+    if(pbx){
+        //var boxcurr=ctrls.get(window.name);
+        var boxparent=pbx.parent(window.name);
+        if(boxparent){
+            var doc=boxparent.document();
+            doc.getChildInput(v);
+        }
+    }
+   
+});
+//接收来自子窗体的录入
+function getChildInput(txt){
+    $dom('#show').text(txt);
+}
 </script>
 </html>

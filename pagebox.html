@@ -131,9 +131,9 @@
         var show = $dom('#show');
         show.text(window.msg);
     }, 10);
-    /*
+   
     //直接创建
-    new pagebox({
+    new $pagebox({
         height: 220,
         width: 320,
         top: 120,
@@ -142,7 +142,7 @@
         //url: 'http://www.168fff.cn/mobile/default.ashx?skip=false',
         title: '禁止移动'
     }).open();
-    */
+    
     //直接创建
     var crt=$pagebox.create({
         width: 400,
@@ -151,9 +151,11 @@
         url: 'pagebox -child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
+    crt.title=crt.id;
+    /*
     crt.onfocus(function(sender,e){
         console.log('当前焦点窗体：'+sender.title);
-    });
+    });*/
     crt.onclose(function(sender,e){
         console.log($ctrls.size());
     });
@@ -232,7 +234,7 @@
             console.log('加载失败：'+e.url);
         });
     });*/
-    console.log($ctrls.size());
+    //console.log($ctrls.size());
 </script>
 
 

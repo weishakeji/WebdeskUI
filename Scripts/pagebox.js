@@ -144,7 +144,14 @@
         this.trigger('shown');
         return this.focus();
     };
-
+    //窗体中的iframe文档对象
+    fn.document = function() {
+        if (this.dom) {
+            var iframe = this.dom.find('iframe');
+            return iframe[0].contentWindow;
+        }
+        return null;
+    };
     //构建pagebox窗体
     fn._builder = {
         //生成外壳
@@ -232,9 +239,7 @@
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                var pbox = ctrl.obj;
-                pbox.trigger('click', {});
-                pbox.focus();
+                ctrl.obj.focus().trigger('click', {});
                 $dom('.pagebox dropmenu').hide();
             });
         },
@@ -325,7 +330,6 @@
                 else
                     box.toFull(boxid);
             });
-
         },
         //左上角下拉菜单
         pagebox_dropmenu: function(pageboxElement) {
@@ -361,7 +365,9 @@
         return this;
     };
 
-    //*** 以下是静态方法 */
+    /*** 
+    以下是静态方法
+    *****/
     //创建一个窗体对象
     box.create = function(param) {
         if (param == null) param = {};
@@ -375,16 +381,10 @@
         var pbox = box.create(param);
         return pbox.open();
     };
-    //创建pagebox的dom对象
-    box.dom = function(boxid) {
-        var page = null;
-        if (typeof(boxid) == 'string')
-            page = $dom('.pagebox[boxid=\'' + boxid + '\']');
-        else
-        if ($dom.isdom(boxid)) page = boxid;
-        else
-        if (boxid instanceof Node) page = $dom(boxid);
-        return page;
+    //获取上级窗体对象
+    box.parent = function(boxid) {
+        var ctrl = $ctrls.get(boxid);
+        return ctrl.obj.parent;
     };
     //设置某个窗体为焦点
     box.focus = function(boxid) {
@@ -399,9 +399,9 @@
             }
             var boxs = $dom('.pagebox');
             boxs.removeClass('pagebox_focus');
-            ctrl.dom.addClass('pagebox_focus');
             var level = boxs.level();
-            ctrl.dom.level(level < 1 ? 10000 : level + 1);
+            ctrl.dom.level(level < 1 ? 10000 : level + 1).addClass('pagebox_focus');
+            console.log('当前焦点窗体：' + ctrl.obj.title);
             //激活当前窗体的焦点事件
             ctrl.obj.trigger('focus');
         }
@@ -410,27 +410,31 @@
     //关闭窗体
     box.close = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        var page = box.dom(boxid);
         //关闭窗体
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
         setTimeout(function() {
+            ctrl.remove();
             //如果存在父级窗体
-            if (ctrl.obj.parent) {
-                var childs = ctrl.obj.parent.childs;
-                console.log('当前父级有几个子窗体：' + ctrl.obj.parent.childs.length);
-                for (var i = 0; i < childs.length; i++) {
-                    if (childs[i].id == ctrl.obj.id) {
+            if (ctrl.obj.parent && $dom('.pagebox[boxid=\'' + ctrl.obj.parent.id + '\']').length > 0) {
+                //父级的子级，即兄弟
+                var siblings = ctrl.obj.parent.childs;
+                for (var i = 0; i < siblings.length; i++) {
+                    if (siblings[i].id == ctrl.obj.id) {
                         ctrl.obj.parent.childs.splice(i, 1);
                     }
                 }
-                //console.log('关闭后当前父级有几个子窗体：' + ctrl.obj.parent.childs.length);
                 ctrl.obj.parent.focus();
             } else {
                 var last = $dom('.pagebox').last();
                 if (last != null) box.focus(last.attr('boxid'));
             }
-            ctrl.remove();
+            //子级
+            var childs = ctrl.obj.childs;
+            for (var i = 0; i < childs.length; i++) {
+                box.close(childs[i].id);
+            }
+
         }, 300);
         ctrl.obj.trigger('close');
     };
@@ -497,6 +501,7 @@
     };
     //拖动窗体所需的事件
     box.dragRealize = function() {
+        //var addevent = document.attachEvent || document.addEventListener;
         document.addEventListener('mousemove', function(e) {
             var box = $dom('div.pagebox_drag');
             if (box.length < 1) return;

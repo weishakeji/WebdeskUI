@@ -440,7 +440,7 @@
 	};
 	//当click事件时，如果有iframe时，添加iframe的点击事件
 	webdom.IframeOnClick = {
-		resolution: 200,
+		resolution: 10,
 		iframes: [],
 		interval: null,
 		Iframe: function() {
