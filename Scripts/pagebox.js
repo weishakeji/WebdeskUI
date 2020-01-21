@@ -35,6 +35,11 @@
                                     this._watch[wat](this, newValue);\
                                 }\
                             }\
+                            for (var i=0;i<this._watchlist.length;i++) {\
+                                if (\'' + t + '\' == this._watchlist[i].key) {\
+                                    this._watchlist[i].func(this, newValue);\
+                                }\
+                            }\
                             this._' + t + '= newValue;\
                             var ctrl=$ctrls.get(this._id);\
                             if(ctrl)ctrl.obj=this;\
@@ -46,7 +51,8 @@
         this.parent = null; //父窗体对象
         this.childs = new Array(); //子级窗体
         this.dom = null; //html对象
-        this._eventlist = new Array(); //自定义的事件集合       
+        this._eventlist = new Array(); //自定义的事件集合     
+        this._watchlist = new Array(); //自定义监听  
         this._isinit = false; //是否初始化
         /* 自定义事件 */
         //shown打开，close关闭，load加载，fail加载失败，
@@ -160,6 +166,16 @@
             if (!val) box.toWindow();
         }
     };
+    //添加自定义监听事件
+    fn.watch = function(watchObj) {
+        if (typeof(watchObj) != 'object') return;
+        for (var t in watchObj) {
+            this._watchlist.push({
+                key: t,
+                func: watchObj[t]
+            });
+        }
+    };
     //打开pagebox窗体，并触发shown事件 
     fn.open = function() {
         if (!this._isinit) this._initialization();
@@ -251,7 +267,7 @@
         dropmenu: function(box) {
             var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
             var menu = pagebox.append('dropmenu').find('dropmenu');
-            menu.append('menu_fresh').find('menu_fresh').html('刷新');            
+            menu.append('menu_fresh').find('menu_fresh').html('刷新');
             menu.append('hr');
             menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
             menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');

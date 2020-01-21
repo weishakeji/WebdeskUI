@@ -217,7 +217,13 @@ box.open();</pre>
 		if(e.height)msg+='，height:'+e.height;
 		$dom('#show').html(msg);
     };
+
     box.ondrag(tm).onresize(tm);
+    box.watch({
+        'title':function(box,val){
+            console.log('通过外部监听，新的title：'+val);
+            }        
+    });
     box.open();
 /*
     //
