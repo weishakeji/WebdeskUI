@@ -1,68 +1,33 @@
-(function() {
-    var JsModel = function() {
-        var obj = {};
-        Object.defineProperty(obj, "txt", {
-            get: function() {
-                return this.txt;
-            },
-            set: function(newValue) {
-                document.querySelector("#text").value = newValue;
-                document.querySelector("#content").textContent = newValue
+(function(window) {
+    var web = function(param) {
+        var th=this;
+        if (typeof(param) == 'object') {
+            for (var t in param) {
+                th['_' + t] = param[t];
+                Object.defineProperty(th, t, {
+                    get: function() {
+                        return th['_' + t];
+                    },
+                    set: function(newValue) {
+                        for (var wat in th._watch) {
+                            if (t = wat) {
+                                th._watch[wat](th, newValue);
+                            }
+                        }
+                        th['_' + t] = newValue;
+                    }
+                });
+                //
             }
-        })
-        this.init = function() {
-            document.querySelector("#text").addEventListener("keyup", function(e) {
-                obj.txt = e.target.value;
-                console.log(obj.txt);
-
-            });
         }
-    }
-    var model = new JsModel();
-    model.init();
-
-})();
-
-(function() {
-    var web = function() {
-
+        this._watch = {
+            'title': function(sender, val) {
+                console.log('title:' + val);
+            }
+        }
     };
-    Object.defineProperty(web, 'x', {
-        get: function() {
+    window.web = web;
+    
+})(window);
 
-        },
-        set: function(val) {
-
-        }
-    })
-})();
-
-
-var obj = function() {
-    this.x = 'this.x';
-    this.func = function() {
-        console.log('this.func:' + this.y);
-    }
-    var param = {
-        id: 1
-    };
-    Object.defineProperty(param, 'y', {
-        get: function() {
-            return this;
-        },
-        set: function(val) {
-            this.y = val;
-        }
-
-    });
-    this.p = param;
-    for (var t in param)
-        this[t] = param[t];
-}
-
-obj.prototype.pfunc = function() {
-    console.log('prototype.function:' + this.p.y);
-};
-var t = new obj();
-t.func();
-t.pfunc();
+var tm = new web({title:'测试'});

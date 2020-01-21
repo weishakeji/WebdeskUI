@@ -13,28 +13,6 @@
 html, body {
 	overflow: hidden;
 }
-dl {
-	counter-reset: show-list;
-	margin: 0px;
-	padding-left: 20px;
-}
-dt {
-	font-weight: bold;
-}
-dd {
-	position: relative;
-	margin-left: 0px;
-	counter-increment: item;
-}
-dd:before {
-	content: counter(item)".";
-	display: block;
-	float: left;
-	margin-right: 10px;
-}
-dl.last dd {
-	display: block;
-}
 #show {
 	position: absolute;
 	top: 0px;
@@ -86,7 +64,23 @@ table tr td:first-child:before {
     <li>事件：多播事件，可追加、可去除</li>
   </ul>
 </div>
-<dl style="height: calc(100% - 160px);max-width:1000px; position: absolute;bottom: 0px;left:0px;overflow: auto;">
+<div style="height: calc(100% - 160px);max-width:1000px; padding-left: 20px; position: absolute;bottom: 0px;left:0px;overflow: auto;">
+    <b>示例：</b>
+    <pre>
+     //创建窗体
+    var box=$pagebox.create({
+        width: 400,
+        height: 300,
+        right:10,
+        top:10,
+        url: 'pagebox -child.html',
+        title: '可移动，可缩放；双击标题栏全屏'
+    });
+    box.open();
+</pre>
+ <b>属性：</b>
+<div><p>所有的属性，必须在创建时设置，至少是在open()之前设置；否则不起作用。</p>
+<p>主要原因是没有实现双向绑定，原计划是要这样的，不过现在还没有实现。</p></div>
 <b>事件：</b>
 <pre>
 var box=$pagebox.create();
@@ -187,6 +181,7 @@ box.open();</pre>
       e.action:缩放的方向</td>
   </tr>
 </table>
+</div>
 </body>
 <script type="text/javascript">   
      //创建窗体

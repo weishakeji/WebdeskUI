@@ -3,6 +3,7 @@
     window.$collectbar = '';
     //param: 初始化时的参数
     var box = function(param) {
+        if (param == null || typeof(param) != 'object') param = {};
         //默认参数
         this.width = 100;
         this.height = 200;
@@ -24,10 +25,27 @@
         this.dom = null; //html对象
         this.isinit = false; //是否初始化
 
+        var th = this;
+
         //将传入的参数赋给相应的属性
         if (typeof(param) == 'object') {
-            for (var t in param)
-                this[t] = param[t];
+            for (var t in param) {
+                th['_' + t] = param[t];
+                Object.defineProperty(th, t, {
+                    get: function() {
+                        return th['_' + t];
+                    },
+                    set: function(newValue) {
+                        for (var wat in th._watch) {
+                            if (t = wat) {
+                                th._watch[wat](th, newValue);
+                            }
+                        }
+                        th['_' + t] = newValue;
+                    }
+                });
+                //this[t] = param[t];
+            }
         }
         /* 自定义事件 */
         //shown打开，close关闭，load加载，fail加载失败，
@@ -116,6 +134,11 @@
         });
         this.isinit = true;
         return this;
+    };
+    fn._watch = {
+        'title': function(box, val) {
+            console.log('标题：' + val);
+        }
     };
     //打开pagebox窗体，并触发shown事件 
     fn.open = function() {
