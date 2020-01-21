@@ -42,9 +42,9 @@
         //以下不支持双向绑定
         this.parent = null; //父窗体对象
         this.childs = new Array(); //子级窗体
-        this.eventlist = new Array(); //自定义的事件集合
         this.dom = null; //html对象
-        this.isinit = false; //是否初始化
+        this._eventlist = new Array(); //自定义的事件集合       
+        this._isinit = false; //是否初始化
         /* 自定义事件 */
         //shown打开，close关闭，load加载，fail加载失败，
         //click点击，drag拖动,focus得到焦点，blur失去焦点
@@ -62,7 +62,7 @@
         //绑定自定义事件
         this.bind = function(eventName, func) {
             if (typeof(func) == "function")
-                this.eventlist.push({
+                this._eventlist.push({
                     'name': eventName,
                     'event': func
                 });
@@ -88,9 +88,9 @@
         //获取某类自定义事件的列表
         this.events = function(eventName) {
             var arrEvent = new Array();
-            for (var i = 0; i < this.eventlist.length; i++) {
-                if (this.eventlist[i].name == eventName)
-                    arrEvent.push(this.eventlist[i].event);
+            for (var i = 0; i < this._eventlist.length; i++) {
+                if (this._eventlist[i].name == eventName)
+                    arrEvent.push(this._eventlist[i].event);
             }
             return arrEvent;
         };
@@ -129,7 +129,7 @@
             obj: this,
             type: 'pagebox'
         });
-        this.isinit = true;
+        this._isinit = true;
         return this;
     };
     //当属性更改时触发事件
@@ -142,11 +142,23 @@
         },
         'width': function(box, val) {
             if (box.dom) box.dom.width(val);
+        },
+        'height': function(box, val) {
+            if (box.dom) box.dom.height(val);
+        },
+        'left': function(box, val) {
+            if (box.dom) box.dom.left(val);
+        },
+        'top': function(box, val) {
+            if (box.dom) box.dom.top(val);
+        },
+        'level': function(box, val) {
+            if (box.dom) box.dom.level(val);
         }
     };
     //打开pagebox窗体，并触发shown事件 
     fn.open = function() {
-        if (!this.isinit) this._initialization();
+        if (!this._isinit) this._initialization();
         //如果窗体已经存在
         var ctrl = $ctrls.get(this.id);
         if (ctrl != null && ctrl.dom != null) return ctrl.obj.focus();
@@ -163,14 +175,6 @@
         });
         this.trigger('shown');
         return this.focus();
-    };
-    //窗体中的iframe文档对象
-    fn.document = function() {
-        if (this.dom) {
-            var iframe = this.dom.find('iframe');
-            return iframe[0].contentWindow;
-        }
-        return null;
     };
     //构建pagebox窗体
     fn._builder = {
@@ -379,6 +383,18 @@
             });
         }
     };
+    //窗体中的iframe文档对象
+    fn.document = function() {
+        if (this.dom) {
+            var iframe = this.dom.find('iframe');
+            return iframe[0].contentWindow;
+        }
+        return null;
+    };
+    //获取所有子级窗体
+    fn.getChilds = function() {
+
+    };
     //设置当前窗体为焦点
     fn.focus = function() {
         return box.focus(this.id);
@@ -423,8 +439,8 @@
             var boxs = $dom('.pagebox');
             boxs.removeClass('pagebox_focus');
             var level = boxs.level();
-            ctrl.dom.level(level < 1 ? 10000 : level + 1).addClass('pagebox_focus');
-            console.log('当前焦点窗体：' + ctrl.obj.title);
+            ctrl.obj.level = level < 1 ? 10000 : level + 1;
+            ctrl.dom.addClass('pagebox_focus');
             //激活当前窗体的焦点事件
             ctrl.obj.trigger('focus');
         }
@@ -468,8 +484,8 @@
         //记录放大前的数据，用于还原
         ctrl.win_offset = ctrl.dom.offset();
         ctrl.win_size = {
-            width: ctrl.dom.width(),
-            height: ctrl.dom.height()
+            width: ctrl.obj.width,
+            height: ctrl.obj.height
         };
         ctrl.win_state = {
             move: ctrl.obj.move,
@@ -478,7 +494,9 @@
         ctrl.obj.move = ctrl.obj.resize = false;
         //开始全屏放大        
         ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s').addClass('pagebox_full');
-        ctrl.dom.width(window.innerWidth - 3).height(innerHeight - 2).left(1).top(0);
+        ctrl.obj.width = window.innerWidth - 3;
+        ctrl.obj.height = window.innerHeight - 2;
+        ctrl.dom.left(1).top(0);
         //禁用缩放样式（鼠标手势）
         ctrl.dom.find('margin>*').each(function() {
             $dom(this).css('cursor', 'default');
@@ -492,8 +510,9 @@
     //恢复窗体状态
     box.toWindow = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        ctrl.dom.width(ctrl.win_size.width).height(ctrl.win_size.height)
-            .left(ctrl.win_offset.left).top(ctrl.win_offset.top);
+        ctrl.dom.left(ctrl.win_offset.left).top(ctrl.win_offset.top);
+        ctrl.obj.width = ctrl.win_size.width;
+        ctrl.obj.height = ctrl.win_size.height;
         ctrl.obj.move = ctrl.win_state.move;
         ctrl.obj.resize = ctrl.win_state.resize;
         window.setTimeout(function() {
@@ -533,9 +552,10 @@
         //var addevent = document.attachEvent || document.addEventListener;
         document.addEventListener('mousemove', function(e) {
             var node = event.target ? event.target : event.srcElement;
-            var box = $dom('div.pagebox_drag');
-            if (box.length < 1) return;
-            var ctrl = $ctrls.get(box.attr('boxid'));
+            var boxdom = $dom('div.pagebox_drag');
+            if (boxdom.length < 1) return;
+            var ctrl = $ctrls.get(boxdom.attr('boxid'));
+            var box = ctrl.obj;
             //当鼠标点下时的历史信息，例如位置、宽高    
             var ago = ctrl.mousedown;
             //获取移动距离
@@ -553,33 +573,33 @@
             };
             //移动窗体   
             if (ago.target == 'pagebox_dragbar') {
-                if (ctrl.obj.move) {
-                    box.left(ago.offset.left + eargs.move.x)
-                        .top(ago.offset.top + eargs.move.y);
+                if (box.move) {
+                    box.left = ago.offset.left + eargs.move.x;
+                    box.top = ago.offset.top + eargs.move.y;
                     //触发拖动事件
                     eargs.offset = ctrl.dom.offset();
-                    ctrl.obj.trigger('drag', eargs);
+                    box.trigger('drag', eargs);
                 }
             } else {
                 //缩放窗体
-                if (ctrl.obj.resize) {
+                if (box.resize) {
                     var minWidth = 200,
                         minHeight = 150;
-                    if (box.attr('resize') != 'false') {
-                        if (ago.target.indexOf('e') > -1) box.width(ago.width + eargs.move.x < minWidth ? minWidth : ago.width + eargs.move.x);
-                        if (ago.target.indexOf('s') > -1) box.height(ago.height + eargs.move.y < minHeight ? minHeight : ago.height + eargs.move.y);
+                    if (ctrl.dom.attr('resize') != 'false') {
+                        if (ago.target.indexOf('e') > -1) box.width = ago.width + eargs.move.x < minWidth ? minWidth : ago.width + eargs.move.x;
+                        if (ago.target.indexOf('s') > -1) box.height = ago.height + eargs.move.y < minHeight ? minHeight : ago.height + eargs.move.y;
                         if (ago.target.indexOf('w') > -1) {
-                            box.width(ago.width - eargs.move.x < minWidth ? minWidth : ago.width - eargs.move.x);
-                            if (box.width() > minWidth) box.left(ago.offset.left + eargs.move.x);
+                            box.width = ago.width - eargs.move.x < minWidth ? minWidth : ago.width - eargs.move.x;
+                            if (box.width > minWidth) box.left = ago.offset.left + eargs.move.x;
                         }
                         if (ago.target.indexOf('n') > -1) {
-                            box.height(ago.height - eargs.move.y < minHeight ? minHeight : ago.height - eargs.move.y);
-                            if (box.height() > minHeight) box.top(ago.offset.top + eargs.move.y);
+                            box.height = ago.height - eargs.move.y < minHeight ? minHeight : ago.height - eargs.move.y;
+                            if (box.height > minHeight) box.top = ago.offset.top + eargs.move.y;
                         }
                         //触发resize事件                     
                         eargs.offset = ctrl.dom.offset();
-                        eargs.width = ctrl.dom.width();
-                        eargs.height = ctrl.dom.height();
+                        eargs.width = box.width;
+                        eargs.height = box.height;
                         eargs.action = eargs.target.tagName;
                         ctrl.obj.trigger('resize', eargs);
                     }

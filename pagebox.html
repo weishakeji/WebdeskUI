@@ -19,8 +19,10 @@ html, body {
 	right: 0px;
 }
 h1:before {
-	content: "\e77e";
-	font-size: 40px;
+	//content: "\e77e";
+    content: "\e77c";
+	font-size: 35px;
+    line-height: 40px;
 	margin-right: 10px;
 }
 pre {
@@ -59,9 +61,9 @@ table tr td:first-child:before {
   <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体</h1>
   <ul>
     <li>可拖放，可缩放，模拟windows桌面窗体</li>
-    <li>上溯父级，操作父窗体文档对象，父子窗体可互动</li>
-    <li>遍历下级，以及子对象的文档对象</li>
-    <li>事件：多播事件，可追加、可去除</li>
+    <li>可上溯父级，遍历下级，父子窗体可互动</li>   
+    <li>自定义事件，多播，可追加、可去除</li>
+    <li>属性支持双向绑定</li>
   </ul>
 </div>
 <div style="height: calc(100% - 160px);max-width:1000px; padding-left: 20px; position: absolute;bottom: 0px;left:0px;overflow: auto;">
@@ -79,7 +81,7 @@ table tr td:first-child:before {
     box.open();
 </pre>
  <b>属性：</b>
-<div><p>所有的属性，必须在创建时设置，至少是在open()之前设置；否则不起作用。</p>
+<div><p>属性尽量在open()之前设置；。</p>
 <p>主要原因是没有实现双向绑定，原计划是要这样的，不过现在还没有实现。</p></div>
 <b>事件：</b>
 <pre>
@@ -196,12 +198,15 @@ box.open();</pre>
     });
     box.title=box.id;
 	box.onrestore(function(sender,e){
-		console.log(e);
+		//console.log(e);
 	});
-    /*
+    //事件多播
     box.onfocus(function(sender,e){
-        console.log('当前焦点窗体：'+sender.title);
-    });*/
+        console.log('1当前焦点窗体：'+sender.title);
+    });
+    box.onfocus(function(sender,e){
+        console.log('2当前焦点窗体：'+sender.title);
+    });
 	//拖放和缩放
     var tm = function (sender, e) {		 
         var msg = 'x:' + e.mouse.x + "，y:" + e.mouse.y + '，movex:' + e.move.x + '，movey:' + e.move.y;
