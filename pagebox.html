@@ -207,6 +207,9 @@ box.open();</pre>
     box.onfocus(function(sender,e){
         console.log('2当前焦点窗体：'+sender.title);
     });
+    box.onfull(function(sender,e){
+        //console.log(sender);
+    });
 	//拖放和缩放
     var tm = function (sender, e) {		 
         var msg = 'x:' + e.mouse.x + "，y:" + e.mouse.y + '，movex:' + e.move.x + '，movey:' + e.move.y;

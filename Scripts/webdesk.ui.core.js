@@ -264,7 +264,7 @@
 			var res = this.each(function() {
 				return this.style.getPropertyValue("z-Index");
 			}, 1);
-			if (typeof(res) == 'string') return parseInt(res);
+			if (typeof(res) == 'string') return res=='' ? 0 : parseInt(res);
 			var l = 0;
 			for (var i = 0; i < res.length; i++) {
 				var n = parseInt(res[i]);

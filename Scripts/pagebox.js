@@ -20,6 +20,7 @@
             move: true, //是否允许移动
             min: true, //是否允许最小化按钮
             max: true, //是否允许最大化按钮
+            full: false, //打开后是否全屏，默认是false
             close: true //是否允许关闭按钮
         };
         for (var t in param) defaultVal[t] = param[t];
@@ -35,6 +36,8 @@
                                 }\
                             }\
                             this._' + t + '= newValue;\
+                            var ctrl=$ctrls.get(this._id);\
+                            if(ctrl)ctrl.obj=this;\
                         }\
                     });';
             eval(str);
@@ -120,9 +123,6 @@
             else
                 this.left = this.parent.dom.offset().left + 30;
         }
-        //设置层深
-        var maxlevel = $dom('.pagebox').level();
-        this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
         //
         $ctrls.add({
             id: this.id,
@@ -154,6 +154,10 @@
         },
         'level': function(box, val) {
             if (box.dom) box.dom.level(val);
+        },
+        'full': function(box, val) {
+            if (val) box.toFull();
+            if (!val) box.toWindow();
         }
     };
     //打开pagebox窗体，并触发shown事件 
@@ -173,6 +177,9 @@
             id: this.id,
             dom: $dom(boxele)
         });
+        //设置层深
+        var maxlevel = $dom('.pagebox').level();
+        this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
         this.trigger('shown');
         return this.focus();
     };
@@ -343,19 +350,16 @@
             boxdom.find('btnbox btn_max').click(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
-                var boxid = node.getAttribute('boxid');
-                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
-                else
-                    box.toFull(boxid);
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                ctrl.obj.full = !ctrl.obj.full;
             });
             //双击标题栏，最大化或还原
             boxdom.find('pagebox_dragbar').dblclick(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var boxid = node.getAttribute('boxid');
-                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
-                else
-                    box.toFull(boxid);
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                ctrl.obj.full = !ctrl.obj.full;
             });
         },
         //左上角下拉菜单
@@ -393,7 +397,31 @@
     };
     //获取所有子级窗体
     fn.getChilds = function() {
+        var arr = gchild(this);
+        //按层深level排序
+        for (var j = 0; j < arr.length - 1; j++) {
+            for (var i = 0; i < arr.length - 1; i++) {
+                if (arr[i].level > arr[i + 1].level) {
+                    var temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                }
+            }
+        }
 
+        function gchild(box) {
+            var arr = new Array();
+            for (var i = 0; i < box.childs.length; i++) {
+                var c = box.childs[i];
+                arr.push(c);
+                if (c.childs.length > 0) {
+                    var tm = gchild(c);
+                    for (var j = 0; j < tm.length; j++) arr.push(tm[j]);
+                }
+            }
+            return arr;
+        }
+        return arr;
     };
     //设置当前窗体为焦点
     fn.focus = function() {
@@ -403,7 +431,12 @@
         box.close(this.id);
         return this;
     };
-
+    fn.toFull = function() {
+        return box.toFull(this.id);
+    }
+    fn.toWindow = function() {
+        return box.toWindow(this.id);
+    }
     /*** 
     以下是静态方法
     *****/
@@ -438,9 +471,16 @@
             }
             var boxs = $dom('.pagebox');
             boxs.removeClass('pagebox_focus');
+            ctrl.dom.addClass('pagebox_focus');
             var level = boxs.level();
             ctrl.obj.level = level < 1 ? 10000 : level + 1;
-            ctrl.dom.addClass('pagebox_focus');
+            //如果是最大化，则子窗体要浮于上面
+            if (ctrl.obj.full) {
+                var childs = ctrl.obj.getChilds();
+                for (var i = 0; i < childs.length; i++) {
+                    childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
+                }
+            }
             //激活当前窗体的焦点事件
             ctrl.obj.trigger('focus');
         }
@@ -496,11 +536,20 @@
         ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s').addClass('pagebox_full');
         ctrl.obj.width = window.innerWidth - 3;
         ctrl.obj.height = window.innerHeight - 2;
-        ctrl.dom.left(1).top(0);
+        ctrl.obj.left = 1;
+        ctrl.obj.top = 0;
         //禁用缩放样式（鼠标手势）
         ctrl.dom.find('margin>*').each(function() {
             $dom(this).css('cursor', 'default');
         });
+        //如果是最大化，则子窗体要浮于上面
+        //if (ctrl.obj.full) {
+        var childs = ctrl.obj.getChilds();
+        for (var i = 0; i < childs.length; i++) {
+            childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
+        }
+        console.log(childs);
+        //}
         ctrl.obj.trigger('full');
     };
     //最小化
@@ -510,7 +559,8 @@
     //恢复窗体状态
     box.toWindow = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        ctrl.dom.left(ctrl.win_offset.left).top(ctrl.win_offset.top);
+        ctrl.obj.left = ctrl.win_offset.left;
+        ctrl.obj.top = ctrl.win_offset.top;
         ctrl.obj.width = ctrl.win_size.width;
         ctrl.obj.height = ctrl.win_size.height;
         ctrl.obj.move = ctrl.win_state.move;
