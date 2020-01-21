@@ -255,7 +255,8 @@
 	};
 	fn.remove = function() {
 		return this.each(function() {
-			this.remove();
+			if(this.remove)this.remove();
+			if(this.removeNode)this.removeNode(true);
 		});
 	};
 	//设置或读取层深，即z-index的值

@@ -216,8 +216,10 @@ body {
     margin-left: 30px;
     background: #ddd;
 }
-
-
+/*刷新的菜单项*/
+.pagebox dropmenu>menu_fresh:before {
+    content: '\e613';
+}
 /*关闭*/
 
 .pagebox dropmenu>menu_close:before {

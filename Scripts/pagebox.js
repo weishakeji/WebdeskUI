@@ -251,6 +251,8 @@
         dropmenu: function(box) {
             var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
             var menu = pagebox.append('dropmenu').find('dropmenu');
+            menu.append('menu_fresh').find('menu_fresh').html('刷新');            
+            menu.append('hr');
             menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
             menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
             menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
@@ -376,14 +378,22 @@
             boxdom.find('dropmenu menu_max').click(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
-                var boxid = node.getAttribute('boxid');
-                if (!$dom(node).hasClass('pagebox_full')) box.toFull(boxid);
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                if (!ctrl.obj.full) ctrl.obj.full = true;
             });
+            //最小化
             boxdom.find('dropmenu menu_win').click(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
-                var boxid = node.getAttribute('boxid');
-                if ($dom(node).hasClass('pagebox_full')) box.toWindow(boxid);
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                if (ctrl.obj.full) ctrl.obj.full = false;
+            });
+            //刷新
+            boxdom.find('dropmenu menu_fresh').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                ctrl.obj.url = ctrl.obj.url;
             });
         }
     };
@@ -509,11 +519,10 @@
                 if (last != null) box.focus(last.attr('boxid'));
             }
             //子级
-            var childs = ctrl.obj.childs;
+            var childs = ctrl.obj.getChilds();
             for (var i = 0; i < childs.length; i++) {
                 box.close(childs[i].id);
             }
-
         }, 300);
         ctrl.obj.trigger('close');
     };
