@@ -1,52 +1,50 @@
 ﻿(function() {
     //窗体最小化时所处位置区域
-    window.$collectbar = '';
+    //window.$collectbar = '';
     //param: 初始化时的参数
     var box = function(param) {
         if (param == null || typeof(param) != 'object') param = {};
         //默认参数
-        this.width = 100;
-        this.height = 200;
-        this.top = null;
-        this.left = null;
-        this.level = null;
-        this.title = '默认标题';
-        this.url = '';
-        this.id = 0;
-        this.pid = ''; //父级窗体名称
+        var defaultVal = {
+            width: 100,
+            height: 200,
+            top: null,
+            left: null,
+            level: null,
+            title: '默认标题',
+            ico: '&#xe77c', //图标
+            url: '',
+            id: 0,
+            pid: '', //父级窗体名称
+            resize: true, //是否允许缩放大小
+            move: true, //是否允许移动
+            min: true, //是否允许最小化按钮
+            max: true, //是否允许最大化按钮
+            close: true //是否允许关闭按钮
+        };
+        for (var t in param) defaultVal[t] = param[t];
+        //defaultVal的参数，全部实现双向绑定
+        for (var t in defaultVal) {
+            this['_' + t] = defaultVal[t];
+            var str = 'Object.defineProperty(this, t, {\
+                        get: function() {return this._' + t + ';},\
+                        set: function(newValue) {\
+                            for (var wat in this._watch) {\
+                                if (\'' + t + '\' == wat) {\
+                                    this._watch[wat](this, newValue);\
+                                }\
+                            }\
+                            this._' + t + '= newValue;\
+                        }\
+                    });';
+            eval(str);
+        }
+        //以下不支持双向绑定
         this.parent = null; //父窗体对象
         this.childs = new Array(); //子级窗体
-        this.resize = true; //是否允许缩放大小
-        this.move = true; //是否允许移动
-        this.min = true; //是否允许最小化按钮
-        this.max = true; //是否允许最大化按钮
-        this.close = true; //是否允许关闭按钮
         this.eventlist = new Array(); //自定义的事件集合
         this.dom = null; //html对象
         this.isinit = false; //是否初始化
-
-        var th = this;
-
-        //将传入的参数赋给相应的属性
-        if (typeof(param) == 'object') {
-            for (var t in param) {
-                th['_' + t] = param[t];
-                Object.defineProperty(th, t, {
-                    get: function() {
-                        return th['_' + t];
-                    },
-                    set: function(newValue) {
-                        for (var wat in th._watch) {
-                            if (t = wat) {
-                                th._watch[wat](th, newValue);
-                            }
-                        }
-                        th['_' + t] = newValue;
-                    }
-                });
-                //this[t] = param[t];
-            }
-        }
         /* 自定义事件 */
         //shown打开，close关闭，load加载，fail加载失败，
         //click点击，drag拖动,focus得到焦点，blur失去焦点
@@ -125,8 +123,7 @@
         //设置层深
         var maxlevel = $dom('.pagebox').level();
         this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
-        //默认图标
-        if (this.ico == null) this.ico = '&#xe77c';
+        //
         $ctrls.add({
             id: this.id,
             obj: this,
@@ -135,9 +132,16 @@
         this.isinit = true;
         return this;
     };
+    //当属性更改时触发事件
     fn._watch = {
         'title': function(box, val) {
-            console.log('标题：' + val);
+            if (box.dom) box.dom.find('pagebox_title pb-text').html(val);
+        },
+        'url': function(box, val) {
+            if (box.dom) box.dom.find('iframe').attr('src', val);
+        },
+        'width': function(box, val) {
+            if (box.dom) box.dom.width(val);
         }
     };
     //打开pagebox窗体，并触发shown事件 
