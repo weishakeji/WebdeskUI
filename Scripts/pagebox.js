@@ -21,7 +21,7 @@
             min: true, //是否允许最小化按钮
             max: true, //是否允许最大化按钮
             full: false, //打开后是否全屏，默认是false
-            close: true //是否允许关闭按钮
+            closebtn: true //是否允许关闭按钮
         };
         for (var t in param) defaultVal[t] = param[t];
         //defaultVal的参数，全部实现双向绑定
@@ -567,14 +567,12 @@
         ctrl.dom.find('margin>*').each(function() {
             $dom(this).css('cursor', 'default');
         });
-        //如果是最大化，则子窗体要浮于上面
-        //if (ctrl.obj.full) {
+        ctrl.obj._full = true;
+        //如果是最大化，则子窗体要浮于上面      
         var childs = ctrl.obj.getChilds();
         for (var i = 0; i < childs.length; i++) {
             childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
         }
-        console.log(childs);
-        //}
         ctrl.obj.trigger('full');
     };
     //最小化
@@ -606,7 +604,7 @@
                 $dom(this).css('cursor', this.tagName + '-resize');
             });
         }
-
+        ctrl.obj._full = false;
     };
     //禁用缩放
     box.disableResize = function(boxid) {
