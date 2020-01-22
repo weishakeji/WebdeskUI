@@ -172,6 +172,7 @@
             if (box.dom) box.dom.level(val);
         },
         'full': function(box, val, old) {
+            if (val == old) return;
             if (val) box.toFull();
             if (!val) box.toWindow();
         },
