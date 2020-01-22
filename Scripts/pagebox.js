@@ -10,8 +10,8 @@
             height: 200,
             top: null,
             left: null,
-            bottom:null,
-            right:null,
+            bottom: null,
+            right: null,
             level: null,
             title: '默认标题',
             ico: '&#xe77c', //图标
@@ -282,8 +282,12 @@
                 btnbox.append('btn_min').append('btn_max');
                 if (!box._min) btnbox.find('btn_min').addClass('btndisable');
                 if (!box._max) btnbox.find('btn_max').addClass('btndisable');
+                box._baseEvents.pagebox_min_max(pagebox[0]);
             }
-            if (box._close) btnbox.append('btn_close');
+            if (box._close) {
+                btnbox.append('btn_close');
+                box._baseEvents.pagebox_close(pagebox[0]);
+            }
         },
         //主体内容区
         body: function(box) {
@@ -401,14 +405,7 @@
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
                 if (ctrl.obj.close) box.shut(node.getAttribute('boxid'));
-            });
-            //最大化或还原
-            boxdom.find('btnbox btn_max').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                ctrl.obj.full = !ctrl.obj.full;
-            });
+            });          
             //双击标题栏，最大化或还原
             boxdom.find('pagebox_dragbar').dblclick(function(e) {
                 var node = event.target ? event.target : event.srcElement;
@@ -416,6 +413,16 @@
                 var boxid = node.getAttribute('boxid');
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
                 if (ctrl.obj.max) ctrl.obj.full = !ctrl.obj.full;
+            });
+        },
+        pagebox_min_max:function(pageboxElement){
+            var boxdom = $dom(pageboxElement);
+            //最大化或还原
+            boxdom.find('btnbox btn_max').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                ctrl.obj.full = !ctrl.obj.full;
             });
         },
         pagebox_close: function(pageboxElement) {
@@ -562,6 +569,7 @@
     //关闭窗体
     box.shut = function(boxid) {
         var ctrl = $ctrls.get(boxid);
+        if (!ctrl) return;
         //关闭窗体
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
