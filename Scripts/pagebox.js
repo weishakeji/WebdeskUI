@@ -282,11 +282,11 @@
                 btnbox.append('btn_min').append('btn_max');
                 if (!box._min) btnbox.find('btn_min').addClass('btndisable');
                 if (!box._max) btnbox.find('btn_max').addClass('btndisable');
-                box._baseEvents.pagebox_min_max(pagebox[0]);
+                box._baseEvents.min_max(pagebox[0]);
             }
             if (box._close) {
                 btnbox.append('btn_close');
-                box._baseEvents.pagebox_close(pagebox[0]);
+                box._baseEvents.close(pagebox[0]);
             }
         },
         //主体内容区
@@ -323,34 +323,30 @@
     };
     //添加pagebox自身事件，例如拖放、缩放、关闭等
     fn._baseEvents = {
-        pagebox_click: function(box) {
+        click: function(elem) {
             //窗体点击事件，主要是为了设置焦点
-            $dom(box).click(function(event) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                ctrl.obj.focus().trigger('click', {});
+            $dom(elem).click(function(e) {
+                var obj = box._getObj(e);
+                obj.focus().trigger('click', {});
                 $dom('.pagebox dropmenu').hide();
             });
         },
-        pagebox_load: function(box) {
-            var src = $dom(box).find('iframe').attr('src');
+        load: function(elem) {
+            var src = $dom(elem).find('iframe').attr('src');
             if (src == '') return;
-            $dom(box).find('iframe').bind('load', function(event) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+            $dom(elem).find('iframe').bind('load', function(e) {
+                var obj = box._getObj(e);
                 var eventArgs = {
-                    url: ctrl.obj.url,
-                    target: ctrl.obj.document()
+                    url: obj.url,
+                    target: obj.document()
                 };
-                if (ctrl.obj.events('fail').length > 0) {
+                if (obj.events('fail').length > 0) {
                     try {
-                        var ifDoc = ctrl.dom.find('iframe')[0].contentWindow.document;
+                        var ifDoc = obj.dom.find('iframe')[0].contentWindow.document;
                         var ifTitle = ifDoc.title;
                         if (ifTitle.indexOf("404") >= 0 || ifTitle.indexOf("错误") >= 0) {
                             //加载失败的事件
-                            ctrl.obj.trigger('fail', eventArgs);
+                            obj.trigger('fail', eventArgs);
                         }
                     } catch (e) {
                         var msg = '当iframe的src与当前页面不同源时，无法触发onfail事件';
@@ -358,15 +354,15 @@
                     }
                 }
                 //加载完成的事件，不管是否失败
-                ctrl.obj.trigger('load', eventArgs);
+                obj.trigger('load', eventArgs);
                 //操作图标
-                ctrl.dom.find('pb-ico').last().hide();
-                ctrl.dom.find('pb-ico').first().show();
+                obj.dom.find('pb-ico').last().hide();
+                obj.dom.find('pb-ico').first().show();
             });
         },
         //拖动事件的起始，当鼠标点下时
-        pagebox_drag: function(pageboxElement) {
-            var boxdom = $dom(pageboxElement);
+        drag: function(elem) {
+            var boxdom = $dom(elem);
             var dragbar = boxdom.find('pagebox_dragbar');
             dragbar = dragbar.merge(boxdom.find('margin>*'));
             dragbar.mousedown(function(e) {
@@ -390,79 +386,58 @@
             });
         },
         //关闭，最大化，最小化
-        pagebox_button: function(pageboxElement) {
-            var boxdom = $dom(pageboxElement);
+        button: function(elem) {
+            var boxdom = $dom(elem);
             //关闭窗体，点击右上角关闭按钮，或下拉菜单的关闭项
             boxdom.find('dropmenu menu_close').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                box.shut(node.getAttribute('boxid'));
+                var obj = box._getObj(e);
+                if (obj.close) obj.shut();
             });
             //双击左侧图标关闭
             boxdom.find('pagebox_title pb-ico').dblclick(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                if (ctrl.obj.close) box.shut(node.getAttribute('boxid'));
-            });          
+                var obj = box._getObj(e);
+                if (obj.close) obj.shut();
+            });
             //双击标题栏，最大化或还原
             boxdom.find('pagebox_dragbar').dblclick(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var boxid = node.getAttribute('boxid');
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                if (ctrl.obj.max) ctrl.obj.full = !ctrl.obj.full;
+                var obj = box._getObj(e);
+                if (obj.max) obj.full = !obj.full;
             });
         },
-        pagebox_min_max:function(pageboxElement){
-            var boxdom = $dom(pageboxElement);
+        min_max: function(elem) {
             //最大化或还原
-            boxdom.find('btnbox btn_max').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                ctrl.obj.full = !ctrl.obj.full;
+            $dom(elem).find('btnbox btn_max').click(function(e) {
+                var obj = box._getObj(e);
+                obj.full = !obj.full;
             });
         },
-        pagebox_close: function(pageboxElement) {
-            var boxdom = $dom(pageboxElement);
+        close: function(elem) {
             //关闭窗体，点击右上角关闭按钮
-            boxdom.find('btnbox btn_close').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                box.shut(node.getAttribute('boxid'));
+            $dom(elem).find('btnbox btn_close').click(function(e) {
+                box._getObj(e).shut();
             });
         },
         //左上角下拉菜单
-        pagebox_dropmenu: function(pageboxElement) {
-            var boxdom = $dom(pageboxElement);
+        dropmenu: function(elem) {
+            var boxdom = $dom(elem);
             boxdom.find('pagebox_title pb-ico').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var boxdom = $dom(node);
-                boxdom.find('dropmenu').show();
-                //var boxid = node.getAttribute('boxid');                   
+                var obj = box._getObj(e);
+                obj.dom.find('dropmenu').show();
             });
             //最大化
             boxdom.find('dropmenu menu_max').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                if (!ctrl.obj.full) ctrl.obj.full = true;
+                var obj = box._getObj(e);
+                if (!obj.full) obj.full = true;
             });
             //最小化
             boxdom.find('dropmenu menu_win').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                if (ctrl.obj.full) ctrl.obj.full = false;
+                var obj = box._getObj(e);
+                if (obj.full) obj.full = false;
             });
             //刷新
             boxdom.find('dropmenu menu_fresh').click(function(e) {
-                var node = event.target ? event.target : event.srcElement;
-                while (!node.getAttribute('boxid')) node = node.parentNode;
-                var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                ctrl.obj.url = ctrl.obj.url;
+                var obj = box._getObj(e);
+                obj.url = obj._url;
             });
         }
     };
@@ -536,6 +511,13 @@
     box.parent = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         return ctrl.obj.parent;
+    };
+    //用于事件中，取点击的pagebox的对象
+    box._getObj = function(e) {
+        var node = event.target ? event.target : event.srcElement;
+        while (!node.getAttribute('boxid')) node = node.parentNode;
+        var ctrl = $ctrls.get(node.getAttribute('boxid'));
+        return ctrl.obj;
     };
     //设置某个窗体为焦点
     box.focus = function(boxid) {
@@ -651,13 +633,6 @@
         }
         ctrl.obj.resize = true;
         ctrl.obj._full = false;
-    };
-    //禁用缩放
-    box.disableResize = function(boxid) {
-        var ctrl = $ctrls.get(boxid);
-        ctrl.dom.find('margin>*').each(function() {
-            $dom(this).css('cursor', 'default');
-        });
     };
     //拖动窗体所需的事件
     box.dragRealize = function() {
