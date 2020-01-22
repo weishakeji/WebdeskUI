@@ -1,4 +1,18 @@
-﻿(function(win) {
+﻿
+﻿/*!
+* 主 题：《Pagebox.js 页面窗体》
+* 说 明：
+* 1、可拖放，可缩放，模拟windows桌面窗体
+* 2、可上溯父级，遍历下级，父子窗体可互动
+* 3、自定义事件，多播，可追加、可去除
+* 4、属性支持双向绑定
+*
+* 作 者：微厦科技_宋雷鸣_10522779@qq.com
+* 开发时间: 2020年1月1日
+* 最后修订：2020年2月4日
+* github开源地址:https://github.com/weishakeji/WebdeskUI
+*/
+(function(win) {
     //窗体最小化时所处位置区域
     //box.$collectbar = '';
     //param: 初始化时的参数

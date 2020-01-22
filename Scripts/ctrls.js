@@ -1,5 +1,7 @@
-﻿/* 控件管理，
-可以认为是虚拟DOM，但没有做双向绑定；
+﻿/*!
+* 主 题：控件管理，
+* 说 明：
+* 1、主要目的是用于对控件的集中管理；
 */
 (function() {
 	/* 用于记录对象时所需的一些属性 */
@@ -94,7 +96,6 @@
 		}
 	};
 	window.$contrl = control;
-	//window.$muster = muster;
 	window.$ctrls = new controls();
 })();
 /*

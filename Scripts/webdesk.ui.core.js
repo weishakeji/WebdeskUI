@@ -5,6 +5,18 @@
 2、事件管理
 3、状态管理
 */
+/*!
+* 主 题：控件管理，
+* 说 明：
+* 1、类似JQuery，主要为了方便操作DOM;
+* 2、满足大多数DOM操作，不兼容IE678;
+* 3、另外写了动态加载css和js的方法，在最后面
+*
+* 作 者：微厦科技_宋雷鸣_10522779@qq.com
+* 开发时间: 2020年1月1日
+* 最后修订：2020年2月4日
+* github开源地址:https://github.com/weishakeji/WebdeskUI
+*/
 (function() {
 	//html节点查询，类似jquery
 	var webdom = function(query, context) {
