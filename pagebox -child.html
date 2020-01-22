@@ -11,7 +11,9 @@
  <style type="text/css">
     body{
         padding: 20px;
+        font-size: 14px;
     }
+
     .footer{
         position: absolute;
         bottom: 0px;
@@ -111,8 +113,6 @@ function getChildInput(txt){
 //更改窗体样式
 $dom('.footer #check input[type=checkbox]').click(function(e){
     //要操作的窗体对象
-    //var box=null;
-    //$dom('#rdself').val()
     var box=$dom('#rdself').val() ? window.top.$ctrls.get(window.name).obj :
     window.top.$pagebox.parent(window.name);
     if(!box){
@@ -122,14 +122,11 @@ $dom('.footer #check input[type=checkbox]').click(function(e){
     var input=$dom(this);
     //复选框name，作为操作的行为
     var action=input.attr('name');
-    
-    if(action=='min')box.min=!input.val();
-    if(action=='max')box.max=!input.val();
-    if(action=='close')box.close=!input.val();
-    if(action=='fresh')box.fresh=!input.val();
-    if(action=='move')box.move=!input.val();
-    if(action=='resize')box.resize=!input.val();
-    if(action=='full')box.full=input.val();
+    if(action=='full'){
+        box.full=input.val();
+        return;
+    }
+    eval('box.'+action+'=!input.val();');    
 });
 </script>
 </html>
