@@ -1,10 +1,10 @@
-﻿(function() {
+﻿(function(win) {
     //窗体最小化时所处位置区域
-    //window.$collectbar = '';
+    //box.$collectbar = '';
     //param: 初始化时的参数
     var box = function(param) {
         if (param == null || typeof(param) != 'object') param = {};
-        //默认参数
+        //默认参数，
         var defaultVal = {
             width: 100,
             height: 200,
@@ -23,10 +23,11 @@
             min: true, //是否允许最小化按钮
             max: true, //是否允许最大化按钮            
             close: true, //是否允许关闭按钮
+            fresh: true, //是否允许刷新
             full: false //打开后是否全屏，默认是false
         };
         for (var t in param) defaultVal[t] = param[t];
-        //defaultVal的参数，全部实现双向绑定
+        //defaultVal+param的参数，全部实现双向绑定
         for (var t in defaultVal) {
             this['_' + t] = defaultVal[t];
             var str = 'Object.defineProperty(this, t, {\
@@ -195,6 +196,10 @@
                     'cursor': val ? this.tagName + '-resize' : 'default'
                 });
             });
+        },
+        'fresh': function(box, val, old) {
+            var menubtn = box.dom.find('dropmenu menu_fresh');
+            menubtn.attr('class', val ? 'enable' : 'disable');
         }
     };
     //添加自定义监听事件
@@ -615,6 +620,7 @@
     //恢复窗体状态
     box.toWindow = function(boxid) {
         var ctrl = $ctrls.get(boxid);
+        if (!ctrl.dom.hasClass('pagebox_full')) return;
         ctrl.obj.left = ctrl.win_offset.left;
         ctrl.obj.top = ctrl.win_offset.top;
         ctrl.obj.width = ctrl.win_size.width;
@@ -712,6 +718,6 @@
             //$dom('.pagebox dropmenu').hide();
         });
     };
-    window.$pagebox = box;
-    window.$pagebox.dragRealize();
-})();
+    win.$pagebox = box;
+    win.$pagebox.dragRealize();
+})(window);

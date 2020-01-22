@@ -85,14 +85,15 @@ b {
 </pre>
   <b>属性：</b>
   <div>
-    <p>大部分属性支持双向绑定，可以直接设置属性改变窗体。下表中“可设置”的意思是属性更改后，直接影响窗体样式。</p>
+    <p>大部分属性支持双向绑定，可以直接设置属性改变窗体。</p>
+    <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
   </div>
   <table  width="100%" border="0" cellspacing="1" cellpadding="1">
     <tr>
       <th scope="col" width="200px">属性</th>
       <th scope="col">说明</th>
       <th scope="col" width="60px">可监听</th>
-      <th scope="col" width="60px">可设置</th>
+      <th scope="col" width="80px">双向绑定</th>
     </tr>
     <tr>
       <td>title</td>
@@ -471,6 +472,7 @@ box.open();</pre>
             console.log('加载失败：'+e.url);
         });
     });*/
+	var size=$ctrls.size();
     //console.log($ctrls.size());
 </script>
 </html>

@@ -12,6 +12,23 @@
     body{
         padding: 20px;
     }
+    .footer{
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        height: 60px;
+        width: 100%;
+        background-color: #ccc;
+    }
+    .footer label{
+        font-size: 14px;
+        height: 30px;
+        line-height: 30px;
+        display: block;
+        width: 25%;
+        float: left;
+        user-select: none;
+    }
  </style>
    
 </head>
@@ -22,8 +39,18 @@
    
    <div style="margin-top: 40px">
       在这里输入，将在父窗体显示
-       <input type="text" name="fname" />
-   </div> </body>
+       <input type="text" name="fname" id="toparent" />
+   </div> 
+   <div class="footer">
+       <label><input name="min" type="checkbox" value="" />禁用最小化</label>
+       <label><input name="max" type="checkbox" value="" />禁用最大化</label>
+       <label><input name="close" type="checkbox" value="" />禁用关闭</label>
+       <label><input name="fresh" type="checkbox" value="" />禁用刷新</label>
+<label><input name="move" type="checkbox" value="" />禁止移动</label>
+<label><input name="resize" type="checkbox" value="" />禁止缩放</label>
+<label><input name="full" type="checkbox" value="" />窗体最大化</label>
+   </div>
+</body>
 <script>
 
 
@@ -47,9 +74,9 @@ btn.click(function(){
     $dom('#pid').html('child-id:'+box.id);
 
 });
-
-$dom('input').bind('input',function(){
-     var v=$dom('input').val();
+//输入框,输入内容将显示的父窗体
+$dom('input#toparent').bind('input',function(){
+     var v=$dom(this).val();
     console.log(v);
     var pbx=window.top.$pagebox;
     var boxparent=window.top.$pagebox.parent(window.name);
@@ -66,5 +93,21 @@ $dom('input').bind('input',function(){
 function getChildInput(txt){
     $dom('#show').text(txt);
 }
+
+//更改窗体样式
+$dom('.footer input[type=checkbox]').click(function(e){
+    var box=window.top.$ctrls.get(window.name).obj;
+    var input=$dom(this);
+    //复选框name，作为操作的行为
+    var action=input.attr('name');
+    
+    if(action=='min')box.min=!input.val();
+    if(action=='max')box.max=!input.val();
+    if(action=='close')box.close=!input.val();
+    if(action=='fresh')box.fresh=!input.val();
+    if(action=='move')box.move=!input.val();
+    if(action=='resize')box.resize=!input.val();
+    if(action=='full')box.full=input.val();
+});
 </script>
 </html>

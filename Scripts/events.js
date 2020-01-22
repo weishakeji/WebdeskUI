@@ -71,14 +71,7 @@
 			if (!!this.muster[key]) val = this.muster[key];
 			if (val instanceof control) return val.obj;
 			return null;
-		};
-		//返回dom，经过$dom封装的
-		this.dom = function(key) {
-			var val = null;
-			if (!!this.muster[key]) val = this.muster[key];
-			if (val instanceof control) return val.dom;
-			return null;
-		};
+		};		
 		this.size = function() {
 			var i = 0;
 			for (var key in this.muster) i++;

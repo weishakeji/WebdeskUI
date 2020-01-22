@@ -183,6 +183,7 @@
 			});
 		} else {
 			return this.each(function() {
+				if(this.getAttribute('type')=='checkbox')return this.checked;
 				return this.value;
 			}, 1);
 		}
