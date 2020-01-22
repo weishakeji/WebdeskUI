@@ -378,6 +378,7 @@ body {
 .pagebox btnbox>*.btndisable {
     background: rgba(220, 220, 220, .4);
     box-shadow: none;
+     pointer-events: none;
 }
 
 .pagebox btnbox>*.btndisable::before {

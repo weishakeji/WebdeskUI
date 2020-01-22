@@ -30,6 +30,7 @@
             var str = 'Object.defineProperty(this, t, {\
                         get: function() {return this._' + t + ';},\
                         set: function(newValue) {\
+                            this._' + t + '= newValue;\
                             for (var wat in this._watch) {\
                                 if (\'' + t + '\' == wat) {\
                                     this._watch[wat](this, newValue);\
@@ -40,9 +41,6 @@
                                     this._watchlist[i].func(this, newValue);\
                                 }\
                             }\
-                            this._' + t + '= newValue;\
-                            var ctrl=$ctrls.get(this._id);\
-                            if(ctrl)ctrl.obj=this;\
                         }\
                     });';
             eval(str);
@@ -166,10 +164,26 @@
             if (!val) box.toWindow();
         },
         'min': function(box, val) {
-
+            var btn = box.dom.find('btnbox btn_min');
+            btn.attr('class', val ? 'enable' : 'btndisable');
+            var menubtn = box.dom.find('dropmenu menu_min');
+            menubtn.attr('class', val ? 'enable' : 'disable');
+            //如果最小化和最大化都禁用，这两个按钮不显示了
+            var two = box.dom.find('btnbox').find('btn_min,btn_max');
+            two.css({
+                'display': (!box._min && !box._max ? 'none' : 'block')
+            });
         },
         'max': function(box, val) {
-
+            var btn = box.dom.find('btnbox btn_max');
+            btn.attr('class', val ? 'enable' : 'btndisable');
+            var menubtn = box.dom.find('dropmenu menu_max');
+            menubtn.attr('class', val ? 'enable' : 'disable');
+            //如果最小化和最大化都禁用，这两个按钮不显示了
+            var two = box.dom.find('btnbox').find('btn_min,btn_max');
+            two.css({
+                'display': (!box._min && !box._max ? 'none' : 'block')
+            });
         },
         'close': function(box, val) {
             var btn = box.dom.find('btnbox btn_close');
@@ -287,11 +301,11 @@
             var menu = pagebox.append('dropmenu').find('dropmenu');
             menu.append('menu_fresh').find('menu_fresh').html('刷新');
             menu.append('hr');
-            menu.append('menu_min').find('menu_min').html('最小化').addClass(box.min ? 'enable' : 'disable');
-            menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
-            menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
+            menu.append('menu_min').find('menu_min').html('最小化');
+            menu.append('menu_max').find('menu_max').html('最大化');
+            menu.append('menu_win').find('menu_win').html('还原');
             menu.append('hr');
-            menu.append('menu_close').find('menu_close').html('关闭').addClass(box.shut ? 'enable' : 'disable');
+            menu.append('menu_close').find('menu_close').html('关闭');
         },
         //遮罩
         mask: function(box) {
@@ -381,7 +395,7 @@
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                if(ctrl.obj.close)box.shut(node.getAttribute('boxid'));
+                if (ctrl.obj.close) box.shut(node.getAttribute('boxid'));
             });
             //最大化或还原
             boxdom.find('btnbox btn_max').click(function(e) {
