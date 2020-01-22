@@ -20,14 +20,20 @@
         width: 100%;
         background-color: #ccc;
     }
-    .footer label{
+     .footer label{
         font-size: 14px;
         height: 30px;
         line-height: 30px;
         display: block;
-        width: 25%;
         float: left;
         user-select: none;
+     }
+     .footer #radio{
+        height: 30px;
+        margin-top: -30px;
+     }
+    .footer div#check label{
+        width: 25%;
     }
  </style>
    
@@ -42,13 +48,21 @@
        <input type="text" name="fname" id="toparent" />
    </div> 
    <div class="footer">
+    <div id="radio"> <label>
+      <input type="radio" name="rg" checked="checked" value="self" id="rdself" />
+      操作当前窗体</label>
+
+    <label>
+      <input type="radio" name="rg" value="parent" id="rdparent" />
+      操作父级窗体</label></div>
+      <div id="check">
        <label><input name="min" type="checkbox" value="" />禁用最小化</label>
        <label><input name="max" type="checkbox" value="" />禁用最大化</label>
        <label><input name="close" type="checkbox" value="" />禁用关闭</label>
        <label><input name="fresh" type="checkbox" value="" />禁用刷新</label>
 <label><input name="move" type="checkbox" value="" />禁止移动</label>
 <label><input name="resize" type="checkbox" value="" />禁止缩放</label>
-<label><input name="full" type="checkbox" value="" />窗体最大化</label>
+<label><input name="full" type="checkbox" value="" />最大化窗体</label></div>
    </div>
 </body>
 <script>
@@ -95,8 +109,16 @@ function getChildInput(txt){
 }
 
 //更改窗体样式
-$dom('.footer input[type=checkbox]').click(function(e){
-    var box=window.top.$ctrls.get(window.name).obj;
+$dom('.footer #check input[type=checkbox]').click(function(e){
+    //要操作的窗体对象
+    //var box=null;
+    //$dom('#rdself').val()
+    var box=$dom('#rdself').val() ? window.top.$ctrls.get(window.name).obj :
+    window.top.$pagebox.parent(window.name);
+    if(!box){
+        alert('没有父窗体，请先创建子窗体，并在子窗体中操作');
+        return;
+    }
     var input=$dom(this);
     //复选框name，作为操作的行为
     var action=input.attr('name');

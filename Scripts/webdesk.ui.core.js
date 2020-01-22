@@ -183,7 +183,8 @@
 			});
 		} else {
 			return this.each(function() {
-				if(this.getAttribute('type')=='checkbox')return this.checked;
+				if (this.getAttribute('type') == 'checkbox') return this.checked;
+				if (this.getAttribute('type') == 'radio') return this.checked;
 				return this.value;
 			}, 1);
 		}
@@ -256,8 +257,8 @@
 	};
 	fn.remove = function() {
 		return this.each(function() {
-			if(this.remove)this.remove();
-			if(this.removeNode)this.removeNode(true);
+			if (this.remove) this.remove();
+			if (this.removeNode) this.removeNode(true);
 		});
 	};
 	//设置或读取层深，即z-index的值
@@ -266,7 +267,7 @@
 			var res = this.each(function() {
 				return this.style.getPropertyValue("z-Index");
 			}, 1);
-			if (typeof(res) == 'string') return res=='' ? 0 : parseInt(res);
+			if (typeof(res) == 'string') return res == '' ? 0 : parseInt(res);
 			var l = 0;
 			for (var i = 0; i < res.length; i++) {
 				var n = parseInt(res[i]);
