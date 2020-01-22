@@ -10,6 +10,8 @@
             height: 200,
             top: null,
             left: null,
+            bottom:null,
+            right:null,
             level: null,
             title: '默认标题',
             ico: '&#xe77c', //图标
@@ -159,6 +161,12 @@
         'top': function(box, val, old) {
             if (box.dom) box.dom.top(val);
         },
+        'right': function(box, val, old) {
+            box.left = document.documentElement.clientWidth - box._width - val;
+        },
+        'bottom': function(box, val, old) {
+            box.top = document.documentElement.clientHeight - box._height - val;
+        },
         'level': function(box, val, old) {
             if (box.dom) box.dom.level(val);
         },
@@ -219,11 +227,15 @@
         //设置层深
         var maxlevel = $dom('.pagebox').level();
         this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
-        //设置右上角按钮效果
+        //设置一些初始值
         this.min = this._min;
         this.max = this._max;
         this.close = this._close;
         this.resize = this._resize;
+        this.left = this._left;
+        this.top = this._top;
+        this.width = this._width - 2;
+        this.height = this._height - 2;
         this.trigger('shown');
         return this.focus();
     };
@@ -237,20 +249,14 @@
                 'class': 'pagebox',
                 'pid': box.pid
             });
-            div.css({
-                'top': box.top + 'px',
-                'left': box.left + 'px'
-            });
-            div.width((box.width - 2)).height((box.height - 2));
         },
         //边缘部分，主要是用于控制缩放
         margin: function(box) {
             var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
             var margin = pagebox.append('margin').find('margin');
             var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
-            for (var i = 0; i < arr.length; i++) {
-                var node = margin.append(arr[i]).find(arr[i]);
-            }
+            for (var i = 0; i < arr.length; i++)
+                margin.append(arr[i]);
         },
         //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
         title: function(box) {
