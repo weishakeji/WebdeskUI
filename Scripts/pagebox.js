@@ -388,7 +388,6 @@
                 //设置当前窗体为焦点窗
                 box.focus(ctrl.id);
             });
-            //dragbar.addEventListener('mousedown', );
         },
         //关闭，最大化，最小化
         pagebox_button: function(pageboxElement) {
@@ -658,13 +657,6 @@
         var ctrl = $ctrls.get(boxid);
         ctrl.dom.find('margin>*').each(function() {
             $dom(this).css('cursor', 'default');
-        });
-    };
-    //启用缩放
-    box.enableResize = function(boxid) {
-        var ctrl = $ctrls.get(boxid);
-        ctrl.dom.find('margin>*').each(function() {
-            $dom(this).css('cursor', this.tagName + '-resize');
         });
     };
     //拖动窗体所需的事件
