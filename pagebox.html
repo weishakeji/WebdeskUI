@@ -60,6 +60,7 @@ b {
 </head>
 
 <body oncontextmenu ='self.event.returnValue=false'>
+    <div id="pageboxcollect"></div>
 <div id="show"></div>
 <div style="height: 150px">
   <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体</h1>
@@ -78,7 +79,7 @@ b {
         height: 300,
         right:10,
         top:10,
-        url: 'pagebox -child.html',
+        url: 'pagebox-child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
     box.open();
@@ -369,7 +370,7 @@ box.open();</pre>
 		close:true,
         right:10,
 		top:10,
-        url: 'pagebox -child.html',
+        url: 'pagebox-child.html',
         title: '可移动，可缩放；双击标题栏全屏'
     });
     box.title=box.id;

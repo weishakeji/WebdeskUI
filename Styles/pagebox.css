@@ -1,6 +1,5 @@
 ﻿@charset "utf-8";
-html,
-body {
+html, body {
     background-color: #eee;
     margin: 0px;
     padding: 0px;
@@ -13,8 +12,8 @@ body {
     border: 1px solid rgba(62, 63, 63, 0.6);
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.3), -1px -1px 2px rgba(122, 122, 122, 0.3);
     user-select: none;
+    overflow: hidden;
 }
-
 
 /*边框元素*/
 
@@ -79,7 +78,6 @@ body {
     left: 10px;
 }
 
-
 /*移动窗体的响应条*/
 
 .pagebox pagebox_dragbar {
@@ -103,7 +101,7 @@ body {
     left: 6px;
     user-select: none;
     cursor: default;
-    z-index: 1;    
+    z-index: 1;
 }
 
 .pagebox pagebox_title>* {
@@ -120,18 +118,24 @@ body {
     top: 3px;
     left: 6px;
     z-index: 1;
-
     font-family: "webdesk_icon" !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
-.pagebox pagebox_title .pb-loading{
-  color: #666;
-     animation: rotate 1s linear infinite;
 
+.pagebox pagebox_title .pb-loading {
+    color: #666;
+    animation: rotate 1s linear infinite;
 }
-@keyframes rotate{from{transform: rotate(0deg)}
-    to{transform: rotate(359deg)}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(359deg)
+    }
 }
+
 .pagebox pagebox_title pb-text {
     height: 30px;
     line-height: 30px;
@@ -147,7 +151,6 @@ body {
     cursor: default;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
-
 
 /*左上角图标下拉菜单*/
 
@@ -186,8 +189,7 @@ body {
     margin-right: 6px;
 }
 
-.pagebox dropmenu>*.disable,
-.pagebox dropmenu>*.disable::before {
+.pagebox dropmenu>*.disable, .pagebox dropmenu>*.disable::before {
     color: #ccc;
     pointer-events: none;
 }
@@ -216,10 +218,13 @@ body {
     margin-left: 30px;
     background: #ddd;
 }
+
 /*刷新的菜单项*/
+
 .pagebox dropmenu>menu_fresh:before {
     content: '\e613';
 }
+
 /*关闭*/
 
 .pagebox dropmenu>menu_close:before {
@@ -237,7 +242,6 @@ body {
 .pagebox dropmenu>menu_win:before {
     content: '\e6c4';
 }
-
 
 /*标题栏右上角按钮组*/
 
@@ -300,16 +304,16 @@ body {
     background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .5), rgba(255, 255, 255, .1));
 }
 
-.pagebox btnbox>*:first-child {    
+.pagebox btnbox>*:first-child {
     border-bottom-left-radius: 4px;
-    border: 1px solid rgba(62, 63, 63, 0.6);    
+    border: 1px solid rgba(62, 63, 63, 0.6);
     border-top: none;
     border-right: none;
 }
 
 .pagebox btnbox>*:last-child {
-     border-bottom-right-radius: 4px;
-    border: 1px solid rgba(62, 63, 63, 0.6);    
+    border-bottom-right-radius: 4px;
+    border: 1px solid rgba(62, 63, 63, 0.6);
     border-top: none;
 }
 
@@ -377,13 +381,12 @@ body {
     display: none;
 }
 
-
 /*禁用按钮*/
 
 .pagebox btnbox>*.btndisable {
     background: rgba(220, 220, 220, .4);
     box-shadow: none;
-     pointer-events: none;
+    pointer-events: none;
 }
 
 .pagebox btnbox>*.btndisable::before {
@@ -402,7 +405,6 @@ body {
     background: none;
 }
 
-
 /*内容区*/
 
 .pagebox iframe {
@@ -418,7 +420,6 @@ body {
     z-index: 3;
 }
 
-
 /*遮罩*/
 
 .pagebox pagebox_mask {
@@ -431,7 +432,6 @@ body {
     z-index: 4;
     display: block;
 }
-
 
 /* 焦点窗体的样式 */
 
@@ -448,7 +448,6 @@ body {
     background-color: rgb(218, 230, 245);
 }
 
-
 /*正在拖动窗体时，显示遮罩*/
 
 .pagebox_drag pagebox_mask {
@@ -457,4 +456,27 @@ body {
 
 .pagebox_focus pagebox_mask {
     display: none;
+}
+
+/*窗体最小化的管理区*/
+
+.pagebox-collect {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999999;
+    color: #333;
+    text-shadow:1px 2px 2px #ccc;
+    transition: transform 0.15s, color 0.15s;
+}
+.pagebox-collect-action{
+    color: #666;
+    transform:scale(1.2,1.2);
+}
+.pagebox-collect::before{
+    content: '\a002';
+    font-family: "webdesk_icon" !important;
+    font-size: 40px;
 }
