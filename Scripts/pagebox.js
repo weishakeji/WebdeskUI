@@ -30,15 +30,16 @@
             var str = 'Object.defineProperty(this, t, {\
                         get: function() {return this._' + t + ';},\
                         set: function(newValue) {\
+                            var old = this._' + t + ';\
                             this._' + t + '= newValue;\
                             for (var wat in this._watch) {\
                                 if (\'' + t + '\' == wat) {\
-                                    this._watch[wat](this, newValue);\
+                                    this._watch[wat](this,newValue,old);\
                                 }\
                             }\
                             for (var i=0;i<this._watchlist.length;i++) {\
                                 if (\'' + t + '\' == this._watchlist[i].key) {\
-                                    this._watchlist[i].func(this, newValue);\
+                                    this._watchlist[i].func(this,newValue,old);\
                                 }\
                             }\
                         }\
@@ -138,60 +139,48 @@
     };
     //当属性更改时触发相应动作
     fn._watch = {
-        'title': function(box, val) {
+        //参数：
+        //box:pagebox对象，val：传入的值，old:原值
+        'title': function(box, val, old) {
             if (box.dom) box.dom.find('pagebox_title pb-text').html(val);
         },
-        'url': function(box, val) {
+        'url': function(box, val, old) {
             if (box.dom) box.dom.find('iframe').attr('src', val);
         },
-        'width': function(box, val) {
+        'width': function(box, val, old) {
             if (box.dom) box.dom.width(val);
         },
-        'height': function(box, val) {
+        'height': function(box, val, old) {
             if (box.dom) box.dom.height(val);
         },
-        'left': function(box, val) {
+        'left': function(box, val, old) {
             if (box.dom) box.dom.left(val);
         },
-        'top': function(box, val) {
+        'top': function(box, val, old) {
             if (box.dom) box.dom.top(val);
         },
-        'level': function(box, val) {
+        'level': function(box, val, old) {
             if (box.dom) box.dom.level(val);
         },
-        'full': function(box, val) {
+        'full': function(box, val, old) {
             if (val) box.toFull();
             if (!val) box.toWindow();
         },
-        'min': function(box, val) {
-            var btn = box.dom.find('btnbox btn_min');
-            btn.attr('class', val ? 'enable' : 'btndisable');
+        'min': function(box, val, old) {
+            box._builder.buttonbox(box);
             var menubtn = box.dom.find('dropmenu menu_min');
             menubtn.attr('class', val ? 'enable' : 'disable');
-            //如果最小化和最大化都禁用，这两个按钮不显示了
-            var two = box.dom.find('btnbox').find('btn_min,btn_max');
-            two.css({
-                'display': (!box._min && !box._max ? 'none' : 'block')
-            });
         },
-        'max': function(box, val) {
-            var btn = box.dom.find('btnbox btn_max');
-            btn.attr('class', val ? 'enable' : 'btndisable');
+        'max': function(box, val, old) {
+            box._builder.buttonbox(box);
             var menubtn = box.dom.find('dropmenu menu_max');
             menubtn.attr('class', val ? 'enable' : 'disable');
-            //如果最小化和最大化都禁用，这两个按钮不显示了
-            var two = box.dom.find('btnbox').find('btn_min,btn_max');
-            two.css({
-                'display': (!box._min && !box._max ? 'none' : 'block')
-            });
         },
-        'close': function(box, val) {
-            var btn = box.dom.find('btnbox btn_close');
-            val ? btn.show() : btn.hide();
+        'close': function(box, val, old) {
+            box._builder.buttonbox(box);
             var menubtn = box.dom.find('dropmenu menu_close');
             menubtn.attr('class', val ? 'enable' : 'disable');
         }
-
     };
     //添加自定义监听事件
     fn.watch = function(watchObj) {
@@ -270,15 +259,19 @@
             title.append('pb-text').find('pb-text').html(box.title);
             //移动窗体的响应条
             pagebox.append('pagebox_dragbar');
-            //添加最小化，最大化，关闭按钮
-            var btnbox = pagebox.append('btnbox').find('btnbox');
-            //if (box.min || box.max) {
-            btnbox.append('btn_min').append('btn_max').append('btn_close');
-            // btnbox.find('btn_min').addClass('btndisable');
-            //btnbox.find('btn_max').addClass('btndisable');
-            //}
-            //if (box.shut) btnbox.append('btn_shut');
-
+        },
+        //右上角的最小化，最大化，关闭按钮
+        buttonbox: function(box) {
+            var pagebox = $dom('.pagebox[boxid=\'' + box.id + '\']');
+            var btnbox = pagebox.find('btnbox');
+            if (btnbox.length < 1) btnbox = pagebox.append('btnbox').find('btnbox');
+            btnbox.childs().remove();
+            if (box._min || box._max) {
+                btnbox.append('btn_min').append('btn_max');
+                if (!box._min) btnbox.find('btn_min').addClass('btndisable');
+                if (!box._max) btnbox.find('btn_max').addClass('btndisable');
+            }
+            if (box._close) btnbox.append('btn_close');
         },
         //主体内容区
         body: function(box) {
@@ -385,7 +378,7 @@
         pagebox_button: function(pageboxElement) {
             var boxdom = $dom(pageboxElement);
             //关闭窗体，点击右上角关闭按钮，或下拉菜单的关闭项
-            boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
+            boxdom.find('dropmenu menu_close').click(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 box.shut(node.getAttribute('boxid'));
@@ -410,7 +403,16 @@
                 while (!node.getAttribute('boxid')) node = node.parentNode;
                 var boxid = node.getAttribute('boxid');
                 var ctrl = $ctrls.get(node.getAttribute('boxid'));
-                ctrl.obj.full = !ctrl.obj.full;
+                if (ctrl.obj.max) ctrl.obj.full = !ctrl.obj.full;
+            });
+        },
+        pagebox_close: function(pageboxElement) {
+            var boxdom = $dom(pageboxElement);
+            //关闭窗体，点击右上角关闭按钮
+            boxdom.find('btnbox btn_close').click(function(e) {
+                var node = event.target ? event.target : event.srcElement;
+                while (!node.getAttribute('boxid')) node = node.parentNode;
+                box.shut(node.getAttribute('boxid'));
             });
         },
         //左上角下拉菜单

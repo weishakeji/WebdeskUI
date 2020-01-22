@@ -151,20 +151,20 @@ b {
     <tr>
       <td>max</td>
       <td>是否允许窗体最大化</td>
-      <td></td>
-      <td></td>
+      <td>√ </td>
+      <td>√ </td>
     </tr>
     <tr>
       <td>min</td>
       <td>是否允许窗体最小化</td>
-      <td></td>
-      <td></td>
+      <td>√ </td>
+      <td>√ </td>
     </tr>
     <tr>
       <td>close</td>
       <td>是否显示关闭按钮</td>
-      <td></td>
-      <td></td>
+      <td>√ </td>
+      <td>√ </td>
     </tr>
     <tr>
       <td>dom</td>
@@ -203,11 +203,13 @@ b {
        <tr>
       <td>watch()</td>
       <td>增加自定义属性监听</td>
-      <td> 例如：box.watch({<br/>
-        'title':function(box,val){<br/>
+      <td> //box:pagebox对象，val：传入的值，old:原值<br>
+例如：box.watch({<br/>
+        'title':function(box,val,old){<br/>
             console.log('通过外部监听，新的title：'+val);<br/>
             }    <br/>    
-    });</td>
+    });<br>
+</td>
     </tr>
     <tr>
       <td>focus()</td>
@@ -361,8 +363,9 @@ box.open();</pre>
         width: 400,
         height: 300,
         resize: true,
-		min:false,
-		close:false,
+		min:true,
+		max:false,
+		close:true,
         right:10,
 		top:10,
         url: 'pagebox -child.html',
