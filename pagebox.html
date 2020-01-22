@@ -197,7 +197,7 @@ b {
     </tr>
     <tr>
       <td>open()</td>
-      <td>打开窗体</td>
+      <td>打开窗体，触发onshown事件</td>
       <td>无</td>
     </tr>
        <tr>
@@ -277,7 +277,7 @@ box.open();</pre>
         e.target：响应事件的html元素，此处为窗体的html</td>
     </tr>
     <tr>
-      <td>close</td>
+      <td>shut</td>
       <td>关闭</td>
       <td>同上</td>
       <td>同上</td>
@@ -361,6 +361,8 @@ box.open();</pre>
         width: 400,
         height: 300,
         resize: true,
+		min:false,
+		close:false,
         right:10,
 		top:10,
         url: 'pagebox -child.html',

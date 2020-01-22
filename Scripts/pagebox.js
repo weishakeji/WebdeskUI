@@ -19,9 +19,9 @@
             resize: true, //是否允许缩放大小
             move: true, //是否允许移动
             min: true, //是否允许最小化按钮
-            max: true, //是否允许最大化按钮
-            full: false, //打开后是否全屏，默认是false
-            closebtn: true //是否允许关闭按钮
+            max: true, //是否允许最大化按钮            
+            close: true, //是否允许关闭按钮
+            full: false //打开后是否全屏，默认是false
         };
         for (var t in param) defaultVal[t] = param[t];
         //defaultVal的参数，全部实现双向绑定
@@ -55,10 +55,10 @@
         this._watchlist = new Array(); //自定义监听  
         this._isinit = false; //是否初始化
         /* 自定义事件 */
-        //shown打开，close关闭，load加载，fail加载失败，
+        //shown打开，shut关闭，load加载，fail加载失败，
         //click点击，drag拖动,focus得到焦点，blur失去焦点
         //min最小化，full全屏，restore还原，resize缩放
-        var customEvents = ['shown', 'close', 'load', 'fail',
+        var customEvents = ['shown', 'shut', 'load', 'fail',
             'click', 'drag', 'focus', 'blur',
             'min', 'full', 'restore', 'resize'
         ];
@@ -138,7 +138,7 @@
         this._isinit = true;
         return this;
     };
-    //当属性更改时触发事件
+    //当属性更改时触发相应动作
     fn._watch = {
         'title': function(box, val) {
             if (box.dom) box.dom.find('pagebox_title pb-text').html(val);
@@ -164,7 +164,20 @@
         'full': function(box, val) {
             if (val) box.toFull();
             if (!val) box.toWindow();
+        },
+        'min': function(box, val) {
+
+        },
+        'max': function(box, val) {
+
+        },
+        'close': function(box, val) {
+            var btn = box.dom.find('btnbox btn_close');
+            val ? btn.show() : btn.hide();
+            var menubtn = box.dom.find('dropmenu menu_close');
+            menubtn.attr('class', val ? 'enable' : 'disable');
         }
+
     };
     //添加自定义监听事件
     fn.watch = function(watchObj) {
@@ -196,6 +209,10 @@
         //设置层深
         var maxlevel = $dom('.pagebox').level();
         this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
+        //设置右上角按钮效果
+        this.min = this._min;
+        this.max = this._max;
+        this.close = this._close;
         this.trigger('shown');
         return this.focus();
     };
@@ -241,12 +258,13 @@
             pagebox.append('pagebox_dragbar');
             //添加最小化，最大化，关闭按钮
             var btnbox = pagebox.append('btnbox').find('btnbox');
-            if (box.min || box.max) {
-                btnbox.append('btn_min').append('btn_max');
-                if (!box.min) btnbox.find('btn_min').addClass('btndisable');
-                if (!box.max) btnbox.find('btn_max').addClass('btndisable');
-            }
-            if (box.close) btnbox.append('btn_close');
+            //if (box.min || box.max) {
+            btnbox.append('btn_min').append('btn_max').append('btn_close');
+            // btnbox.find('btn_min').addClass('btndisable');
+            //btnbox.find('btn_max').addClass('btndisable');
+            //}
+            //if (box.shut) btnbox.append('btn_shut');
+
         },
         //主体内容区
         body: function(box) {
@@ -273,7 +291,7 @@
             menu.append('menu_max').find('menu_max').html('最大化').addClass(box.max ? 'enable' : 'disable');
             menu.append('menu_win').find('menu_win').html('还原').addClass(box.max ? 'enable' : 'disable');
             menu.append('hr');
-            menu.append('menu_close').find('menu_close').html('关闭').addClass(box.close ? 'enable' : 'disable');
+            menu.append('menu_close').find('menu_close').html('关闭').addClass(box.shut ? 'enable' : 'disable');
         },
         //遮罩
         mask: function(box) {
@@ -356,13 +374,14 @@
             boxdom.find('btnbox btn_close, dropmenu menu_close').click(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
-                box.close(node.getAttribute('boxid'));
+                box.shut(node.getAttribute('boxid'));
             });
             //双击左侧图标关闭
             boxdom.find('pagebox_title pb-ico').dblclick(function(e) {
                 var node = event.target ? event.target : event.srcElement;
                 while (!node.getAttribute('boxid')) node = node.parentNode;
-                box.close(node.getAttribute('boxid'));
+                var ctrl = $ctrls.get(node.getAttribute('boxid'));
+                if(ctrl.obj.close)box.shut(node.getAttribute('boxid'));
             });
             //最大化或还原
             boxdom.find('btnbox btn_max').click(function(e) {
@@ -453,8 +472,8 @@
     fn.focus = function() {
         return box.focus(this.id);
     };
-    fn.close = function() {
-        box.close(this.id);
+    fn.shut = function() {
+        box.shut(this.id);
         return this;
     };
     fn.toFull = function() {
@@ -513,7 +532,7 @@
         return ctrl.obj;
     };
     //关闭窗体
-    box.close = function(boxid) {
+    box.shut = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         //关闭窗体
         ctrl.dom.css('transition', 'opacity 0.3s');
@@ -537,10 +556,10 @@
             //子级
             var childs = ctrl.obj.getChilds();
             for (var i = 0; i < childs.length; i++) {
-                box.close(childs[i].id);
+                box.shut(childs[i].id);
             }
         }, 300);
-        ctrl.obj.trigger('close');
+        ctrl.obj.trigger('shut');
     };
     //最大化
     box.toFull = function(boxid) {
