@@ -180,6 +180,13 @@
             box._builder.buttonbox(box);
             var menubtn = box.dom.find('dropmenu menu_close');
             menubtn.attr('class', val ? 'enable' : 'disable');
+        },
+        'resize': function(box, val, old) {
+            box.dom.find('margin *').each(function() {
+                $dom(this).css({
+                    'cursor': val ? this.tagName + '-resize' : 'default'
+                });
+            });
         }
     };
     //添加自定义监听事件
@@ -216,6 +223,7 @@
         this.min = this._min;
         this.max = this._max;
         this.close = this._close;
+        this.resize = this._resize;
         this.trigger('shown');
         return this.focus();
     };
@@ -242,8 +250,6 @@
             var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
             for (var i = 0; i < arr.length; i++) {
                 var node = margin.append(arr[i]).find(arr[i]);
-                if (box.resize)
-                    node.css('cursor', arr[i] + '-resize');
             }
         },
         //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
@@ -598,10 +604,7 @@
         ctrl.obj.height = window.innerHeight - 2;
         ctrl.obj.left = 1;
         ctrl.obj.top = 0;
-        //禁用缩放样式（鼠标手势）
-        ctrl.dom.find('margin>*').each(function() {
-            $dom(this).css('cursor', 'default');
-        });
+        ctrl.obj.resize = false;
         ctrl.obj._full = true;
         //如果是最大化，则子窗体要浮于上面      
         var childs = ctrl.obj.getChilds();
@@ -633,12 +636,7 @@
                 'action': 'from-full'
             });
         }
-        //恢复缩放窗体的鼠标手势
-        if (ctrl.obj.resize) {
-            ctrl.dom.find('margin>*').each(function() {
-                $dom(this).css('cursor', this.tagName + '-resize');
-            });
-        }
+        ctrl.obj.resize = true;
         ctrl.obj._full = false;
     };
     //禁用缩放
