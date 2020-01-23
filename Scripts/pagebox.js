@@ -254,7 +254,7 @@
         var area = $dom('pagebox-minarea');
         if (area.length < 1) {
             area = $dom('body').append('pagebox-minarea').find('pagebox-minarea');
-            area.hide();
+            area.css('opacity', 0).hide();
         }
 
         for (var t in this._builder_min) this._builder_min[t](this, area);
@@ -494,6 +494,7 @@
             min.attr({
                 'boxid': target.id
             });
+            box.pageboxcollect_boxsize();
             target.domin = min;
         },
         title: function(target, area) {
@@ -659,6 +660,7 @@
             for (var i = 0; i < childs.length; i++) {
                 box.shut(childs[i].id);
             }
+            box.pageboxcollect_boxsize();
         }, 300);
         ctrl.obj.trigger('shut');
     };
@@ -831,15 +833,22 @@
         });
         document.addEventListener('mousedown', function(e) {
             //如果点在最小化管理区，则不隐藏最小管理面板
-            var node = event.target ? event.target : event.srcElement;            
+            var node = event.target ? event.target : event.srcElement;
             var tagname = '';
             do {
                 tagname = node.tagName ? node.tagName.toLowerCase() : '';
                 node = node.parentNode;
+            } while (!(tagname == 'pagebox-minarea' || tagname == 'body'));
+            if (tagname != 'pagebox-minarea') {
+                $dom('pagebox-minarea').css('opacity', 0);
+                window.setTimeout(function() {
+                    var area = $dom('pagebox-minarea');
+                    if (parseInt(area.css('opacity')) == 0) {
+                        $dom('pagebox-minarea').hide();
+                        $dom('.pagebox-collect').attr('state', 'close');
+                    }
+                }, 300);
             }
-            while (!(tagname == 'pagebox-minarea' || tagname == 'body'));
-            if (tagname != 'pagebox-minarea')
-                $dom('pagebox-minarea').hide();
         });
     };
     /* 最小化的所在区域的管理 */
@@ -848,7 +857,10 @@
         window.addEventListener('load', function(e) {
             var collect = $dom(window.$pageboxcollect);
             collect.addClass('pagebox-collect').click(function() {
-                box.pageboxcollect_boxcreate();
+                var state = collect.attr('state');
+                collect.attr('state', state == 'open' ? 'close' : 'open');
+                if (collect.attr('state') == 'open')
+                    box.pageboxcollect_boxcreate();
             });
         });
 
@@ -857,14 +869,36 @@
     box.pageboxcollect_boxcreate = function() {
         var area = $dom('pagebox-minarea');
         if (area.length < 1) area = $dom('body').append('pagebox-minarea').find('pagebox-minarea');
+        area.show().css('opacity', 1);
+        //设置大小      
+        box.pageboxcollect_boxsize();
         //计算最小化管理区的按钮所在方位
-        //设置大小
-        area.width(360).height(100).show();
-        //设置位置
         var collect = $dom('.pagebox-collect');
         var offset = collect.offset();
-        area.top(offset.top + collect.height() - area.height());
-        area.left(offset.left - area.width() - 5);
+        var region = '';
+        region += document.documentElement.clientHeight / 2 < offset.left + collect.width() / 2 ? 'right' : 'left';
+        region += document.documentElement.clientWidth / 2 < offset.top + collect.height() / 2 ? 'bottom' : 'top';
+        //设置"最小化的管理区"的位置
+        if (region.indexOf('right') > -1) area.css('right', (document.documentElement.clientWidth - offset.left) + 'px');
+        if (region.indexOf('left') > -1) area.left(offset.left + collect.width());
+        if (region.indexOf('top') > -1) area.top(offset.top);
+        if (region.indexOf('bottom') > -1) area.css('bottom', (document.documentElement.clientHeight - offset.top - collect.height()) + 'px');
+    };
+    //自动设置最小化管理的宽高
+    box.pageboxcollect_boxsize = function() {
+        var area = $dom('pagebox-minarea');
+        var size = area.find('pagebox-min').length;
+        if (size < 1) {
+            $dom('pagebox-minarea').hide();
+            $dom('.pagebox-collect').attr('state', 'close');
+        }
+        if (size <= 4) area.width(320 + 8).height(80 + 8);
+        if (size > 4 && size <= 8) area.width(320 + 8).height(160 + 8);
+        if (size > 8 && size <= 12) area.width(320 + 8).height(240 + 8);
+        if (size > 12 && size <= 18) area.width(480 + 8).height(240 + 8);
+        if (size > 18) area.width(480 + 8 + 20).height(240 + 8).css('overflow', 'auto');
+        else
+            area.css('overflow', 'hidden');
     };
     win.$pagebox = box;
     win.$pagebox.dragRealize();

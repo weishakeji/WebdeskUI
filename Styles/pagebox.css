@@ -463,9 +463,7 @@ html, body {
 .pagebox-collect {
     width: 45px;
     height:45px;
-    position: absolute;
-    bottom: 120px;
-    right: 120px;
+    
     z-index: 999999;
     color: #333;
     cursor: pointer;
@@ -489,14 +487,16 @@ pagebox-minarea {
     background-color: #eee;
     border: solid 1px #ccc;
     position: absolute;
-    overflow: auto;
+   // overflow: hidden;
     z-index: 999999;
     border-radius: 3px;
+    transition:opacity 0.3s,width 0.5s, height 0.5s;
+    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
 }
 /*最小化的窗体*/
 pagebox-min{
     display: block;
-    width: 158px;
+    width: 150px;
     height: 30px;
     user-select: none;
     cursor: default;
@@ -507,7 +507,7 @@ pagebox-min{
     overflow: hidden;
     float: left;
     position: relative;
-    margin: 10px 0px 0px 10px;
+    margin: 8px 0px 0px 8px;
     transition:opacity 0.3s;
 }
 pagebox-min:hover{

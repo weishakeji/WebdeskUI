@@ -6,17 +6,17 @@
 3、状态管理
 */
 /*!
-* 主 题：控件管理，
-* 说 明：
-* 1、类似JQuery，主要为了方便操作DOM;
-* 2、满足大多数DOM操作，不兼容IE678;
-* 3、另外写了动态加载css和js的方法，在最后面
-*
-* 作 者：微厦科技_宋雷鸣_10522779@qq.com
-* 开发时间: 2020年1月1日
-* 最后修订：2020年2月4日
-* github开源地址:https://github.com/weishakeji/WebdeskUI
-*/
+ * 主 题：控件管理，
+ * 说 明：
+ * 1、类似JQuery，主要为了方便操作DOM;
+ * 2、满足大多数DOM操作，不兼容IE678;
+ * 3、另外写了动态加载css和js的方法，在最后面
+ *
+ * 作 者：微厦科技_宋雷鸣_10522779@qq.com
+ * 开发时间: 2020年1月1日
+ * 最后修订：2020年2月4日
+ * github开源地址:https://github.com/weishakeji/WebdeskUI
+ */
 (function() {
 	//html节点查询，类似jquery
 	var webdom = function(query, context) {
@@ -341,13 +341,25 @@
 		}
 	};
 	fn.offset = function() {
-		return this.each(function() {
-			var styles = document.defaultView.getComputedStyle(this, null);
-			return {
-				left: parseFloat(styles.getPropertyValue('left')),
-				top: parseFloat(styles.getPropertyValue('top'))
-			};
-		}, 1);
+		var offest = {
+			top: 0,
+			left: 0
+		};
+		if (this.length < 1) return offest;
+		var node = this[0];
+		// 当前为IE11以下, 直接返回{top: 0, left: 0}
+		if (!node.getClientRects().length) return offest;
+		// 当前DOM节点的 display === 'node' 时, 直接返回{top: 0, left: 0}
+		if (window.getComputedStyle(node)['display'] === 'none') return offest;
+		// Element.getBoundingClientRect()方法返回元素的大小及其相对于视口的位置。
+		// 返回值包含了一组用于描述边框的只读属性——left、top、right和bottom，单位为像素。除了 width 和 height 外的属性都是相对于视窗的左上角位置而言的。
+		// 返回如{top: 8, right: 1432, bottom: 548, left: 8, width: 1424…}
+		offest = node.getBoundingClientRect();
+		var docElement = node.ownerDocument.documentElement;
+		return {
+			top: offest.top + window.pageYOffset - docElement.clientTop,
+			left: offest.left + window.pageXOffset - docElement.clientLeft
+		};
 	};
 	fn.append = function(ele) {
 		if (typeof(ele) == 'string') {
