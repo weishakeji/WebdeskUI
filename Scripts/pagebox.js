@@ -504,10 +504,14 @@
             min.find('pb-ico,pb-text').click(function(e) {
                 var obj = box._getObj(e);
                 //如果窗体不处于焦点，则设置为焦点；如果已经是焦点，则最小化
-                if (!obj.dom.hasClass('pagebox_focus')) obj.focus();
-                else
-                    obj.mini = !obj.dom.hasClass('pagebox_min');
-                box.focus(obj.id);
+                if (!obj.mini) {
+                    if (!obj.dom.hasClass('pagebox_focus')) obj.focus();
+                    else
+                        obj.mini = true;
+                } else {
+                    obj.mini = false;
+                    box.focus(obj.id);
+                }
             });
             //关闭窗体
             min.append('btn_close');
@@ -707,8 +711,8 @@
         //最小化后的所在区域
         var collect = $dom('.pagebox-collect');
         var offset = collect.offset();
-        obj.left = offset.left;
-        obj.top = offset.top;
+        obj.left = offset.left + collect.width() / 3;
+        obj.top = offset.top + collect.height() / 3;
         obj.width = 10;
         obj.height = 10;
         window.setTimeout(function() {
@@ -728,8 +732,8 @@
             ctrl.dom.removeClass('pagebox_full');
             ctrl.obj.trigger('restore', {
                 'action': 'from-full'
-            });            
-            ctrl.obj.level = $dom('.pagebox').level()+ 1;            
+            });
+            ctrl.obj.level = $dom('.pagebox').level() + 1;
             ctrl.obj.resize = true;
             ctrl.obj._full = false;
         } else {

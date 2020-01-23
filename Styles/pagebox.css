@@ -464,8 +464,8 @@ html, body {
     width: 45px;
     height:45px;
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 120px;
+    right: 120px;
     z-index: 999999;
     color: #333;
     cursor: pointer;
