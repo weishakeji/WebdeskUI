@@ -64,7 +64,8 @@
        <label><input name="fresh" type="checkbox" value="" />禁用刷新</label>
 <label><input name="move" type="checkbox" value="" />禁止移动</label>
 <label><input name="resize" type="checkbox" value="" />禁止缩放</label>
-<label><input name="full" type="checkbox" value="" />最大化窗体</label></div>
+<label><input name="full" type="checkbox" value="" />最大化窗体</label>
+<label><input name="mini" type="checkbox" value="" />最小化窗体</label></div>
    </div>
 </body>
 <script>
@@ -124,6 +125,10 @@ $dom('.footer #check input[type=checkbox]').click(function(e){
     var action=input.attr('name');
     if(action=='full'){
         box.full=input.val();
+        return;
+    }
+    if(action=='mini'){
+        box.mini=input.val();
         return;
     }
     eval('box.'+action+'=!input.val();');    

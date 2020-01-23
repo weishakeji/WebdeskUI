@@ -37,7 +37,8 @@
             max: true, //是否允许最大化按钮            
             close: true, //是否允许关闭按钮
             fresh: true, //是否允许刷新
-            full: false //打开后是否全屏，默认是false
+            full: false, //打开后是否全屏，默认是false
+            mini: false, //是否处于最小化状态
         };
         for (var t in param) defaultVal[t] = param[t];
         //defaultVal+param的参数，全部实现双向绑定
@@ -190,6 +191,11 @@
         'full': function(box, val, old) {
             if (val == old) return;
             if (val) box.toFull();
+            if (!val) box.toWindow();
+        },
+        'mini': function(box, val, old) {
+            if (val == old) return;
+            if (val) box.toMinimize();
             if (!val) box.toWindow();
         },
         'min': function(box, val, old) {
@@ -446,7 +452,7 @@
             });
             $dom(elem).find('btnbox btn_min').click(function(e) {
                 var obj = box._getObj(e);
-                if (obj.min) box.toMinimize(obj.id);
+                if (obj.min) obj.mini = true;
             });
         },
         close: function(elem) {
@@ -470,7 +476,7 @@
             //最小化
             boxdom.find('dropmenu menu_min').click(function(e) {
                 var obj = box._getObj(e);
-                if (obj.min) box.toMinimize(obj.id);
+                if (obj.min) obj.mini = true;
             });
             //刷新
             boxdom.find('dropmenu menu_fresh').click(function(e) {
@@ -497,7 +503,10 @@
             min.append('pb-text').find('pb-text').html(target.title);
             min.find('pb-ico,pb-text').click(function(e) {
                 var obj = box._getObj(e);
-                if (obj.dom.hasClass('pagebox_min')) box.toWindow(obj.id);
+                //如果窗体不处于焦点，则设置为焦点；如果已经是焦点，则最小化
+                if (!obj.dom.hasClass('pagebox_focus')) obj.focus();
+                else
+                    obj.mini = !obj.dom.hasClass('pagebox_min');
                 box.focus(obj.id);
             });
             //关闭窗体
@@ -553,10 +562,13 @@
     };
     fn.toFull = function() {
         return box.toFull(this.id);
-    }
+    };
     fn.toWindow = function() {
         return box.toWindow(this.id);
-    }
+    };
+    fn.toMinimize = function() {
+        return box.toMinimize(this.id);
+    };
     /*** 
     以下是静态方法
     *****/

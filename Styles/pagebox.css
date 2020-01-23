@@ -540,7 +540,7 @@ pagebox-min pb-text {
     text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 pagebox-min btn_close{
-    background-color: rgb(195, 7, 7);
+    background-color: rgb(245, 45, 45);
     box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
     width: 16px;
     height: 16px;
