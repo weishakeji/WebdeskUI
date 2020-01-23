@@ -830,7 +830,16 @@
                 .left(1).top(0);
         });
         document.addEventListener('mousedown', function(e) {
-            //$dom('.pagebox dropmenu').hide();
+            //如果点在最小化管理区，则不隐藏最小管理面板
+            var node = event.target ? event.target : event.srcElement;            
+            var tagname = '';
+            do {
+                tagname = node.tagName ? node.tagName.toLowerCase() : '';
+                node = node.parentNode;
+            }
+            while (!(tagname == 'pagebox-minarea' || tagname == 'body'));
+            if (tagname != 'pagebox-minarea')
+                $dom('pagebox-minarea').hide();
         });
     };
     /* 最小化的所在区域的管理 */
@@ -848,13 +857,14 @@
     box.pageboxcollect_boxcreate = function() {
         var area = $dom('pagebox-minarea');
         if (area.length < 1) area = $dom('body').append('pagebox-minarea').find('pagebox-minarea');
+        //计算最小化管理区的按钮所在方位
         //设置大小
         area.width(360).height(100).show();
         //设置位置
         var collect = $dom('.pagebox-collect');
         var offset = collect.offset();
         area.top(offset.top + collect.height() - area.height());
-        area.left(offset.left - area.width());
+        area.left(offset.left - area.width() - 5);
     };
     win.$pagebox = box;
     win.$pagebox.dragRealize();

@@ -469,6 +469,7 @@ html, body {
     z-index: 999999;
     color: #333;
     cursor: pointer;
+    text-align: center;
     text-shadow: 1px 2px 2px #ccc;
     transition: transform 0.15s, color 0.15s;
 }
@@ -490,6 +491,7 @@ pagebox-minarea {
     position: absolute;
     overflow: auto;
     z-index: 999999;
+    border-radius: 3px;
 }
 /*最小化的窗体*/
 pagebox-min{
@@ -498,8 +500,7 @@ pagebox-min{
     height: 30px;
     user-select: none;
     cursor: default;
-    background-color: rgba(161, 197, 247, 0.4);
-   
+    background-color: rgba(161, 197, 247, 0.4);   
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     border-radius: 3px;
     border: 1px solid rgba(62, 63, 63, 0.3);   
