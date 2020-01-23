@@ -461,22 +461,100 @@ html, body {
 /*窗体最小化的管理区*/
 
 .pagebox-collect {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height:45px;
     position: absolute;
     bottom: 20px;
     right: 20px;
     z-index: 999999;
     color: #333;
-    text-shadow:1px 2px 2px #ccc;
+    cursor: pointer;
+    text-shadow: 1px 2px 2px #ccc;
     transition: transform 0.15s, color 0.15s;
 }
-.pagebox-collect-action{
+
+.pagebox-collect-action {
     color: #666;
-    transform:scale(1.2,1.2);
+    transform: scale(1.2, 1.2);
 }
-.pagebox-collect::before{
+
+.pagebox-collect::before {
     content: '\a002';
     font-family: "webdesk_icon" !important;
     font-size: 40px;
+}
+
+pagebox-minarea {
+    background-color: #eee;
+    border: solid 1px #ccc;
+    position: absolute;
+    overflow: auto;
+    z-index: 999999;
+}
+/*最小化的窗体*/
+pagebox-min{
+    display: block;
+    width: 158px;
+    height: 30px;
+    user-select: none;
+    cursor: default;
+    background-color: rgba(161, 197, 247, 0.4);
+    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    border-radius: 3px;
+    border: 1px solid rgba(62, 63, 63, 0.3);   
+    overflow: hidden;
+    float: left;
+    position: relative;
+    margin: 10px 0px 0px 10px;
+    transition:opacity 0.3s;
+}
+pagebox-min:hover{
+     background-color: rgba(161, 197, 247, 0.8);
+}
+pagebox-min pb-ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    margin-left: 5px;
+    line-height: 30px;
+    font-size: 18px;
+    float: left;
+    font-family: "webdesk_icon" !important;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+pagebox-min pb-text {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 50px);
+    font-size: 14px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    float: left;
+    cursor: default;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+pagebox-min btn_close{
+    background-color: rgb(195, 7, 7);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top:7px;
+    right: 7px;
+    cursor: pointer;
+}
+pagebox-min btn_close:before{
+    content: "\e606";
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 15px;
+    border-radius: 0px 0px 4px 0px;
+    font-family: "webdesk_icon" !important;
 }
