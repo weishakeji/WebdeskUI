@@ -484,14 +484,14 @@ html, body {
 }
 
 pagebox-minarea {
-    background-color: #eee;
+    background-color: rgba(238,238,238);
     border: solid 1px #ccc;
     position: absolute;
-   // overflow: hidden;
     z-index: 999999;
     border-radius: 3px;
     transition:opacity 0.3s,width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    box-shadow:rgb(238,238,238) 0px 0px 8px inset;
 }
 /*最小化的窗体*/
 pagebox-min{
@@ -510,6 +510,7 @@ pagebox-min{
     margin: 8px 0px 0px 8px;
     transition:opacity 0.3s;
 }
+
 pagebox-min:hover{
      background-color: rgba(161, 197, 247, 0.8);
       box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);

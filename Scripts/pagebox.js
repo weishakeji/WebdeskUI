@@ -891,7 +891,7 @@
         if (size < 1) {
             $dom('pagebox-minarea').hide();
             $dom('.pagebox-collect').attr('state', 'close');
-        }
+        } 
         if (size <= 4) area.width(320 + 8).height(80 + 8);
         if (size > 4 && size <= 8) area.width(320 + 8).height(160 + 8);
         if (size > 8 && size <= 12) area.width(320 + 8).height(240 + 8);
