@@ -728,7 +728,8 @@
             ctrl.dom.removeClass('pagebox_full');
             ctrl.obj.trigger('restore', {
                 'action': 'from-full'
-            });
+            });            
+            ctrl.obj.level = $dom('.pagebox').level()+ 1;            
             ctrl.obj.resize = true;
             ctrl.obj._full = false;
         } else {
