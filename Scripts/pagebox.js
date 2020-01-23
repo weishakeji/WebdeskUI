@@ -699,15 +699,18 @@
         var ctrl = $ctrls.get(boxid);
         if (!ctrl.obj.min) return;
         //记录之前的数据，用于还原
-        ctrl.win_offset = ctrl.dom.offset();
-        ctrl.win_size = {
-            width: ctrl.obj.width,
-            height: ctrl.obj.height
-        };
-        ctrl.win_state = {
-            move: ctrl.obj.move,
-            resize: ctrl.obj.resize
-        };
+        if (!ctrl.obj.full) {
+            ctrl.win_offset = ctrl.dom.offset();
+            ctrl.win_size = {
+                width: ctrl.obj.width,
+                height: ctrl.obj.height
+            };
+            ctrl.win_state = {
+                move: ctrl.obj.move,
+                resize: ctrl.obj.resize
+            };
+        }
+        if (ctrl.obj.full) ctrl.obj._full = false;
         var obj = ctrl.obj;
         obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s').addClass('pagebox_min');;
         //最小化后的所在区域
@@ -741,12 +744,11 @@
         } else {
             //从最小化还原
             ctrl.dom.removeClass('pagebox_min');
-            ctrl.dom.css('opacity', 1);
-            //ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s')
             ctrl.obj.trigger('restore', {
                 'action': 'from-min'
             });
         }
+        ctrl.dom.css('opacity', 1);
         ctrl.obj.left = ctrl.win_offset.left;
         ctrl.obj.top = ctrl.win_offset.top;
         ctrl.obj.width = ctrl.win_size.width;
@@ -891,7 +893,7 @@
         if (size < 1) {
             $dom('pagebox-minarea').hide();
             $dom('.pagebox-collect').attr('state', 'close');
-        } 
+        }
         if (size <= 4) area.width(320 + 8).height(80 + 8);
         if (size > 4 && size <= 8) area.width(320 + 8).height(160 + 8);
         if (size > 8 && size <= 12) area.width(320 + 8).height(240 + 8);
