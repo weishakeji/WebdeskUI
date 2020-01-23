@@ -876,8 +876,8 @@
         var collect = $dom('.pagebox-collect');
         var offset = collect.offset();
         var region = '';
-        region += document.documentElement.clientHeight / 2 < offset.left + collect.width() / 2 ? 'right' : 'left';
-        region += document.documentElement.clientWidth / 2 < offset.top + collect.height() / 2 ? 'bottom' : 'top';
+        region += document.documentElement.clientWidth / 2 < offset.left + collect.width() / 2 ? 'right' : 'left';
+        region += document.documentElement.clientHeight / 2 < offset.top + collect.height() / 2 ? 'bottom' : 'top';
         //设置"最小化的管理区"的位置
         if (region.indexOf('right') > -1) area.css('right', (document.documentElement.clientWidth - offset.left) + 'px');
         if (region.indexOf('left') > -1) area.left(offset.left + collect.width());
