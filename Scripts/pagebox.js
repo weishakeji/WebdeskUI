@@ -204,8 +204,12 @@
         },
         'close': function(box, val, old) {
             box._builder.buttonbox(box);
+            //左上角菜单的关闭按钮
             var menubtn = box.dom.find('dropmenu menu_close');
             menubtn.attr('class', val ? 'enable' : 'disable');
+            //最小化区域中的关闭按钮         
+            var minbtn = $dom('pagebox-min[boxid=\'' + box.id + '\'] btn_close');
+            minbtn.attr('class', val ? 'enable' : 'disable');
         },
         'resize': function(box, val, old) {
             box.dom.find('margin *').each(function() {
@@ -687,7 +691,7 @@
             resize: ctrl.obj.resize
         };
         var obj = ctrl.obj;
-        obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s').addClass('pagebox_min');;
+        obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s').addClass('pagebox_min');;
         //最小化后的所在区域
         var collect = $dom('.pagebox-collect');
         var offset = collect.offset();
@@ -696,7 +700,7 @@
         obj.width = 10;
         obj.height = 10;
         window.setTimeout(function() {
-            obj.dom.hide();
+            obj.dom.css('opacity', 0);
             collect.addClass('pagebox-collect-action');
             window.setTimeout(function() {
                 collect.removeClass('pagebox-collect-action');
@@ -718,8 +722,8 @@
         } else {
             //从最小化还原
             ctrl.dom.removeClass('pagebox_min');
-            ctrl.obj.dom.show();
-            ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s')
+            ctrl.dom.css('opacity', 1);
+            //ctrl.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s')
             ctrl.obj.trigger('restore', {
                 'action': 'from-min'
             });
