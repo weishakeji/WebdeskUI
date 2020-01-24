@@ -96,7 +96,7 @@
         //触发自定义事件
         this.trigger = function(eventName, eventArgs) {
             var arrEvent = this.events(eventName);
-            if (arrEvent.length < 1) return null;
+            if (arrEvent.length < 1) return true;
             //事件参数处理，增加事件名称与形为
             if (!eventArgs) eventArgs = {};
             if (!eventArgs['event']) eventArgs['event'] = eventName;
@@ -372,8 +372,8 @@
             //窗体点击事件，主要是为了设置焦点
             $dom(elem).click(function(e) {
                 var obj = box._getObj(e);
-                if (!obj.trigger('click')) return;
-                obj.focus();
+                //if (!obj.trigger('click')) return;
+                obj.focus().trigger('click');
                 $dom('.pagebox dropmenu').hide();
             });
         },
@@ -641,7 +641,8 @@
         var ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
         //触发关闭事件,如果返回false,则不再关闭
-        if (!ctrl.obj.trigger('shut')) return;
+        var t=ctrl.obj.trigger('shut');
+        if (!t) return;
         //执行关闭窗体的一系列代码
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);

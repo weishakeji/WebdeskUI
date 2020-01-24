@@ -394,11 +394,16 @@ box.open();</pre>
              console.log(sender.title+',最小化还原到窗体');
     });
     //关闭事件
-    box.onshut(function(s,e){
-       return confirm('是否确定关闭？');
+    box.onshut(function(sender,e){
+      var childs=sender.childs.length;
+      var all=sender.getChilds().length;
+      var msg='当前窗体（'+sender.title+'）有'+childs+'直系子窗体，'+all+'个全系子窗体，是否要关闭？\n关闭时所有子窗体会同步关闭。';
+      console.log(msg);
+      return confirm(msg);
     }).onshut(function(s,e){
        return confirm('再次确认关闭？');
     });
+   
     //事件多播测试
     box.onfocus(function(sender,e){
         console.log('1当前焦点窗体：'+sender.title);
