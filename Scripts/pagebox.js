@@ -102,11 +102,12 @@
             if (!eventArgs['event']) eventArgs['event'] = eventName;
             if (!eventArgs['action']) eventArgs['action'] = eventName;
             if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
-            //执行事件
+            //执行事件，当事件中有任一事件返回false，则不再继续执行后续事件
             var results = [];
             for (var i = 0; i < arrEvent.length; i++) {
                 var res = arrEvent[i](this, eventArgs);
                 results.push(res);
+                if(!(typeof(res) == 'undefined' ? true : res))break;                
             }
             return results.length == 1 ? results[0] : results;
         };
@@ -634,9 +635,16 @@
     box.shut = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
-        //触发关闭事件
-        ctrl.obj.trigger('shut');
-        //关闭窗体
+        //触发关闭事件,如果返回false,则不再关闭
+        var result = ctrl.obj.trigger('shut');
+        if (result instanceof Array) {
+            for(var i=0;i<result.length;i++){
+                if(!(typeof(result[i]) == 'undefined' ? true : result[i]))return;
+            }
+        } else {
+            if(!(typeof(result) == 'undefined' ? true : result))return;
+        }
+        //执行关闭窗体的一系列代码
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
         ctrl.obj.domin.css('opacity', 0);

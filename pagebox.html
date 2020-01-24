@@ -138,6 +138,12 @@ b {
       <td>√ </td>
       <td>√ </td>
     </tr>
+     <tr>
+      <td>mini</td>
+      <td>设置窗体最小化，注意它与min的区别</td>
+      <td>√ </td>
+      <td>√ </td>
+    </tr>
     <tr>
       <td>resize</td>
       <td>是否允许缩放窗体</td>
@@ -205,9 +211,9 @@ b {
        <tr>
       <td>watch()</td>
       <td>增加自定义属性监听</td>
-      <td> //box:pagebox对象，val：传入的值，old:原值<br>
+      <td> //obj:pagebox对象，val：传入的值，old:原值<br>
 例如：box.watch({<br/>
-        'title':function(box,val,old){<br/>
+        'title':function(obj,val,old){<br/>
             console.log('通过外部监听，新的title：'+val);<br/>
             }    <br/>    
     });<br>
@@ -230,7 +236,7 @@ b {
     </tr>
         <tr>
       <td>toWindow()</td>
-      <td>窗体还原，建议直接box.full=false;</td>
+      <td>窗体还原，建议直接box.full=false或box.mini=false</td>
       <td></td>
     </tr>
           <tr>
@@ -258,12 +264,18 @@ b {
     </tr>
   </table>
   <b>事件：</b>
+   <div>
+    <p>事件支持多播，即同一个事件可以添加多个方法。</p>
+    <p>当同一个事件中的多个方法，有任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+  </div>
   <pre>
 var box=$pagebox.create();
-box.onclick(function(sender,e){
-	//sender:为pagebox对象，即当前代码中的box
-	//e:事件消息，例如e.x,e.y：当鼠标点击或移动事件的鼠标坐标
-   });
+//关闭事件
+box.onshut(function(s,e){
+    return confirm('是否确定关闭？');
+}).onshut(function(s,e){
+    return confirm('再次确认关闭？');
+});
 box.open();</pre>
   <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
     <tr>
@@ -380,6 +392,12 @@ box.open();</pre>
         		 console.log(sender.title+',从最大化状态，还原到窗体');
         if(e.action=='from-min')
              console.log(sender.title+',最小化还原到窗体');
+    });
+    //关闭事件
+    box.onshut(function(s,e){
+       return confirm('是否确定关闭？');
+    }).onshut(function(s,e){
+       return confirm('再次确认关闭？');
     });
     //事件多播测试
     box.onfocus(function(sender,e){
