@@ -65,6 +65,7 @@ table#eventTable tr td:first-child:before {
 	content: 'on'
 }
 b {
+  font-size: 16px !important;
 	margin-top: 10px !important;
 	display: block;
 }
@@ -80,7 +81,7 @@ b {
     <li>可拖放，可缩放，模拟windows桌面窗体</li>
     <li>可上溯父级，遍历下级，父子窗体可互动</li>
     <li>自定义事件，多播，可追加、可去除</li>
-    <li>属性支持双向绑定</li>
+    <li>属性支持双向绑定，可监听</li>
   </ul>
   
 </div>
@@ -284,8 +285,8 @@ b {
   </table>
   <b>事件：</b>
    <div>
-    <p>事件支持多播，即同一个事件可以添加多个方法。事件方法的返回型仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
-    <p>当同一个事件中的多个方法，有任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+    <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+    <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
   </div>
   <pre>
 var box=$pagebox.create();
