@@ -853,7 +853,7 @@
             do {
                 tagname = node.tagName ? node.tagName.toLowerCase() : '';
                 node = node.parentNode;
-            } while (!(tagname == 'pagebox-minarea' || tagname == 'body'));
+            } while (!(tagname == 'pagebox-minarea' || tagname == 'html'));
             if (tagname != 'pagebox-minarea') {
                 $dom('pagebox-minarea').css('opacity', 0);
                 window.setTimeout(function() {

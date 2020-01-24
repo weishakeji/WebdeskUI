@@ -18,6 +18,18 @@ html, body {
 	top: 0px;
 	right: 0px;
 }
+*{
+  font-size: 15px;
+}
+p{
+  font-size: 15px;
+  margin: 0px;
+  padding: 0px;
+  line-height: 25px;
+}
+h1{
+  font-size: 25px;
+}
 h1:before {
  //content: "\e77e";
 	content: "\e77c";
@@ -53,7 +65,7 @@ table#eventTable tr td:first-child:before {
 	content: 'on'
 }
 b {
-	margin-top: 10px;
+	margin-top: 10px !important;
 	display: block;
 }
 </style>
@@ -62,7 +74,7 @@ b {
 <body oncontextmenu ='self.event.returnValue=false'>
     <div id="pageboxcollect" style="position: absolute;bottom: 40px;right: 20px"></div>
 <div id="show"></div>
-<div style="height: 150px">
+<div style="height: 180px">
   <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体</h1>
   <ul>
     <li>可拖放，可缩放，模拟windows桌面窗体</li>
@@ -70,8 +82,15 @@ b {
     <li>自定义事件，多播，可追加、可去除</li>
     <li>属性支持双向绑定</li>
   </ul>
+  
 </div>
-<div style="height: calc(100% - 160px);max-width:1000px; padding-left: 20px; position: absolute;bottom: 0px;left:0px;overflow: auto;"> <b>示例：</b>
+<div style="height: calc(100% - 160px);max-width:1000px; padding-left: 20px; position: absolute;bottom: 0px;left:0px;overflow: auto;"> 
+   <b>演示：</b>
+    <div>
+    <p>演示地址：<a href='http://webdesk.weisha100.cn/pagebox.html' target="_blank">http://webdesk.weisha100.cn/pagebox.html</a></p>
+    <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+  </div>
+  <b>示例：</b>
   <pre>
      //创建窗体
     var box=$pagebox.create({
@@ -403,7 +422,7 @@ box.open();</pre>
     }).onshut(function(s,e){
        return confirm('再次确认关闭？');
     });
-   
+
     //事件多播测试
     box.onfocus(function(sender,e){
         console.log('1当前焦点窗体：'+sender.title);
