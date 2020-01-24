@@ -76,7 +76,7 @@
         //min最小化，full全屏，restore还原，resize缩放
         var customEvents = ['shown', 'shut', 'load', 'fail',
             'click', 'drag', 'focus', 'blur',
-            'min', 'full', 'restore', 'resize'
+            'mini', 'full', 'restore', 'resize'
         ];
         for (var i = 0; i < customEvents.length; i++) {
             eval('this.on' + customEvents[i] + '=function(f){\
@@ -106,10 +106,14 @@
             var results = [];
             for (var i = 0; i < arrEvent.length; i++) {
                 var res = arrEvent[i](this, eventArgs);
+                //不管返回结果是什么类型的值，都转为bool型
+                res = (typeof(res) == 'undefined' ? true : (typeof(res) == 'boolean' ? res : true));
                 results.push(res);
-                if(!(typeof(res) == 'undefined' ? true : res))break;                
+                if (!res) break;
             }
-            return results.length == 1 ? results[0] : results;
+            for (var i = 0; i < results.length; i++)
+                if (!results[i]) return false;
+            return true;
         };
         //获取某类自定义事件的列表
         this.events = function(eventName) {
@@ -368,7 +372,8 @@
             //窗体点击事件，主要是为了设置焦点
             $dom(elem).click(function(e) {
                 var obj = box._getObj(e);
-                obj.focus().trigger('click', {});
+                if (!obj.trigger('click')) return;
+                obj.focus();
                 $dom('.pagebox dropmenu').hide();
             });
         },
@@ -636,14 +641,7 @@
         var ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
         //触发关闭事件,如果返回false,则不再关闭
-        var result = ctrl.obj.trigger('shut');
-        if (result instanceof Array) {
-            for(var i=0;i<result.length;i++){
-                if(!(typeof(result[i]) == 'undefined' ? true : result[i]))return;
-            }
-        } else {
-            if(!(typeof(result) == 'undefined' ? true : result))return;
-        }
+        if (!ctrl.obj.trigger('shut')) return;
         //执行关闭窗体的一系列代码
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
@@ -678,6 +676,7 @@
     box.toFull = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         if (!ctrl.obj.max) return;
+        if (!ctrl.obj.trigger('full')) return;
         //记录放大前的数据，用于还原
         ctrl.win_offset = ctrl.dom.offset();
         ctrl.win_size = {
@@ -702,12 +701,12 @@
         for (var i = 0; i < childs.length; i++) {
             childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
         }
-        ctrl.obj.trigger('full');
     };
     //最小化
     box.toMinimize = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         if (!ctrl.obj.min) return;
+        if (!ctrl.obj.trigger('mini')) return;
         //记录之前的数据，用于还原
         if (!ctrl.obj.full) {
             ctrl.win_offset = ctrl.dom.offset();

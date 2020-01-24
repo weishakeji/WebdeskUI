@@ -265,7 +265,7 @@ b {
   </table>
   <b>事件：</b>
    <div>
-    <p>事件支持多播，即同一个事件可以添加多个方法。</p>
+    <p>事件支持多播，即同一个事件可以添加多个方法。事件方法的返回型仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
     <p>当同一个事件中的多个方法，有任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
   </div>
   <pre>
@@ -339,9 +339,9 @@ box.open();</pre>
       <td>与onshown相同</td>
     </tr>
     <tr>
-      <td>min</td>
+      <td>mini</td>
       <td>最小化</td>
-      <td>暂未实现</td>
+      <td></td>
       <td>与onshown相同</td>
     </tr>
     <tr>
@@ -406,7 +406,7 @@ box.open();</pre>
         console.log('2当前焦点窗体：'+sender.title);
     });
     box.onfull(function(sender,e){
-        //console.log(sender);
+        //return false;
     });
     //拖放和缩放
     var tm = function (sender, e) {		 
