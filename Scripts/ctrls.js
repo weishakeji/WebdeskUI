@@ -95,7 +95,7 @@
 			}
 		}
 	};
-	window.$contrl = control;
+	window.$ctrl = control;
 	window.$ctrls = new controls();
 })();
 /*

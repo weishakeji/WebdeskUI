@@ -18,7 +18,7 @@
     var box = function(param) {
         if (param == null || typeof(param) != 'object') param = {};
         //默认参数，
-        var defaultVal = {
+        var defaultAttr = {
             width: 100,
             height: 200,
             top: null,
@@ -40,10 +40,10 @@
             full: false, //打开后是否全屏，默认是false
             mini: false, //是否处于最小化状态
         };
-        for (var t in param) defaultVal[t] = param[t];
-        //defaultVal+param的参数，全部实现双向绑定
-        for (var t in defaultVal) {
-            this['_' + t] = defaultVal[t];
+        for (var t in param) defaultAttr[t] = param[t];
+        //defaultAttr+param的参数，全部实现双向绑定
+        for (var t in defaultAttr) {
+            this['_' + t] = defaultAttr[t];
             var str = 'Object.defineProperty(this, t, {\
                         get: function() {return this._' + t + ';},\
                         set: function(newValue) {\
@@ -264,7 +264,7 @@
 
         for (var t in this._builder_min) this._builder_min[t](this, area);
         //更新dom
-        this.dom = $dom(boxele);
+        //this.dom = $dom(boxele);
         $ctrls.update({
             id: this.id,
             dom: $dom(boxele)
@@ -287,72 +287,68 @@
     //构建pagebox窗体
     fn._builder = {
         //生成外壳
-        shell: function(target) {
+        shell: function(obj) {
             var div = $dom(document.body).append('div').childs().last();
             div.attr({
-                'boxid': target.id,
+                'boxid': obj.id,
                 'class': 'pagebox',
-                'pid': target.pid
+                'pid': obj.pid
             });
+            obj.dom = div;
         },
         //边缘部分，主要是用于控制缩放
-        margin: function(target) {
-            var pagebox = $dom('.pagebox[boxid=\'' + target.id + '\']');
-            var margin = pagebox.append('margin').find('margin');
+        margin: function(obj) {
+            var margin = obj.dom.append('margin').find('margin');
             var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
             for (var i = 0; i < arr.length; i++)
                 margin.append(arr[i]);
         },
         //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
-        title: function(target) {
-            var pagebox = $dom('.pagebox[boxid=\'' + target.id + '\']');
+        title: function(obj) {
             //图标和标题文字
-            var title = pagebox.append('pagebox_title').find('pagebox_title');
-            title.append('pb-ico').find('pb-ico').html(target.ico);
-            if (target.url != '') {
+            var title = obj.dom.append('pagebox_title').find('pagebox_title');
+            title.append('pb-ico').find('pb-ico').html(obj.ico);
+            if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.append('pb-ico').find('pb-ico').last().addClass('pb-loading').html('&#xe621');
             }
-            title.append('pb-text').find('pb-text').html(target.title);
+            title.append('pb-text').find('pb-text').html(obj.title);
             //移动窗体的响应条
-            pagebox.append('pagebox_dragbar');
+            obj.dom.append('pagebox_dragbar');
         },
         //右上角的最小化，最大化，关闭按钮
-        buttonbox: function(target) {
-            var pagebox = $dom('.pagebox[boxid=\'' + target.id + '\']');
-            var btnbox = pagebox.find('btnbox');
-            if (btnbox.length < 1) btnbox = pagebox.append('btnbox').find('btnbox');
+        buttonbox: function(obj) {
+            var btnbox = obj.dom.find('btnbox');
+            if (btnbox.length < 1) btnbox = obj.dom.append('btnbox').find('btnbox');
             btnbox.childs().remove();
-            if (target._min || target._max) {
+            if (obj._min || obj._max) {
                 btnbox.append('btn_min').append('btn_max');
-                if (!target._min) btnbox.find('btn_min').addClass('btndisable');
-                if (!target._max) btnbox.find('btn_max').addClass('btndisable');
-                target._baseEvents.min_max(pagebox[0]);
+                if (!obj._min) btnbox.find('btn_min').addClass('btndisable');
+                if (!obj._max) btnbox.find('btn_max').addClass('btndisable');
+                obj._baseEvents.min_max(obj.dom[0]);
             }
-            if (target._close) {
+            if (obj._close) {
                 btnbox.append('btn_close');
-                target._baseEvents.close(pagebox[0]);
+                obj._baseEvents.close(obj.dom[0]);
             }
         },
         //主体内容区
-        body: function(target) {
-            var pagebox = $dom('.pagebox[boxid=\'' + target.id + '\']');
+        body: function(obj) {
             var iframe = $dom(document.createElement('iframe'));
             iframe.attr({
-                'name': target.id,
-                'id': target.id,
+                'name': obj.id,
+                'id': obj.id,
                 'frameborder': 0,
                 'border': 0,
                 'marginwidth': 0,
                 'marginheight': 0,
-                'src': target.url
+                'src': obj.url
             });
-            pagebox.append(iframe);
+            obj.dom.append(iframe);
         },
         //左上角图标的下拉菜单
-        dropmenu: function(target) {
-            var pagebox = $dom('.pagebox[boxid=\'' + target.id + '\']');
-            var menu = pagebox.append('dropmenu').find('dropmenu');
+        dropmenu: function(obj) {
+            var menu = obj.dom.append('dropmenu').find('dropmenu');
             menu.append('menu_fresh').find('menu_fresh').html('刷新');
             menu.append('hr');
             menu.append('menu_min').find('menu_min').html('最小化');
@@ -362,8 +358,8 @@
             menu.append('menu_close').find('menu_close').html('关闭');
         },
         //遮罩
-        mask: function(target) {
-            $dom('.pagebox[boxid=\'' + target.id + '\']').append('pagebox_mask');
+        mask: function(obj) {
+            obj.dom.append('pagebox_mask');
         }
     };
     //添加pagebox自身事件，例如拖放、缩放、关闭等
@@ -484,7 +480,7 @@
                 var obj = box._getObj(e);
                 obj.full = false;
             });
-             //最大化
+            //最大化
             boxdom.find('dropmenu menu_max').click(function(e) {
                 var obj = box._getObj(e);
                 if (!obj.full) obj.full = true;
@@ -646,7 +642,7 @@
         var ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
         //触发关闭事件,如果返回false,则不再关闭
-        var t=ctrl.obj.trigger('shut');
+        var t = ctrl.obj.trigger('shut');
         if (!t) return;
         //执行关闭窗体的一系列代码
         ctrl.dom.css('transition', 'opacity 0.3s');

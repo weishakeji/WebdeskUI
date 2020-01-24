@@ -296,6 +296,8 @@
 		} else {
 			if (typeof arguments[0] == 'number')
 				return this.css('width', arguments[0] + 'px');
+			if (typeof arguments[0] == 'string')
+				return this.css('width', arguments[0]);
 		}
 	};
 
@@ -313,6 +315,8 @@
 		} else {
 			if (typeof arguments[0] == 'number')
 				return this.css('height', arguments[0] + 'px');
+			if (typeof arguments[0] == 'string')
+				return this.css('height', arguments[0]);
 		}
 	};
 	fn.left = function(num) {

@@ -189,11 +189,20 @@ dd:not(:last-child):before{
 			---background-color: rgb(202, 82, 82);			
 			---background-image: linear-gradient(to bottom, rgb(255, 255, 255, 1), rgb(255, 255, 255, .9), rgb(255, 255, 255, .9), rgb(255, 255, 255, .9));
 		}
+		i {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #000;
+      clip-path:polygon(10px 0px, 0px 20px, 20px 20px);
+      border: solid red 1px ;
+    }
 	</style>
 
 </head>
 
 <body>
+	<i></i>
 	<style scoped>
 		--@import url('test1.css');
 	</style>
