@@ -374,32 +374,35 @@ box.open();</pre>
         title: '可移动，可缩放；双击标题栏全屏'
     });
     box.title=box.id;
-	box.onrestore(function(sender,e){
-		//console.log(e);
-	});
-    //事件多播
+    //窗体还原测试
+    box.onrestore(function(sender,e){
+        if(e.action=='from-full')
+        		 console.log(sender.title+',从最大化状态，还原到窗体');
+        if(e.action=='from-min')
+             console.log(sender.title+',最小化还原到窗体');
+    });
+    //事件多播测试
     box.onfocus(function(sender,e){
         console.log('1当前焦点窗体：'+sender.title);
-    });
-    box.onfocus(function(sender,e){
+    }).onfocus(function(sender,e){
         console.log('2当前焦点窗体：'+sender.title);
     });
     box.onfull(function(sender,e){
         //console.log(sender);
     });
-	//拖放和缩放
+    //拖放和缩放
     var tm = function (sender, e) {		 
         var msg = 'x:' + e.mouse.x + "，y:" + e.mouse.y + '，movex:' + e.move.x + '，movey:' + e.move.y;
-		if(e.width)msg+='，width:'+e.width;
-		if(e.height)msg+='，height:'+e.height;
-		$dom('#show').html(msg);
+    		if(e.width)msg+='，width:'+e.width;
+    		if(e.height)msg+='，height:'+e.height;
+    		$dom('#show').html(msg);
     };
-
     box.ondrag(tm).onresize(tm);
+    //增加属性监听,三个参数obj为pagebox对象，val为新值，old为旧值
     box.watch({
-        'title':function(box,val){
+        'title':function(obj,val,old){
             console.log('通过外部监听，新的title：'+val);
-            }        
+        }        
     });
     box.open();
 /*

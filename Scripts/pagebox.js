@@ -634,6 +634,8 @@
     box.shut = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
+        //触发关闭事件
+        ctrl.obj.trigger('shut');
         //关闭窗体
         ctrl.dom.css('transition', 'opacity 0.3s');
         ctrl.dom.css('opacity', 0);
@@ -662,7 +664,7 @@
             }
             box.pageboxcollect_boxsize();
         }, 300);
-        ctrl.obj.trigger('shut');
+
     };
     //最大化
     box.toFull = function(boxid) {
@@ -710,7 +712,10 @@
                 resize: ctrl.obj.resize
             };
         }
-        if (ctrl.obj.full) ctrl.obj._full = false;
+        if (ctrl.obj.full) {
+            ctrl.obj._full = false;
+            ctrl.dom.removeClass('pagebox_full');
+        }
         var obj = ctrl.obj;
         obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s').addClass('pagebox_min');;
         //最小化后的所在区域
