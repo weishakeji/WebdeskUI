@@ -124,9 +124,16 @@
 			return this.parentNode.childNodes;
 		}, 1);
 	};
-	fn.childs = function() {
+	fn.childs = function(query) {
 		var nodes = this.each(function() {
-			return this.childNodes;
+			if (query == null) return this.childNodes;
+			var chs = this.childNodes
+			var tm = new Array();
+			for (var i = 0; i < chs.length; i++) {
+				if (chs[i].tagName.toLowerCase() == query.toLowerCase())
+					tm.push(chs[i]);
+			}
+			return tm;
 		}, 1);
 		return new webdom(nodes);
 	}

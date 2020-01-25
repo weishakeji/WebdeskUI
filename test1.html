@@ -18,18 +18,19 @@
 			height: 100%;
 		}
 
-		dl {
+		tabs_tagarea {
 			height: 31px;
 			width: 80%;
 			--background-color: #999;
 			margin-top: 20px;
 			margin-left: calc(20% - 1px);
 			border-bottom: 1px solid #aaa;
-			
+			display: block;
 			--overflow: hidden;
 		}
 
-		dd {
+		tab_tag {
+			display: block;
 			width: 60px;
 			float: left;
 			height: 32px;
@@ -46,11 +47,11 @@
 
 		}
 
-		dl dd:first-child{
+		tabs_tagarea tab_tag:first-child{
 			margin-right: -16px;
 		}
 
-		dl dd:first-child:before {
+		tabs_tagarea tab_tag:first-child:before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -66,10 +67,10 @@
 			border-bottom: 1px solid #aaa;
 			border-radius:4px 4px 0 0;
 		}
-		dd:not(:last-child):before {
+		tab_tag:not(:last-child):before {
 			background-color:#ff;
 		}
-		dd:not(:last-child):not(:first-child):before {
+		tab_tag:not(:last-child):not(:first-child):before {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -87,10 +88,10 @@
 			border-radius:4px 4px 0 0;
 
 		}
-dd:not(:last-child):before{
-	background: #efefef;              
-}
-		dd div {
+		tab_tag:not(:last-child):before{
+			background: #efefef; 
+		}
+		tab_tag div {
 			width: 100%;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -98,7 +99,7 @@ dd:not(:last-child):before{
 			user-select: none;
 		}
 
-		dl dd:last-child {
+		tabs_tagarea tab_tag:last-child {
 
 			transform: skewX(23deg);
 			color: #999;
@@ -111,30 +112,30 @@ dd:not(:last-child):before{
 			width: 0px;
 		}
 
-		dl dd:last-child:hover {
+		tabs_tagarea tab_tag:last-child:hover {
 			background-color: #eee;
 		}
 
-		dd.curr {
+		tab_tag.curr {
 			z-index: 100000 !important;
 			
 		}
-		dd.curr div {
+		tab_tag.curr div {
 			font-weight: bold;
 		}
-		dd.curr:before {
+		tab_tag.curr:before {
 			background: #fff !important;
 			--background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
 			border-bottom-style: none !important;
 			transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
 		}
 
-		dd:hover:before {
+		tab_tag:hover:before {
 			background-color: #eee;
 		}
 
 		/*关闭按钮*/
-		dd close {
+		tab_tag close {
 			top: 12px;
 			width: 14px;
 			height: 14px;
@@ -144,31 +145,31 @@ dd:not(:last-child):before{
 			position: absolute;
 		}
 
-		dd close:after {
+		tab_tag close:after {
 			content: "×";
 		}
 
-		dl dd:first-child:hover close{
+		tabs_tagarea tab_tag:first-child:hover close{
 			display: block;
 			right: 18px;
 		}
-		dl dd:first-child.curr:hover close{
+		tabs_tagarea tab_tag:first-child.curr:hover close{
 			display: block;
 			right: 8px;
 		}
-		dd:hover close{
+		tab_tag:hover close{
 			display: block;
 			right: 12px;
 		}
-		dd.curr close {
+		tab_tag.curr close {
 			display: block;
 			right: 8px;
 		}
-		dd:not(:first-child).curr close {
+		tab_tag:not(:first-child).curr close {
 			display: block;
 			right: 8px;
 		}
-		dd close:hover {
+		tab_tag close:hover {
 			background-color: #aaa;
 			color: #f00;
 			border-radius: 7px;
@@ -176,7 +177,7 @@ dd:not(:last-child):before{
 
 		}
 
-		dd:hover close:after {
+		tab_tag:hover close:after {
 			--background-color: #aaa;
 			--color: #fff;
 			border-radius: 7px;
@@ -206,29 +207,29 @@ dd:not(:last-child):before{
 	<style scoped>
 		--@import url('test1.css');
 	</style>
-	<dl id="tags">
-		<dd><div>菜单一</div>
+	<tabs_tagarea id="tags">
+		<tab_tag><div>菜单一</div>
 			<close />
-		</dd>
-		<dd><div>窗口</div>
+		</tab_tag>
+		<tab_tag><div>窗口</div>
 			<close />
-		</dd>
-		<dd><div>测试一</div>
+		</tab_tag>
+		<tab_tag><div>测试一</div>
 			<close />
-		</dd>
-		<dd><div>菜单二</div>
+		</tab_tag>
+		<tab_tag><div>菜单二</div>
 			<close />
-		</dd>
-		<dd>
+		</tab_tag>
+		<tab_tag>
 			<div>窗口标题比较长，测试下</div>
 			<close />
-		</dd>
-		<dd tag="create">+</dd>
-	</dl>
+		</tab_tag>
+		<tab_tag tag="create">+</tab_tag>
+	</tabs_tagarea>
 	<div id="contextbox" remark="内容区"></div>
 	<script type="text/javascript">
 		//import {tag} from 'test1.js'
-		var dd = document.getElementsByTagName("dd");
+		var dd = document.getElementsByTagName("tab_tag");
 		if (dd.length > 0) dd[0].className = "curr";
 		for (i = 0; i < dd.length - 1; i++) {
 			dd[i].style.zIndex = dd.length - i;
@@ -236,7 +237,7 @@ dd:not(:last-child):before{
 			//标签的单击事件
 			dd[i].addEventListener("click", function (el) {
 				var target = el.target;
-				while (target.nodeName != "DD")
+				while (target.nodeName.toLowerCase() != "tab_tag")
 					target = target.parentNode;
 				setCurr(target);
 			}, false);
@@ -288,7 +289,7 @@ dd:not(:last-child):before{
 		//设置当前标签项
 		//dd为菜单元素，默认是第一个，direction为方向，1向右，-1向左，0为当前
 		function setCurr(dd, direction) {
-			var dds = document.getElementsByTagName("dd");
+			var dds = document.getElementsByTagName("tab_tag");
 			dd = dd == null ? document.getElementsByTagName("dd")[0] : dd;
 			direction = direction == null ? 0 : direction;
 			//设置当前标签为选中状态

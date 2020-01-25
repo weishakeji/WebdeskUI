@@ -32,6 +32,7 @@
 			eval(str);
 		}
 		this.childs = new Array(); //子级
+		//this.pageboxs=new Array();	//当前
 		this.dom = null; //html对象
 		this._watchlist = new Array(); //自定义监听  
 		/* 自定义事件 */
@@ -75,7 +76,7 @@
 			obj.dom = area;
 		},
 		title: function(obj) {
-			var title = obj.dom.append('tabs_titlebar').find('tabs_titlebar');
+			var title = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
 			obj.domtit = title;
 			//右上角的更多按钮
 			obj.dom.append('tabs_more');
@@ -85,17 +86,26 @@
 			obj.dombody = body;
 		},
 		morebox: function(obj) {
-			var more = obj.dom.append('tabs_morebox').find('tabs_morebox');
-			obj.domore = more;
+			//var more = obj.dom.append('tabs_morebox').find('tabs_morebox');
+			//obj.domore = more;
 		}
 	};
 	fn.add = function(tab) {
-		var t = {
-			title: '标题',
-			path: '路径',
-			url: '',
-			id: 0
+		if (tab instanceof Array) {
+			for (var i = 0; i < tab.length; i++)
+				this.add(tab[i]);
+			return;
 		}
+		//添加tab到控件
+		var size = this.childs.length;
+		if (!tab.id) tab.id = 'tab_' + new Date().getTime() + '_' + (size + 1);
+		if (!tab.index) tab.index = size + 1;
+		this.childs.push(tab);
+		//添加标签
+		var tabtit = this.domtit.append('tab_tag').childs('tab_tag').last();
+		tabtit.html(tab.title);
+		//tabtit.append('')
+
 	}
 	/*** 
     以下是静态方法

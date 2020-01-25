@@ -18,13 +18,23 @@ html, body {
 </head>
 
 <body oncontextmenu ='self.event.returnValue=false'>
-  <div id="tabs-area"></div>
+  <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'><div id="tabs-area"></div></div>
 </body>
 <script type="text/javascript">
     var tabs=$tabs.create({
       target:'#tabs-area',
-      width:'calc(100% - 50px)',
-      height:'calc(100% - 50px)'
+      width:'100%',
+      height:'100%'
     });
+    tabs.add([{
+      title:'菜单一',
+      url:'http://www.baidu.com',
+      path:''
+    },{
+       title:'菜单二',
+      url:'http://www.baidu.com',
+      path:''
+    }]);
+    console.log(tabs.childs.length);
 </script>
 </html>
