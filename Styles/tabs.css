@@ -10,6 +10,7 @@ body {
 
 .tabsbox {
     position: relative;
+    overflow: hidden;
 }
 
 .tabsbox>*,
@@ -17,17 +18,19 @@ body {
     display: block;
 }
 
+/*标签栏*/
 .tabsbox tabs_tagarea {
-    height: 31px;
-    width: calc(100% - 30px);
-    background-color: #fff;
+    height: 35px;
+    width: 100%;
     border-bottom: 1px solid #aaa;
+    display: block;
 }
 
+/*选项卡标签*/
 .tabsbox tab_tag {
-    width: 60px;
+    width: 100px;
     float: left;
-    height: 32px;
+    height: 36px;
     position: relative;
     font-size: 13px;
     line-height: 36px;
@@ -37,7 +40,7 @@ body {
     user-select: none;
     /*禁用事件*/
     --pointer-events: none;
-    margin-right: -10px;
+    margin-right: -18px;
 
 }
 
@@ -57,8 +60,91 @@ body {
     /*当禁用父元素事件时，启用伪类事件*/
     --pointer-events: auto;
     border-radius: 4px 4px 0 0;
-        background: #efefef;
+    background: #efefef;
+}
 
+tabs_tagarea tab_tag:first-child:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transform: perspective(.5em) rotateX(2deg);
+    transform-origin: bottom left;
+    box-shadow: .5px -1px .5px #aaa;
+    border-left: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    border-radius: 4px 4px 0 0;
+    margin-left: 6px;
+}
+
+.tabsbox tab_tag>* {
+    display: block;
+    position: absolute;
+}
+
+.tabsbox tab_tag.tagcurr {
+    height: 36px;
+}
+
+tab_tag.tagcurr:before {
+    background: #fff !important;
+    --background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
+    border-bottom-style: none !important;
+    transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
+}
+
+.tabsbox tab_tag ico {
+    display: block;
+    position: absolute;
+    left: 18px;
+    bottom: 0px;
+    font-size: 14px;
+    width: 30px;
+    height: 32px;
+    font-family: "webdesk_icon" !important;
+}
+
+.tabsbox tab_tag tagtxt {
+    left: 38px;
+    height: 32px;
+    line-height: 36px;
+    bottom: 0px;
+}
+
+/*关闭按钮*/
+.tabsbox tab_tag close {
+    top: 12px;
+    right: 15px;
+    width: 14px;
+    height: 14px;
+    display: none;
+    line-height: 12px;
+    text-align: center;
+    cursor: pointer;
+}
+tabs_tagarea tab_tag:first-child close{
+	right: 18px;
+}
+tabs_tagarea tab_tag.tagcurr close{
+	right: 12px;
+}
+.tabsbox tab_tag close:before {
+    content: "×";
+}
+
+.tabsbox tab_tag:hover close,
+.tabsbox tab_tag.tagcurr close {
+    display: block;
+}
+
+.tabsbox tab_tag close:hover {
+    color: red;
+    background-color: #ccc;
+    border-radius: 7px;
+    cursor: pointer;
 }
 
 .tabsbox tabs_more {
@@ -70,11 +156,41 @@ body {
     background-color: blue;
 }
 
+/*内容区*/
+
 .tabsbox tabs_body {
     position: absolute;
-    width: 100%;
-    height: calc(100% - 32px);
+    width: calc(100% - 2px);
+    height: calc(100% - 37px);
     left: 0px;
     bottom: 0px;
-    background-color: yellow;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-top: none;
+}
+
+.tabsbox tabs_body tabspace {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.tabsbox tabs_body tabspace>* {
+    display: block;
+}
+
+.tabsbox tabs_body tabspace tabpath {
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 30px;
+    text-indent: 20px;
+    box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
+}
+
+.tabsbox tabs_body tabspace iframe {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
 }
