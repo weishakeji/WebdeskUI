@@ -1,48 +1,61 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Tabs</title>
-<script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
-<script type="text/javascript" src="Scripts/ctrls.js"></script>
-<script type="text/javascript" src="Scripts/tabs.js"></script>
-<link rel="stylesheet" type="text/css" href="Styles/tabs.css" />
-<style type="text/css">
-html, body {
-	overflow: hidden;
-}
 
-</style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tabs</title>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="Scripts/ctrls.js"></script>
+    <script type="text/javascript" src="Scripts/tabs.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles/tabs.css" />
+    <style type="text/css">
+    html,
+    body {
+        overflow: hidden;
+    }
+    </style>
 </head>
 
-<body oncontextmenu ='self.event.returnValue=false'>
-  <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'><div id="tabs-area"></div></div>
+<body oncontextmenu='self.event.returnValue=false'>
+    <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
+        <div id="tabs-area"></div>
+    </div>
 </body>
 <script type="text/javascript">
-    var tabs=$tabs.create({
-      target:'#tabs-area',
-      width:'100%',
-      height:'100%'
-    });
-    tabs.add([{
-      title:'菜单一',
-      url:'pagebox-child.html',
-      path:'xxx'
-    },{
-       title:'菜单二',
-      url:'http://www.taobao.com',
-      path:''
-    },{
-       title:'百度',
-      url:'http://www.baidu.com',
-      path:''
-    },{
-       title:'路发题库',
-      url:'http://www.168fff.cn',
-      path:''
-    }]);
-    console.log(tabs.childs.length);
+var tabs = $tabs.create({
+    target: '#tabs-area',
+    width: '100%',
+    height: '100%'
+});
+tabs.onchange(function(s, e) {
+    console.log('当前标签：' + e.title + ",tagid:" + e.tabid);
+});
+tabs.onshut(function(s, e) {
+    console.log('当前关闭的标签：' + e.title + ",tagid:" + e.tabid);
+});
+//
+var pages = [{
+    title: '菜单一',
+    url: 'pagebox-child.html',
+    path: 'xxx'
+}, {
+    title: '菜单二',
+    url: 'http://www.taobao.com',
+    path: ''
+}, {
+    title: '百度',
+    url: 'http://www.baidu.com',
+    path: ''
+}, {
+    title: '路发题库',
+    url: 'http://www.168fff.cn',
+    path: ''
+}];
+tabs.add(pages);
+tabs.add(pages);
+console.log(tabs.childs.length);
 </script>
+
 </html>

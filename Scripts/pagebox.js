@@ -43,25 +43,8 @@
         for (var t in param) defaultAttr[t] = param[t];
         //defaultAttr+param的参数，全部实现双向绑定
         for (var t in defaultAttr) {
-            this['_' + t] = defaultAttr[t];
-            var str = 'Object.defineProperty(this, t, {\
-                        get: function() {return this._' + t + ';},\
-                        set: function(newValue) {\
-                            var old = this._' + t + ';\
-                            this._' + t + '= newValue;\
-                            for (var wat in this._watch) {\
-                                if (\'' + t + '\' == wat) {\
-                                    this._watch[wat](this,newValue,old);\
-                                }\
-                            }\
-                            for (var i=0;i<this._watchlist.length;i++) {\
-                                if (\'' + t + '\' == this._watchlist[i].key) {\
-                                    this._watchlist[i].func(this,newValue,old);\
-                                }\
-                            }\
-                        }\
-                    });';
-            eval(str);
+            this['_' + t] = defaultAttr[t];            
+            eval($ctrl.def(t));
         }
         //以下不支持双向绑定
         this.parent = null; //父窗体对象

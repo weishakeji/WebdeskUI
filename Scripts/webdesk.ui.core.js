@@ -164,7 +164,7 @@
 			});
 		} else {
 			return this.each(function() {
-				return this.innerText;
+				return this.innerText.replace(/(^\s*)|(\s*$)/g, "");
 			}, 1);
 		}
 	};

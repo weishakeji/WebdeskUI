@@ -10,34 +10,64 @@
 			id: ''
 		};
 		for (var t in param) defaultAttr[t] = param[t];
+		//defaultAttr+param的参数，全部实现双向绑定
 		for (var t in defaultAttr) {
 			this['_' + t] = defaultAttr[t];
-			var str = 'Object.defineProperty(this, t, {\
-                        get: function() {return this._' + t + ';},\
-                        set: function(newValue) {\
-                            var old = this._' + t + ';\
-                            this._' + t + '= newValue;\
-                            for (var wat in this._watch) {\
-                                if (\'' + t + '\' == wat) {\
-                                    this._watch[wat](this,newValue,old);\
-                                }\
-                            }\
-                            for (var i=0;i<this._watchlist.length;i++) {\
-                                if (\'' + t + '\' == this._watchlist[i].key) {\
-                                    this._watchlist[i].func(this,newValue,old);\
-                                }\
-                            }\
-                        }\
-                    });';
-			eval(str);
+			eval($ctrl.def(t));
 		}
 		this.childs = new Array(); //子级
 		//this.pageboxs=new Array();	//当前
 		this.dom = null; //html对象
+		this._eventlist = new Array(); //自定义的事件集合     
 		this._watchlist = new Array(); //自定义监听  
 		/* 自定义事件 */
 		var customEvents = ['shown', 'shut', 'shutall', 'shutright', , 'shutleft', 'add', 'change'];
-
+		for (var i = 0; i < customEvents.length; i++) {
+			eval('this.on' + customEvents[i] + '=function(f){\
+                return arguments.length > 0 ?  \
+                this.bind(\'' + customEvents[i] + '\', f) :  \
+                this.trigger(\'' + customEvents[i] + '\');};');
+		}
+		//绑定自定义事件
+		this.bind = function(eventName, func) {
+			if (typeof(func) == "function")
+				this._eventlist.push({
+					'name': eventName,
+					'event': func
+				});
+			return this;
+		};
+		//触发自定义事件
+		this.trigger = function(eventName, eventArgs) {
+			var arrEvent = this.events(eventName);
+			if (arrEvent.length < 1) return true;
+			//事件参数处理，增加事件名称与形为
+			if (!eventArgs) eventArgs = {};
+			if (!eventArgs['event']) eventArgs['event'] = eventName;
+			if (!eventArgs['action']) eventArgs['action'] = eventName;
+			if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
+			//执行事件，当事件中有任一事件返回false，则不再继续执行后续事件
+			var results = [];
+			for (var i = 0; i < arrEvent.length; i++) {
+				var res = arrEvent[i](this, eventArgs);
+				//不管返回结果是什么类型的值，都转为bool型
+				res = (typeof(res) == 'undefined' ? true : (typeof(res) == 'boolean' ? res : true));
+				results.push(res);
+				if (!res) break;
+			}
+			for (var i = 0; i < results.length; i++)
+				if (!results[i]) return false;
+			return true;
+		};
+		//获取某类自定义事件的列表
+		this.events = function(eventName) {
+			var arrEvent = new Array();
+			for (var i = 0; i < this._eventlist.length; i++) {
+				if (this._eventlist[i].name == eventName)
+					arrEvent.push(this._eventlist[i].event);
+			}
+			return arrEvent;
+		};
 		this._open();
 		this.width = this._width;
 		this.height = this._height;
@@ -93,6 +123,7 @@
 		}
 	};
 	fn.add = function(tab) {
+		if (tab == null) return;
 		if (tab instanceof Array) {
 			for (var i = 0; i < tab.length; i++)
 				this.add(tab[i]);
@@ -100,7 +131,7 @@
 		}
 		//添加tab到控件
 		var size = this.childs.length;
-		if (!tab.id) tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
+		tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
 		if (!tab.ico) tab.ico = '&#xe72f';
 		this.childs.push(tab);
@@ -166,6 +197,7 @@
 			//获取标签id
 			while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
 			var tabid = $dom(node).attr('tabid');
+			var title = $dom(node).text();
 			//获取组件id
 			while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
 			var ctrid = $dom(node).parent().attr('ctrid');
@@ -179,11 +211,16 @@
 			}
 			//切换焦点
 			crt.obj.focus(tabid);
+			crt.obj.trigger('change', {
+				tabid: tabid,
+				title: title
+			});
 		});
 	};
 	//移除某个选项卡
 	fn.remove = function(tabid) {
 		var tittag = this.domtit.find('tab_tag[tabid=' + tabid + ']');
+		var title = tittag.text();
 		//设置关闭后的焦点选项卡
 		var next = tittag.next();
 		if (next.length < 1) next = tittag.prev();
@@ -192,6 +229,10 @@
 		this.dombody.find('tabspace[tabid=' + tabid + ']').remove();
 		//设置关闭后的焦点选项卡
 		this.focus(next);
+		this.trigger('shut', {
+			tabid: tabid,
+			title: title
+		});
 	};
 	/*** 
     以下是静态方法

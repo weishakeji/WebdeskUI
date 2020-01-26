@@ -1,8 +1,8 @@
 ﻿/*!
-* 主 题：控件管理，
-* 说 明：
-* 1、主要目的是用于对控件的集中管理；
-*/
+ * 主 题：控件管理，
+ * 说 明：
+ * 1、主要目的是用于对控件的集中管理；
+ */
 (function() {
 	/* 用于记录对象时所需的一些属性 */
 	var control = function(param) {
@@ -21,6 +21,37 @@
 			window.$ctrls.remove(this.id);
 		}
 	};
+	/*control的静态方法*/
+
+	//实现对象属性的双向绑定
+	control.def = function(t) {
+		var str = 'Object.defineProperty(this, t, {\
+                        get: function() {return this._' + t + ';},\
+                        set: function(newValue) {\
+                            var old = this._' + t + ';\
+                            this._' + t + '= newValue;\
+                            for (var wat in this._watch) {\
+                                if (\'' + t + '\' == wat) {\
+                                    this._watch[wat](this,newValue,old);\
+                                }\
+                            }\
+                            for (var i=0;i<this._watchlist.length;i++) {\
+                                if (\'' + t + '\' == this._watchlist[i].key) {\
+                                    this._watchlist[i].func(this,newValue,old);\
+                                }\
+                            }\
+                        }\
+                    });';
+		return str;
+	};
+	//控件的自定义事件管理，分别是绑定、触发、移除、事件列表
+	control.event = {
+		bind: function() {},
+		trigger: function() {},
+		remove: function() {},
+		list: function() {}
+	};
+
 	/*  储存对象方法的键值对   */
 	var controls = function() {
 		this.muster = {}; //控件的集合
@@ -73,7 +104,7 @@
 			if (!!this.muster[key]) val = this.muster[key];
 			if (val instanceof control) return val.obj;
 			return null;
-		};		
+		};
 		this.size = function() {
 			var i = 0;
 			for (var key in this.muster) i++;
