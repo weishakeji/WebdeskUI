@@ -106,6 +106,7 @@
 	fn.next = function() {
 		var nodes = this.each(function() {
 			var cur = this.nextSibling;
+			if (cur == null) return cur;
 			while (cur.nodeType != 1) cur = cur.nextSibling;
 			return cur;
 		}, 1);
@@ -114,6 +115,7 @@
 	fn.prev = function() {
 		var nodes = this.each(function() {
 			var p = this.previousSibling;
+			if (p == null) return p;
 			while (p.nodeType != 1) p = p.previousSibling;
 			return p;
 		}, 1);
