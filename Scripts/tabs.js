@@ -96,6 +96,7 @@
 		this._initialization();
 		//创建控件html对象
 		for (var t in this._builder) this._builder[t](this);
+		for (var t in this._baseEvents) this._baseEvents[t](this);
 	};
 	fn._builder = {
 		shell: function(obj) {
@@ -123,6 +124,14 @@
 			//obj.domore = more;
 		}
 	};
+	//基础事件
+	fn._baseEvents = {
+		morebtn: function(obj) {
+			obj.dom.find('tabs_more').click(function() {
+				console.log('点击更多按钮');
+			});
+		}
+	};
 	fn.add = function(tab) {
 		if (tab == null) return;
 		if (tab instanceof Array) {
@@ -134,7 +143,7 @@
 		var size = this.childs.length;
 		tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
-		if (!tab.ico) tab.ico = '&#xe72f';
+		if (!tab.ico) tab.ico = '&#xa007';
 		this.childs.push(tab);
 		//添加标签
 		var tabtag = this.domtit.append('tab_tag').childs('tab_tag').last();
@@ -202,14 +211,16 @@
 		var visiLeft = this.dom.offset().left;
 		var visiWidth = this.domtit.parent().width() - 30;
 		var area = this.domtit.parent();
+		///*
 		//向左滚动
-		var tagleft = (Number(tag.attr('index')) + 1) * tag.width();
+		var tagleft = (Number(tag.attr('index')) + 1) * 125;
 		if (tagleft - visiLeft > visiWidth)
 			area[0].scrollLeft = tagleft - visiLeft - visiWidth;
 		//向右滚动
 		tagleft = Number(tag.attr('index')) * tag.width();
 		if (tagleft - visiLeft <= 0)
 			area[0].scrollLeft = tagleft - visiLeft;
+		//*/
 	};
 	//标签栏的可视区域
 	fn._tagVisiblearea = function() {

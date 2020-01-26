@@ -21,16 +21,16 @@ body {
 /*标签栏*/
 .tabsbox tabs_tagarea {
     height: 35px;
-    width: 100%;
+    width: calc(100% - 30px);
     overflow: hidden;
-    
+
 }
 
 .tabsbox tabs_tagbox {
     position: relative;
     width: 9000%;
     height: 34px;
-    display: block;    
+    display: block;
     z-index: 1;
     border-bottom: 1px solid #aaa;
 }
@@ -111,9 +111,10 @@ tab_tag.tagcurr:before {
     position: absolute;
     left: 18px;
     bottom: 0px;
-    font-size: 14px;
+    font-size: 12px;
     width: 30px;
     height: 32px;
+    color: #999;
     font-family: "webdesk_icon" !important;
 }
 
@@ -124,7 +125,7 @@ tab_tag.tagcurr:before {
     bottom: 0px;
     width: calc(100% - 60px);
     overflow: hidden;
-    text-overflow:ellipsis;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
@@ -145,7 +146,7 @@ tabs_tagbox tab_tag:first-child close {
 }
 
 tabs_tagbox tab_tag.tagcurr close {
-    right: 12px;
+    right: 6px;
 }
 
 .tabsbox tab_tag close:before {
@@ -165,13 +166,26 @@ tabs_tagbox tab_tag.tagcurr close {
 }
 
 .tabsbox tabs_more {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     position: absolute;
-    top: 5px;
+    top: 6px;
     right: 0px;
     z-index: 2;
-    background-color: blue;
+    text-align: center;
+    background-color: #eee;
+   border: solid 1px #999;
+   border-radius: 3px;
+
+}
+
+.tabsbox tabs_more:before {
+	content: '\a006';
+	line-height: 26px;
+	color: #666;
+	display: block;
+	transform:rotate(90deg);
+    font-family: "webdesk_icon" !important;    
 }
 
 /*内容区*/
@@ -179,7 +193,7 @@ tabs_tagbox tab_tag.tagcurr close {
 .tabsbox tabs_body {
     position: absolute;
     width: calc(100% - 2px);
-    height: calc(100% - 37px);
+    height: calc(100% - 36px);
     left: 0px;
     bottom: 0px;
     background-color: #fff;
