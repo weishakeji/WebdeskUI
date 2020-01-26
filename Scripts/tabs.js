@@ -108,9 +108,9 @@
 			obj.dom = area;
 		},
 		title: function(obj) {
-			var title = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
-			//var tittags = title.append('tabs_tags').find('tabs_tags');
-			obj.domtit = title;
+			var tagarea = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
+			var tagsbox = tagarea.append('tabs_tagbox').find('tabs_tagbox');
+			obj.domtit = tagsbox;
 			//右上角的更多按钮
 			obj.dom.append('tabs_more');
 		},
@@ -176,7 +176,7 @@
 			$dom(this).level(tags.length - index).attr('index', index);
 		});
 	};
-	//设置某一个
+	//设置某一个标签为焦点
 	//istrigger:是否触发事件
 	fn.focus = function(tabid, istrigger) {
 		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=' + tabid + ']');
@@ -197,6 +197,39 @@
 			tabid: tag.attr('tabid'),
 			title: tag.text()
 		});
+		//
+		//计算标签区域的可视区域，左侧坐标与宽度
+		var visiLeft = this.dom.offset().left;
+		var visiWidth = this.domtit.parent().width();
+		//
+		var tagleft = tag.offset().left;
+		if (tagleft - visiLeft > visiWidth) {
+			var scroll = tagleft - visiLeft - visiWidth;
+			console.log(scroll);
+			var area=this.domtit.parent();
+			//area[0].scrollLeft = scroll+120;
+			//this.domtit.css('margin-left',(-scroll)+'px');
+			//this.domtit.css('scrollLeft',scroll+'px');
+		}
+		/*
+		this.domtit.childs().each(function() {
+			var left = $dom(this).offset().left;
+			$dom(this).find('tagtxt').html(left-visiLeft);
+		});
+		//var offset = this.dom.offset();
+		var offset = tag.offset(false);
+		console.log('当前标签的坐标: x_' + offset.left + ", y_" + offset.top);
+		*/
+	};
+	//标签栏的可视区域
+	fn._tagVisiblearea = function() {
+		var offset = this.dom.offset();
+		var tt = $dom('tabs_offset');
+		tt.left(offset.left);
+		tt.top(offset.top);
+		tt.height(this.domtit.height());
+		tt.width(this.dom.width() - 30);
+		//this.dom.width() - 40
 	};
 	//设置标签的点击事件
 	fn._tagClick = function(tabid) {

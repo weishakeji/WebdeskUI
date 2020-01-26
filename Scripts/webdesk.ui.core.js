@@ -346,24 +346,13 @@
 				return this.css('top', arguments[0] + 'px');
 		}
 	};
-	//获取元素的坐标，默认是基于页面，如果absolute为false，则取相对于父元素
-	fn.offset = function(absolute) {
-		//获取相对于父元素的坐标
-		if (absolute != null && absolute == false) {
-			return this.each(function() {
-				var styles = document.defaultView.getComputedStyle(this, null);
-				return {
-					left: parseFloat(styles.getPropertyValue('left')),
-					top: parseFloat(styles.getPropertyValue('top'))
-				};
-			}, 1);
-		}
-		//获取基于页面左上角的坐标
+	//获取元素的坐标
+	fn.offset = function() {
 		var offset = {
 			top: 0,
 			left: 0
 		};
-		if (this.length < 1) return offest;
+		if (this.length < 1) return offset;
 		var node = this[0];
 		// 当前为IE11以下, 直接返回{top: 0, left: 0}
 		if (!node.getClientRects().length) return offset;

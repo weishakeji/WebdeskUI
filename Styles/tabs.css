@@ -14,23 +14,32 @@ body {
 }
 
 .tabsbox>*,
-.tabsbox tabs_tagarea>* {
+.tabsbox tabs_tagbox>* {
     display: block;
 }
 
 /*标签栏*/
 .tabsbox tabs_tagarea {
     height: 35px;
+    width: 100%;
+    overflow: hidden;
+    
+}
+
+.tabsbox tabs_tagbox {
+    position: relative;
     width: 9000%;
+    height: 34px;
+    display: block;    
+    z-index: 1;
     border-bottom: 1px solid #aaa;
-    display: block;
 }
 
 /*选项卡标签*/
 .tabsbox tab_tag {
     width: 100px;
     float: left;
-    height: 36px;
+    height: 35px;
     position: relative;
     font-size: 13px;
     line-height: 36px;
@@ -63,7 +72,7 @@ body {
     background: #efefef;
 }
 
-tabs_tagarea tab_tag:first-child:before {
+tabs_tagbox tab_tag:first-child:before {
     content: '';
     position: absolute;
     top: 0;
@@ -94,6 +103,7 @@ tab_tag.tagcurr:before {
     --background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
+    margin-bottom: -1px;
 }
 
 .tabsbox tab_tag ico {
@@ -125,12 +135,15 @@ tab_tag.tagcurr:before {
     text-align: center;
     cursor: pointer;
 }
-tabs_tagarea tab_tag:first-child close{
-	right: 18px;
+
+tabs_tagbox tab_tag:first-child close {
+    right: 18px;
 }
-tabs_tagarea tab_tag.tagcurr close{
-	right: 12px;
+
+tabs_tagbox tab_tag.tagcurr close {
+    right: 12px;
 }
+
 .tabsbox tab_tag close:before {
     content: "×";
 }
