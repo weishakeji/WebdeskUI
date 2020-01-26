@@ -200,26 +200,16 @@
 		//
 		//计算标签区域的可视区域，左侧坐标与宽度
 		var visiLeft = this.dom.offset().left;
-		var visiWidth = this.domtit.parent().width();
-		//
-		var tagleft = tag.offset().left;
-		if (tagleft - visiLeft > visiWidth) {
-			var scroll = tagleft - visiLeft - visiWidth;
-			console.log(scroll);
-			var area=this.domtit.parent();
-			//area[0].scrollLeft = scroll+120;
-			//this.domtit.css('margin-left',(-scroll)+'px');
-			//this.domtit.css('scrollLeft',scroll+'px');
-		}
-		/*
-		this.domtit.childs().each(function() {
-			var left = $dom(this).offset().left;
-			$dom(this).find('tagtxt').html(left-visiLeft);
-		});
-		//var offset = this.dom.offset();
-		var offset = tag.offset(false);
-		console.log('当前标签的坐标: x_' + offset.left + ", y_" + offset.top);
-		*/
+		var visiWidth = this.domtit.parent().width() - 30;
+		var area = this.domtit.parent();
+		//向左滚动
+		var tagleft = (Number(tag.attr('index')) + 1) * tag.width();
+		if (tagleft - visiLeft > visiWidth)
+			area[0].scrollLeft = tagleft - visiLeft - visiWidth;
+		//向右滚动
+		tagleft = Number(tag.attr('index')) * tag.width();
+		if (tagleft - visiLeft <= 0)
+			area[0].scrollLeft = tagleft - visiLeft;
 	};
 	//标签栏的可视区域
 	fn._tagVisiblearea = function() {
