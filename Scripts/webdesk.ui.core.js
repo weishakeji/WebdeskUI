@@ -346,25 +346,37 @@
 				return this.css('top', arguments[0] + 'px');
 		}
 	};
-	fn.offset = function() {
-		var offest = {
+	//获取元素的坐标，默认是基于页面，如果absolute为false，则取相对于父元素
+	fn.offset = function(absolute) {
+		//获取相对于父元素的坐标
+		if (absolute != null && absolute == false) {
+			return this.each(function() {
+				var styles = document.defaultView.getComputedStyle(this, null);
+				return {
+					left: parseFloat(styles.getPropertyValue('left')),
+					top: parseFloat(styles.getPropertyValue('top'))
+				};
+			}, 1);
+		}
+		//获取基于页面左上角的坐标
+		var offset = {
 			top: 0,
 			left: 0
 		};
 		if (this.length < 1) return offest;
 		var node = this[0];
 		// 当前为IE11以下, 直接返回{top: 0, left: 0}
-		if (!node.getClientRects().length) return offest;
+		if (!node.getClientRects().length) return offset;
 		// 当前DOM节点的 display === 'node' 时, 直接返回{top: 0, left: 0}
-		if (window.getComputedStyle(node)['display'] === 'none') return offest;
+		if (window.getComputedStyle(node)['display'] === 'none') return offset;
 		// Element.getBoundingClientRect()方法返回元素的大小及其相对于视口的位置。
 		// 返回值包含了一组用于描述边框的只读属性——left、top、right和bottom，单位为像素。除了 width 和 height 外的属性都是相对于视窗的左上角位置而言的。
 		// 返回如{top: 8, right: 1432, bottom: 548, left: 8, width: 1424…}
-		offest = node.getBoundingClientRect();
+		offset = node.getBoundingClientRect();
 		var docElement = node.ownerDocument.documentElement;
 		return {
-			top: offest.top + window.pageYOffset - docElement.clientTop,
-			left: offest.left + window.pageXOffset - docElement.clientLeft
+			top: offset.top + window.pageYOffset - docElement.clientTop,
+			left: offset.left + window.pageXOffset - docElement.clientLeft
 		};
 	};
 	fn.append = function(ele) {
