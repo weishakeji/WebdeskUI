@@ -21,7 +21,7 @@ body {
 /*标签栏*/
 .tabsbox tabs_tagarea {
     height: 35px;
-    width: 100%;
+    width: 9000%;
     border-bottom: 1px solid #aaa;
     display: block;
 }
@@ -151,8 +151,9 @@ tabs_tagarea tab_tag.tagcurr close{
     height: 30px;
     width: 30px;
     position: absolute;
-    top: 0px;
+    top: 5px;
     right: 0px;
+    z-index: 2;
     background-color: blue;
 }
 

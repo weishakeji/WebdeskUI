@@ -21,7 +21,7 @@
 		this._eventlist = new Array(); //自定义的事件集合     
 		this._watchlist = new Array(); //自定义监听  
 		/* 自定义事件 */
-		var customEvents = ['shown', 'shut', 'shutall', 'shutright', , 'shutleft', 'add', 'change'];
+		var customEvents = ['shut', 'shutall', 'shutright', , 'shutleft', 'add', 'change'];
 		for (var i = 0; i < customEvents.length; i++) {
 			eval('this.on' + customEvents[i] + '=function(f){\
                 return arguments.length > 0 ?  \
@@ -109,6 +109,7 @@
 		},
 		title: function(obj) {
 			var title = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
+			//var tittags = title.append('tabs_tags').find('tabs_tags');
 			obj.domtit = title;
 			//右上角的更多按钮
 			obj.dom.append('tabs_more');
@@ -165,7 +166,8 @@
 		}
 		this.order();
 		this._tagClick(tab.id);
-		this.focus(tab.id);
+		this._mousewheel(tab.id);
+		this.focus(tab.id, false);
 	};
 	//排序
 	fn.order = function() {
@@ -175,18 +177,26 @@
 		});
 	};
 	//设置某一个
-	fn.focus = function(tabid) {
+	//istrigger:是否触发事件
+	fn.focus = function(tabid, istrigger) {
+		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=' + tabid + ']');
+		//当前处于焦点的标签
+		var tagcurr = this.domtit.find('.tagcurr');
+		if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) return;
+		//
 		//去除所有的焦点
-		this.domtit.childs().removeClass('tagcurr');
+		tagcurr.removeClass('tagcurr');
 		this.dombody.childs().hide();
 		this.order();
 		//设置当前标签为焦点
-		//if($dom.isdom(tabid))
-		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=' + tabid + ']');
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
 		this.dombody.find('tabspace[tabid=' + tag.attr('tabid') + ']').show();
-		console.log('焦点：' + tag.text());
+		//触发事件
+		if (istrigger) this.trigger('change', {
+			tabid: tag.attr('tabid'),
+			title: tag.text()
+		});
 	};
 	//设置标签的点击事件
 	fn._tagClick = function(tabid) {
@@ -197,7 +207,6 @@
 			//获取标签id
 			while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
 			var tabid = $dom(node).attr('tabid');
-			var title = $dom(node).text();
 			//获取组件id
 			while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
 			var ctrid = $dom(node).parent().attr('ctrid');
@@ -210,11 +219,32 @@
 				return;
 			}
 			//切换焦点
-			crt.obj.focus(tabid);
-			crt.obj.trigger('change', {
-				tabid: tabid,
-				title: title
-			});
+			crt.obj.focus(tabid, true);
+		});
+	};
+	//设置标签的鼠标滚轴事件
+	fn._mousewheel = function(tabid) {
+		this.domtit.find('tab_tag[tabid=' + tabid + ']').bind('mousewheel', function(e) {
+			e = e || window.event;
+			var whell = e.wheelDelta ? e.wheelDelta : e.detail;
+			var action = whell > 0 ? "up" : "down"; //上滚或下滚
+			//获取组件
+			var node = event.target ? event.target : event.srcElement;
+			while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
+			var ctrid = $dom(node).parent().attr('ctrid');
+			var crt = $ctrls.get(ctrid);
+			//当前活动标签
+			var tag = crt.obj.domtit.find('.tagcurr');
+			if (action == 'up') {
+				var next = tag.prev();
+				if (next.length < 1) next = crt.obj.domtit.childs().last();
+				crt.obj.focus(next, true);
+			}
+			if (action == 'down') {
+				var next = tag.next();
+				if (next.length < 1) next = crt.obj.domtit.childs().first();
+				crt.obj.focus(next, true);
+			}
 		});
 	};
 	//移除某个选项卡
@@ -227,12 +257,12 @@
 		//移除
 		tittag.remove();
 		this.dombody.find('tabspace[tabid=' + tabid + ']').remove();
-		//设置关闭后的焦点选项卡
-		this.focus(next);
+		//设置关闭后的焦点选项卡		
 		this.trigger('shut', {
 			tabid: tabid,
 			title: title
 		});
+		this.focus(next, true);
 	};
 	/*** 
     以下是静态方法
