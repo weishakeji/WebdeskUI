@@ -6,6 +6,7 @@ body {
     padding: 0px;
     width: 100%;
     height: 100%;
+    background-color: #444;
 }
 
 .tabsbox {
@@ -166,26 +167,33 @@ tabs_tagbox tab_tag.tagcurr close {
 }
 
 .tabsbox tabs_more {
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 30px;
     position: absolute;
-    top: 6px;
+    top: 14px;
     right: 0px;
     z-index: 2;
     text-align: center;
-    background-color: #eee;
-   border: solid 1px #999;
-   border-radius: 3px;
+    border-bottom: solid 1px #aaa;
+    border-radius: 3px;
+    cursor: pointer;
 
 }
 
+.tabsbox tabs_more:hover:before {
+    background-color: #aaa;
+    color: #fff;
+}
+
 .tabsbox tabs_more:before {
-	content: '\a006';
-	line-height: 26px;
-	color: #666;
-	display: block;
-	transform:rotate(90deg);
-    font-family: "webdesk_icon" !important;    
+    content: '\a006';
+    line-height: 20px;
+    height: 20px;
+    width: 20px;
+    color: #999;
+    display: block;
+    transform: rotate(90deg);
+    font-family: "webdesk_icon" !important;
 }
 
 /*内容区*/
