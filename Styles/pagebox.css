@@ -484,7 +484,7 @@ html, body {
 }
 
 pagebox-minarea {
-    background-color: rgba(238,238,238);
+    background-color: rgba(238,238,238,.8);
     border: solid 1px #ccc;
     position: absolute;
     z-index: 999999;
@@ -513,7 +513,7 @@ pagebox-min{
 
 pagebox-min:hover{
      background-color: rgba(161, 197, 247, 0.8);
-      box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
+     box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
 }
 pagebox-min pb-ico {
     height: 30px;

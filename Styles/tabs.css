@@ -37,7 +37,7 @@ body {
 }
 
 /*选项卡标签*/
-.tabsbox tab_tag {
+tabs_tagbox tab_tag {
     width: 100px;
     float: left;
     height: 35px;
@@ -54,7 +54,7 @@ body {
 
 }
 
-.tabsbox tab_tag::before {
+tabs_tagbox tab_tag::before {
     content: '';
     position: absolute;
     top: 0;
@@ -90,16 +90,16 @@ tabs_tagbox tab_tag:first-child:before {
     margin-left: 6px;
 }
 
-.tabsbox tab_tag>* {
+tabs_tagbox tab_tag>* {
     display: block;
     position: absolute;
 }
 
-.tabsbox tab_tag.tagcurr {
+tabs_tagbox tab_tag.tagcurr {
     height: 36px;
 }
 
-tab_tag.tagcurr:before {
+tabs_tagbox tab_tag.tagcurr:before {
     background: #fff !important;
     --background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
     border-bottom-style: none !important;
@@ -107,7 +107,7 @@ tab_tag.tagcurr:before {
     margin-bottom: -1px;
 }
 
-.tabsbox tab_tag ico {
+tabs_tagbox tab_tag ico {
     display: block;
     position: absolute;
     left: 18px;
@@ -119,7 +119,7 @@ tab_tag.tagcurr:before {
     font-family: "webdesk_icon" !important;
 }
 
-.tabsbox tab_tag tagtxt {
+tabs_tagbox tab_tag tagtxt {
     left: 38px;
     height: 32px;
     line-height: 36px;
@@ -131,7 +131,7 @@ tab_tag.tagcurr:before {
 }
 
 /*关闭按钮*/
-.tabsbox tab_tag close {
+tabs_tagbox tab_tag close {
     top: 15px;
     right: 12px;
     width: 14px;
@@ -150,16 +150,16 @@ tabs_tagbox tab_tag.tagcurr close {
     right: 6px;
 }
 
-.tabsbox tab_tag close:before {
+tabs_tagbox tab_tag close:before {
     content: "×";
 }
 
-.tabsbox tab_tag:hover close,
-.tabsbox tab_tag.tagcurr close {
+tabs_tagbox tab_tag:hover close,
+tabs_tagboxtab_tag.tagcurr close {
     display: block;
 }
 
-.tabsbox tab_tag close:hover {
+tabs_tagbox tab_tag close:hover {
     color: red;
     background-color: #ccc;
     border-radius: 7px;
@@ -233,4 +233,89 @@ tabs_tagbox tab_tag.tagcurr close {
     bottom: 0px;
     left: 0px;
     width: 100%;
+}
+
+/*更多选项卡的盒子*/
+tabs_morebox {
+    width: 0px;
+    height: calc(100% - 35px);
+    background-color: rgba(255, 255, 255, .8);
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 9999999;
+    transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s, opacity 0.3s;
+    overflow: auto;
+}
+
+tabs_morebox* {
+    display: block;
+
+}
+
+tabs_morebox tab_tag ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    margin-left: 5px;
+    line-height: 30px;
+    font-size: 12px;
+    color: #aaa;
+    float: left;
+    font-family: "webdesk_icon" !important;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+tabs_morebox tab_tag {
+    display: block;
+    width: calc(100% - 20px);
+    height: 30px;
+    user-select: none;
+    cursor: default;
+    background-color: rgba(161, 197, 247, 0.4);
+    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    border-radius: 3px;
+    border: 1px solid rgba(62, 63, 63, 0.3);
+    overflow: hidden;
+    float: left;
+    position: relative;
+    margin: 8px 0px 0px 8px;
+    transition: opacity 0.3s;
+    font-size: 13px;
+}
+tabs_morebox tab_tag:hover{
+	background-color: rgba(161, 197, 247, 0.8);
+}
+tabs_morebox tab_tag tagtxt{
+	height: 30px;
+    line-height: 30px;
+    width: calc(100% - 50px);
+    font-size: 14px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    float: left;
+    cursor: default;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+tabs_morebox tab_tag close {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+tabs_morebox tab_tag close:before {
+    content: "\e606";
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: rgb(245, 45, 45);
+    line-height: 15px;  
+    font-family: "webdesk_icon" !important;
 }
