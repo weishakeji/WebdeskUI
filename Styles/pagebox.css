@@ -167,7 +167,7 @@ html, body {
 
 .pagebox dropmenu>*:not(hr) {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     height: 25px;
     line-height: 25px;
     position: relative;

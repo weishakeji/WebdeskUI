@@ -347,7 +347,7 @@
             menu.append('menu_win').find('menu_win').html('还原');
             menu.append('hr');
             menu.append('menu_close').find('menu_close').html('关闭');
-            obj.domdrop=menu;
+            obj.domdrop = menu;
         },
         //遮罩
         mask: function(obj) {
@@ -359,9 +359,7 @@
         click: function(elem) {
             //窗体点击事件，主要是为了设置焦点
             $dom(elem).click(function(e) {
-                var obj = box._getObj(e);
-                obj.focus().trigger('click');
-                //$dom('.pagebox dropmenu').hide();
+                box._getObj(e).focus().trigger('click');
             });
         },
         load: function(elem) {
@@ -466,13 +464,15 @@
                 var offset = obj.dom.offset();
                 obj.domdrop.top(mouse.y - offset.top - 5).left(mouse.x - offset.left - 5);
             });
+            boxdom.find('dropmenu').bind('mouseover', function(e) {
+                box._getObj(e).dropmenu = true;
+            });
             boxdom.find('dropmenu').bind('mouseleave', function(e) {
                 var obj = box._getObj(e);
                 obj._dropmenu = false;
                 window.setTimeout(function() {
                     if (!obj._dropmenu) obj.dropmenu = false;
                 }, 1000);
-                //crt.obj.morebox = false;
             });
             //下拉菜单中各项事件
             boxdom.find('dropmenu>*').click(function(e) {
