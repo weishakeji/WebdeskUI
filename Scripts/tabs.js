@@ -8,7 +8,8 @@
 			width: 100,
 			height: 200,
 			id: '',
-			morebox: false //更多标签的面板是否显示
+			morebox: false, //更多标签的面板是否显示
+			cntmenu: false //右键菜单是否显示
 		};
 		for (var t in param) defaultAttr[t] = param[t];
 		//defaultAttr+param的参数，全部实现双向绑定
@@ -98,6 +99,13 @@
 				if (val) obj.domore.width(200).css('opacity', 1);
 				if (!val) obj.domore.width(0).css('opacity', 0);
 			}
+		},
+		//右键菜单的显示
+		'cntmenu': function(obj, val, old) {
+			if (obj.domenu) {
+				if (val) obj.domenu.show();
+				if (!val) obj.domenu.hide();
+			}
 		}
 	};
 	fn._open = function() {
@@ -185,29 +193,49 @@
 				//crt.obj.morebox = false;
 			});
 		},
-        //右键菜单事件
-        dropmenu: function(obj) {
-            obj.dom.find('tabs_contextmenu>*').click(function(e) {
-                //识别按钮，获取事件动作             
-                var node = event.target ? event.target : event.srcElement;
-                if (node.tagName.indexOf('_') < 0) return;
-                var action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
-                console.log(action);
-                /*
-                //当前pagebox.js对象
-                var obj = box._getObj(e);
-                //最大化
-                if (action == 'max')
-                    if (!obj.full) obj.full = true;
-                //最小化
-                if (action == 'min')
-                    if (obj.min) obj.mini = true;
-                //还原，从最大化还原
-                if (action == 'win') obj.full = false;
-                //刷新
-                if (action == 'fresh') obj.url = obj._url;*/
-            });
-        }
+		//右键菜单事件
+		dropmenu: function(obj) {
+			obj.domenu.bind('mouseover', function(e) {
+				tabs._getObj(e).cntmenu = true;
+			});
+			obj.domenu.bind('mouseleave', function(e) {
+				var obj = tabs._getObj(e);
+				obj._cntmenu = false;
+				window.setTimeout(function() {
+					if (!obj._cntmenu) obj.cntmenu = false;
+				}, 500);
+			});
+			//菜单项的事件
+			obj.dom.find('tabs_contextmenu>*').click(function(e) {
+				//识别按钮，获取事件动作             
+				var node = event.target ? event.target : event.srcElement;
+				if (node.tagName.indexOf('_') < 0) return;
+				var action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
+				//当前tabid
+				var obj = tabs._getObj(node);
+				var tabid = obj.domenu.attr('tabid');
+				
+				//刷新
+				if (action == 'fresh') {
+					var iframe = obj.dombody.find('tabspace[tabid=' + tabid + '] iframe');
+					iframe.attr('src',iframe.attr('src'));
+				}
+				/*
+				//当前pagebox.js对象
+				var obj = box._getObj(e);
+				//最大化
+				if (action == 'max')
+				    if (!obj.full) obj.full = true;
+				//最小化
+				if (action == 'min')
+				    if (obj.min) obj.mini = true;
+				//还原，从最大化还原
+				if (action == 'win') obj.full = false;
+				//刷新
+				if (action == 'fresh') obj.url = obj._url;*/
+				obj.cntmenu=false;
+			});
+		}
 
 	};
 	//增加选项卡
@@ -331,20 +359,15 @@
 			obj.domtit.find('tab_tag[tabid=' + tabid + ']').bind('contextmenu', function(e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (node.tagName.toLowerCase() != "tab_tag") node = node.parentNode;
-				//
+				//当前标签id
 				var tabid = $dom(node).attr('tabid');
-				console.log('右键操作的标题:' + tabid + '，标签：' + $dom(node).text());
+				//当前tabs对象
+				var obj = tabs._getObj(node);
+				var off = obj.dom.offset();
 				var mouse = $dom.mouse(e);
-				//获取组件
-				while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
-				var ctrid = $dom(node).parent().attr('ctrid');
-				var crt = $ctrls.get(ctrid);
-				//
-				var crtoff=crt.obj.dom.offset();
-				crt.obj.domenu.left(mouse.x-crtoff.left-5).top(mouse.y-crtoff.top-5);
-				if (node.nodeName.toLowerCase() == "tab_tag") {
-					alert(node.innerText);
-				}
+				obj.cntmenu = true;
+				obj.domenu.left(mouse.x - off.left - 5).top(mouse.y - off.top - 5);
+				obj.domenu.attr('tabid', tabid);
 				event.preventDefault();
 				return false;
 			});
@@ -424,6 +447,13 @@
 		var tobj = new tabs(param);
 		//pbox._initialization();
 		return tobj;
+	};
+	//用于事件中，取点击的对象
+	tabs._getObj = function(e) {
+		var node = event.target ? event.target : event.srcElement;
+		while (!node.classList.contains('tabsbox')) node = node.parentNode;
+		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
+		return ctrl.obj;
 	};
 	//一些基础事件
 	tabs._baseEvents = function() {

@@ -328,6 +328,7 @@ tabs_morebox tab_tag close:before {
     background-color: #eee;
     top: 30px;
     left: 7px;
+    display: none;
     border: 1px solid #999;
 }
 .tabsbox tabs_contextmenu>*:not(hr) {

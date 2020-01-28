@@ -474,7 +474,7 @@
                 obj._dropmenu = false;
                 window.setTimeout(function() {
                     if (!obj._dropmenu) obj.dropmenu = false;
-                }, 1000);
+                }, 500);
             });
             //下拉菜单中各项事件
             boxdom.find('dropmenu>*').click(function(e) {
