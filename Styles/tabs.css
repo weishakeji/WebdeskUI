@@ -319,3 +319,83 @@ tabs_morebox tab_tag close:before {
     line-height: 15px;  
     font-family: "webdesk_icon" !important;
 }
+/*右键菜单*/
+.tabsbox tabs_contextmenu{
+    display: block;
+    width: 150px;
+    position: absolute;
+    z-index: 999999;
+    background-color: #eee;
+    top: 30px;
+    left: 7px;
+    border: 1px solid #999;
+    border-top: none;
+    border-left: none;
+}
+.tabsbox tabs_contextmenu>*:not(hr) {
+    display: block;
+    font-size: 14px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+}
+
+.tabsbox tabs_contextmenu>*:not(hr):before {
+    content: '\20';
+    font-family: "webdesk_icon" !important;
+    display: block;
+    height: 25px;
+    width: 30px;
+    border-right: 1px solid #ddd;
+    float: left;
+    color: #666;
+    font-weight: 800;
+    text-align: center;
+    margin-right: 6px;
+}
+
+.tabsbox tabs_contextmenu>*.disable, .pagebox dropmenu>*.disable::before {
+    color: #ccc;
+    pointer-events: none;
+}
+
+.tabsbox tabs_contextmenu>*:hover {
+    box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+}
+
+.tabsbox tabs_contextmenu>*:not(hr):hover:after {
+    content: '';
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+    border: solid 1px rgba(161, 197, 247, 0.8);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 3px;
+    background: rgba(161, 197, 247, 0.2);
+    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+}
+
+.tabsbox tabs_contextmenu>hr {
+    height: 1px;
+    border: 0px;
+    margin: 0px;
+    margin-left: 30px;
+    background: #ddd;
+}
+/*刷新的菜单项*/
+.tabsbox tabs_contextmenu>menu_fresh:before {
+    content: '\e695';
+}
+.tabsbox tabs_contextmenu>menu_max:before {
+    content: '\697';
+}
+.tabsbox tabs_contextmenu>menu_restore:before {
+    content: '\e693';
+}
+.tabsbox tabs_contextmenu>menu_close:before {
+    content: '\e606';
+}
+.tabsbox tabs_contextmenu>menu_closeleft:before {
+    content: '\e606';
+}
