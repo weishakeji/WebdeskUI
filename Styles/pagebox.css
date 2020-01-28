@@ -159,12 +159,10 @@ html, body {
     width: 150px;
     position: absolute;
     z-index: 5;
-    background-color: #eee;
-    top: 30px;
-    left: 7px;
+    background-color: rgba(238,238,238,1);
     border: 1px solid #999;
-    border-top: none;
-    border-left: none;
+    --border-top: none;
+    --border-left: none;    
 }
 
 .pagebox dropmenu>*:not(hr) {

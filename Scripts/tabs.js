@@ -146,9 +146,10 @@
 			menu.append('menu_closeall').find('menu_closeall').html('关闭所有');
 			menu.append('hr');
 			menu.append('menu_close').find('menu_close').html('关闭');
+			obj.domenu = menu;
 		}
 	};
-	//基础事件
+	//tabs的基础事件
 	fn._baseEvents = {
 		//设置自动执行的方法,用于一些菜单项的定时隐藏
 		setinterval: function(obj) {
@@ -183,9 +184,33 @@
 				}, 3000);
 				//crt.obj.morebox = false;
 			});
-		}
+		},
+        //右键菜单事件
+        dropmenu: function(obj) {
+            obj.dom.find('tabs_contextmenu>*').click(function(e) {
+                //识别按钮，获取事件动作             
+                var node = event.target ? event.target : event.srcElement;
+                if (node.tagName.indexOf('_') < 0) return;
+                var action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
+                console.log(action);
+                /*
+                //当前pagebox.js对象
+                var obj = box._getObj(e);
+                //最大化
+                if (action == 'max')
+                    if (!obj.full) obj.full = true;
+                //最小化
+                if (action == 'min')
+                    if (obj.min) obj.mini = true;
+                //还原，从最大化还原
+                if (action == 'win') obj.full = false;
+                //刷新
+                if (action == 'fresh') obj.url = obj._url;*/
+            });
+        }
 
 	};
+	//增加选项卡
 	fn.add = function(tab) {
 		if (tab == null) return;
 		if (tab instanceof Array) {
@@ -235,8 +260,6 @@
 		}
 		this.order();
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
-		//this._tagClick(tab.id);
-		//this._mousewheel(tab.id);
 		this.focus(tab.id, false);
 		//新增标签的事件
 		this.trigger('add', {
@@ -254,7 +277,7 @@
 		tt.width(this.dom.width() - 30);
 		//this.dom.width() - 40
 	};
-	//标签的基础事件
+	//标签tag的基础事件
 	fn._tagBaseEvents = {
 		//标签点击事件
 		tagclick: function(obj, tabid) {
@@ -272,7 +295,6 @@
 					var ctrid = $dom(node).attr('ctrid');
 					//获取组件对象
 					var crt = $ctrls.get(ctrid);
-					//
 					//是否移除标签
 					if (isremove) return crt.obj.remove(tabid, true);
 					//切换焦点
@@ -306,7 +328,26 @@
 		},
 		//右键菜单
 		contextmenu: function(obj, tabid) {
-
+			obj.domtit.find('tab_tag[tabid=' + tabid + ']').bind('contextmenu', function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (node.tagName.toLowerCase() != "tab_tag") node = node.parentNode;
+				//
+				var tabid = $dom(node).attr('tabid');
+				console.log('右键操作的标题:' + tabid + '，标签：' + $dom(node).text());
+				var mouse = $dom.mouse(e);
+				//获取组件
+				while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
+				var ctrid = $dom(node).parent().attr('ctrid');
+				var crt = $ctrls.get(ctrid);
+				//
+				var crtoff=crt.obj.dom.offset();
+				crt.obj.domenu.left(mouse.x-crtoff.left-5).top(mouse.y-crtoff.top-5);
+				if (node.nodeName.toLowerCase() == "tab_tag") {
+					alert(node.innerText);
+				}
+				event.preventDefault();
+				return false;
+			});
 		}
 	};
 	//排序
