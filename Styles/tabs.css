@@ -348,7 +348,6 @@ tabs_morebox tab_tag close:before {
     border-right: 1px solid #ddd;
     float: left;
     color: #666;
-    font-weight: 800;
     text-align: center;
     margin-right: 6px;
 }
@@ -390,7 +389,7 @@ tabs_morebox tab_tag close:before {
     content: '\697';
 }
 .tabsbox tabs_contextmenu>menu_restore:before {
-    content: '\e693';
+    content: '\a012';
 }
 .tabsbox tabs_contextmenu>menu_close:before {
     content: '\e606';

@@ -182,7 +182,7 @@ html, body {
     border-right: 1px solid #ddd;
     float: left;
     color: #666;
-    font-weight: 800;
+   
     text-align: center;
     margin-right: 6px;
 }
@@ -239,7 +239,7 @@ html, body {
 }
 
 .pagebox dropmenu>menu_win:before {
-    content: '\e693';
+    content: '\a012';
 }
 
 /*标题栏右上角按钮组*/
