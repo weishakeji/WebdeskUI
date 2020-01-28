@@ -359,7 +359,9 @@
         click: function(elem) {
             //窗体点击事件，主要是为了设置焦点
             $dom(elem).click(function(e) {
-                box._getObj(e).focus().trigger('click');
+                var obj = box._getObj(e);
+                obj.focus().trigger('click');
+                obj.dropmenu = false;
             });
         },
         load: function(elem) {
