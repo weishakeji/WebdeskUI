@@ -169,7 +169,7 @@ html, body {
 
 .pagebox dropmenu>*:not(hr) {
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     height: 25px;
     line-height: 25px;
     position: relative;
@@ -342,16 +342,16 @@ html, body {
 
 .pagebox btnbox btn_max::before {
     content: "\e693";
-    font-size: 10px;
-    font-weight: 600;
-    padding-top: 1px;
+    font-size: 13px;
+    font-weight: 800;
+    padding-top: 2px;
     transform: scale(1.2, 1);
 }
 
 .pagebox_full btnbox btn_max::before {
     content: "\e6c4";
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 .pagebox btnbox btn_close {
