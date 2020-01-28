@@ -222,7 +222,7 @@ html, body {
 /*刷新的菜单项*/
 
 .pagebox dropmenu>menu_fresh:before {
-    content: '\e613';
+    content: '\e695';
 }
 
 /*关闭*/
@@ -236,11 +236,12 @@ html, body {
 }
 
 .pagebox dropmenu>menu_max:before {
-    content: '\e693';
+    content: '\e696';
+
 }
 
 .pagebox dropmenu>menu_win:before {
-    content: '\e6c4';
+    content: '\e693';
 }
 
 /*标题栏右上角按钮组*/
@@ -350,8 +351,8 @@ html, body {
 
 .pagebox_full btnbox btn_max::before {
     content: "\e6c4";
-    font-size: 13px;
     font-weight: 400;
+     padding-top: 1px;
 }
 
 .pagebox btnbox btn_close {

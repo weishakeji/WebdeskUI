@@ -458,6 +458,11 @@
                 var obj = box._getObj(e);
                 if (!obj.full) obj.full = true;
             });
+            //最小化
+            boxdom.find('dropmenu menu_min').click(function(e) {
+                var obj = box._getObj(e);
+                if (obj.min) obj.mini = true;
+            });
             //还原，从最大化还原
             boxdom.find('dropmenu menu_win').click(function(e) {
                 var obj = box._getObj(e);
@@ -468,6 +473,7 @@
                 var obj = box._getObj(e);
                 if (!obj.full) obj.full = true;
             });
+
             //刷新
             boxdom.find('dropmenu menu_fresh').click(function(e) {
                 var obj = box._getObj(e);
