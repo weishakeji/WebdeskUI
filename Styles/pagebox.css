@@ -236,7 +236,7 @@ html, body {
 }
 
 .pagebox dropmenu>menu_max:before {
-    content: '\e696';
+    content: '\697';
 
 }
 
