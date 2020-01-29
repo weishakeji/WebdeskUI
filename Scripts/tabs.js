@@ -17,9 +17,12 @@
 			this['_' + t] = defaultAttr[t];
 			eval($ctrl.def(t));
 		}
-		this.childs = new Array(); //子级
-		//this.pageboxs=new Array();	//当前
-		this.dom = null; //html对象
+		this.childs = new Array(); //子级		
+		this.dom = null; //控件的html对象
+		this.domtit = null; //控件标签栏部分的html对象
+		this.dombody = null; //控件内容区
+		this.domenu = null; //控件右键菜单的html对象
+		this.domore = null; //控件右侧更多标签的区域名		
 		this._eventlist = new Array(); //自定义的事件集合     
 		this._watchlist = new Array(); //自定义监听  
 		/* 自定义事件 */
@@ -144,10 +147,11 @@
 		contextmenu: function(obj) {
 			var menu = obj.dom.append('tabs_contextmenu').find('tabs_contextmenu');
 			menu.append('menu_fresh').find('menu_fresh').html('刷新');
-			menu.append('menu_freshtime').find('menu_freshtime').html('定时刷新(10秒)');
+			//menu.append('menu_freshtime').find('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
 			menu.append('hr');
-			menu.append('menu_max').find('menu_max').html('最大化');
-			menu.append('menu_restore').find('menu_restore').html('还原');
+			menu.append('menu_full').find('menu_full').html('最大化');
+			menu.append('menu_restore').find('menu_restore').html('还原').addClass('disable');
+			
 			menu.append('hr');
 			menu.append('menu_closeleft').find('menu_closeleft').html('关闭左侧');
 			menu.append('menu_closeright').find('menu_closeright').html('关闭右侧');
@@ -215,7 +219,6 @@
 				var obj = tabs._getObj(node);
 				var tabid = obj.domenu.attr('tabid');
 				var index = Number(obj.domenu.attr('index'));
-
 				//刷新
 				if (action == 'fresh') {
 					var iframe = obj.dombody.find('tabspace[tabid=' + tabid + '] iframe');
@@ -226,35 +229,25 @@
 					var tabids = new Array();
 					if (action == 'close') tabids.push(tabid, true);
 					if (action == 'closeall') {
-						for (var i = 0; i < obj.childs.length; i++) {
-							tabids.push(obj.childs[i].id);
-						}
+						for (var i = 0; i < obj.childs.length; i++) tabids.push(obj.childs[i].id);
 					}
 					if (action == 'closeright') {
-						for (var i = 0; i < obj.childs.length; i++) {
-							if (i > index) tabids.push(obj.childs[i].id);
-						}
+						for (var i = obj.childs.length - 1; i > index; i--) tabids.push(obj.childs[i].id);
 					}
 					if (action == 'closeleft') {
-						for (var i = 0; i < obj.childs.length; i++) {
-							if (i < index) tabids.push(obj.childs[i].id);
-						}
+						for (var i = 0; i < index; i++) tabids.push(obj.childs[i].id);
 					}
 					obj.remove(tabids, true);
 				}
-				/*
-				//当前pagebox.js对象
-				var obj = box._getObj(e);
 				//最大化
-				if (action == 'max')
-				    if (!obj.full) obj.full = true;
-				//最小化
-				if (action == 'min')
-				    if (obj.min) obj.mini = true;
-				//还原，从最大化还原
-				if (action == 'win') obj.full = false;
-				//刷新
-				if (action == 'fresh') obj.url = obj._url;*/
+				if (action == 'full') {
+					obj.focus(tabid);
+					tabs.full(obj, tabid);
+				}
+				//还原
+				if (action == 'restore') {
+
+				}
 				obj.cntmenu = false;
 			});
 		}
@@ -287,7 +280,7 @@
 		mtag.append('tagtxt').find('tagtxt').html(tab.title);
 		mtag.append('close');
 		//添加内容区
-		var space = this.dombody.append('tabspace').childs('tabspace').last();
+		var space = this.dombody.append('tabpace').childs('tabpace').last();
 		space.attr('tabid', tab.id);
 		var iframe = $dom(document.createElement('iframe'));
 		iframe.attr({
@@ -426,7 +419,7 @@
 		//设置当前标签为焦点
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
-		this.dombody.find('tabspace[tabid=' + tag.attr('tabid') + ']').show();
+		this.dombody.find('tabpace[tabid=' + tag.attr('tabid') + ']').show();
 		//触发事件
 		if (istrigger) this.trigger('change', {
 			tabid: tag.attr('tabid'),
@@ -472,7 +465,7 @@
 		if (next.length < 1) next = tittag.prev();
 		//移除
 		tittag.remove();
-		this.dombody.find('tabspace[tabid=' + tabid + ']').remove();
+		this.dombody.find('tabpace[tabid=' + tabid + ']').remove();
 		this.domore.find('tab_tag[tabid=' + tabid + ']').remove();
 		//触发事件
 		if (istrigger) {
@@ -482,10 +475,6 @@
 			});
 		}
 		return this.focus(next, true);
-	};
-	//批量移除
-	fn.removebat = function(tabids) {
-
 	};
 	/*** 
 	以下是静态方法
@@ -507,6 +496,45 @@
 	tabs._baseEvents = function() {
 
 	};
+	//最大化内容区域
+	tabs.full = function(obj, tabid) {
+		var fbox = $dom('tabs_fullbox');
+		if (fbox.length < 1) fbox = $dom(document.body).append('tabs_fullbox').find('tabs_fullbox');
+		//当前内容区，放到全屏fullbox中
+		var tabpace = obj.dombody.find('tabpace[tabid=' + tabid + ']');
+		fbox.append(tabpace.find('iframe')).attr({
+			crtid: obj.id,
+			tabid: tabid
+		});
+		//设置fullbox的初始位置
+		var offset = tabpace.offset();
+		fbox.left(offset.left).top(offset.top);
+		fbox.width(tabpace.width()).height(tabpace.height()).show();
+		fbox.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
+		window.setTimeout(function() {
+			fbox.left(0).top(0);
+			fbox.width('100%').height('100%');
+		}, 300);
+		//添加返回按钮
+		var close = fbox.append('tabs_fullbox_back').find('tabs_fullbox_back');
+		close.click(function(e) {
+			var fbox = $dom('tabs_fullbox');
+			var crt = $ctrls.get(fbox.attr('crtid'));
+			var tbody = crt.obj.dombody.find('tabpace[tabid=' + tabid + ']');
+			tbody.append(fbox.find('iframe'));
+			//
+			var tabpace = obj.dombody.find('tabpace[tabid=' + tabid + '] iframe');
+			var offset = tabpace.offset();
+			fbox.left(offset.left).top(offset.top);
+			fbox.width(tabpace.width()).height(tabpace.height());
+			window.setTimeout(function() {
+				$dom('tabs_fullbox').remove();
+			}, 300);
+
+		});
+		///var iframe = obj.dombody.find('tabspace[tabid=' + tabid + ']');
+		///iframe.level(99999);
+	}
 	win.$tabs = tabs;
 	win.$tabs._baseEvents();
 })(window);

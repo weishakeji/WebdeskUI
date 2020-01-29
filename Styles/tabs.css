@@ -209,18 +209,18 @@ tabs_tagbox tab_tag close:hover {
     border-top: none;
 }
 
-.tabsbox tabs_body tabspace {
+.tabsbox tabs_body tabpace {
     display: block;
     position: relative;
     width: 100%;
     height: 100%;
 }
 
-.tabsbox tabs_body tabspace>* {
+.tabsbox tabs_body tabpace>* {
     display: block;
 }
 
-.tabsbox tabs_body tabspace tabpath {
+.tabsbox tabs_body tabpace tabpath {
     background-color: #fff;
     font-size: 14px;
     line-height: 30px;
@@ -228,7 +228,7 @@ tabs_tagbox tab_tag close:hover {
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
 }
 
-.tabsbox tabs_body tabspace iframe {
+.tabsbox tabs_body tabpace iframe {
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -283,11 +283,13 @@ tabs_morebox tab_tag {
     transition: opacity 0.3s;
     font-size: 13px;
 }
-tabs_morebox tab_tag:hover{
-	background-color: rgba(161, 197, 247, 0.8);
+
+tabs_morebox tab_tag:hover {
+    background-color: rgba(161, 197, 247, 0.8);
 }
-tabs_morebox tab_tag tagtxt{
-	height: 30px;
+
+tabs_morebox tab_tag tagtxt {
+    height: 30px;
     line-height: 30px;
     width: calc(100% - 50px);
     font-size: 14px;
@@ -301,6 +303,7 @@ tabs_morebox tab_tag tagtxt{
     cursor: default;
     text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
+
 tabs_morebox tab_tag close {
     width: 16px;
     height: 16px;
@@ -309,6 +312,7 @@ tabs_morebox tab_tag close {
     right: 7px;
     cursor: pointer;
 }
+
 tabs_morebox tab_tag close:before {
     content: "\e606";
     display: block;
@@ -316,11 +320,12 @@ tabs_morebox tab_tag close:before {
     font-size: 12px;
     font-weight: 800;
     color: rgb(245, 45, 45);
-    line-height: 15px;  
+    line-height: 15px;
     font-family: "webdesk_icon" !important;
 }
+
 /*右键菜单*/
-.tabsbox tabs_contextmenu{
+.tabsbox tabs_contextmenu {
     display: block;
     width: 150px;
     position: absolute;
@@ -331,6 +336,7 @@ tabs_morebox tab_tag close:before {
     display: none;
     border: 1px solid #999;
 }
+
 .tabsbox tabs_contextmenu>*:not(hr) {
     display: block;
     font-size: 14px;
@@ -352,7 +358,8 @@ tabs_morebox tab_tag close:before {
     margin-right: 6px;
 }
 
-.tabsbox tabs_contextmenu>*.disable, .pagebox dropmenu>*.disable::before {
+.tabsbox tabs_contextmenu>*.disable,
+.tabsbox tabs_contextmenu>*.disable::before {
     color: #ccc;
     pointer-events: none;
 }
@@ -381,19 +388,56 @@ tabs_morebox tab_tag close:before {
     margin-left: 30px;
     background: #ddd;
 }
+
 /*刷新的菜单项*/
 .tabsbox tabs_contextmenu>menu_fresh:before {
     content: '\e695';
 }
-.tabsbox tabs_contextmenu>menu_max:before {
+
+.tabsbox tabs_contextmenu>menu_full:before {
     content: '\697';
 }
+
 .tabsbox tabs_contextmenu>menu_restore:before {
     content: '\a012';
 }
+
 .tabsbox tabs_contextmenu>menu_close:before {
     content: '\e606';
 }
+
 .tabsbox tabs_contextmenu>menu_closeleft:before {
     content: '\e606';
+}
+
+/*最大化区域*/
+tabs_fullbox {
+    position: absolute;
+    z-index: 999999;
+    //background-color: rgba(255,0,0,.6);
+    background-color: #fff;
+    display: none;
+}
+
+tabs_fullbox iframe {
+    width: 100%;
+    height: 100%;
+}
+
+tabs_fullbox tabs_fullbox_back {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 0px;
+    line-height: 20px;
+    text-align: center;
+    top: 0px;
+    background-color: rgba(255,0,0,0.6);
+    color: #fff;
+    cursor: pointer;
+}
+
+tabs_fullbox tabs_fullbox_back:before {
+    content: '\e606';
+    font-family: "webdesk_icon" !important;
 }
