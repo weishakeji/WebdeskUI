@@ -45,7 +45,7 @@
     }
 
     header {
-        background-color: #999;
+        background-color: #666;
         height: 40px;
         line-height: 40px;
         //width: 100%;
@@ -60,7 +60,7 @@
     header i {
         font-family: "webdesk_icon" !important;
         font-style: normal;
-        color: #666;
+        color: #eee;
         font-size: 20px;
         margin-right: 10px;
     }
@@ -86,8 +86,8 @@
         font-size: 25px;
         line-height: 40px;
 
-        color: #666 !important;
-        text-shadow: .2rem 0rem 1.2rem rgba(200, 200, 200, 1), -.2rem 0rem 1.2rem rgba(200, 200, 200, 1), 0rem .2rem 1.2rem rgba(200, 200, 200, 1), 0rem -.2rem 1.2rem rgba(200, 200, 200, 1);
+        color: #eee !important;
+       
     }
 
     header .title i {
@@ -95,7 +95,6 @@
         font-weight: normal;
         line-height: 40px;
         float: left;
-        color: #666 !important;
     }
 
     .intro p {
@@ -104,7 +103,7 @@
     }
 
     .items {
-        height: 350px;
+        height: 300px;
     }
 
     .items dl {
@@ -184,7 +183,11 @@
     }
 
     .footer {
+        width: 100% !important;
         margin-bottom: 50px;
+        background-color: #444;
+        padding: 20px 0px 20px 0px;
+        color: #fff !important;
     }
 
     .footer .company {
@@ -193,6 +196,7 @@
 
     .footer * {
         text-align: center;
+         color: #fff !important;
     }
 
     svg {
@@ -219,25 +223,34 @@
     <div class="items">
         <dl>
             <dt><i>&#xe77c</i> pagebox<br />弹窗</dt>
-            <dd>可拖放，可缩放，模拟windows桌面窗体</dd>
+            <dd>可拖放，可缩放，模拟桌面窗体</dd>
             <dd>可上溯父级，遍历下级，父子窗体可互动</dd>
-            <dd>自定义事件，多播，可追加、可去除</dd>
-            <dd>属性支持双向绑定，可监听</dd>
+            <dd>自定义事件，支持多播</dd>
+            <dd>支持双向绑定，属性可监听</dd>
             <a class="btn" href="pagebox.html" target="_blank">查看演示</a>
         </dl>
         <dl>
             <dt><i>&#xa004</i> tabs<br />选项卡</dt>
-              <dd>正在编写...</dd>
+              <dd>选项卡无限增加</dd>
+              <dd>鼠标滚轴切换选项卡</dd> 
+              <dd>支持鼠标右键关闭</dd>
+                <dd>可全屏操作</dd>
+
             <a class="btn" href="tabs.html" target="_blank">查看演示</a>
         </dl>
         <dl>
             <dt><i>&#xa009</i> treemenu<br />树形菜单</dt>
-            <a class="btn" href="" target="_blank">查看演示</a>
+             <dd>正在编写中...</dd>
+            <a class="btn" href="treemenu.html" target="_blank">查看演示</a>
         </dl>
         <dl>
             <dt><i>&#xa005</i> dropmenu<br />下拉菜单</dt>
             <a class="btn" href="" target="_blank">查看演示</a>
         </dl>
+    </div>
+     <div class="intro">
+        <p style="color: red;">主要代码写于2020年春节新冠病毒流行期间，余毒尚存，谨慎使用！</p>
+       
     </div>
     <div class="footer">
         <p class="company"> <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">郑州微厦计算机科技有限公司 </a></p>

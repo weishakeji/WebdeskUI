@@ -428,16 +428,41 @@ tabs_fullbox tabs_fullbox_back {
     position: absolute;
     width: 20px;
     height: 20px;
-    right: 0px;
+    right: 2px;
     line-height: 20px;
     text-align: center;
-    top: 0px;
-    background-color: rgba(255,0,0,0.6);
+    top: 2px;
+
     color: #fff;
     cursor: pointer;
 }
 
-tabs_fullbox tabs_fullbox_back:before {
+tabs_fullbox tabs_fullbox_back:after {
     content: '\e606';
+    display: block;
+    float: right;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    transition: all 0.5s;
+    background-color: rgba(255, 0, 0, 0.6);
     font-family: "webdesk_icon" !important;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+tabs_fullbox tabs_fullbox_back:hover {
+    width: 80px;
+    background-color: #fff;
+
+}
+
+tabs_fullbox tabs_fullbox_back:hover:before {
+    content: '还原';
+    font-size: 13px;
+    line-height: 20px;
+    color: red;
+}
+
+tabs_fullbox tabs_fullbox_back:hover:after {
+    transform: scale(1.1, 1.1)
 }
