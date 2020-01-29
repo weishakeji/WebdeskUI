@@ -23,7 +23,7 @@
 		this._eventlist = new Array(); //自定义的事件集合     
 		this._watchlist = new Array(); //自定义监听  
 		/* 自定义事件 */
-		var customEvents = ['shut', 'shutall', 'shutright', , 'shutleft', 'add', 'change'];
+		var customEvents = ['shut', 'add', 'change'];
 		for (var i = 0; i < customEvents.length; i++) {
 			eval('this.on' + customEvents[i] + '=function(f){\
                 return arguments.length > 0 ?  \
@@ -211,14 +211,36 @@
 				var node = event.target ? event.target : event.srcElement;
 				if (node.tagName.indexOf('_') < 0) return;
 				var action = node.tagName.substring(node.tagName.indexOf('_') + 1).toLowerCase();
-				//当前tabid
+				//当前tabid和索引号
 				var obj = tabs._getObj(node);
 				var tabid = obj.domenu.attr('tabid');
-				
+				var index = Number(obj.domenu.attr('index'));
+
 				//刷新
 				if (action == 'fresh') {
 					var iframe = obj.dombody.find('tabspace[tabid=' + tabid + '] iframe');
-					iframe.attr('src',iframe.attr('src'));
+					iframe.attr('src', iframe.attr('src'));
+				}
+				//关闭
+				if (action.indexOf('close') > -1) {
+					var tabids = new Array();
+					if (action == 'close') tabids.push(tabid, true);
+					if (action == 'closeall') {
+						for (var i = 0; i < obj.childs.length; i++) {
+							tabids.push(obj.childs[i].id);
+						}
+					}
+					if (action == 'closeright') {
+						for (var i = 0; i < obj.childs.length; i++) {
+							if (i > index) tabids.push(obj.childs[i].id);
+						}
+					}
+					if (action == 'closeleft') {
+						for (var i = 0; i < obj.childs.length; i++) {
+							if (i < index) tabids.push(obj.childs[i].id);
+						}
+					}
+					obj.remove(tabids, true);
 				}
 				/*
 				//当前pagebox.js对象
@@ -233,7 +255,7 @@
 				if (action == 'win') obj.full = false;
 				//刷新
 				if (action == 'fresh') obj.url = obj._url;*/
-				obj.cntmenu=false;
+				obj.cntmenu = false;
 			});
 		}
 
@@ -359,15 +381,16 @@
 			obj.domtit.find('tab_tag[tabid=' + tabid + ']').bind('contextmenu', function(e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (node.tagName.toLowerCase() != "tab_tag") node = node.parentNode;
-				//当前标签id
+				//当前标签id和索引号，用于关闭右侧或左侧时使用
 				var tabid = $dom(node).attr('tabid');
+				var index = $dom(node).attr('index');
 				//当前tabs对象
 				var obj = tabs._getObj(node);
 				var off = obj.dom.offset();
 				var mouse = $dom.mouse(e);
 				obj.cntmenu = true;
 				obj.domenu.left(mouse.x - off.left - 5).top(mouse.y - off.top - 5);
-				obj.domenu.attr('tabid', tabid);
+				obj.domenu.attr('tabid', tabid).attr('index', index);
 				event.preventDefault();
 				return false;
 			});
@@ -375,9 +398,16 @@
 	};
 	//排序
 	fn.order = function() {
+		var th = this;
 		var tags = this.domtit.childs();
-		tags.each(function(index) {
+		th.domtit.childs().each(function(index) {
+			//设置索引
 			$dom(this).level(tags.length - index).attr('index', index);
+			var tabid = $dom(this).attr('tabid');
+			//索引号同步到tab对象上
+			for (var i = 0; i < th.childs.length; i++) {
+				if (th.childs[i].id == tabid) th.childs[i].index = index;
+			}
 		});
 	};
 	//设置某一个标签为焦点
@@ -421,6 +451,20 @@
 	//移除某个选项卡
 	//istrigger：是否触发事件
 	fn.remove = function(tabid, istrigger) {
+		if (tabid instanceof Array) {
+			var titles = new Array();
+			for (var i = 0; i < tabid.length; i++) {
+				for (var j = 0; j < this.childs.length; j++) {
+					if (this.childs[j].id == tabid[i]) titles.push(this.childs[j].title)
+				}
+				this.remove(tabid[i], false);
+			}
+			this.trigger('shut', {
+				tabid: tabid,
+				title: titles
+			});
+			return this;
+		}
 		var tittag = this.domtit.find('tab_tag[tabid=' + tabid + ']');
 		var title = tittag.text();
 		//设置关闭后的焦点选项卡
@@ -430,7 +474,7 @@
 		tittag.remove();
 		this.dombody.find('tabspace[tabid=' + tabid + ']').remove();
 		this.domore.find('tab_tag[tabid=' + tabid + ']').remove();
-		//设置关闭后的焦点选项卡	
+		//触发事件
 		if (istrigger) {
 			this.trigger('shut', {
 				tabid: tabid,
@@ -439,9 +483,13 @@
 		}
 		return this.focus(next, true);
 	};
+	//批量移除
+	fn.removebat = function(tabids) {
+
+	};
 	/*** 
-    以下是静态方法
-    *****/
+	以下是静态方法
+	*****/
 	tabs.create = function(param) {
 		if (param == null) param = {};
 		var tobj = new tabs(param);
