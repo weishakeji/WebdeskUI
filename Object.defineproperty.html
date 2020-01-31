@@ -9,7 +9,7 @@
     (function(window) {
         var web = function(param) {
             //默认参数
-            this.defaultAttr = {
+            this.attrs = {
                 width: 100,
                 height: 100,
                 top: 300,
@@ -17,11 +17,11 @@
                 target: '',
                 title: '默认标题'
             };
-            for (var t in param) this.defaultAttr[t] = param[t];
+            for (var t in param) this.attrs[t] = param[t];
             //设置属性的双向绑定及监听
-            for (var t in this.defaultAttr) {
-                this['_' + t] = this.defaultAttr[t];
-                var str = 'Object.defineProperty(this, t, {\
+            for (var t in this.attrs) {
+                this['_' + t] = this.attrs[t];
+                var str = 'Object.defineProperty(this, \''+t+'\', {\
                 get: function() {\
                     return this._' + t + ';\
                 },\
@@ -86,8 +86,8 @@
                 }
             };
             //设置初始值，以触发this._watch()中的监听方法
-            for (var t in this.defaultAttr) {
-                this[t] = this.defaultAttr[t];
+            for (var t in this.attrs) {
+                this[t] = this.attrs[t];
             }
         };
         window.web = web;

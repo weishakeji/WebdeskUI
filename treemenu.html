@@ -29,6 +29,12 @@ var tree = $treemenu.create({
     width: '100%',
     height: '100%'
 });
+
+tree.watch({
+    'width':function(obj,val,old){
+        console.log('test');
+    }
+});
 var size = function(s, e) {
     console.log('treemenu的宽:' + e.width + '，高：' + e.height);
 };

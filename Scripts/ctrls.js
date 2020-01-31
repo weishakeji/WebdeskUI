@@ -24,8 +24,11 @@
 	/*control的静态方法*/
 
 	//实现对象属性的双向绑定
-	control.def = function(t) {
-		var str = 'Object.defineProperty(this, t, {\
+	control.attr_generate = function(attrArr) {
+		var str = '';		
+		for (var t in attrArr) {
+			str += 'this[\'_' + t + '\'] = this.attrs[\'' + t + '\'];';
+			str += 'Object.defineProperty(this, \'' + t + '\', {\
                         get: function() {return this._' + t + ';},\
                         set: function(newValue) {\
                             var old = this._' + t + ';\
@@ -35,7 +38,6 @@
                                 	if(this._watch)this._watch[wat](this,newValue,old);\
                                 }\
                             }\
-                            if(!this._watchlist)this._watchlist=new Array();\
                             for (var i=0;i<this._watchlist.length;i++) {\
                                 if (\'' + t + '\' == this._watchlist[i].key) {\
                                     if(this._watchlist)this._watchlist[i].func(this,newValue,old);\
@@ -43,9 +45,18 @@
                             }\
                         }\
                     });';
+		}
+		//添加监听的方法
+		str+='this._watchlist = new Array();';
+		str+='this.watch = function(obj) {\
+		        if (typeof(obj) != \'object\') return;\
+		        for (var t in obj) {\
+		            this._watchlist.push({key: t,func: obj[t]});\
+		        }\
+	        };';
 		return str;
 	};
-	//添加事件
+	//对象的事件生成
 	control.event_generate = function(entArr) {
 		var str = '';
 		//生成事件方法
@@ -55,15 +66,15 @@
                 $ctrl.event.bind.call(this,\'' + entArr[i] + '\', f) :  \
                 $ctrl.event.trigger.call(this,\'' + entArr[i] + '\');};';
 		}
-		//触发事件的方法
+		//触发事件
 		str += 'this.trigger = function(eventName, eventArgs) {\
 				return $ctrl.event.trigger.call(this, eventName, eventArgs);\
 				};';
-		//移除事件的方法
+		//移除事件
 		str += 'this.unbind=function(eventName,func){\
 				return $ctrl.event.remove.call(this, eventName, func);\
 				};';
-		//事件集合
+		//获取事件列表
 		str += 'this.events=function(eventName){\
 				return $ctrl.event.list.call(this, eventName);\
 				};';

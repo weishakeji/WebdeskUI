@@ -18,7 +18,7 @@
     var box = function(param) {
         if (param == null || typeof(param) != 'object') param = {};
         //默认参数，
-        this.defaultAttr = {
+        this.attrs = {
             width: 100,
             height: 200,
             top: null,
@@ -41,18 +41,8 @@
             mini: false, //是否处于最小化状态
             dropmenu: false //下拉菜单是否显示
         };
-        for (var t in param) this.defaultAttr[t] = param[t];
-        //defaultAttr+param的参数，全部实现双向绑定
-        for (var t in this.defaultAttr) {
-            this['_' + t] = this.defaultAttr[t];
-            eval($ctrl.def(t));
-        }
-        //以下不支持双向绑定
-        this.parent = null; //父窗体对象
-        this.childs = new Array(); //子级窗体
-        this.dom = null; //html对象  
-        this._watchlist = new Array(); //自定义监听  
-        this._isinit = false; //是否初始化
+        for (var t in param) this.attrs[t] = param[t];
+        eval($ctrl.attr_generate(this.attrs));        
         /* 自定义事件 */
         //shown打开，shut关闭，load加载，fail加载失败，
         //click点击，drag拖动,focus得到焦点，blur失去焦点
@@ -61,7 +51,13 @@
             'click', 'drag', 'focus', 'blur',
             'mini', 'full', 'restore', 'resize'
         ];
-        eval($ctrl.event_generate(customEvents));        
+        eval($ctrl.event_generate(customEvents));  
+        //以下不支持双向绑定
+        this.parent = null; //父窗体对象
+        this.childs = new Array(); //子级窗体
+        this.dom = null; //html对象  
+        this._watchlist = new Array(); //自定义监听  
+        this._isinit = false; //是否初始化      
     };
     var fn = box.prototype;
     //初始化相关参数
@@ -177,16 +173,6 @@
                 if (val) obj.domdrop.show();
                 if (!val) obj.domdrop.hide();
             }
-        }
-    };
-    //添加自定义监听事件
-    fn.watch = function(watchObj) {
-        if (typeof(watchObj) != 'object') return;
-        for (var t in watchObj) {
-            this._watchlist.push({
-                key: t,
-                func: watchObj[t]
-            });
         }
     };
     //打开pagebox窗体，并触发shown事件 

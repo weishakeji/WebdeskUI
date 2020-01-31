@@ -1,29 +1,22 @@
 (function(win) {
 	var treemenu = function(param) {
 		if (param == null || typeof(param) != 'object') param = {};
-		var defaultAttr = {
+		this.attrs = {
 			target: '', //所在Html区域			
 			width: 100,
 			height: 200,
 			id: ''
 		};
-		for (var t in param) defaultAttr[t] = param[t];
-		//defaultAttr+param的参数，全部实现双向绑定
-		for (var t in defaultAttr) {
-			this['_' + t] = defaultAttr[t];
-			eval($ctrl.def(t));
-		}
+		for (var t in param) this.attrs[t] = param[t];
+		eval($ctrl.attr_generate(this.attrs));
+		/* 自定义事件 */
+		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单
+		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize']));
+
 		this.childs = new Array(); //子级		
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
-		//this._eventlist = new Array(); //自定义的事件集合     
-		//this._watchlist = new Array(); //自定义监听  
-		/* 自定义事件 */
-		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单
-		var customEvents = ['shut', 'pull', 'add', 'change', 'resize'];
-		eval($ctrl.event_generate(customEvents));
-		
 		this._generate();
 		this.width = this._width;
 		this.height = this._height;
