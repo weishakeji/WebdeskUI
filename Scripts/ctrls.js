@@ -63,6 +63,10 @@
 		str += 'this.unbind=function(eventName,func){\
 				return $ctrl.event.remove.call(this, eventName, func);\
 				};';
+		//事件集合
+		str += 'this.events=function(eventName){\
+				return $ctrl.event.list.call(this, eventName);\
+				};';
 		return str;
 	};
 	//控件的自定义事件管理，分别是绑定、触发、移除、事件列表
@@ -119,6 +123,7 @@
 		list: function(eventName) {
 			var arrEvent = new Array();
 			if (!this._eventlist) return arrEvent;
+			if (!eventName) return this._eventlist;
 			for (var i = 0; i < this._eventlist.length; i++) {
 				if (this._eventlist[i].name == eventName)
 					arrEvent.push(this._eventlist[i].event);

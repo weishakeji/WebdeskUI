@@ -50,8 +50,7 @@
         //以下不支持双向绑定
         this.parent = null; //父窗体对象
         this.childs = new Array(); //子级窗体
-        this.dom = null; //html对象
-        this._eventlist = new Array(); //自定义的事件集合     
+        this.dom = null; //html对象  
         this._watchlist = new Array(); //自定义监听  
         this._isinit = false; //是否初始化
         /* 自定义事件 */
@@ -62,52 +61,7 @@
             'click', 'drag', 'focus', 'blur',
             'mini', 'full', 'restore', 'resize'
         ];
-        for (var i = 0; i < customEvents.length; i++) {
-            eval('this.on' + customEvents[i] + '=function(f){\
-                return arguments.length > 0 ?  \
-                this.bind(\'' + customEvents[i] + '\', f) :  \
-                this.trigger(\'' + customEvents[i] + '\');};');
-        }
-        //绑定自定义事件
-        this.bind = function(eventName, func) {
-            if (typeof(func) == "function")
-                this._eventlist.push({
-                    'name': eventName,
-                    'event': func
-                });
-            return this;
-        };
-        //触发自定义事件
-        this.trigger = function(eventName, eventArgs) {
-            var arrEvent = this.events(eventName);
-            if (arrEvent.length < 1) return true;
-            //事件参数处理，增加事件名称与形为
-            if (!eventArgs) eventArgs = {};
-            if (!eventArgs['event']) eventArgs['event'] = eventName;
-            if (!eventArgs['action']) eventArgs['action'] = eventName;
-            if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
-            //执行事件，当事件中有任一事件返回false，则不再继续执行后续事件
-            var results = [];
-            for (var i = 0; i < arrEvent.length; i++) {
-                var res = arrEvent[i](this, eventArgs);
-                //不管返回结果是什么类型的值，都转为bool型
-                res = (typeof(res) == 'undefined' ? true : (typeof(res) == 'boolean' ? res : true));
-                results.push(res);
-                if (!res) break;
-            }
-            for (var i = 0; i < results.length; i++)
-                if (!results[i]) return false;
-            return true;
-        };
-        //获取某类自定义事件的列表
-        this.events = function(eventName) {
-            var arrEvent = new Array();
-            for (var i = 0; i < this._eventlist.length; i++) {
-                if (this._eventlist[i].name == eventName)
-                    arrEvent.push(this._eventlist[i].event);
-            }
-            return arrEvent;
-        };
+        eval($ctrl.event_generate(customEvents));        
     };
     var fn = box.prototype;
     //初始化相关参数

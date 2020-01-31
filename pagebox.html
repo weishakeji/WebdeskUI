@@ -292,10 +292,23 @@
                     'click', 'drag', 'focus', 'blur',
                     'min', 'full', 'restore', 'resize'</td>
             </tr>
+             <tr>
+                <td>unbind()</td>
+                <td>去除事件绑定</td>
+                <td>unbind(事件名,[方法])<br>
+如果指定了方法，则删除某类事件的指定方法；否则将删除该类所有事件
+                </td>
+            </tr>
             <tr>
                 <td>trigger()</td>
                 <td>触发事件</td>
                 <td>trigger(事件名,[消息])</td>
+            </tr>
+            <tr>
+                <td>events()</td>
+                <td>事件列表</td>
+                <td>events([事件名])<br>
+                如果不指定事件名，将返回所有事件列表</td>
             </tr>
         </table>
         <b>事件：</b>
