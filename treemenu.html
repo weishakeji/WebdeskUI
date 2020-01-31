@@ -19,7 +19,7 @@
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
- <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
+    <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
         <div id="treemenu-area"></div>
     </div>
 </body>
@@ -29,11 +29,15 @@ var tree = $treemenu.create({
     width: '100%',
     height: '100%'
 });
-tree.onresize(function(s,e) {
-    console.log('treemenu的宽:'+e.width+'，高：'+e.height);
-});
-tree.width=300;
-tree.height=300;
+var size = function(s, e) {
+    console.log('treemenu的宽:' + e.width + '，高：' + e.height);
+};
+tree.onresize(size);
+
+//tree.onresize();
+tree.width = 300;
+tree.unbind('resize', size);
+tree.height = 300;
 </script>
 
 </html>

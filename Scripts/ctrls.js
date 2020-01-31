@@ -32,24 +32,99 @@
                             this._' + t + '= newValue;\
                             for (var wat in this._watch) {\
                                 if (\'' + t + '\' == wat) {\
-                                    this._watch[wat](this,newValue,old);\
+                                	if(this._watch)this._watch[wat](this,newValue,old);\
                                 }\
                             }\
+                            if(!this._watchlist)this._watchlist=new Array();\
                             for (var i=0;i<this._watchlist.length;i++) {\
                                 if (\'' + t + '\' == this._watchlist[i].key) {\
-                                    this._watchlist[i].func(this,newValue,old);\
+                                    if(this._watchlist)this._watchlist[i].func(this,newValue,old);\
                                 }\
                             }\
                         }\
                     });';
 		return str;
 	};
+	//添加事件
+	control.event_generate = function(entArr) {
+		var str = '';
+		//生成事件方法
+		for (var i = 0; i < entArr.length; i++) {
+			str += 'this.on' + entArr[i] + '=function(f){\
+                return arguments.length > 0 ?  \
+                $ctrl.event.bind.call(this,\'' + entArr[i] + '\', f) :  \
+                $ctrl.event.trigger.call(this,\'' + entArr[i] + '\');};';
+		}
+		//触发事件的方法
+		str += 'this.trigger = function(eventName, eventArgs) {\
+				return $ctrl.event.trigger.call(this, eventName, eventArgs);\
+				};';
+		//移除事件的方法
+		str += 'this.unbind=function(eventName,func){\
+				return $ctrl.event.remove.call(this, eventName, func);\
+				};';
+		return str;
+	};
 	//控件的自定义事件管理，分别是绑定、触发、移除、事件列表
 	control.event = {
-		bind: function() {},
-		trigger: function() {},
-		remove: function() {},
-		list: function() {}
+		//绑定事件
+		//eventName：事件名称
+		//func:事件方法
+		bind: function(eventName, func) {
+			if (typeof(func) == "function") {
+				if (!this._eventlist) this._eventlist = new Array();
+				this._eventlist.push({
+					'name': eventName,
+					'event': func
+				});
+			}
+			return this;
+		},
+		//触发事件
+		trigger: function(eventName, eventArgs) {
+			var arrEvent = control.event.list.call(this, eventName);
+			if (arrEvent.length < 1) return true;
+			//事件参数处理，增加事件名称与形为
+			if (!eventArgs) eventArgs = {};
+			if (!eventArgs['event']) eventArgs['event'] = eventName;
+			if (!eventArgs['action']) eventArgs['action'] = eventName;
+			if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
+			//执行事件，当事件中有任一事件返回false，则不再继续执行后续事件
+			var results = [];
+			for (var i = 0; i < arrEvent.length; i++) {
+				var res = arrEvent[i](this, eventArgs);
+				//不管返回结果是什么类型的值，都转为bool型
+				res = (typeof(res) == 'undefined' ? true : (typeof(res) == 'boolean' ? res : true));
+				results.push(res);
+				if (!res) break;
+			}
+			for (var i = 0; i < results.length; i++)
+				if (!results[i]) return false;
+			return true;
+		},
+		//移除事件
+		remove: function(eventName, func) {
+			if (!this._eventlist) return this;
+			//如果没有指定事件方法，则全部删除
+			for (var i = 0; i < this._eventlist.length; i++) {
+				if (this._eventlist[i].name != eventName) continue;
+				//如果没有指定事件方法，直接删除
+				if (func == null) this._eventlist.splice(i, 1);
+				if (func != null && this._eventlist[i].event.toString() == func.toString()) {
+					this._eventlist.splice(i, 1);
+				}
+			}
+		},
+		//获取某一类事件的集体，用于事件多播
+		list: function(eventName) {
+			var arrEvent = new Array();
+			if (!this._eventlist) return arrEvent;
+			for (var i = 0; i < this._eventlist.length; i++) {
+				if (this._eventlist[i].name == eventName)
+					arrEvent.push(this._eventlist[i].event);
+			}
+			return arrEvent;
+		}
 	};
 
 	/*  储存对象方法的键值对   */
