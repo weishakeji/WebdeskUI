@@ -64,17 +64,20 @@
 			area.addClass('treemenu').attr('ctrid', obj.id);
 			obj.dom = area;
 		},
+		//左侧标题区
 		title: function(obj) {
-			var tagarea = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
-			var tagsbox = tagarea.append('tabs_tagbox').find('tabs_tagbox');
-			obj.domtit = tagsbox;
-			//右上角的更多按钮
-			obj.dom.append('tabs_more');
+			var tagarea = obj.dom.append('treemenu_tagarea').find('treemenu_tagarea');
+			obj.domtit = treemenu;			
 		},
+		//右侧内容区
 		body: function(obj) {
 			var body = obj.dom.append('tabs_body').find('tabs_body');
 			obj.dombody = body;
 		}
+	};
+	//添加菜单项
+	fn.add=function(items){
+
 	};
 	/*treemenu的静态方法*/
 	treemenu.create = function(param) {

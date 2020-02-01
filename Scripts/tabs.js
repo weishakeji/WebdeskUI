@@ -209,7 +209,7 @@
 		if (tab instanceof Array) {
 			for (var i = 0; i < tab.length; i++)
 				this.add(tab[i]);
-			return;
+			return this;
 		}
 		//添加tab到控件
 		var size = this.childs.length;
@@ -259,6 +259,7 @@
 			tabid: tab.id,
 			title: tab.title
 		});
+		return this;
 	};
 	//标签栏的可视区域,没有用到此代码
 	fn._tagVisiblearea = function() {
