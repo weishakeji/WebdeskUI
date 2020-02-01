@@ -17,6 +17,8 @@
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
+		//初始化并生成控件
+		this._initialization();
 		this._generate();
 		this.width = this._width;
 		this.height = this._height;
@@ -29,6 +31,9 @@
 		});
 	};
 	var fn = treemenu.prototype;
+	fn._initialization = function() {
+		this._id = 'tabs_' + new Date().getTime();
+	};
 	//当属性更改时触发相应动作
 	fn._watch = {
 		'width': function(obj, val, old) {
@@ -66,19 +71,77 @@
 		},
 		//左侧标题区
 		title: function(obj) {
-			var tagarea = obj.dom.append('treemenu_tagarea').find('treemenu_tagarea');
-			obj.domtit = treemenu;			
+			var tagarea = obj.dom.append('tree_tags').find('tree_tags');
+			obj.domtit = tagarea;
 		},
 		//右侧内容区
 		body: function(obj) {
-			var body = obj.dom.append('tabs_body').find('tabs_body');
+			var body = obj.dom.append('tree_body').find('tree_body');
 			obj.dombody = body;
 		}
 	};
 	//添加菜单项
-	fn.add=function(items){
+	fn.add = function(item) {
+		if (item == null) return;
+		if (item instanceof Array) {
+			for (var i = 0; i < item.length; i++)
+				this.add(item[i]);
+			return;
+		}
+		var size = this.childs.length;
+		item.id = 'tree_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
+		if (!item.index) item.index = size + 1;
+		if (!item.ico || item.ico == '') item.ico = '&#xa009';
+		if (!item.tit || item.tit == '') item.tit = item.title;
+		this.childs.push(item);
+		//左侧选项卡
+		var tabtag = this.domtit.append('tree_tag').childs('tree_tag').last();
+		tabtag.attr('item', item.title).attr('treeid', item.id);
+		tabtag.append('ico').find('ico').html(item.ico);
+		tabtag.append('itemtxt').find('itemtxt').html(item.title);
+		//右侧树形菜单区
+		var area = this.dombody.append('tree_area').childs('tree_area').last();
+		area.attr('treeid', item.id);
+		area.append('tree_tit').find('tree_tit').html(item.title);
+		//添加左侧标签事件
+		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
+		//设置第一个为打开
+		this.switch(this.domtit.childs().first());
 
 	};
+	fn._addchild = function(item) {
+
+	};
+	//计算层深
+	fn.calcLevel = function(item) {
+
+	};
+	//标签tag的基础事件
+	fn._tagBaseEvents = {
+		//标签点击事件
+		tagclick: function(obj, tab) {
+			tab.click(function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				//获取标签id
+				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
+				var tag = $dom(node);
+				//获取组件id
+				while (!node.classList.contains('treemenu')) node = node.parentNode;
+				var ctrid = $dom(node).attr('ctrid');
+				//获取组件对象
+				var crt = $ctrls.get(ctrid);
+				//切换选项卡
+				crt.obj.switch(tag);
+			});
+		}
+	};
+	//切换选项卡
+	fn.switch = function(tag) {
+		this.domtit.find('tree_tag').removeClass('curr');
+		tag.addClass('curr');
+		this.dombody.childs().hide();
+		this.dombody.find('tree_area[treeid=' + tag.attr('treeid') + ']').show();
+	}
 	/*treemenu的静态方法*/
 	treemenu.create = function(param) {
 		if (param == null) param = {};

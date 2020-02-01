@@ -8,8 +8,80 @@ body {
     height: 100%;
     background-color: #444;
 }
-.treemenu{
-	background-color: #eee;
+
+.treemenu {
+    background-color: #eee;
     width: 100%;
     height: 100%;
+}
+
+.treemenu * {
+    display: block;
+}
+
+.treemenu tree_tags {
+    width: 40px;
+    height: 100%;
+    background-color: red;
+    float: left;
+
+}
+
+.treemenu tree_tags tree_tag {
+    cursor: pointer;
+    transform: background-color 1s;
+    -webkit-transition-property: background-color;
+    -webkit-transition-duration:1s;
+    -webkit-transition-timing-function: ease;
+}
+
+.treemenu tree_tags tree_tag ico {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 18px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_tags tree_tag itemtxt {
+    height: 30px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    line-height: 30px;
+    font-size: 13px;
+    padding: 0px 5px 0px 5px;
+}
+.treemenu tree_tags tree_tag.curr{
+	background-color: white;
+}
+/*树形菜单区域*/
+.treemenu tree_body {
+    width: calc(100% - 40px);
+    height: 100%;
+    float: right;
+    overflow: hidden;
+    position: relative;
+}
+
+.treemenu tree_area {
+    width: 100%;
+    height: calc(100% - 10px);
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    --background-color: green;
+}
+
+.treemenu tree_area tree_tit {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 20px);
+    margin: 10px 10px 10px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    text-align: center;
+    border: solid 1px #aaa;
+    background-color: #eee;
+
 }

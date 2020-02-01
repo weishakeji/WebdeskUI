@@ -29,12 +29,33 @@ var tree = $treemenu.create({
     width: '100%',
     height: '100%'
 });
-tree.add([{
-    
-}]);
+var data={
+    title: '系统设置',
+    tit: '系统',
+    ico: '',
+    link: '',
+    type: '',
+    font: {
+        color: '',
+        bold: false,
+        italic: false
+    },
+    marker: '',
+    intro: '',
+    childs: [{
+        title:'首选项',
+        link:'xx',
+    }],
+    id: 0,
+    pid: 0
+
+};
+tree.add(data);
+data.title='去球';
+tree.add(data);
 tree.watch({
-    'width':function(obj,val,old){
-        console.log('宽度由：'+old+' 变更为:'+val);
+    'width': function(obj, val, old) {
+        console.log('宽度由：' + old + ' 变更为:' + val);
     }
 });
 var size = function(s, e) {

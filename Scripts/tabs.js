@@ -211,12 +211,12 @@
 				this.add(tab[i]);
 			return this;
 		}
-		//添加tab到控件
-		var size = this.childs.length;
+		//添加tab到控件	
+		var size = this.childs.length;	
 		tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
 		if (!tab.ico) tab.ico = '&#xa007';
-		this.childs.push(tab);
+		this.childs.push(tab);		
 		//添加标签
 		var tabtag = this.domtit.append('tab_tag').childs('tab_tag').last();
 		tabtag.attr('title', tab.title).attr('tabid', tab.id);
