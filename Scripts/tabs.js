@@ -22,7 +22,7 @@
 		this.dombody = null; //控件内容区
 		this.domenu = null; //控件右键菜单的html对象
 		this.domore = null; //控件右侧更多标签的区域名		
-		
+
 		this._open();
 		this.width = this._width;
 		this.height = this._height;
@@ -101,7 +101,7 @@
 			menu.append('hr');
 			menu.append('menu_full').find('menu_full').html('最大化');
 			menu.append('menu_restore').find('menu_restore').html('还原').addClass('disable');
-			
+
 			menu.append('hr');
 			menu.append('menu_closeleft').find('menu_closeleft').html('关闭左侧');
 			menu.append('menu_closeright').find('menu_closeright').html('关闭右侧');
@@ -212,11 +212,11 @@
 			return this;
 		}
 		//添加tab到控件	
-		var size = this.childs.length;	
+		var size = this.childs.length;
 		tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
 		if (!tab.ico) tab.ico = '&#xa007';
-		this.childs.push(tab);		
+		this.childs.push(tab);
 		//添加标签
 		var tabtag = this.domtit.append('tab_tag').childs('tab_tag').last();
 		tabtag.attr('title', tab.title).attr('tabid', tab.id);
@@ -412,8 +412,11 @@
 		var tittag = this.domtit.find('tab_tag[tabid=' + tabid + ']');
 		var title = tittag.text();
 		//设置关闭后的焦点选项卡
-		var next = tittag.next();
-		if (next.length < 1) next = tittag.prev();
+		if (tittag.hasClass('tagcurr')) {
+			var next = tittag.next();
+			if (next.length < 1) next = tittag.prev();
+			this.focus(next, true);
+		}
 		//移除
 		tittag.remove();
 		this.dombody.find('tabpace[tabid=' + tabid + ']').remove();
@@ -425,7 +428,7 @@
 				title: title
 			});
 		}
-		return this.focus(next, true);
+		return this;
 	};
 	/*** 
 	以下是静态方法
