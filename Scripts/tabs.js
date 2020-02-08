@@ -78,36 +78,34 @@
 			obj.dom = area;
 		},
 		title: function(obj) {
-			var tagarea = obj.dom.append('tabs_tagarea').find('tabs_tagarea');
-			var tagsbox = tagarea.append('tabs_tagbox').find('tabs_tagbox');
+			var tagarea = obj.dom.add('tabs_tagarea');
+			var tagsbox = tagarea.add('tabs_tagbox');
 			obj.domtit = tagsbox;
 			//右上角的更多按钮
 			obj.dom.append('tabs_more');
 		},
 		body: function(obj) {
-			var body = obj.dom.append('tabs_body').find('tabs_body');
-			obj.dombody = body;
+			obj.dombody =  obj.dom.add('tabs_body');
 		},
 		//右侧，更多标签的区域
 		morebox: function(obj) {
-			var more = obj.dom.append('tabs_morebox').find('tabs_morebox');
-			obj.domore = more;
+			obj.domore = obj.dom.add('tabs_morebox');
 		},
 		//右键菜单
 		contextmenu: function(obj) {
 			var menu = obj.dom.append('tabs_contextmenu').find('tabs_contextmenu');
-			menu.append('menu_fresh').find('menu_fresh').html('刷新');
+			menu.add('menu_fresh').html('刷新');
 			//menu.append('menu_freshtime').find('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
-			menu.append('hr');
-			menu.append('menu_full').find('menu_full').html('最大化');
-			menu.append('menu_restore').find('menu_restore').html('还原').addClass('disable');
+			menu.add('hr');
+			menu.add('menu_full').html('最大化');
+			menu.add('menu_restore').html('还原').addClass('disable');
 
-			menu.append('hr');
-			menu.append('menu_closeleft').find('menu_closeleft').html('关闭左侧');
-			menu.append('menu_closeright').find('menu_closeright').html('关闭右侧');
-			menu.append('menu_closeall').find('menu_closeall').html('关闭所有');
-			menu.append('hr');
-			menu.append('menu_close').find('menu_close').html('关闭');
+			menu.add('hr');
+			menu.add('menu_closeleft').html('关闭左侧');
+			menu.add('menu_closeright').html('关闭右侧');
+			menu.add('menu_closeall').html('关闭所有');
+			menu.add('hr');
+			menu.add('menu_close').html('关闭');
 			obj.domenu = menu;
 		}
 	};
@@ -218,19 +216,19 @@
 		if (!tab.ico) tab.ico = '&#xa007';
 		this.childs.push(tab);
 		//添加标签
-		var tabtag = this.domtit.append('tab_tag').childs('tab_tag').last();
+		var tabtag = this.domtit.add('tab_tag');
 		tabtag.attr('title', tab.title).attr('tabid', tab.id);
-		tabtag.append('ico').find('ico').html(tab.ico);
-		tabtag.append('tagtxt').find('tagtxt').html(tab.title);
-		tabtag.append('close');
+		tabtag.add('ico').html(tab.ico);
+		tabtag.add('tagtxt').html(tab.title);
+		tabtag.add('close');
 		//添加更多标签区域
-		var mtag = this.domore.append('tab_tag').childs('tab_tag').last();
-		mtag.append('ico').find('ico').html(tab.ico);
+		var mtag = this.domore.add('tab_tag');
+		mtag.add('ico').html(tab.ico);
 		mtag.attr('tabid', tab.id);
-		mtag.append('tagtxt').find('tagtxt').html(tab.title);
-		mtag.append('close');
+		mtag.add('tagtxt').html(tab.title);
+		mtag.add('close');
 		//添加内容区
-		var space = this.dombody.append('tabpace').childs('tabpace').last();
+		var space = this.dombody.add('tabpace');
 		space.attr('tabid', tab.id);
 		var iframe = $dom(document.createElement('iframe'));
 		iframe.attr({
@@ -245,7 +243,7 @@
 		iframe.width('100%');
 		space.append(iframe[0]);
 		if (!!tab.path) {
-			var path = space.append('tabpath').find('tabpath');
+			var path = space.add('tabpath');
 			path.html('路径：' + tab.path).width('100%').height(30);
 			iframe.height('calc(100% - 30px)');
 		} else {
@@ -453,7 +451,7 @@
 	//最大化内容区域
 	tabs.full = function(obj, tabid) {
 		var fbox = $dom('tabs_fullbox');
-		if (fbox.length < 1) fbox = $dom(document.body).append('tabs_fullbox').find('tabs_fullbox');
+		if (fbox.length < 1) fbox = $dom(document.body).add('tabs_fullbox');
 		//当前内容区，放到全屏fullbox中
 		var tabpace = obj.dombody.find('tabpace[tabid=' + tabid + ']');
 		fbox.append(tabpace.find('iframe')).attr({
@@ -470,7 +468,7 @@
 			fbox.width('100%').height('100%');
 		}, 300);
 		//添加返回按钮
-		var close = fbox.append('tabs_fullbox_back').find('tabs_fullbox_back');
+		var close = fbox.add('tabs_fullbox_back');
 		close.click(function(e) {
 			var fbox = $dom('tabs_fullbox');
 			var crt = $ctrls.get(fbox.attr('crtid'));

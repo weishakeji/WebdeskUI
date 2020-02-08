@@ -189,7 +189,7 @@
         //构建最小化的区域
         var area = $dom('pagebox-minarea');
         if (area.length < 1) {
-            area = $dom('body').append('pagebox-minarea').find('pagebox-minarea');
+            area = $dom('body').add('pagebox-minarea');
             area.css('opacity', 0).hide();
         }
 
@@ -219,7 +219,7 @@
     fn._builder = {
         //生成外壳
         shell: function(obj) {
-            var div = $dom(document.body).append('div').childs().last();
+            var div = $dom(document.body).add('div');
             div.attr({
                 'boxid': obj.id,
                 'class': 'pagebox',
@@ -229,7 +229,7 @@
         },
         //边缘部分，主要是用于控制缩放
         margin: function(obj) {
-            var margin = obj.dom.append('margin').find('margin');
+            var margin = obj.dom.add('margin');
             var arr = ['nw', 'w', 'sw', 'n', 's', 'ne', 'e', 'se'];
             for (var i = 0; i < arr.length; i++)
                 margin.append(arr[i]);
@@ -237,20 +237,20 @@
         //标题栏，包括图标、标题文字、关闭按钮，有拖放功能
         title: function(obj) {
             //图标和标题文字
-            var title = obj.dom.append('pagebox_title').find('pagebox_title');
-            title.append('pb-ico').find('pb-ico').html(obj.ico);
+            var title = obj.dom.add('pagebox_title');
+            title.add('pb-ico').html(obj.ico);
             if (obj.url != '') {
                 title.find('pb-ico').hide();
-                title.append('pb-ico').find('pb-ico').last().addClass('pb-loading').html('&#xe621');
+                title.add('pb-ico').addClass('pb-loading').html('&#xe621');
             }
-            title.append('pb-text').find('pb-text').html(obj.title);
+            title.add('pb-text').html(obj.title);
             //移动窗体的响应条
             obj.dom.append('pagebox_dragbar');
         },
         //右上角的最小化，最大化，关闭按钮
         buttonbox: function(obj) {
             var btnbox = obj.dom.find('btnbox');
-            if (btnbox.length < 1) btnbox = obj.dom.append('btnbox').find('btnbox');
+            if (btnbox.length < 1) btnbox = obj.dom.add('btnbox');
             btnbox.childs().remove();
             if (obj._min || obj._max) {
                 btnbox.append('btn_min').append('btn_max');
@@ -275,18 +275,18 @@
                 'marginheight': 0,
                 'src': obj.url
             });
-            obj.dom.append(iframe);
+            obj.dom.append(iframe[0]);
         },
         //左上角图标的下拉菜单
         dropmenu: function(obj) {
-            var menu = obj.dom.append('dropmenu').find('dropmenu');
-            menu.append('menu_fresh').find('menu_fresh').html('刷新');
+            var menu = obj.dom.add('dropmenu');
+            menu.add('menu_fresh').html('刷新');
             menu.append('hr');
-            menu.append('menu_min').find('menu_min').html('最小化');
-            menu.append('menu_max').find('menu_max').html('最大化');
-            menu.append('menu_win').find('menu_win').html('还原');
-            menu.append('hr');
-            menu.append('menu_close').find('menu_close').html('关闭');
+            menu.add('menu_min').html('最小化');
+            menu.add('menu_max').html('最大化');
+            menu.add('menu_win').html('还原');
+            menu.add('hr');
+            menu.add('menu_close').html('关闭');
             obj.domdrop = menu;
         },
         //遮罩
@@ -443,7 +443,7 @@
         //target:pagebox对象
         //area:最小化的管理区域
         shell: function(target, area) {
-            var min = area.append('pagebox-min').childs().last();
+            var min = area.add('pagebox-min');
             min.attr({
                 'boxid': target.id
             });
@@ -453,8 +453,8 @@
         title: function(target, area) {
             var min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
             //图标和标题文字           
-            min.append('pb-ico').find('pb-ico').html(target.ico);
-            min.append('pb-text').find('pb-text').html(target.title);
+            min.add('pb-ico').html(target.ico);
+            min.add('pb-text').html(target.title);
             min.find('pb-ico,pb-text').click(function(e) {
                 var obj = box._getObj(e);
                 //如果窗体不处于焦点，则设置为焦点；如果已经是焦点，则最小化
@@ -468,8 +468,7 @@
                 }
             });
             //关闭窗体
-            min.append('btn_close');
-            min.find('btn_close').click(function(e) {
+            min.add('btn_close').click(function(e) {
                 box._getObj(e).shut();
             });
         }
@@ -830,7 +829,7 @@
     //生成窗体最小化的管理区
     box.pageboxcollect_boxcreate = function() {
         var area = $dom('pagebox-minarea');
-        if (area.length < 1) area = $dom('body').append('pagebox-minarea').find('pagebox-minarea');
+        if (area.length < 1) area = $dom('body').add('pagebox-minarea');
         area.show().css('opacity', 1);
         //设置大小      
         box.pageboxcollect_boxsize();
