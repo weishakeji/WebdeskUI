@@ -85,7 +85,7 @@
 			obj.dom.append('tabs_more');
 		},
 		body: function(obj) {
-			obj.dombody =  obj.dom.add('tabs_body');
+			obj.dombody = obj.dom.add('tabs_body');
 		},
 		//右侧，更多标签的区域
 		morebox: function(obj) {
@@ -241,7 +241,6 @@
 			'src': tab.url
 		});
 		iframe.width('100%');
-		space.append(iframe[0]);
 		if (!!tab.path) {
 			var path = space.add('tabpath');
 			path.html('路径：' + tab.path).width('100%').height(30);
@@ -249,6 +248,7 @@
 		} else {
 			iframe.height('100%');
 		}
+		space.append(iframe[0]);
 		this.order();
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
 		this.focus(tab.id, false);

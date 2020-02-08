@@ -199,11 +199,10 @@ tabs_tagbox tab_tag close:hover {
 /*内容区*/
 
 .tabsbox tabs_body {
-    position: absolute;
+   
     width: calc(100% - 2px);
     height: calc(100% - 36px);
-    left: 0px;
-    bottom: 0px;
+
     background-color: #fff;
     border: 1px solid #aaa;
     border-top: none;
@@ -211,7 +210,7 @@ tabs_tagbox tab_tag close:hover {
 
 .tabsbox tabs_body tabpace {
     display: block;
-    position: relative;
+   
     width: 100%;
     height: 100%;
 }
@@ -229,7 +228,7 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_body tabpace iframe {
-    position: absolute;
+    
     bottom: 0px;
     left: 0px;
     width: 100%;
