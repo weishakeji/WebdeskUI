@@ -368,23 +368,42 @@
 			left: offset.left + window.pageXOffset - docElement.clientLeft
 		};
 	};
+	//追加一个子节点，返回自身对象
 	fn.append = function(ele) {
 		if (typeof(ele) == 'string') {
-			return this.each(function() {
-				var element = document.createElement(ele);
-				this.appendChild(element);
-			});
+			return this.append(document.createElement(ele));
 		}
 		if (webdom.isdom(ele)) {
 			return this.each(function() {
-				if (ele.length > 0)
-					this.appendChild(ele[0]);
+				for (var i = 0; i < ele.length; i++)
+					this.appendChild(webdom.clone(ele[i]));
 			});
 		}
 		if (ele instanceof Node) {
 			return this.each(function() {
 				this.appendChild(ele);
 			});
+		}
+	};
+	//添加了一个子节点，返回子节点对象
+	fn.add = function(ele) {
+		if (typeof(ele) == 'string') {
+			return this.add(document.createElement(ele));
+		}
+		if (webdom.isdom(ele)) {
+			var nodes = this.each(function() {
+				var chils = [];
+				for (var i = 0; i < ele.length; i++)
+					chils.push(this.appendChild(webdom.clone(ele[i])));
+				return chils;
+			}, 1);
+			return webdom(nodes);
+		}
+		if (ele instanceof Node) {
+			return webdom(this.each(function() {
+				this.appendChild(ele);
+				return ele;
+			}, 1));
 		}
 	};
 	//合并两个对象，返回新对象
@@ -454,7 +473,36 @@
 	//是否是webdom对象
 	webdom.isdom = function(obj) {
 		return typeof(obj) == 'object' && obj.typeof == 'webui.element';
-	}
+	};
+	//克隆对象
+	webdom.clone = function(obj) {
+		if (typeof obj == "object") {
+			if (obj == null) return null;
+			if (webdom.isdom(obj)) {
+				var t = [];
+				for (var i = 0; i < obj.length; i++)
+					t.push(obj[i]);
+				return webdom(t);
+			} else {
+				if (obj instanceof Array) {
+					var t = [];
+					for (var i = 0, len = obj.length; i < len; i++)
+						t.push(webdom.clone(obj[i]));
+					return t;
+				} else {
+					if (obj instanceof Node) {
+						return obj.cloneNode(true);
+					} else {
+						var t = {};
+						for (var j in obj)
+							t[j] = webdom.clone(obj[j]);
+						return t;
+					}
+				}
+			}
+		}
+		return obj;
+	};
 	//鼠标的坐标值
 	webdom.mouse = function(e) {
 		var x = 0,

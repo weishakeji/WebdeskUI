@@ -243,7 +243,7 @@
 			'src': tab.url
 		});
 		iframe.width('100%');
-		space.append(iframe);
+		space.append(iframe[0]);
 		if (!!tab.path) {
 			var path = space.append('tabpath').find('tabpath');
 			path.html('路径：' + tab.path).width('100%').height(30);
