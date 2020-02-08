@@ -31,7 +31,7 @@ body {
     cursor: pointer;
     transform: background-color 1s;
     -webkit-transition-property: background-color;
-    -webkit-transition-duration:1s;
+    -webkit-transition-duration: 1s;
     -webkit-transition-timing-function: ease;
 }
 
@@ -52,9 +52,11 @@ body {
     font-size: 13px;
     padding: 0px 5px 0px 5px;
 }
-.treemenu tree_tags tree_tag.curr{
-	background-color: white;
+
+.treemenu tree_tags tree_tag.curr {
+    background-color: white;
 }
+
 /*树形菜单区域*/
 .treemenu tree_body {
     width: calc(100% - 40px);
@@ -84,4 +86,36 @@ body {
     border: solid 1px #aaa;
     background-color: #eee;
 
+}
+
+/*树形节点*/
+.treemenu node {
+    position: relative;
+    font-size: 16px;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.treemenu node.folder{
+     background-color: #ccc;
+}
+.treemenu node.folder:after {
+    content: '\a006';
+    line-height: 30px;
+    font-size: 10px;
+    height: 30px;
+    width: 20px;
+    color: #999;
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    //transform: rotate(90deg);
+    font-family: "webdesk_icon" !important;
+}
+.treemenu node:hover{
+    background-color: #999;
+}
+.treemenu node:hover:after{
+    color: #fff;
 }

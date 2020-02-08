@@ -11,7 +11,7 @@ body {
 
 .tabsbox {
     position: relative;
-    overflow: hidden;
+    overflow: hidden;    
 }
 
 .tabsbox>*,

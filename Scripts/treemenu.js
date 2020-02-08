@@ -10,8 +10,8 @@
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单
-		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize']));
+		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单,click点击菜单项
+		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize','click']));
 
 		this.childs = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -59,6 +59,7 @@
 	fn._generate = function() {
 		for (var t in this._builder) this._builder[t](this);
 	};
+	//生成结构
 	fn._builder = {
 		shell: function(obj) {
 			var area = $dom(obj.target);
@@ -71,13 +72,11 @@
 		},
 		//左侧标题区
 		title: function(obj) {
-			var tagarea = obj.dom.append('tree_tags').find('tree_tags');
-			obj.domtit = tagarea;
+			obj.domtit =  obj.dom.add('tree_tags');
 		},
 		//右侧内容区
 		body: function(obj) {
-			var body = obj.dom.append('tree_body').find('tree_body');
-			obj.dombody = body;
+			obj.dombody = obj.dom.add('tree_body');
 		}
 	};
 	//添加菜单项
@@ -95,26 +94,51 @@
 		if (!item.tit || item.tit == '') item.tit = item.title;
 		this.childs.push(item);
 		//左侧选项卡
-		var tabtag = this.domtit.append('tree_tag').childs('tree_tag').last();
+		var tabtag = this.domtit.add('tree_tag');
 		tabtag.attr('item', item.title).attr('treeid', item.id);
-		tabtag.append('ico').find('ico').html(item.ico);
-		tabtag.append('itemtxt').find('itemtxt').html(item.title);
-		//右侧树形菜单区
-		var area = this.dombody.append('tree_area').childs('tree_area').last();
-		area.attr('treeid', item.id);
-		area.append('tree_tit').find('tree_tit').html(item.title);
+		tabtag.add('ico').html(item.ico);
+		tabtag.add('itemtxt').html(item.title);
 		//添加左侧标签事件
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
 		//设置第一个为打开
 		this.switch(this.domtit.childs().first());
 
-	};
-	fn._addchild = function(item) {
+		//右侧树形菜单区
+		var area = this.dombody.add('tree_area');
+		area.attr('treeid', item.id);
+		//右侧菜单的大标题
+		area.add('tree_tit').html(item.title);
+		item = this._calcLevel(item, 1);
+		for (var i = 0; i < item.childs.length; i++) {
+			this._addchild(area, item.childs[i]);
+		}
 
+	};
+	fn._addchild = function(area, item) {
+		var box = area.add('tree_box');
+		box.attr('treeid',item.id);
+		box.add('node').css('padding-left',(item.level*20)+'px').html(item.title);
+		if(item.childs && item.childs.length>0){
+			box.childs('node').first().addClass('folder');
+			for (var i = 0; i < item.childs.length; i++) {
+				this._addchild(box,item.childs[i]);
+			}
+		}
 	};
 	//计算层深
-	fn.calcLevel = function(item) {
-
+	fn._calcLevel = function(item, level) {
+		//补全一些信息
+		if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
+		if (!item.pid || item.pid < 0) item.pid = 0;
+		if (!item.level || item.level <= 0) item.level = level;
+		//计算层深
+		if (item.childs && item.childs.length > 0) {
+			for (var i = 0; i < item.childs.length; i++) {
+				item.childs[i].pid = item.id;
+				item.childs[i] = this._calcLevel(item.childs[i], level + 1);
+			}
+		}
+		return item;
 	};
 	//标签tag的基础事件
 	fn._tagBaseEvents = {

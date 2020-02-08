@@ -29,7 +29,7 @@ var tree = $treemenu.create({
     width: '100%',
     height: '100%'
 });
-var data={
+var data = {
     title: '系统设置',
     tit: '系统',
     ico: '',
@@ -43,16 +43,31 @@ var data={
     marker: '',
     intro: '',
     childs: [{
-        title:'首选项',
-        link:'xx',
+        title: '首选项',
+        link: 'xx',
+        childs: [{
+            title: '账号管理',
+            link: 'zhanghao'
+        }, {
+            title: '接口管理',
+            link: 'jiekou',
+            childs:[{
+                title:'微信支付'
+            },{
+                title:'支付宝支付'
+            }]
+        }]
+    }, {
+        title: '常用'
     }],
     id: 0,
     pid: 0
 
 };
 tree.add(data);
-data.title='去球';
-tree.add(data);
+var clone = $dom.clone(data);
+clone.title = '去球';
+tree.add(clone);
 tree.watch({
     'width': function(obj, val, old) {
         console.log('宽度由：' + old + ' 变更为:' + val);

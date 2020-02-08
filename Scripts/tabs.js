@@ -93,9 +93,9 @@
 		},
 		//右键菜单
 		contextmenu: function(obj) {
-			var menu = obj.dom.append('tabs_contextmenu').find('tabs_contextmenu');
+			var menu = obj.dom.add('tabs_contextmenu');
 			menu.add('menu_fresh').html('刷新');
-			//menu.append('menu_freshtime').find('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
+			//menu.add('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
 			menu.add('hr');
 			menu.add('menu_full').html('最大化');
 			menu.add('menu_restore').html('还原').addClass('disable');
