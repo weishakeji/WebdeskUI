@@ -35,26 +35,28 @@ var data = {
     ico: '',
     link: '',
     type: '',
-    font: {
-        color: '',
-        bold: false,
-        italic: false
-    },
     marker: '',
     intro: '',
     childs: [{
         title: '首选项',
         link: 'xx',
+
+        intro: '基本设置',
         childs: [{
             title: '账号管理',
-            link: 'zhanghao'
+            link: 'zhanghao',
+            font: {
+                color: 'red',
+                bold: true,
+                italic: true
+            },
         }, {
             title: '接口管理',
             link: 'jiekou',
-            childs:[{
-                title:'微信支付'
-            },{
-                title:'支付宝支付'
+            childs: [{
+                title: '微信支付'
+            }, {
+                title: '支付宝支付'
             }]
         }]
     }, {

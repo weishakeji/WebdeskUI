@@ -11,9 +11,9 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize','click']));
+		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize', 'click']));
 
-		this.childs = new Array(); //子级		
+		this.datas = new Array(); //子级		
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
@@ -72,7 +72,7 @@
 		},
 		//左侧标题区
 		title: function(obj) {
-			obj.domtit =  obj.dom.add('tree_tags');
+			obj.domtit = obj.dom.add('tree_tags');
 		},
 		//右侧内容区
 		body: function(obj) {
@@ -87,12 +87,12 @@
 				this.add(item[i]);
 			return;
 		}
-		var size = this.childs.length;
+		var size = this.datas.length;
 		item.id = 'tree_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!item.index) item.index = size + 1;
 		if (!item.ico || item.ico == '') item.ico = '&#xa009';
 		if (!item.tit || item.tit == '') item.tit = item.title;
-		this.childs.push(item);
+		this.datas.push(item);
 		//左侧选项卡
 		var tabtag = this.domtit.add('tree_tag');
 		tabtag.attr('item', item.title).attr('treeid', item.id);
@@ -108,22 +108,72 @@
 		area.attr('treeid', item.id);
 		//右侧菜单的大标题
 		area.add('tree_tit').html(item.title);
-		item = this._calcLevel(item, 1);
+		item = this._calcLevel(item, 0);
 		for (var i = 0; i < item.childs.length; i++) {
 			this._addchild(area, item.childs[i]);
 		}
+		//事件
+		//area.find()
 
 	};
+	//添加树形的子级节点
 	fn._addchild = function(area, item) {
 		var box = area.add('tree_box');
-		box.attr('treeid',item.id);
-		box.add('node').css('padding-left',(item.level*20)+'px').html(item.title);
-		if(item.childs && item.childs.length>0){
-			box.childs('node').first().addClass('folder');
+		box.attr('treeid', item.id);
+		this._createNode(item, box);
+		if (item.childs && item.childs.length > 0) {
 			for (var i = 0; i < item.childs.length; i++) {
-				this._addchild(box,item.childs[i]);
+				this._addchild(box, item.childs[i]);
 			}
 		}
+	};
+	//创建树形节点
+	fn._createNode = function(item, box) {
+		var node = box.add('tree-node');
+		node.css('padding-left', (item.level * 20) + 'px');
+		if (item.intro) node.attr('title', item.intro);
+		//node.add('tree-ico').html(item.ico ? item.ico : '&#xa003');
+
+		var span = node.add('span');
+		span.attr('ico', item.ico ? item.ico : '\ua010');
+		//字体样式
+		if (item.font) {
+			if (item.font.color) span.css('color', item.font.color);
+			if (item.font.bold) span.css('font-weight', item.font.bold ? 'bold' : 'normal');
+			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
+		}
+		span.html(item.title);
+		//如果有下级节点
+		if (item.childs && item.childs.length > 0) {
+			node.addClass('folder').click(function(e) {
+				var n = event.target ? event.target : event.srcElement;
+				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
+				var tnode = $dom(n);
+				if (tnode.hasClass('folder')) {
+					tnode.attr('class', 'folderclose');
+					tnode.parent().find('tree_box').hide();
+				} else {
+					tnode.attr('class', 'folder');
+					tnode.parent().find('tree_box').show();
+				}
+			});
+		}
+		//节点点击事件
+		span.click(function(e) {
+			var n = event.target ? event.target : event.srcElement;
+			while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
+			//节点id
+			var treeid = $dom(n).attr('treeid');
+			//对象
+			var tree = n;
+			while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
+			var crt = $ctrls.get($dom(tree).attr('ctrid'));
+			crt.obj.trigger('click', {
+				treeid: treeid,
+				node: 9
+			});
+		});
+		return node;
 	};
 	//计算层深
 	fn._calcLevel = function(item, level) {
@@ -139,6 +189,10 @@
 			}
 		}
 		return item;
+	};
+	//获取数据源的节点
+	fn.getData = function(treeid) {
+
 	};
 	//标签tag的基础事件
 	fn._tagBaseEvents = {
@@ -166,7 +220,9 @@
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=' + tag.attr('treeid') + ']').show();
 	}
-	/*treemenu的静态方法*/
+	/*
+	treemenu的静态方法
+	*/
 	treemenu.create = function(param) {
 		if (param == null) param = {};
 		var tobj = new treemenu(param);

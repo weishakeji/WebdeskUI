@@ -89,18 +89,42 @@ body {
 }
 
 /*树形节点*/
-.treemenu node {
+.treemenu tree-node {
     position: relative;
     font-size: 16px;
     line-height: 30px;
     height: 30px;
     cursor: pointer;
+    padding-right: 30px;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-.treemenu node.folder{
-     background-color: #ccc;
+
+.treemenu tree-node span {
+    width: auto;
+    display: inline-block;
 }
-.treemenu node.folder:after {
-    content: '\a006';
+
+.treemenu tree-node span:before {
+    content: attr(ico);
+    line-height: 30px;
+    font-size: 18px;
+    height: 30px;
+    font-weight: normal;
+    width: 20px;
+    margin-right: 10px;
+    display: inline-block;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree-node.folder {
+    --background-color: #ccc;
+}
+
+.treemenu tree-node:after {
+
     line-height: 30px;
     font-size: 10px;
     height: 30px;
@@ -108,14 +132,26 @@ body {
     color: #999;
     display: block;
     position: absolute;
+    text-align: center;
     top: 0px;
-    right: 0px;
-    //transform: rotate(90deg);
+    right: 5px;
     font-family: "webdesk_icon" !important;
 }
-.treemenu node:hover{
-    background-color: #999;
+
+.treemenu tree-node:hover {
+    background-color: #ddd;
 }
-.treemenu node:hover:after{
+
+.treemenu tree-node:hover:after {
     color: #fff;
+}
+
+.treemenu tree-node.folder:after {
+    content: '\a006';
+    transform: rotate(90deg);
+}
+
+.treemenu tree-node.folderclose:after {
+    content: '\a006';
+
 }
