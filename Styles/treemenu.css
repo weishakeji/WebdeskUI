@@ -13,6 +13,8 @@ body {
     background-color: #eee;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    
 }
 
 .treemenu * {
@@ -24,7 +26,8 @@ body {
     height: 100%;
     background-color: red;
     float: left;
-
+    position: relative;
+    overflow: hidden;
 }
 
 .treemenu tree_tags tree_tag {
@@ -37,9 +40,10 @@ body {
 
 .treemenu tree_tags tree_tag ico {
     height: 30px;
-    width: 30px;
-    line-height: 30px;
+    width: 100%;
+    line-height: 35px;
     text-align: center;
+    display: block;
     font-size: 18px;
     font-family: "webdesk_icon" !important;
 }
@@ -57,12 +61,38 @@ body {
     background-color: white;
 }
 
+/*折叠按钮*/
+.treemenu tree_tags tree-foldbtn {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.treemenu tree_tags tree-foldbtn.fold {
+    transform: rotate(180deg);
+}
+
+.treemenu tree_tags tree-foldbtn:before {
+    content: '\a016';
+    line-height: 40px;
+    font-size: 16px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_tags tree-foldbtn:hover {
+    color: #eee;
+}
+
 /*树形菜单区域*/
 .treemenu tree_body {
-    width: calc(100% - 40px);
+background-color: #eee;
     height: 100%;
     float: right;
-    overflow: hidden;
+    overflow: auto;
     position: relative;
 }
 
@@ -70,8 +100,10 @@ body {
     width: 100%;
     height: calc(100% - 10px);
     display: block;
+    display: none;
     margin: 0px;
     padding: 0px;
+    cursor: default;
     --background-color: green;
 }
 
@@ -80,7 +112,7 @@ body {
     line-height: 30px;
     width: calc(100% - 20px);
     margin: 10px 10px 10px 10px;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: 5px;
     text-align: center;
     border: solid 1px #aaa;
@@ -124,7 +156,6 @@ body {
 }
 
 .treemenu tree-node:after {
-
     line-height: 30px;
     font-size: 10px;
     height: 30px;

@@ -15,12 +15,21 @@
     body {
         overflow: hidden;
     }
+
+    #space {
+        float: left;
+        background-color: yellow;
+        height: 200px;
+        width: 200px;
+        transition: width 0.3s,height 0.3s;
+    }
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
-    <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
-        <div id="treemenu-area"></div>
+    <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px);float: left;'>
+        <div id="treemenu-area" style="float: left;"></div>
+        <div id="space">666</div>
     </div>
 </body>
 <script type="text/javascript">
@@ -55,10 +64,10 @@ var data = {
             link: 'jiekou',
             childs: [{
                 title: '微信支付',
-                id:101
+                id: 101
             }, {
                 title: '支付宝支付',
-                id:100
+                id: 100
             }]
         }]
     }, {
@@ -79,6 +88,7 @@ tree.watch({
 });
 var size = function(s, e) {
     console.log('treemenu的宽:' + e.width + '，高：' + e.height);
+    $dom('#space').width('calc(100% - ' + e.width + 'px )');
 };
 tree.onresize(size);
 
@@ -86,12 +96,19 @@ tree.onresize(size);
 tree.width = 300;
 //tree.unbind('resize', size);
 tree.height = 300;
-tree.onclick(function(s,e){
+tree.onclick(function(s, e) {
     console.log(e.data.title);
 });
+//折叠
+tree.onfold(function(s, e) {
+    if (e.action == 'fold') {
+        $dom('#space').width('calc(100% - ' + 40+ 'px )');
+    }else{
+         $dom('#space').width('calc(100% - ' + s.width+ 'px )');
+    }
+});
 
-
-var t=tree.getData(100);
+var t = tree.getData(100);
 
 console.log(t.title);
 </script>

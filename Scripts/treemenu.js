@@ -5,13 +5,14 @@
 			target: '', //所在Html区域			
 			width: 100,
 			height: 200,
-			id: ''
+			id: '',
+			fold: false //是否折叠
 		};
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		//shut,菜单条合起来;pull，菜单区域打开；add，增加菜单项; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['shut', 'pull', 'add', 'change', 'resize', 'click']));
+		//fold,折叠或展开;add，增加菜单项; change，切换根菜单,click点击菜单项
+		eval($ctrl.event_generate(['fold', 'add', 'change', 'resize', 'click']));
 
 		this.datas = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -39,6 +40,7 @@
 		'width': function(obj, val, old) {
 			if (obj.dom) {
 				obj.dom.width(val);
+				obj.dombody.width(val - 40);
 				obj.trigger('resize', {
 					width: val,
 					height: obj._height
@@ -48,16 +50,38 @@
 		'height': function(obj, val, old) {
 			if (obj.dom) {
 				obj.dom.height(val);
+				obj.domtit.height(val);
+				obj.dombody.height(val);
 				obj.trigger('resize', {
 					width: obj._width,
 					height: val
 				});
 			}
+		},
+		//折叠与展开
+		'fold': function(obj, val, old) {
+			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
+			obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
+			if (val) {
+				obj.dom.width(40);
+				obj.dombody.css('position', 'absolute').hide();
+				var offset = obj.dom.offset();				
+				obj.dombody.left(offset.left + 40);
+			} else {
+				obj.dom.width(obj.width);
+				obj.dombody.css('position', 'relative').show();
+				obj.dombody.left(0);
+			}
+			//折叠事件
+			obj.trigger('fold', {
+				action: val ? 'fold' : 'open'
+			});
 		}
 	};
 	//生成实始的构造
 	fn._generate = function() {
 		for (var t in this._builder) this._builder[t](this);
+		for (var t in this._baseEvents) this._baseEvents[t](this);
 	};
 	//生成结构
 	fn._builder = {
@@ -73,11 +97,36 @@
 		//左侧标题区
 		title: function(obj) {
 			obj.domtit = obj.dom.add('tree_tags');
+			obj.domtit.add('tree-foldbtn');
 		},
 		//右侧内容区
 		body: function(obj) {
 			obj.dombody = obj.dom.add('tree_body');
 		}
+	};
+	//基础事件
+	fn._baseEvents = {
+		//树形菜单的收缩与展开
+		fold: function(obj) {
+			//左下角折叠按钮的事件
+			obj.domtit.find('tree-foldbtn').click(function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				crt.obj.fold = !crt.obj.fold;
+			});
+			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
+			obj.dombody.bind('mouseleave', function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				if (!crt.obj.fold) return;
+				window.setTimeout(function() {
+					if (crt.obj.fold) crt.obj.dombody.hide();
+				}, 3000);
+			});
+		},
+
 	};
 	//添加菜单项
 	fn.add = function(item) {
@@ -101,7 +150,7 @@
 		//添加左侧标签事件
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
 		//设置第一个为打开
-		this.switch(this.domtit.childs().first());
+		this.switch(this.domtit.childs('tree_tag').first());
 
 		//右侧树形菜单区
 		var area = this.dombody.add('tree_area');
@@ -112,9 +161,6 @@
 		for (var i = 0; i < item.childs.length; i++) {
 			this._addchild(area, item.childs[i]);
 		}
-		//事件
-		//area.find()
-
 	};
 	//添加树形的子级节点
 	fn._addchild = function(area, item) {
@@ -135,7 +181,7 @@
 		//node.add('tree-ico').html(item.ico ? item.ico : '&#xa003');
 
 		var span = node.add('span');
-		span.attr('ico', item.ico ? item.ico : '\ua010');
+		span.attr('ico', item.ico ? item.ico : '\ua015');
 		//字体样式
 		if (item.font) {
 			if (item.font.color) span.css('color', item.font.color);
@@ -173,7 +219,7 @@
 			crt.obj.trigger('click', {
 				treeid: treeid,
 				data: datanode
-			});			
+			});
 		});
 		return node;
 	};
@@ -207,9 +253,9 @@
 			return d;
 		}
 	};
-	//标签tag的基础事件
+	//左侧标签tag的基础事件
 	fn._tagBaseEvents = {
-		//标签点击事件
+		//左侧标签点击事件
 		tagclick: function(obj, tab) {
 			tab.click(function(e) {
 				var node = event.target ? event.target : event.srcElement;
@@ -222,6 +268,17 @@
 				//获取组件对象
 				var crt = $ctrls.get(ctrid);
 				//切换选项卡
+				crt.obj.switch(tag);
+			});
+			tab.bind('mouseover', function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				//获取标签id
+				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
+				var tag = $dom(node);
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				if (!crt.obj.fold) return;
+				crt.obj.dombody.show();
 				crt.obj.switch(tag);
 			});
 		}
