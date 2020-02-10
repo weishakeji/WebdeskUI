@@ -107,7 +107,9 @@ tree.onfold(function(s, e) {
          $dom('#space').width('calc(100% - ' + s.width+ 'px )');
     }
 });
-
+tree.onchange(function(s,e){
+    console.log(e.data.title);
+});
 var t = tree.getData(100);
 
 console.log(t.title);

@@ -65,7 +65,7 @@
 			if (val) {
 				obj.dom.width(40);
 				obj.dombody.css('position', 'absolute').hide();
-				var offset = obj.dom.offset();				
+				var offset = obj.dom.offset();
 				obj.dombody.left(offset.left + 40);
 			} else {
 				obj.dom.width(obj.width);
@@ -150,7 +150,7 @@
 		//添加左侧标签事件
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
 		//设置第一个为打开
-		this.switch(this.domtit.childs('tree_tag').first());
+		this.switch(this,this.domtit.childs('tree_tag').first());
 
 		//右侧树形菜单区
 		var area = this.dombody.add('tree_area');
@@ -268,7 +268,7 @@
 				//获取组件对象
 				var crt = $ctrls.get(ctrid);
 				//切换选项卡
-				crt.obj.switch(tag);
+				crt.obj.switch(obj, tag);
 			});
 			tab.bind('mouseover', function(e) {
 				var node = event.target ? event.target : event.srcElement;
@@ -279,16 +279,20 @@
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
 				crt.obj.dombody.show();
-				crt.obj.switch(tag);
+				crt.obj.switch(obj, tag);
 			});
 		}
 	};
 	//切换选项卡
-	fn.switch = function(tag) {
+	fn.switch = function(obj, tag) {
 		this.domtit.find('tree_tag').removeClass('curr');
 		tag.addClass('curr');
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=' + tag.attr('treeid') + ']').show();
+		var datanode = obj.getData(tag.attr('treeid')); //数据源节点
+		obj.trigger('change', {			
+			data:  obj.getData(tag.attr('treeid'))
+		});
 	}
 	/*
 	treemenu的静态方法
