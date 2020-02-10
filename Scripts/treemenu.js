@@ -147,6 +147,7 @@
 		if (item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function(e) {
 				var n = event.target ? event.target : event.srcElement;
+				if (n.tagName == 'SPAN') return;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
 				if (tnode.hasClass('folder')) {
@@ -168,10 +169,11 @@
 			var tree = n;
 			while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
 			var crt = $ctrls.get($dom(tree).attr('ctrid'));
+			var datanode = crt.obj.getData(treeid); //数据源节点
 			crt.obj.trigger('click', {
 				treeid: treeid,
-				node: 9
-			});
+				data: datanode
+			});			
 		});
 		return node;
 	};
@@ -192,7 +194,18 @@
 	};
 	//获取数据源的节点
 	fn.getData = function(treeid) {
-
+		if (this.datas.length < 1) return null;
+		return getdata(treeid, this.datas);
+		//
+		function getdata(treeid, datas) {
+			var d = null;
+			for (var i = 0; i < datas.length; i++) {
+				if (datas[i].id == treeid) return datas[i];
+				if (datas[i].childs && datas[i].childs.length > 0)
+					d = getdata(treeid, datas[i].childs);
+			}
+			return d;
+		}
 	};
 	//标签tag的基础事件
 	fn._tagBaseEvents = {
