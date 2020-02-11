@@ -146,8 +146,13 @@ tree.onchange(function(s, e) {
 });
 //树形菜单节点点击事件
 tree.onclick(function(s, e) {
-    var url=e.data.url ? e.data.url : '';
-    tabs.add({ title: e.data.title, url: url,id:e.data.id });
+    var url = e.data.url ? e.data.url : '';
+    tabs.add({
+        title: e.data.title,
+        url: url,
+        id: e.data.id,
+        path:e.data.path
+    });
 });
 //
 </script>

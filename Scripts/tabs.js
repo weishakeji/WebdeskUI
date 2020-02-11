@@ -252,7 +252,12 @@
 		iframe.width('100%');
 		if (!!tab.path) {
 			var path = space.add('tabpath');
-			path.html('路径：' + tab.path).width('100%').height(30);
+			var paths = tab.path.split(',');
+			for (var i = 0; i < paths.length; i++) {
+				path.html(path.html() + paths[i]);
+				if (i < paths.length - 1) path.html(path.html() + '<i>></i>');
+			}
+			path.width('100%').height(30);
 			iframe.height('calc(100% - 30px)');
 		} else {
 			iframe.height('100%');
@@ -283,7 +288,7 @@
 		//标签点击事件
 		tagclick: function(obj, tabid) {
 			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
-				//.merge(obj.domore.find('tab_tag[tabid=\' + tabid + '\']'))
+				.merge(obj.domore.find('tab_tag[tabid=\'' + tabid + '\']'))
 				.click(function(e) {
 					var node = event.target ? event.target : event.srcElement;
 					//是否移除

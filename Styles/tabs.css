@@ -82,13 +82,14 @@ tabs_tagbox tab_tag:first-child:before {
     right: 0;
     bottom: 0;
     z-index: -1;
-    transform: perspective(.5em) rotateX(2deg);
+    transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(0.920);
     transform-origin: bottom left;
     box-shadow: .5px -1px .5px #aaa;
     border-left: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     border-radius: 4px 4px 0 0;
     margin-left: 6px;
+    margin-right: -10px;
 }
 
 tabs_tagbox tab_tag>* {
@@ -99,10 +100,11 @@ tabs_tagbox tab_tag>* {
 tabs_tagbox tab_tag.tagcurr {
     height: 36px;
 }
-
+tabs_tagbox tab_tag:first-child.tagcurr:before{
+   transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(1.05)  !important;
+}
 tabs_tagbox tab_tag.tagcurr:before {
     background: #fff !important;
-    --background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
@@ -143,8 +145,8 @@ tabs_tagbox tab_tag close {
     cursor: pointer;
 }
 
-tabs_tagbox tab_tag:first-child close {
-    right: 18px;
+tabs_tagbox tab_tag:first-child.tagcurr close {
+    right: 3px;
 }
 
 tabs_tagbox tab_tag.tagcurr close {
@@ -199,13 +201,11 @@ tabs_tagbox tab_tag close:hover {
 
 /*内容区*/
 
-.tabsbox tabs_body {
-   
+.tabsbox tabs_body {   
     width: calc(100% - 2px);
     height: calc(100% - 36px);
-
     --background-color: #fff;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 30px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
     border: 1px solid #aaa;
     border-top: none;
 }
@@ -223,12 +223,39 @@ tabs_tagbox tab_tag close:hover {
 
 .tabsbox tabs_body tabpace tabpath {
     background-color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 30px;
     text-indent: 20px;
+    color: #666;
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
+    cursor: default;
+     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
 }
-
+.tabsbox tabs_body tabpace tabpath i{
+    margin: 0px 2px 0px 2px;
+    font-style: normal;
+    font-size: 8px;
+    font-family: iconfont,sans-serif;
+    font-weight: 800;
+}
+.tabsbox tabs_body tabpace tabpath:before{
+    content: '\a011';
+    line-height: 30px;
+    font-size: 10px;
+    width: 30px;
+    height: 30px;
+    color: #999;
+    text-align: center;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 6px;
+    transform: rotate(180deg);
+    font-family: "webdesk_icon" !important;
+}
 .tabsbox tabs_body tabpace iframe {
     
     bottom: 0px;
@@ -273,7 +300,7 @@ tabs_morebox tab_tag {
     height: 30px;
     user-select: none;
     cursor: default;
-    background-color: rgba(161, 197, 247, 0.4);
+    background-color: rgba(200, 200, 200, 0.4);
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     border-radius: 3px;
     border: 1px solid rgba(62, 63, 63, 0.3);
@@ -286,7 +313,7 @@ tabs_morebox tab_tag {
 }
 
 tabs_morebox tab_tag:hover {
-    background-color: rgba(161, 197, 247, 0.8);
+    background-color: rgba(161, 197, 247, 0.4);
 }
 
 tabs_morebox tab_tag tagtxt {

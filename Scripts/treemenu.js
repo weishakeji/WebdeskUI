@@ -33,7 +33,7 @@
 	};
 	var fn = treemenu.prototype;
 	fn._initialization = function() {
-		this._id = 'tabs_' + new Date().getTime();		
+		this._id = 'tabs_' + new Date().getTime();
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
@@ -150,7 +150,7 @@
 		//添加左侧标签事件
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
 		//设置第一个为打开
-		this.switch(this,this.domtit.childs('tree_tag').first());
+		this.switch(this, this.domtit.childs('tree_tag').first());
 
 		//右侧树形菜单区
 		var area = this.dombody.add('tree_area');
@@ -229,10 +229,12 @@
 		if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
 		if (!item.pid || item.pid < 0) item.pid = 0;
 		if (!item.level || item.level <= 0) item.level = level;
+		if (!item.path) item.path = item.title;
 		//计算层深
 		if (item.childs && item.childs.length > 0) {
 			for (var i = 0; i < item.childs.length; i++) {
 				item.childs[i].pid = item.id;
+				item.childs[i].path = item.path + ',' + item.childs[i].title;
 				item.childs[i] = this._calcLevel(item.childs[i], level + 1);
 			}
 		}
@@ -278,7 +280,7 @@
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
-				crt.obj.dombody.show().css('z-index',100);
+				crt.obj.dombody.show().css('z-index', 100);
 				crt.obj.switch(obj, tag);
 			});
 		}
@@ -290,8 +292,8 @@
 		this.dombody.childs().hide();
 		this.dombody.find('tree_area[treeid=' + tag.attr('treeid') + ']').show();
 		var datanode = obj.getData(tag.attr('treeid')); //数据源节点
-		obj.trigger('change', {			
-			data:  obj.getData(tag.attr('treeid'))
+		obj.trigger('change', {
+			data: obj.getData(tag.attr('treeid'))
 		});
 	}
 	/*
