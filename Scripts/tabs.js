@@ -424,10 +424,15 @@
 			if (next.length < 1) next = tittag.prev();
 			this.focus(next, true);
 		}
-		//移除
+		//移除html元素
 		tittag.remove();
 		this.dombody.find('tabpace[tabid=\'' + tabid + '\']').remove();
 		this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
+		//从对象childs数组中移除
+		for (var i = 0; i < this.childs.length; i++) {
+			if (this.childs[i].id == tabid)
+				this.childs.splice(i, 1);
+		}
 		//触发事件
 		if (istrigger) {
 			this.trigger('shut', {

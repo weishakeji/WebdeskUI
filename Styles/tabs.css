@@ -204,7 +204,8 @@ tabs_tagbox tab_tag close:hover {
     width: calc(100% - 2px);
     height: calc(100% - 36px);
 
-    background-color: #fff;
+    --background-color: #fff;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 30px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
     border: 1px solid #aaa;
     border-top: none;
 }
