@@ -60,17 +60,19 @@
 		},
 		//折叠与展开
 		'fold': function(obj, val, old) {
-			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
-			obj.dom.css('transition', 'width 0.3s,height 0.3s,left 0.3s,top 0.3s,opacity 0.3s');
+			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');			
 			if (val) {
 				obj.dom.width(40);
-				obj.dombody.css('position', 'absolute').hide();
 				var offset = obj.dom.offset();
-				obj.dombody.left(offset.left + 40).height(obj.dom.height());
+				obj.dombody.css('position', 'absolute');
+				obj.dombody.left(offset.left + 40).height(obj.dom.height()).width(0);
 			} else {
-				obj.dom.width(obj.width);
-				obj.dombody.css('position', 'relative').show();
-				obj.dombody.left(0);
+				obj.dom.width(obj.width);				
+				obj.dombody.width(obj.width - 40);
+				window.setTimeout(function() {
+					obj.dombody.css('position', 'relative');
+					obj.dombody.left(0);
+				}, 300);
 			}
 			//折叠事件
 			obj.trigger('fold', {
@@ -98,6 +100,7 @@
 		title: function(obj) {
 			obj.domtit = obj.dom.add('tree_tags');
 			obj.domtit.add('tree-foldbtn');
+			obj.domtit.add('tree-tagspace');
 		},
 		//右侧内容区
 		body: function(obj) {
@@ -124,7 +127,7 @@
 				crt.obj.leavetime = 3;
 			});
 			obj.leaveInterval = window.setInterval(function() {
-				if (obj.fold && obj.leavetime-- <= 0) obj.dombody.hide();
+				if (obj.fold && obj.leavetime-- <= 0) obj.dombody.width(0);
 			}, 1000);
 		},
 
@@ -148,6 +151,9 @@
 		tabtag.attr('item', item.title).attr('treeid', item.id);
 		tabtag.add('ico').html(item.ico);
 		tabtag.add('itemtxt').html(item.title);
+		//左侧空白区的高度
+		var tags = this.domtit.find('tree_tag');
+		this.domtit.find('tree-tagspace').height('calc(100% - ' + (tags.length * parseInt(tags.height())) + 'px)');
 		//添加左侧标签事件
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
 		//设置第一个为打开
@@ -162,6 +168,7 @@
 		for (var i = 0; i < item.childs.length; i++) {
 			this._addchild(area, item.childs[i]);
 		}
+
 	};
 	//添加树形的子级节点
 	fn._addchild = function(area, item) {
@@ -281,7 +288,8 @@
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
-				crt.obj.dombody.show().css('z-index', 100);
+				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
+				crt.obj.leavetime = 3;
 				crt.obj.switch(obj, tag);
 			});
 		}
