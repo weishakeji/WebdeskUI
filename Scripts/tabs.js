@@ -27,6 +27,7 @@
 		this._open();
 		this.width = this._width;
 		this.height = this._height;
+		this.morebox=this._morebox;
 		if (this.childs.length < 1 && this.default) this.add(this.default);
 		//
 		$ctrls.add({

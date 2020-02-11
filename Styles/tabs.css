@@ -184,7 +184,7 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_more:hover:before {
-    background-color: #aaa;
+    text-shadow: 1px 0px 1px rgba(100, 100, 100, 0.6), -1px 0px 1px rgba(100, 100, 100, 0.6), 0px 1px 1px rgba(100, 100, 100, 0.6), 0px -1px 1px rgba(100, 100, 100, 0.6);
     color: #fff;
 }
 
@@ -192,7 +192,7 @@ tabs_tagbox tab_tag close:hover {
     content: '\a006';
     line-height: 20px;
     height: 20px;
-    width: 20px;
+    width: 30px;
     color: #999;
     display: block;
     transform: rotate(90deg);
@@ -274,6 +274,8 @@ tabs_morebox {
     z-index: 9999999;
     transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s, opacity 0.3s;
     overflow: auto;
+    border-left: solid 1px #aaa;
+    border-top: solid 1px #aaa;
 }
 
 tabs_morebox* {
