@@ -104,7 +104,7 @@
 			obj.dombody = obj.dom.add('tree_body');
 		}
 	};
-	//基础事件
+	//基础事件，初始化时即执行
 	fn._baseEvents = {
 		//树形菜单的收缩与展开
 		fold: function(obj) {
@@ -116,15 +116,16 @@
 				crt.obj.fold = !crt.obj.fold;
 			});
 			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
-			obj.dombody.bind('mouseleave', function(e) {
+			obj.leavetime = 3;
+			obj.dombody.bind('mouseover', function(e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
-				if (!crt.obj.fold) return;
-				window.setTimeout(function() {
-					if (crt.obj.fold) crt.obj.dombody.hide();
-				}, 3000);
+				crt.obj.leavetime = 3;
 			});
+			obj.leaveInterval = window.setInterval(function() {
+				if (obj.fold && obj.leavetime-- <= 0) obj.dombody.hide();
+			}, 1000);
 		},
 
 	};
