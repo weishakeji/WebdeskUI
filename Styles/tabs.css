@@ -6,12 +6,13 @@ body {
     padding: 0px;
     width: 100%;
     height: 100%;
-    background-color: #444;
+    
 }
 
 .tabsbox {
     position: relative;
-    overflow: hidden;    
+    overflow: hidden;  
+    transition: width 0.3s, height 0.3s;  
 }
 
 .tabsbox>*,
@@ -237,11 +238,11 @@ tabs_tagbox tab_tag close:hover {
 /*更多选项卡的盒子*/
 tabs_morebox {
     width: 0px;
-    height: calc(100% - 35px);
+    height: calc(100% - 36px);
     background-color: rgba(255, 255, 255, .8);
     position: absolute;
-    bottom: 0px;
-    right: 0px;
+    bottom: 1px;
+    right: 1px;
     z-index: 9999999;
     transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s, opacity 0.3s;
     overflow: auto;

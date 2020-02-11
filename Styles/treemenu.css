@@ -6,15 +6,14 @@ body {
     padding: 0px;
     width: 100%;
     height: 100%;
-    background-color: #444;
 }
 
 .treemenu {
-    background-color: #eee;
+ border-radius: 4px 0px 0px 4px;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    
+    background-color: rgba(200,200,200,.6);
 }
 
 .treemenu * {
@@ -24,7 +23,7 @@ body {
 .treemenu tree_tags {
     width: 40px;
     height: 100%;
-    background-color: red;
+    
     float: left;
     position: relative;
     overflow: hidden;
@@ -53,12 +52,12 @@ body {
     width: calc(100% - 10px);
     overflow: hidden;
     line-height: 30px;
-    font-size: 13px;
+    font-size: 14px;
     padding: 0px 5px 0px 5px;
 }
 
 .treemenu tree_tags tree_tag.curr {
-    background-color: white;
+   background-color: rgba(255,255,255,.6);
 }
 
 /*折叠按钮*/
@@ -89,7 +88,7 @@ body {
 
 /*树形菜单区域*/
 .treemenu tree_body {
-background-color: #eee;
+     background-color: rgba(255,255,255,.6);
     height: 100%;
     float: right;
     overflow: auto;
@@ -112,18 +111,18 @@ background-color: #eee;
     line-height: 30px;
     width: calc(100% - 20px);
     margin: 10px 10px 10px 10px;
-    font-size: 16px;
-    border-radius: 5px;
+    font-size: 15px;
+    border-radius: 3px;
     text-align: center;
     border: solid 1px #aaa;
-    background-color: #eee;
+    background-color: rgba(255,255,255,.4);
 
 }
 
 /*树形节点*/
 .treemenu tree-node {
     position: relative;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 30px;
     height: 30px;
     cursor: pointer;

@@ -18,3 +18,6 @@
 	-moz-transition: font-size 0.25s ease-out 0s;
 	transition: font-size 0.25s ease-out 0s;
 }
+*{
+	font-family:"Microsoft YaHei",微软雅黑,"MicrosoftJhengHei",华文细黑,STHeiti,MingLiu;
+}

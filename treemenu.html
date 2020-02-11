@@ -9,11 +9,39 @@
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
     <script type="text/javascript" src="Scripts/ctrls.js"></script>
     <script type="text/javascript" src="Scripts/treemenu.js"></script>
+    <script type="text/javascript" src="Scripts/tabs.js"></script>
     <link rel="stylesheet" type="text/css" href="Styles/treemenu.css" />
+    <link rel="stylesheet" type="text/css" href="Styles/tabs.css" />
     <style type="text/css">
     html,
     body {
         overflow: hidden;
+        background: url('../images/9c33a634fc313c75251f14c7.jpg');
+        background-size: 100% 100%;
+        background-color: #444;
+    }
+
+    h1 {
+        font-size: 25px;
+        color: #333;
+        margin: 0px;
+
+        font-weight: 900;
+        white-space: nowrap;
+        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+    }
+
+    h1 span {
+
+        font-size: 15px;
+        margin-left: 20px;
+    }
+
+    h1 b:before {
+        content: "\a009";
+        font-size: 30px;
+        line-height: 40px;
+        margin-right: 10px;
     }
 
     #space {
@@ -21,23 +49,35 @@
         background-color: yellow;
         height: 200px;
         width: 200px;
-        transition: width 0.3s,height 0.3s;
+        transition: width 0.3s, height 0.3s;
+    }
+
+    #treemenu-area {
+        z-index: 999;
     }
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
-    <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px);float: left;'>
+    <div style="height: 40px; padding-left: 20px;">
+        <h1><b class="webdesk_icon"></b>Treemenu.js 菜树形单 <span>（无限树形分级，可折叠，可自定义节点样式）</span></h1>
+    </div>
+    <div style='margin: 10px;width: calc(100% - 20px);height: calc(100% - 20px - 40px);'>
         <div id="treemenu-area" style="float: left;"></div>
-        <div id="space">666</div>
+        <div id="tabsbox" style="float: right;"></div>
     </div>
 </body>
 <script type="text/javascript">
 var tree = $treemenu.create({
-    target: '#treemenu-area',
-    width: '100%',
-    height: '100%'
+    target: '#treemenu-area'
 });
+var tabs = $tabs.create({
+    target: '#tabsbox',
+    width: 1,
+    default: { title: '启始页', url: '' }
+});
+tabs.add({ title: '试用', url: '' });
+//tabs.add({title:'说明'});
 var data = {
     title: '系统设置',
     tit: '系统',
@@ -52,7 +92,7 @@ var data = {
 
         intro: '基本设置',
         childs: [{
-            title: '账号管理',
+            title: '账号管理（斜体测试）',
             link: 'zhanghao',
             font: {
                 color: 'red',
@@ -64,10 +104,10 @@ var data = {
             link: 'jiekou',
             childs: [{
                 title: '微信支付',
-                id: 101
+                id: 'a101a'
             }, {
                 title: '支付宝支付',
-                id: 100
+                id: 'b100b'
             }]
         }]
     }, {
@@ -88,31 +128,28 @@ tree.watch({
 });
 var size = function(s, e) {
     console.log('treemenu的宽:' + e.width + '，高：' + e.height);
-    $dom('#space').width('calc(100% - ' + e.width + 'px )');
+    $dom('#tabsbox').width('calc(100% - ' + (e.width + 10) + 'px )');
 };
 tree.onresize(size);
-
-//tree.onresize();
 tree.width = 300;
-//tree.unbind('resize', size);
-tree.height = 300;
-tree.onclick(function(s, e) {
-    console.log(e.data.title);
-});
 //折叠
 tree.onfold(function(s, e) {
     if (e.action == 'fold') {
-        $dom('#space').width('calc(100% - ' + 40+ 'px )');
-    }else{
-         $dom('#space').width('calc(100% - ' + s.width+ 'px )');
+        $dom('#tabsbox').width('calc(100% - ' + 50 + 'px )');
+    } else {
+        $dom('#tabsbox').width('calc(100% - ' + (s.width + 10) + 'px )');
     }
 });
-tree.onchange(function(s,e){
+//树形菜单，根节点切换事件
+tree.onchange(function(s, e) {
     console.log(e.data.title);
 });
-var t = tree.getData(100);
-
-console.log(t.title);
+//树形菜单节点点击事件
+tree.onclick(function(s, e) {
+    var url=e.data.url ? e.data.url : '';
+    tabs.add({ title: e.data.title, url: url,id:e.data.id });
+});
+//
 </script>
 
 </html>

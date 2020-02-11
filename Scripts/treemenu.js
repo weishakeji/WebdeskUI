@@ -3,8 +3,8 @@
 		if (param == null || typeof(param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
-			width: 100,
-			height: 200,
+			width: '100%',
+			height: '100%',
 			id: '',
 			fold: false //是否折叠
 		};
@@ -33,7 +33,7 @@
 	};
 	var fn = treemenu.prototype;
 	fn._initialization = function() {
-		this._id = 'tabs_' + new Date().getTime();
+		this._id = 'tabs_' + new Date().getTime();		
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
@@ -50,8 +50,8 @@
 		'height': function(obj, val, old) {
 			if (obj.dom) {
 				obj.dom.height(val);
-				obj.domtit.height(val);
-				obj.dombody.height(val);
+				obj.domtit.height(obj.dom.height());
+				obj.dombody.height(obj.dom.height());
 				obj.trigger('resize', {
 					width: obj._width,
 					height: val
@@ -66,7 +66,7 @@
 				obj.dom.width(40);
 				obj.dombody.css('position', 'absolute').hide();
 				var offset = obj.dom.offset();
-				obj.dombody.left(offset.left + 40);
+				obj.dombody.left(offset.left + 40).height(obj.dom.height());
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.css('position', 'relative').show();
@@ -278,7 +278,7 @@
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
-				crt.obj.dombody.show();
+				crt.obj.dombody.show().css('z-index',100);
 				crt.obj.switch(obj, tag);
 			});
 		}

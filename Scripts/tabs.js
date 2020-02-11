@@ -4,9 +4,10 @@
 		this.attrs = {
 			target: '', //所在Html区域
 			size: 0, //选项卡个数
-			maximum: 100, //最多能有多少个选项卡
-			width: 100,
-			height: 200,
+			maximum: 100, //最多能有多少个选项卡，并没有用到这个参数
+			width: '100%',
+			height: '100%',
+			default: null, //默认标签
 			id: '',
 			morebox: false, //更多标签的面板是否显示
 			cntmenu: false //右键菜单是否显示
@@ -26,6 +27,7 @@
 		this._open();
 		this.width = this._width;
 		this.height = this._height;
+		if (this.childs.length < 1 && this.default) this.add(this.default);
 		//
 		$ctrls.add({
 			id: this.id,
@@ -169,7 +171,7 @@
 				var index = Number(obj.domenu.attr('index'));
 				//刷新
 				if (action == 'fresh') {
-					var iframe = obj.dombody.find('tabspace[tabid=' + tabid + '] iframe');
+					var iframe = obj.dombody.find('tabspace[tabid=\'' + tabid + '\'] iframe');
 					iframe.attr('src', iframe.attr('src'));
 				}
 				//关闭
@@ -209,9 +211,16 @@
 				this.add(tab[i]);
 			return this;
 		}
+		//如果id已经存在，则不再添加，设置原有标签为焦点
+		for (var i = 0; tab.id && i < this.childs.length; i++) {
+			if (this.childs[i].id == tab.id) {
+				this.focus(tab.id, false);
+				return;
+			}
+		}
 		//添加tab到控件	
 		var size = this.childs.length;
-		tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
+		if (!tab.id) tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
 		if (!tab.ico) tab.ico = '&#xa007';
 		this.childs.push(tab);
@@ -273,8 +282,8 @@
 	fn._tagBaseEvents = {
 		//标签点击事件
 		tagclick: function(obj, tabid) {
-			obj.domtit.find('tab_tag[tabid=' + tabid + ']')
-				.merge(obj.domore.find('tab_tag[tabid=' + tabid + ']'))
+			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
+				//.merge(obj.domore.find('tab_tag[tabid=\' + tabid + '\']'))
 				.click(function(e) {
 					var node = event.target ? event.target : event.srcElement;
 					//是否移除
@@ -295,7 +304,7 @@
 		},
 		//鼠标滚轴事件
 		mousewheel: function(obj, tabid) {
-			obj.domtit.find('tab_tag[tabid=' + tabid + ']').bind('mousewheel', function(e) {
+			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').bind('mousewheel', function(e) {
 				e = e || window.event;
 				var whell = e.wheelDelta ? e.wheelDelta : e.detail;
 				var action = whell > 0 ? "up" : "down"; //上滚或下滚
@@ -320,7 +329,7 @@
 		},
 		//右键菜单
 		contextmenu: function(obj, tabid) {
-			obj.domtit.find('tab_tag[tabid=' + tabid + ']').bind('contextmenu', function(e) {
+			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').bind('contextmenu', function(e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (node.tagName.toLowerCase() != "tab_tag") node = node.parentNode;
 				//当前标签id和索引号，用于关闭右侧或左侧时使用
@@ -355,8 +364,8 @@
 	//设置某一个标签为焦点
 	//istrigger:是否触发事件
 	fn.focus = function(tabid, istrigger) {
-		if (tabid == null || !tabid.length || tabid.length < 1) return false;
-		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=' + tabid + ']');
+		if (tabid == null) return false;
+		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		//当前处于焦点的标签
 		var tagcurr = this.domtit.find('.tagcurr');
 		if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) return false;
@@ -368,7 +377,7 @@
 		//设置当前标签为焦点
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
-		this.dombody.find('tabpace[tabid=' + tag.attr('tabid') + ']').show();
+		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();
 		//触发事件
 		if (istrigger) this.trigger('change', {
 			tabid: tag.attr('tabid'),
@@ -407,7 +416,7 @@
 			});
 			return this;
 		}
-		var tittag = this.domtit.find('tab_tag[tabid=' + tabid + ']');
+		var tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		var title = tittag.text();
 		//设置关闭后的焦点选项卡
 		if (tittag.hasClass('tagcurr')) {
@@ -417,14 +426,18 @@
 		}
 		//移除
 		tittag.remove();
-		this.dombody.find('tabpace[tabid=' + tabid + ']').remove();
-		this.domore.find('tab_tag[tabid=' + tabid + ']').remove();
+		this.dombody.find('tabpace[tabid=\'' + tabid + '\']').remove();
+		this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
 		//触发事件
 		if (istrigger) {
 			this.trigger('shut', {
 				tabid: tabid,
 				title: title
 			});
+		}
+		//如果全都没有了，则显示默认标签
+		if (this.childs.length < 1 && this.default) {
+			this.add(this.default);
 		}
 		return this;
 	};
@@ -453,7 +466,7 @@
 		var fbox = $dom('tabs_fullbox');
 		if (fbox.length < 1) fbox = $dom(document.body).add('tabs_fullbox');
 		//当前内容区，放到全屏fullbox中
-		var tabpace = obj.dombody.find('tabpace[tabid=' + tabid + ']');
+		var tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
 		fbox.append(tabpace.find('iframe')).attr({
 			crtid: obj.id,
 			tabid: tabid
@@ -472,10 +485,10 @@
 		close.click(function(e) {
 			var fbox = $dom('tabs_fullbox');
 			var crt = $ctrls.get(fbox.attr('crtid'));
-			var tbody = crt.obj.dombody.find('tabpace[tabid=' + tabid + ']');
+			var tbody = crt.obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
 			tbody.append(fbox.find('iframe'));
 			//
-			var tabpace = obj.dombody.find('tabpace[tabid=' + tabid + '] iframe');
+			var tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
 			var offset = tabpace.offset();
 			fbox.left(offset.left).top(offset.top);
 			fbox.width(tabpace.width()).height(tabpace.height());
