@@ -127,7 +127,7 @@
 				crt.obj.leavetime = 3;
 			});
 			obj.leaveInterval = window.setInterval(function() {
-				if (obj.fold && obj.leavetime-- <= 0) obj.dombody.width(0);
+				if (obj.fold && --obj.leavetime <= 0) obj.dombody.width(0);
 			}, 1000);
 		},
 

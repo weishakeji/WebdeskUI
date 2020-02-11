@@ -69,7 +69,8 @@
 </body>
 <script type="text/javascript">
 var tree = $treemenu.create({
-    target: '#treemenu-area'
+    target: '#treemenu-area',
+    width:100
 });
 var tabs = $tabs.create({
     target: '#tabsbox',
@@ -131,7 +132,7 @@ var size = function(s, e) {
     $dom('#tabsbox').width('calc(100% - ' + (e.width + 10) + 'px )');
 };
 tree.onresize(size);
-tree.width = 200;
+tree.width = 280;
 //折叠
 tree.onfold(function(s, e) {
     if (e.action == 'fold') {

@@ -89,6 +89,7 @@ tabs_tagbox tab_tag:first-child:before {
     border-bottom: 1px solid #aaa;
     border-radius: 4px 4px 0 0;
     margin-left: 6px;
+    --margin-top: 2px;
     margin-right: -10px;
 }
 
@@ -235,11 +236,16 @@ tabs_tagbox tab_tag close:hover {
     position: relative;
 }
 .tabsbox tabs_body tabpace tabpath i{
-    margin: 0px 2px 0px 2px;
+    margin: 0px 4px 0px -8px;
     font-style: normal;
+    width: 20px;
+    text-align: left;
     font-size: 8px;
+    display: inline-block;
     font-family: iconfont,sans-serif;
     font-weight: 800;
+    transform: scaleX(.5);
+
 }
 .tabsbox tabs_body tabpace tabpath:before{
     content: '\a011';
