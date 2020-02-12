@@ -60,14 +60,14 @@
 		},
 		//折叠与展开
 		'fold': function(obj, val, old) {
-			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');			
+			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
 			if (val) {
 				obj.dom.width(40);
 				var offset = obj.dom.offset();
 				obj.dombody.css('position', 'absolute');
 				obj.dombody.left(offset.left + 40).height(obj.dom.height()).width(0);
 			} else {
-				obj.dom.width(obj.width);				
+				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
 				window.setTimeout(function() {
 					obj.dombody.css('position', 'relative');
@@ -143,14 +143,14 @@
 		var size = this.datas.length;
 		item.id = 'tree_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!item.index) item.index = size + 1;
-		if (!item.ico || item.ico == '') item.ico = '&#xa009';
+		if (!item.ico || item.ico == '') item.ico = 'a009';
 		if (!item.tit || item.tit == '') item.tit = item.title;
 		this.datas.push(item);
 		//左侧选项卡
 		var tabtag = this.domtit.add('tree_tag');
 		tabtag.attr('item', item.title).attr('treeid', item.id);
-		tabtag.add('ico').html(item.ico);
-		tabtag.add('itemtxt').html(item.title);
+		tabtag.add('ico').html('&#x' + item.ico);
+		tabtag.add('itemtxt').html(item.tit);
 		//左侧空白区的高度
 		var tags = this.domtit.find('tree_tag');
 		this.domtit.find('tree-tagspace').height('calc(100% - ' + (tags.length * parseInt(tags.height())) + 'px)');
@@ -161,12 +161,14 @@
 
 		//右侧树形菜单区
 		var area = this.dombody.add('tree_area');
-		area.attr('treeid', item.id);
+		area.attr('treeid', item.id).hide();
 		//右侧菜单的大标题
 		area.add('tree_tit').html(item.title);
 		item = this._calcLevel(item, 0);
-		for (var i = 0; i < item.childs.length; i++) {
-			this._addchild(area, item.childs[i]);
+		if (item.childs) {
+			for (var i = 0; i < item.childs.length; i++) {
+				this._addchild(area, item.childs[i]);
+			}
 		}
 
 	};
@@ -184,12 +186,9 @@
 	//创建树形节点
 	fn._createNode = function(item, box) {
 		var node = box.add('tree-node');
-		node.css('padding-left', (item.level * 20) + 'px');
+		node.css('padding-left', (item.level * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
-		//node.add('tree-ico').html(item.ico ? item.ico : '&#xa003');
-
 		var span = node.add('span');
-		span.attr('ico', item.ico ? item.ico : '\ua015');
 		//字体样式
 		if (item.font) {
 			if (item.font.color) span.css('color', item.font.color);
@@ -197,11 +196,11 @@
 			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
 		}
 		span.html(item.title);
+		span.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
 		//如果有下级节点
 		if (item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function(e) {
 				var n = event.target ? event.target : event.srcElement;
-				if (n.tagName == 'SPAN') return;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
 				if (tnode.hasClass('folder')) {
@@ -211,24 +210,26 @@
 					tnode.attr('class', 'folder');
 					tnode.parent().find('tree_box').show();
 				}
+
+			});
+		} else {
+			//节点点击事件
+			node.click(function(e) {
+				var n = event.target ? event.target : event.srcElement;
+				while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
+				//节点id
+				var treeid = $dom(n).attr('treeid');
+				//对象
+				var tree = n;
+				while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
+				var crt = $ctrls.get($dom(tree).attr('ctrid'));
+				var datanode = crt.obj.getData(treeid); //数据源节点
+				crt.obj.trigger('click', {
+					treeid: treeid,
+					data: datanode
+				});
 			});
 		}
-		//节点点击事件
-		span.click(function(e) {
-			var n = event.target ? event.target : event.srcElement;
-			while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
-			//节点id
-			var treeid = $dom(n).attr('treeid');
-			//对象
-			var tree = n;
-			while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
-			var crt = $ctrls.get($dom(tree).attr('ctrid'));
-			var datanode = crt.obj.getData(treeid); //数据源节点
-			crt.obj.trigger('click', {
-				treeid: treeid,
-				data: datanode
-			});
-		});
 		return node;
 	};
 	//计算层深
@@ -259,6 +260,7 @@
 				if (datas[i].id == treeid) return datas[i];
 				if (datas[i].childs && datas[i].childs.length > 0)
 					d = getdata(treeid, datas[i].childs);
+				if (d != null) return d;
 			}
 			return d;
 		}
@@ -299,7 +301,7 @@
 		this.domtit.find('tree_tag').removeClass('curr');
 		tag.addClass('curr');
 		this.dombody.childs().hide();
-		this.dombody.find('tree_area[treeid=' + tag.attr('treeid') + ']').show();
+		this.dombody.find('tree_area[treeid=\'' + tag.attr('treeid') + '\']').show();
 		var datanode = obj.getData(tag.attr('treeid')); //数据源节点
 		obj.trigger('change', {
 			data: obj.getData(tag.attr('treeid'))

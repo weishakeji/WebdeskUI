@@ -15,10 +15,56 @@
     body {
         overflow: hidden;
     }
+
+    h1 {
+        font-size: 25px;
+        color: #333;
+        margin: 0px;
+
+        font-weight: 900;
+        white-space: nowrap;
+        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+    }
+
+    h1 span {
+
+        font-size: 15px;
+        margin-left: 20px;
+    }
+
+    h1 b:before {
+        content: "\a004";
+        font-size: 30px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
+    a.home {
+        display: block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+a.home:before{
+    content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+}
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
+     <div style="height: 40px; padding-left: 20px;">
+        <h1><b class="webdesk_icon"></b>Tabs.js 选项卡 <span>（无限添加选项卡，支持鼠标右键，可全屏）</span><a class='home' href="index.html">返回首页</a></h1>
+    </div>
     <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
         <div id="tabs-area"></div>
     </div>
@@ -40,7 +86,7 @@ tabs.onshut(function(s, e) {
 var pages = [{
     title: '菜单一，测试页',
     url: 'tabs-child.html',
-    path: 'xxx'
+    path: '测试页'
 }, {
     title: '菜单二，淘宝',
     url: 'http://www.taobao.com',

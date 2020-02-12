@@ -27,7 +27,7 @@
 		this._open();
 		this.width = this._width;
 		this.height = this._height;
-		this.morebox=this._morebox;
+		this.morebox = this._morebox;
 		if (this.childs.length < 1 && this.default) this.add(this.default);
 		//
 		$ctrls.add({
@@ -223,17 +223,17 @@
 		var size = this.childs.length;
 		if (!tab.id) tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
 		if (!tab.index) tab.index = size + 1;
-		if (!tab.ico) tab.ico = '&#xa007';
+		if (!tab.ico) tab.ico = 'a004';
 		this.childs.push(tab);
 		//添加标签
 		var tabtag = this.domtit.add('tab_tag');
 		tabtag.attr('title', tab.title).attr('tabid', tab.id);
-		tabtag.add('ico').html(tab.ico);
+		tabtag.add('ico').html('&#x' + tab.ico);
 		tabtag.add('tagtxt').html(tab.title);
 		tabtag.add('close');
 		//添加更多标签区域
 		var mtag = this.domore.add('tab_tag');
-		mtag.add('ico').html(tab.ico);
+		mtag.add('ico').html('&#x' + tab.ico);
 		mtag.attr('tabid', tab.id);
 		mtag.add('tagtxt').html(tab.title);
 		mtag.add('close');
@@ -248,7 +248,7 @@
 			'border': 0,
 			'marginwidth': 0,
 			'marginheight': 0,
-			'src': tab.url
+			'src': tab.url ? tab.url : ''
 		});
 		iframe.width('100%');
 		if (!!tab.path) {

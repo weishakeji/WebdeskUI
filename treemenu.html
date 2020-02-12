@@ -16,7 +16,7 @@
     html,
     body {
         overflow: hidden;
-        background: url('../images/9c33a634fc313c75251f14c7.jpg');
+        background: url('images/9c33a634fc313c75251f14c7.jpg');
         background-size: 100% 100%;
         background-color: #444;
     }
@@ -44,6 +44,28 @@
         margin-right: 10px;
     }
 
+    a.home {
+        display: block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+    }
+
     #space {
         float: left;
         background-color: yellow;
@@ -60,7 +82,7 @@
 
 <body oncontextmenu='self.event.returnValue=false'>
     <div style="height: 40px; padding-left: 20px;">
-        <h1><b class="webdesk_icon"></b>Treemenu.js 树形菜单 <span>（无限树形分级，可折叠，可自定义节点样式）</span></h1>
+        <h1><b class="webdesk_icon"></b>Treemenu.js 树形菜单 <span>（无限树形分级，可折叠，可自定义节点样式）</span><a class='home' href="index.html">返回首页</a></h1>
     </div>
     <div style='margin: 10px;width: calc(100% - 20px);height: calc(100% - 20px - 40px);'>
         <div id="treemenu-area" style="float: left;"></div>
@@ -70,58 +92,67 @@
 <script type="text/javascript">
 var tree = $treemenu.create({
     target: '#treemenu-area',
-    width:100
+    width: 100
 });
 var tabs = $tabs.create({
     target: '#tabsbox',
     width: 1,
-    default: { title: '启始页', url: '' }
+    default: { title: '启始页', path: '树形菜单,启始页', url: 'other/treemenu-1.html' }
 });
-tabs.add({ title: '试用', url: '' });
+//tabs.add({ title: '试用', url: '' });
 //tabs.add({title:'说明'});
 var data = {
-    title: '系统设置',
-    tit: '系统',
-    ico: '',
-    link: '',
+    title: '使用说明',
+    tit: '说明',
+    ico: 'e72f',
+    url: '',
     type: '',
     marker: '',
     intro: '',
     childs: [{
-        title: '首选项',
-        link: 'xx',
-
-        intro: '基本设置',
-        childs: [{
-            title: '账号管理（斜体测试）',
-            link: 'zhanghao',
-            font: {
-                color: 'red',
-                bold: true,
-                italic: true
-            },
-        }, {
-            title: '接口管理',
-            link: 'jiekou',
-            childs: [{
-                title: '微信支付',
-                id: 'a101a'
-            }, {
-                title: '支付宝支付',
-                id: 'b100b'
-            }]
-        }]
+        title: '功能简介',
+        url: 'other/treemenu-1.html',
+        intro: '基本功能简介'
     }, {
-        title: '常用'
+        title: '成员说明',
+        ico:'a010',
+        childs: [{
+            title: '属性',
+            ico: 'a025'
+        }, {
+            title: '方法',
+            ico: 'a023'
+        }, {
+            title: '事件',
+            ico: 'a024'
+        }]
     }],
     id: 0,
     pid: 0
 
 };
 tree.add(data);
-var clone = $dom.clone(data);
-clone.title = '去球';
-tree.add(clone);
+
+tree.add({
+    title: '演示数据',
+    childs: [{
+        title: '二级菜单',
+        childs: [{
+            title: '三级菜单1'
+        }, {
+            title: '三级菜单2',
+            childs: [{
+                    title: '四级菜单1'
+                },
+                {
+                    title: '四级菜单2'
+                }
+            ]
+        }, {
+            title: '三级菜单3'
+        }]
+    }]
+});
 tree.watch({
     'width': function(obj, val, old) {
         console.log('宽度由：' + old + ' 变更为:' + val);
@@ -148,12 +179,7 @@ tree.onchange(function(s, e) {
 //树形菜单节点点击事件
 tree.onclick(function(s, e) {
     var url = e.data.url ? e.data.url : '';
-    tabs.add({
-        title: e.data.title,
-        url: url,
-        id: e.data.id,
-        path:e.data.path
-    });
+    tabs.add(e.data);
 });
 //
 </script>

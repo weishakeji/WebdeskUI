@@ -45,6 +45,28 @@
         margin-right: 10px;
     }
 
+    a.home {
+        width: 100%;
+        position: absolute;
+        height: 40px;
+        line-height: 40px;
+        display: inline-block;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+    }
+
     pre {
         padding: 20px;
         background-color: #FFC;
@@ -88,11 +110,12 @@
     </style>
 </head>
 
-<body oncontextmenu='self.event.returnValue=false'>
+<body oncontextmenu='self.event.returnValue=false'><a class='home' href="index.html">返回首页</a>
     <div id="pageboxcollect" style="position: absolute;bottom: 40px;right: 20px"></div>
     <div id="show"></div>
     <div style="height: 180px">
-        <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体</h1>
+        <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">Pagebox.js 页面窗体
+        </h1>
         <ul>
             <li>可拖放，可缩放，模拟windows桌面窗体</li>
             <li>可上溯父级，遍历下级，父子窗体可互动</li>
@@ -292,11 +315,11 @@
                     'click', 'drag', 'focus', 'blur',
                     'min', 'full', 'restore', 'resize'</td>
             </tr>
-             <tr>
+            <tr>
                 <td>unbind()</td>
                 <td>去除事件绑定</td>
                 <td>unbind(事件名,[方法])<br>
-如果指定了方法，则删除某类事件的指定方法；否则将删除该类所有事件
+                    如果指定了方法，则删除某类事件的指定方法；否则将删除该类所有事件
                 </td>
             </tr>
             <tr>
@@ -308,7 +331,7 @@
                 <td>events()</td>
                 <td>事件列表</td>
                 <td>events([事件名])<br>
-                如果不指定事件名，将返回所有事件列表</td>
+                    如果不指定事件名，将返回所有事件列表</td>
             </tr>
         </table>
         <b>事件：</b>
