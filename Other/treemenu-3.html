@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Treemenu</title>
+    <style type="text/css">
+    body {
+        padding: 20px;
+        overflow: auto;
+    }
+    a{
+        color: #000;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='self.event.returnValue=false'>
+</body>
+  <b>数据源示例：</b>
+<div>
+    <p>treemenu的数据源与tabs、dropmenu数据源格式基本雷同，方便用于交换和传递。
+    例如当点击树形节点时，节点数据源可以直接传给tabs组件生成选项卡。</p>
+     <p>   主要参数有：title（标题）,url（超链接）；
+        像level（层深）、index（索引）、path（路径）等会自动计算产生。</p>
+    <p>请参看示例，如下</p>
+    <pre>
+    {
+        title: '控件说明',      //节点名称
+        tit: '说明',             //节点简称，如果无会自动生
+        ico: 'e72f',            //图标，不设置会用默认图标
+        url: '',                //超链接，
+        type: '',               //节点类型，默认是link（超链接）
+        marker: '',             //标识，暂时无用
+        intro: '',              //节点说明
+        childs: [{              //子级节点
+            title: '功能简介',
+            url: 'other/treemenu-1.html',
+            intro: '基本功能简介'
+        }, {
+            title: '成员说明',
+            ico: 'a010',
+            childs: [{
+                title: '属性',
+                ico: 'a025',
+                url: 'other/treemenu-2.html'
+            }, {
+                title: '方法',
+                ico: 'a023',
+                url: 'other/treemenu-2.html'
+            }, {
+                title: '事件',
+                ico: 'a024',
+                url: 'other/treemenu-2.html'
+            }]
+        },{
+            title:'数据源',
+            url: 'other/treemenu-3.html'
+        }],
+        id: 0,              //节点id，如果没有，则自动生成
+        pid: 0,              //父节点，自动计算生成
+        level:0,            //节点层深，自动生成不用设置
+        path:''             //树形上溯路径
+    };
+    </pre>
+</div>
+
+
+</html>

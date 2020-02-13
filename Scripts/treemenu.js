@@ -1,3 +1,15 @@
+/*!
+ * 主 题：树形菜单
+ * 说 明：
+ * 1、支持无限级菜单分类;
+ * 2、可自定义节点样式，例如：粗体、斜体、颜色;
+ * 3、节点事件可定义
+ *
+ * 作 者：微厦科技_宋雷鸣_10522779@qq.com
+ * 开发时间: 2020年1月1日
+ * 最后修订：2020年2月4日
+ * github开源地址:https://github.com/weishakeji/WebdeskUI
+ */
 (function(win) {
 	var treemenu = function(param) {
 		if (param == null || typeof(param) != 'object') param = {};
@@ -170,7 +182,9 @@
 				this._addchild(area, item.childs[i]);
 			}
 		}
-
+		this.trigger('add', {
+			data: item
+		});
 	};
 	//添加树形的子级节点
 	fn._addchild = function(area, item) {

@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Treemenu</title>
+    <style type="text/css">
+    body {
+        padding: 20px;
+        overflow: auto;
+    }
+    a{
+        color: #000;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='self.event.returnValue=false'>
+</body>
+  <b>简述：</b>
+<div>
+    <ul>
+        <li>支持无限级菜单分类，建议三到四级</li>
+        <li>可折叠收缩（左下角按钮）</li>
+        <li>可自定义节点样式，例如：粗体、斜体、颜色</li>
+        <li>属性支持双向绑定，可监听</li>
+        <li>节点事件可定义</li>
+    </ul>
+</div>
+<div>
+    <b>演示：</b>
+    <div>
+        <p>演示地址：<a href='http://webdesk.weisha100.cn/treemenu.html' target="_blank">http://webdesk.weisha100.cn/treemenu.html</a></p>
+        <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+    </div>
+
+    <b>示例：</b>
+    <pre>
+    var tree = $treemenu.create({
+        target: '#treemenu-area',
+        width: 100
+    });
+    //数据源
+    var data = {
+            title: '控件说明',
+            tit: '说明',
+            ico: 'e72f',
+            url: '',
+            type: '',
+            marker: '',
+            intro: '',
+            childs: [{
+                title: '功能简介',
+                url: 'other/treemenu-1.html',
+                intro: '基本功能简介'
+            }, {
+                title: '成员说明',
+                ico: 'a010',
+                childs: [{
+                    title: '属性',
+                    ico: 'a025'
+                }, {
+                    title: '方法',
+                    ico: 'a023'
+                }, {
+                    title: '事件',
+                    ico: 'a024'
+                }]
+            },{
+                title:'数据源'
+            }],
+            id: 0,
+            pid: 0
+    };
+    tree.add(data);
+</pre>
+</div>
+
+</html>

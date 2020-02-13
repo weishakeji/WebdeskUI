@@ -1,3 +1,16 @@
+/*!
+ * 主 题：选项卡
+ * 说 明：
+ * 1、选项卡无限增加；
+ * 2、鼠标滚轴切换选项卡
+ * 3、鼠标双击关闭，关闭左侧、关闭右铡
+ * 4、可全屏操作;
+ *
+ * 作 者：微厦科技_宋雷鸣_10522779@qq.com
+ * 开发时间: 2020年1月1日
+ * 最后修订：2020年2月4日
+ * github开源地址:https://github.com/weishakeji/WebdeskUI
+ */
 (function(win) {
 	var tabs = function(param) {
 		if (param == null || typeof(param) != 'object') param = {};
