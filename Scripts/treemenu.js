@@ -315,5 +315,12 @@
 		var tobj = new treemenu(param);
 		return tobj;
 	};
+	treemenu._initEvent = function() {
+		window.addEventListener("resize", function() {
+			var treebody = $dom('.treemenu tree_body');
+			treebody.height(treebody.parent().height());
+		}, false);
+	}
 	win.$treemenu = treemenu;
+	win.$treemenu._initEvent();
 })(window);

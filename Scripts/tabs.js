@@ -196,9 +196,7 @@
 					tabs.full(obj, tabid);
 				}
 				//还原
-				if (action == 'restore') {
-
-				}
+				if (action == 'restore') {}
 				obj.cntmenu = false;
 			});
 		}
@@ -345,7 +343,7 @@
 					//当前标签id和索引号，用于关闭右侧或左侧时使用
 					var tabid = $dom(node).attr('tabid');
 					var index = obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').attr('index');
-					
+
 					var off = obj.dom.offset();
 					var mouse = $dom.mouse(e);
 					obj.cntmenu = true;
@@ -511,7 +509,7 @@
 				$dom('tabs_fullbox').remove();
 			}, 300);
 
-		});		
+		});
 	}
 	win.$tabs = tabs;
 	win.$tabs._baseEvents();
