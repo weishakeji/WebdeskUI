@@ -80,7 +80,7 @@ tabs.onchange(function(s, e) {
     console.log('当前标签：' + e.title + ",tagid:" + e.tabid);
 });
 tabs.onshut(function(s, e) {
-    console.log('当前关闭的标签：' + e.title + ",tagid:" + e.tabid);
+    console.log('当前关闭的标签：' + e.data.title + ",tagid:" + e.tabid);
 });
 //
 var pages = [{

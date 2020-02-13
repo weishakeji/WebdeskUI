@@ -297,14 +297,20 @@
 					var tabid = $dom(node).attr('tabid');
 					//获取组件id
 					while (!node.classList.contains('tabsbox')) node = node.parentNode;
-					var ctrid = $dom(node).attr('ctrid');
-					//获取组件对象
-					var crt = $ctrls.get(ctrid);
+					var obj = tabs._getObj(node);
 					//是否移除标签
-					if (isremove) return crt.obj.remove(tabid, true);
+					if (isremove) return obj.remove(tabid, true);
 					//切换焦点
-					crt.obj.focus(tabid, true);
+					obj.focus(tabid, true);
 				});
+			//双击标签关闭
+			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').dblclick(function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
+				var tabid = $dom(node).attr('tabid');
+				var obj = tabs._getObj(node);
+				obj.remove(tabid, true);
+			});
 		},
 		//鼠标滚轴事件
 		mousewheel: function(obj, tabid) {
@@ -368,6 +374,14 @@
 			}
 		});
 	};
+	//获取数据源的某个标签对象
+	fn.getData = function(id) {
+		for (var i = 0; i < this.childs.length; i++) {
+			if (this.childs[i].id == id)
+				return this.childs[i];
+		}
+		return null;
+	};
 	//设置某一个标签为焦点
 	//istrigger:是否触发事件
 	fn.focus = function(tabid, istrigger) {
@@ -410,47 +424,51 @@
 	//istrigger：是否触发事件
 	fn.remove = function(tabid, istrigger) {
 		if (tabid instanceof Array) {
-			var titles = new Array();
+			var datas = new Array();
 			for (var i = 0; i < tabid.length; i++) {
 				for (var j = 0; j < this.childs.length; j++) {
-					if (this.childs[j].id == tabid[i]) titles.push(this.childs[j].title)
+					if (this.childs[j].id == tabid[i]) datas.push(this.childs[j])
 				}
 				this.remove(tabid[i], false);
 			}
 			this.trigger('shut', {
 				tabid: tabid,
-				title: titles
+				data: datas
 			});
 			return this;
 		}
+		var data = this.getData(tabid);
 		var tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
-		var title = tittag.text();
 		//设置关闭后的焦点选项卡
+		var next = null;
 		if (tittag.hasClass('tagcurr')) {
 			var next = tittag.next();
 			if (next.length < 1) next = tittag.prev();
-			this.focus(next, true);
 		}
-		//移除html元素
+		//移除html元素和数据
 		tittag.remove();
 		this.dombody.find('tabpace[tabid=\'' + tabid + '\']').remove();
-		//this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
 		//从对象childs数组中移除
 		for (var i = 0; i < this.childs.length; i++) {
 			if (this.childs[i].id == tabid)
 				this.childs.splice(i, 1);
 		}
+		//重建索引和焦点标签
+		this.order();
+		if (next != null) this.focus(next, true);
 		//触发事件
 		if (istrigger) {
 			this.trigger('shut', {
 				tabid: tabid,
-				title: title
+				data:data
 			});
 		}
 		//如果全都没有了，则显示默认标签
 		if (this.childs.length < 1 && this.default) {
 			this.add(this.default);
 		}
+		//重建索引
+		//this.order();
 		return this;
 	};
 	/*** 
