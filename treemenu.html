@@ -25,7 +25,9 @@
         font-size: 25px;
         color: #333;
         margin: 0px;
-
+        display: block;
+        overflow: hidden;
+        height: 40px;
         font-weight: 900;
         white-space: nowrap;
         text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
@@ -102,7 +104,7 @@ var tabs = $tabs.create({
 //tabs.add({ title: '试用', url: '' });
 //tabs.add({title:'说明'});
 var data = {
-    title: '使用说明',
+    title: '控件说明',
     tit: '说明',
     ico: 'e72f',
     url: '',
@@ -115,7 +117,7 @@ var data = {
         intro: '基本功能简介'
     }, {
         title: '成员说明',
-        ico:'a010',
+        ico: 'a010',
         childs: [{
             title: '属性',
             ico: 'a025'

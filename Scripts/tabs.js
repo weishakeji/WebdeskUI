@@ -172,13 +172,13 @@
 				var index = Number(obj.domenu.attr('index'));
 				//刷新
 				if (action == 'fresh') {
-					var iframe = obj.dombody.find('tabspace[tabid=\'' + tabid + '\'] iframe');
+					var iframe = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
 					iframe.attr('src', iframe.attr('src'));
 				}
 				//关闭
 				if (action.indexOf('close') > -1) {
 					var tabids = new Array();
-					if (action == 'close') tabids.push(tabid, true);
+					if (action == 'close') tabids.push(tabid);
 					if (action == 'closeall') {
 						for (var i = 0; i < obj.childs.length; i++) tabids.push(obj.childs[i].id);
 					}
@@ -335,22 +335,25 @@
 		},
 		//右键菜单
 		contextmenu: function(obj, tabid) {
-			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').bind('contextmenu', function(e) {
-				var node = event.target ? event.target : event.srcElement;
-				while (node.tagName.toLowerCase() != "tab_tag") node = node.parentNode;
-				//当前标签id和索引号，用于关闭右侧或左侧时使用
-				var tabid = $dom(node).attr('tabid');
-				var index = $dom(node).attr('index');
-				//当前tabs对象
-				var obj = tabs._getObj(node);
-				var off = obj.dom.offset();
-				var mouse = $dom.mouse(e);
-				obj.cntmenu = true;
-				obj.domenu.left(mouse.x - off.left - 5).top(mouse.y - off.top - 5);
-				obj.domenu.attr('tabid', tabid).attr('index', index);
-				event.preventDefault();
-				return false;
-			});
+			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
+				.merge(obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] tabpath'))
+				.bind('contextmenu', function(e) {
+					var node = event.target ? event.target : event.srcElement;
+					while ($dom(node).attr('tabid') == null) node = node.parentNode;
+					//当前tabs对象
+					var obj = tabs._getObj(node);
+					//当前标签id和索引号，用于关闭右侧或左侧时使用
+					var tabid = $dom(node).attr('tabid');
+					var index = obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').attr('index');
+					
+					var off = obj.dom.offset();
+					var mouse = $dom.mouse(e);
+					obj.cntmenu = true;
+					obj.domenu.left(mouse.x - off.left - 5).top(mouse.y - off.top - 5);
+					obj.domenu.attr('tabid', tabid).attr('index', index);
+					event.preventDefault();
+					return false;
+				});
 		}
 	};
 	//排序
@@ -433,7 +436,7 @@
 		//移除html元素
 		tittag.remove();
 		this.dombody.find('tabpace[tabid=\'' + tabid + '\']').remove();
-		this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
+		//this.domore.find('tab_tag[tabid=\'' + tabid + '\']').remove();
 		//从对象childs数组中移除
 		for (var i = 0; i < this.childs.length; i++) {
 			if (this.childs[i].id == tabid)
@@ -482,6 +485,7 @@
 			crtid: obj.id,
 			tabid: tabid
 		});
+		tabpace.find('iframe').remove();
 		//设置fullbox的初始位置
 		var offset = tabpace.offset();
 		fbox.left(offset.left).top(offset.top);
@@ -507,9 +511,7 @@
 				$dom('tabs_fullbox').remove();
 			}, 300);
 
-		});
-		///var iframe = obj.dombody.find('tabspace[tabid=' + tabid + ']');
-		///iframe.level(99999);
+		});		
 	}
 	win.$tabs = tabs;
 	win.$tabs._baseEvents();
