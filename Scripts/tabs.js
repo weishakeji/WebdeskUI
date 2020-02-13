@@ -389,7 +389,10 @@
 		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		//当前处于焦点的标签
 		var tagcurr = this.domtit.find('.tagcurr');
-		if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) return false;
+		if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) {
+			tag.level(this.domtit.childs().level() + 1);
+			return false;
+		}
 		//
 		//去除所有的焦点
 		tagcurr.removeClass('tagcurr');
@@ -442,8 +445,10 @@
 		//设置关闭后的焦点选项卡
 		var next = null;
 		if (tittag.hasClass('tagcurr')) {
-			var next = tittag.next();
+			next = tittag.next();
 			if (next.length < 1) next = tittag.prev();
+		} else {
+			next = this.domtit.find('.tagcurr');
 		}
 		//移除html元素和数据
 		tittag.remove();
@@ -460,7 +465,7 @@
 		if (istrigger) {
 			this.trigger('shut', {
 				tabid: tabid,
-				data:data
+				data: data
 			});
 		}
 		//如果全都没有了，则显示默认标签
