@@ -205,7 +205,7 @@
 				}
 				//最大化
 				if (action == 'full') {
-					obj.focus(tabid);
+					obj.focus(String(tabid));
 					tabs.full(obj, tabid);
 				}
 				//还原
@@ -226,7 +226,7 @@
 		//如果id已经存在，则不再添加，设置原有标签为焦点
 		for (var i = 0; tab.id && i < this.childs.length; i++) {
 			if (this.childs[i].id == tab.id) {
-				this.focus(tab.id, false);
+				this.focus(String(tab.id), false);
 				return;
 			}
 		}
@@ -277,7 +277,7 @@
 		space.append(iframe[0]);
 		this.order();
 		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
-		this.focus(tab.id, false);
+		this.focus(String(tab.id), false);
 		//新增标签的事件
 		this.trigger('add', {
 			tabid: tab.id,
@@ -314,7 +314,7 @@
 					//是否移除标签
 					if (isremove) return obj.remove(tabid, true);
 					//切换焦点
-					obj.focus(tabid, true);
+					obj.focus(String(tabid), true);
 				});
 			//双击标签关闭
 			obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').dblclick(function(e) {
@@ -399,6 +399,13 @@
 	//istrigger:是否触发事件
 	fn.focus = function(tabid, istrigger) {
 		if (tabid == null) return false;
+		
+		//如果tabid是数字，则按序号
+		if (typeof tabid === 'number' && !isNaN(tabid)) {
+			var tag = this.domtit.find('tab_tag').get(tabid);
+			if (tag == null) return false;
+			return this.focus(tag.attr('tabid'));
+		}
 		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		//当前处于焦点的标签
 		var tagcurr = this.domtit.find('.tagcurr');
@@ -415,12 +422,13 @@
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
 		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();
+		var data = this.getData(tabid);
 		//触发事件
 		if (istrigger) this.trigger('change', {
 			tabid: tag.attr('tabid'),
-			title: tag.text()
+			data: data
 		});
-		//
+		//***********
 		//计算标签区域的可视区域，左侧坐标与宽度
 		var visiLeft = this.dom.offset().left;
 		var visiWidth = this.domtit.parent().width() - 30;
@@ -485,8 +493,6 @@
 		if (this.childs.length < 1 && this.default) {
 			this.add(this.default);
 		}
-		//重建索引
-		//this.order();
 		return this;
 	};
 	/*** 

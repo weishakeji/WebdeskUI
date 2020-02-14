@@ -86,7 +86,8 @@
 	//获取第n个元素,如果为负，则倒序取，例如-1为最后一个
 	fn.get = function(index) {
 		if (arguments.length < 1 || index == 0 || typeof index !== 'number') return this;
-		if (this.length < Math.abs(index)) throw 'webdom.get error : index greater than length';
+		//if (this.length < Math.abs(index)) throw 'webdom.get error : index greater than length';
+		if (this.length < Math.abs(index)) return null;
 		return index > 0 ? new webdom(this[index - 1]) : new webdom(this[this.length - Math.abs(index)]);
 	};
 	fn.first = function() {
