@@ -28,7 +28,8 @@
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		eval($ctrl.event_generate(['shut', 'add', 'change']));
+		//shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
+		eval($ctrl.event_generate(['shut', 'add', 'change', 'full']));
 		//以下不支持双向绑定
 		this.childs = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -58,9 +59,17 @@
 	fn._watch = {
 		'width': function(obj, val, old) {
 			if (obj.dom) obj.dom.width(val);
+			obj.trigger('resize', {
+				width: val,
+				height: obj._height
+			});
 		},
 		'height': function(obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
+			obj.trigger('resize', {
+				width: obj._width,
+				height: val
+			});
 		},
 		//更多标签的面板是否显示
 		'morebox': function(obj, val, old) {
@@ -281,7 +290,7 @@
 		//新增标签的事件
 		this.trigger('add', {
 			tabid: tab.id,
-			title: tab.title
+			data: tab
 		});
 		return this;
 	};
@@ -399,7 +408,7 @@
 	//istrigger:是否触发事件
 	fn.focus = function(tabid, istrigger) {
 		if (tabid == null) return false;
-		
+
 		//如果tabid是数字，则按序号
 		if (typeof tabid === 'number' && !isNaN(tabid)) {
 			var tag = this.domtit.find('tab_tag').get(tabid);
@@ -551,6 +560,12 @@
 				$dom('tabs_fullbox').remove();
 			}, 300);
 
+		});
+		//触发事件
+		var data = obj.getData(tabid);
+		obj.trigger('full', {
+			tabid: tabid,
+			data: data
 		});
 	}
 	win.$tabs = tabs;

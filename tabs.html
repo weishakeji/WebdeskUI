@@ -38,6 +38,7 @@
         line-height: 40px;
         margin-right: 10px;
     }
+
     a.home {
         display: block;
         width: 120px;
@@ -50,19 +51,20 @@
         text-decoration: none;
         font-weight: normal;
     }
-a.home:before{
-    content: "\a020";
+
+    a.home:before {
+        content: "\a020";
         font-size: 18px;
         line-height: 40px;
         margin-right: 2px;
 
         font-family: "webdesk_icon" !important;
-}
+    }
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
-     <div style="height: 40px; padding-left: 20px;">
+    <div style="height: 40px; padding-left: 20px;">
         <h1><b class="webdesk_icon"></b>Tabs.js 选项卡 <span>（无限添加选项卡，支持鼠标右键，可全屏）</span><a class='home' href="index.html">返回首页</a></h1>
     </div>
     <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
@@ -76,31 +78,48 @@ var tabs = $tabs.create({
     width: '100%',
     height: '100%'
 });
+//切换选项卡的事件
 tabs.onchange(function(s, e) {
-    console.log('当前标签：' + e.title + ",tagid:" + e.tabid);
+    console.log('当前标签：' + e.data.title + ",tagid:" + e.tabid);
 });
+//关闭选项卡的事件
 tabs.onshut(function(s, e) {
     console.log('当前关闭的标签：' + e.data.title + ",tagid:" + e.tabid);
 });
-//
+//数据源
 var pages = [{
-    title: '菜单一，测试页',
+    title: '功能说明',
+    url: 'other/tabs-1.html',
+    path: '选项卡,功能说明'
+}, {
+    title: '属性',
+    ico: 'a025',
+    url: 'other/tabs-2.html',
+    path: '选项卡,成员介绍,属性'
+}, {
+    title: '方法',
+    ico: 'a023',
+    url: 'other/tabs-2.html',
+    path: '选项卡,成员介绍,方法'
+}, {
+    title: '事件',
+    ico: 'a024',
+    url: 'other/tabs-2.html',
+    path: '选项卡,成员介绍,事件'
+}, {
+    title: '测试页',
+    ico: 'e72f',
     url: 'tabs-child.html',
-    path: '测试页'
-}, {
-    title: '菜单二，淘宝',
-    url: 'http://www.taobao.com',
-    path: ''
-}, {
-    title: '菜单三，百度',
-    url: 'http://www.baidu.com',
-    path: ''
-}, {
-    title: '菜单四，路发题库',
-    url: 'http://www.168fff.cn',
-    path: ''
+    path: '选项卡,演示'
 }];
+tabs.onadd(function(s,e){
+    console.log(e.data);
+});
+tabs.onfull(function(s,e){
+    console.log('最大化：'+e.data.title);
+})
 tabs.add(pages);
+tabs.focus(1);
 //tabs.add(pages);
 console.log(tabs.childs.length);
 </script>

@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tabs.js</title>
+    <style type="text/css">
+    body {
+        padding: 20px;
+        overflow: auto;
+    }
+    a{
+        color: #000;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='self.event.returnValue=false'>
+</body>
+  <b>简述：</b>
+<div>
+    <ul>
+        <li>选项卡无限增加</li>
+        <li>鼠标滚轴切换选项卡</li>
+        <li>支持鼠标右键关闭，关闭左侧、关闭右侧</li>
+        <li>可全屏操作</li>
+      
+    </ul>
+</div>
+<div>
+    <b>演示：</b>
+    <div>
+        <p>演示地址：<a href='http://webdesk.weisha100.cn/tabs.html' target="_blank">http://webdesk.weisha100.cn/tabs.html</a></p>
+        <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+    </div>
+
+    <b>示例：</b>
+    <pre>
+    var tabs = $tabs.create({
+        target: '#tabs-area',
+        width: '100%',
+        height: '100%'
+    });
+    //切换选项卡的事件
+    tabs.onchange(function(s, e) {
+        console.log('当前标签：' + e.data.title + ",tagid:" + e.tabid);
+    });
+    //关闭选项卡的事件
+    tabs.onshut(function(s, e) {
+        console.log('当前关闭的标签：' + e.data.title + ",tagid:" + e.tabid);
+    });
+    //数据源
+    var pages = [{
+        title: '功能说明',
+        url: 'other/tabs-1.html',
+        path: '选项卡,功能说明'
+        }, {
+            title: '属性',
+            ico: 'a025',
+            url: 'other/tabs-2.html',
+            path: '选项卡,成员介绍,属性'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/tabs-2.html',
+            path: '选项卡,成员介绍,方法'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/tabs-2.html',
+            path: '选项卡,成员介绍,事件'
+        }, {
+            title: '测试页',
+            ico: 'e72f',
+            url: 'tabs-child.html',
+            path: '选项卡,演示'
+        }];
+    tabs.add(pages);
+    tabs.focus(1);
+</pre>
+</div>
+
+</html>
