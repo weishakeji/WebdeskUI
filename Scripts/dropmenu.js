@@ -1,30 +1,29 @@
 /*!
- * 主 题：树形菜单
+ * 主 题：下拉菜单
  * 说 明：
  * 1、支持无限级菜单分类;
  * 2、可自定义节点样式，例如：粗体、斜体、颜色;
  * 3、节点事件可定义
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
- * 开发时间: 2020年1月1日
- * 最后修订：2020年2月4日
+ * 开发时间: 2020年2月14日
+ * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
 (function(win) {
-	var treemenu = function(param) {
+	var dropmenu = function(param) {
 		if (param == null || typeof(param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
 			width: '100%',
 			height: '100%',
-			id: '',
-			fold: false //是否折叠
+			id: ''
 		};
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		//fold,折叠或展开;add，增加菜单项; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['fold', 'add', 'change', 'resize', 'click']));
+		//add:添加数据项时;click:点击菜单项
+		eval($ctrl.event_generate(['add', 'click']));
 
 		this.datas = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -40,56 +39,20 @@
 			id: this.id,
 			obj: this,
 			dom: this.dom,
-			type: 'treemenu'
+			type: 'dropmenu'
 		});
 	};
-	var fn = treemenu.prototype;
+	var fn = dropmenu.prototype;
 	fn._initialization = function() {
 		if (!this._id) this._id = 'tabs_' + new Date().getTime();
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
 		'width': function(obj, val, old) {
-			if (obj.dom) {
-				obj.dom.width(val);
-				obj.dombody.width(val - 40);
-				obj.trigger('resize', {
-					width: val,
-					height: obj._height
-				});
-			}
+			if (obj.dom) obj.dom.width(val);
 		},
 		'height': function(obj, val, old) {
-			if (obj.dom) {
-				obj.dom.height(val);
-				obj.domtit.height(val);
-				obj.dombody.height(obj.dom.height());
-				obj.trigger('resize', {
-					width: obj._width,
-					height: val
-				});
-			}
-		},
-		//折叠与展开
-		'fold': function(obj, val, old) {
-			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
-			if (val) {
-				obj.dom.width(40);
-				var offset = obj.dom.offset();
-				obj.dombody.css('position', 'absolute');
-				obj.dombody.left(offset.left + 40).height(obj.dom.height()).width(0);
-			} else {
-				obj.dom.width(obj.width);
-				obj.dombody.width(obj.width - 40);
-				window.setTimeout(function() {
-					obj.dombody.css('position', 'relative');
-					obj.dombody.left(0);
-				}, 300);
-			}
-			//折叠事件
-			obj.trigger('fold', {
-				action: val ? 'fold' : 'open'
-			});
+			if (obj.dom) obj.dom.height(val);
 		}
 	};
 	//生成实始的构造
@@ -102,46 +65,20 @@
 		shell: function(obj) {
 			var area = $dom(obj.target);
 			if (area.length < 1) {
-				console.log('treemenu所在区域不存在');
+				console.log('dropmenu所在区域不存在');
 				return;
 			}
-			area.addClass('treemenu').attr('ctrid', obj.id);
+			area.addClass('dropmenu').attr('ctrid', obj.id);
 			obj.dom = area;
 		},
-		//左侧标题区
+		//主菜单栏
 		title: function(obj) {
-			obj.domtit = obj.dom.add('tree_tags');
-			obj.domtit.add('tree-foldbtn');
-			obj.domtit.add('tree-tagspace');
-		},
-		//右侧内容区
-		body: function(obj) {
-			obj.dombody = obj.dom.add('tree_body');
+			obj.domtit = obj.dom.add('drop_roots');
 		}
 	};
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
-		//树形菜单的收缩与展开
-		fold: function(obj) {
-			//左下角折叠按钮的事件
-			obj.domtit.find('tree-foldbtn').click(function(e) {
-				var node = event.target ? event.target : event.srcElement;
-				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
-				crt.obj.fold = !crt.obj.fold;
-			});
-			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
-			obj.leavetime = 3;
-			obj.dombody.bind('mouseover', function(e) {
-				var node = event.target ? event.target : event.srcElement;
-				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
-				crt.obj.leavetime = 3;
-			});
-			obj.leaveInterval = window.setInterval(function() {
-				if (obj.fold && --obj.leavetime <= 0) obj.dombody.width(0);
-			}, 1000);
-		}
+
 	};
 	//添加菜单项
 	fn.add = function(item) {
@@ -234,7 +171,7 @@
 				var treeid = $dom(n).attr('treeid');
 				//对象
 				var tree = n;
-				while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
+				while (!$dom(tree).hasClass('dropmenu')) tree = tree.parentNode;
 				var crt = $ctrls.get($dom(tree).attr('ctrid'));
 				var datanode = crt.obj.getData(treeid); //数据源节点
 				crt.obj.trigger('click', {
@@ -288,7 +225,7 @@
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
 				var tag = $dom(node);
 				//获取组件id
-				while (!node.classList.contains('treemenu')) node = node.parentNode;
+				while (!node.classList.contains('dropmenu')) node = node.parentNode;
 				var ctrid = $dom(node).attr('ctrid');
 				//获取组件对象
 				var crt = $ctrls.get(ctrid);
@@ -300,7 +237,7 @@
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
 				var tag = $dom(node);
-				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				while (!$dom(node).hasClass('dropmenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				if (!crt.obj.fold) return;
 				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
@@ -321,19 +258,16 @@
 		});
 	}
 	/*
-	treemenu的静态方法
+	dropmenu的静态方法
 	*/
-	treemenu.create = function(param) {
+	dropmenu.create = function(param) {
 		if (param == null) param = {};
-		var tobj = new treemenu(param);
+		var tobj = new dropmenu(param);
 		return tobj;
 	};
-	treemenu._initEvent = function() {
-		window.addEventListener("resize", function() {
-			var treebody = $dom('.treemenu tree_body');
-			treebody.height(treebody.parent().height());
-		}, false);
+	dropmenu._initEvent = function() {
+
 	}
-	win.$treemenu = treemenu;
-	win.$treemenu._initEvent();
+	win.$dropmenu = dropmenu;
+	win.$dropmenu._initEvent();
 })(window);
