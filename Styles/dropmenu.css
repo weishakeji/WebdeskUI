@@ -1,7 +1,53 @@
 ﻿@charset "utf-8";
 
-html,
-body {
-    margin: 0px;
-    padding: 0px; 
+.dropmenu {
+    background-color: red;
 }
+
+.dropmenu>* {
+    display: block;
+}
+
+.dropmenu ico {
+    font-family: "webdesk_icon" !important;
+}
+
+.dropmenu drop_roots {
+    height: 100%;
+}
+
+.dropmenu drop_roots drop-node {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 120px;
+    cursor: pointer;
+    transform: background-color .1s;
+    -webkit-transition-property: background-color;
+    -webkit-transition-duration: .3s;
+    -webkit-transition-timing-function: ease;
+}
+
+.dropmenu drop_roots drop-node:hover {
+    background-color: #ccc;
+}
+
+.dropmenu drop_roots drop-node ico {
+    height: 100%;
+    font-size: 18px;
+    margin: 0px 5px 0px 10px;
+}
+
+.dropmenu drop_roots drop-node span {
+    height: 100%;
+}
+
+.dropmenu drop-panel {
+    --position: absolute;
+    background-color: #eee;
+    width: 180px;
+}
+.dropmenu drop-panel>*{
+    display: block;
+    cursor: pointer;
+} 
