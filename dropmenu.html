@@ -99,21 +99,25 @@ var data = {
     type: '',
     marker: '',
     intro: '',
-    font: {
-        color: 'white',
-        bold: true
-    },
+
     childs: [{
         title: '功能简介',
         url: 'other/treemenu-1.html',
-        intro: '基本功能简介'
+        intro: '基本功能简介',
+        font: {
+            color: 'green',
+            bold: true
+        }
     }, {
         title: '成员说明',
         ico: 'a010',
         childs: [{
             title: '属性',
             ico: 'a025',
-            url: 'other/treemenu-2.html'
+            url: 'other/treemenu-2.html',
+            childs: [{
+                title: '测试子菜单'
+            }]
         }, {
             title: '方法',
             ico: 'a023',
@@ -132,8 +136,14 @@ var data = {
 
 };
 drop.add(data);
-var t=$dom.clone(data);
+var t = $dom.clone(data);
+t.title = '克隆第一个菜单';
+t.childs[0].title = '测试';
 drop.add(t);
+
+drop.onclick(function(s,e) {
+   console.log('点击：'+e.data.title);
+});
 </script>
 
 </html>
