@@ -15,7 +15,7 @@
 		if (param == null || typeof(param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
-			width: '100%',
+			width: 100,
 			height: 30,
 			id: '',
 			bind: true //是否实时数据绑定
@@ -58,7 +58,14 @@
 	//当属性更改时触发相应动作
 	fn._watch = {
 		'width': function(obj, val, old) {
-			if (obj.dom) obj.dom.width(val);
+			if (obj.dom) {
+				var root = obj.domtit.find('drop-node');
+				if (root.length > 0) {
+					var padding = parseInt(root.get(0).css('padding-right'));
+					obj.domtit.find('drop-node').width(val - padding);
+					if (obj.datas) obj.dom.width(obj.datas.length * val);
+				}
+			};
 		},
 		'height': function(obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
@@ -149,8 +156,10 @@
 		interval: function(obj) {
 			obj.dom.find('drop-panel').bind('mouseover', function(e) {
 				obj.leavetime = 3;
+				obj.leave = false;
 			});
 			obj.leaveInterval = window.setInterval(function() {
+				if(!obj.leave)return;
 				if (--obj.leavetime <= 0) {
 					obj.dom.find('drop-panel').hide();
 				}
@@ -181,6 +190,7 @@
 					panel.show();
 				}
 				obj.leavetime = 3;
+				obj.leave = false;
 			});
 		},
 		//子菜单滑过事件
@@ -207,6 +217,11 @@
 					panel.left(offset.left + node.width() - 5).top(offset.top + 10);
 					panel.show();
 				}
+			});
+			//当鼠标离开面板时，才允许计算消失时间
+			obj.dom.find('drop-panel drop-node').bind('mouseleave', function(e) {
+				obj.leavetime = 3;
+				obj.leave = true;
 			});
 		},
 		//节点鼠标点击事件
