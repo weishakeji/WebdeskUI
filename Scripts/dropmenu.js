@@ -183,9 +183,7 @@
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
 					$dom('drop-panel[pid=\'' + brother[i].id + '\'] drop-node').removeClass('hover');
 					var childs = obj.getChilds(brother[i].id);
-					for (var j = 0; j < childs.length; j++) {
-						$dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
-					}
+					for (var j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 				}
 				node.addClass('hover');
 				//显示当前面板
@@ -219,9 +217,7 @@
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').find('drop-node').removeClass('hover');
 					obj.dombody.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					var childs = obj.getChilds(brother[i].id);
-					for (var j = 0; j < childs.length; j++) {
-						$dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
-					}
+					for (var j = 0; j < childs.length; j++) $dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 				}
 				node.addClass('hover');
 				//显示当前面板
@@ -233,23 +229,10 @@
 					var maxhg = window.innerHeight;
 					var x = Number(node.parent().attr('x'));
 					var y = Number(node.parent().attr('y'));
-					//console.log('x:' + x + ';y:' + y);
-					var left, top;
-					if (x < 0 || offset.left + node.width() + panel.width() > maxwd) {
-						left = offset.left - panel.width() + 5;
-					} else {
-						left = offset.left + node.width() - 5;
-					}
-					if (y <= 0 || offset.top + obj.height + panel.width() > maxhg) {
-						top = offset.top - panel.height() + node.height() * 3 / 4;
-					} else {
-						top = offset.top + +node.height() * 3 / 4;
-					}
 					var left = x < 0 || offset.left + node.width() + panel.width() > maxwd ? offset.left - panel.width() + 5 : offset.left + node.width() - 5;
 					var top = y <= 0 || offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() + node.height() * 3 / 4 : offset.top + node.height() * 1 / 4;
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
-					//console.log('x:' + (left - offset.left) + '; y:' + (top - offset.top));
 				}
 			});
 			//当鼠标离开面板时，才允许计算消失时间
