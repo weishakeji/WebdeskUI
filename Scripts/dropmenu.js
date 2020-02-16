@@ -65,7 +65,7 @@
 					obj.domtit.find('drop-node').width(val - padding);
 					if (obj.datas) obj.dom.width(obj.datas.length * val);
 				}
-				obj.dom.find('drop-panel.level1').width(val > 200 ? val : 200);
+				obj.dombody.find('drop-panel.level1').width(val > 200 ? val : 200);
 			};
 		},
 		'height': function(obj, val, old) {
@@ -93,6 +93,7 @@
 			console.log('dropmenu所在区域不存在');
 		} else {
 			area.html(''); //清空原html节点
+			$dom('drop-body[ctrid=\'' + this.id + '\']').remove();
 			//计算数据源的层深等信息
 			for (var i = 0; i < this.datas.length; i++)
 				this.datas[i] = this._calcLevel(this.datas[i], 1);
@@ -131,6 +132,8 @@
 		},
 		//子菜单内容区
 		body: function(obj) {
+			obj.dombody = $dom(document.body).add('drop-body');
+			obj.dombody.addClass('dropmenu').attr('ctrid', obj.id);
 			for (var i = 0; i < obj.datas.length; i++) {
 				if (obj.datas[i] == null) continue;
 				if (obj.datas[i].childs && obj.datas[i].childs.length > 0)
@@ -146,23 +149,21 @@
 					if (item.childs[i].childs && item.childs[i].childs.length > 0)
 						_childs(item.childs[i], obj);
 				}
-				//圆角
-				if (item.level == 1) panel.addClass('level1');
-				obj.dom.append(panel);
+				obj.dombody.append(panel);
 			}
 		}
 	};
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
 		interval: function(obj) {
-			obj.dom.find('drop-panel').bind('mouseover', function(e) {
+			obj.dombody.find('drop-panel').bind('mouseover', function(e) {
 				obj.leavetime = 3;
 				obj.leave = false;
 			});
 			obj.leaveInterval = window.setInterval(function() {
 				if (!obj.leave) return;
 				if (--obj.leavetime <= 0) {
-					obj.dom.find('drop-panel').hide();
+					obj.dombody.find('drop-panel').hide();
 					obj.domtit.find('drop-node').removeClass('hover');
 				}
 			}, 1000);
@@ -191,9 +192,14 @@
 				var offset = node.offset();
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
-					//当前面板的位置
-					panel.left(offset.left).top(offset.top + obj.height);
 					panel.show();
+					var maxwd = window.innerWidth;
+					var maxhg = window.innerHeight;
+					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() - 1 : offset.left + 1;
+					var top = offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
+					//当前面板的位置
+					panel.left(left).top(top);
+
 				}
 				obj.leavetime = 3;
 				obj.leave = false;
@@ -201,7 +207,7 @@
 		},
 		//子菜单滑过事件
 		node_hover: function(obj) {
-			obj.dom.find('drop-panel drop-node').bind('mouseover', function(e) {
+			obj.dombody.find('drop-panel drop-node').bind('mouseover', function(e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				var node = $dom(n);
@@ -212,7 +218,7 @@
 				for (var i = 0; i < brother.length; i++) {
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').find('drop-node').removeClass('hover');
-					obj.dom.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
+					obj.dombody.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					var childs = obj.getChilds(brother[i].id);
 					for (var j = 0; j < childs.length; j++) {
 						$dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
@@ -223,12 +229,26 @@
 				var offset = node.offset();
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
-					panel.left(offset.left + node.width() - 5).top(offset.top + 10);
 					panel.show();
+					var maxwd = window.innerWidth;
+					var maxhg = window.innerHeight;
+					var left, top;
+					if (offset.left + node.width() + panel.width() > maxwd) {
+						left = offset.left - panel.width() + 5;
+					} else {
+						left = offset.left + node.width() - 5;
+					}
+					if (offset.top + obj.height + panel.width() > maxhg) {
+						top = offset.top - panel.height() + node.height() * 3 / 4;
+					} else {
+						top = offset.top + +node.height() * 3 / 4;
+					}
+					//当前面板的位置
+					panel.left(left).top(top);
 				}
 			});
 			//当鼠标离开面板时，才允许计算消失时间
-			obj.dom.find('drop-panel drop-node').merge(obj.domtit.find('drop-node'))
+			obj.dombody.find('drop-panel drop-node').merge(obj.domtit.find('drop-node'))
 				.bind('mouseleave', function(e) {
 					obj.leavetime = 3;
 					obj.leave = true;
@@ -236,7 +256,7 @@
 		},
 		//节点鼠标点击事件
 		node_click: function(obj) {
-			obj.dom.find('drop-node').click(function(e) {
+			obj.dombody.find('drop-node').click(function(e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				//节点id
@@ -248,7 +268,7 @@
 					data: data
 				});
 				obj.leave = true;
-				obj.dom.find('drop-panel').hide();
+				obj.dombody.find('drop-panel').hide();
 				obj.domtit.find('drop-node').removeClass('hover');
 			});
 		}
