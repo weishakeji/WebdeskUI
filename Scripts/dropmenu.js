@@ -198,8 +198,7 @@
 					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() - 1 : offset.left + 1;
 					var top = offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
 					//当前面板的位置
-					panel.left(left).top(top);
-
+					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
 				}
 				obj.leavetime = 3;
 				obj.leave = false;
@@ -232,19 +231,25 @@
 					panel.show();
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
+					var x = Number(node.parent().attr('x'));
+					var y = Number(node.parent().attr('y'));
+					//console.log('x:' + x + ';y:' + y);
 					var left, top;
-					if (offset.left + node.width() + panel.width() > maxwd) {
+					if (x < 0 || offset.left + node.width() + panel.width() > maxwd) {
 						left = offset.left - panel.width() + 5;
 					} else {
 						left = offset.left + node.width() - 5;
 					}
-					if (offset.top + obj.height + panel.width() > maxhg) {
+					if (y <= 0 || offset.top + obj.height + panel.width() > maxhg) {
 						top = offset.top - panel.height() + node.height() * 3 / 4;
 					} else {
 						top = offset.top + +node.height() * 3 / 4;
 					}
+					var left = x < 0 || offset.left + node.width() + panel.width() > maxwd ? offset.left - panel.width() + 5 : offset.left + node.width() - 5;
+					var top = y <= 0 || offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() + node.height() * 3 / 4 : offset.top + node.height() * 1 / 4;
 					//当前面板的位置
-					panel.left(left).top(top);
+					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
+					//console.log('x:' + (left - offset.left) + '; y:' + (top - offset.top));
 				}
 			});
 			//当鼠标离开面板时，才允许计算消失时间
@@ -352,7 +357,7 @@
 			for (var i = 0; i < datas.length; i++) {
 				childs.push(datas[i]);
 				if (datas[i].childs && 　datas[i].childs.length > 0)
-					childs.push(datas[i].childs, childs);
+					getdata(datas[i].childs, childs);
 			}
 		}
 		return childs;
