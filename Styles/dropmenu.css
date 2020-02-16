@@ -33,8 +33,9 @@
 padding-right: 10px;
 }
 
-.dropmenu drop_roots drop-node:hover {
-    background-color: #ccc;
+.dropmenu drop_roots drop-node:hover, .dropmenu drop_roots drop-node.hover {
+    background-color: #ddd;
+    text-shadow: 1px 1px 2px #666;
 }
 
 .dropmenu drop_roots drop-node span {
@@ -57,12 +58,14 @@ padding-right: 10px;
     background-color: #eee;
     width: 180px;
     border-radius: 2px;
-    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
+    border: 1px solid #bbb;
+    box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.6), -2px -2px 2px rgba(200, 200, 200, 0.6);
 }
 
 .dropmenu drop-panel.level1 {
     border-radius: 0px 0px 2px 2px;
-    box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3);
+    box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.6);
+    border-top: none;
 }
 
 .dropmenu drop-panel>* {
@@ -118,16 +121,16 @@ padding-right: 10px;
     color: #999;
 }
 
-.dropmenu drop-panel>*:hover child:after {
+.dropmenu drop-panel>*:hover child:after, .dropmenu drop-panel>*.hover child:after {
     color: #333;
 }
 
-.dropmenu drop-panel>*:hover {
+.dropmenu drop-panel>*:hover, .dropmenu drop-panel>*.hover {
     box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
     text-shadow: 1px 1px 2px #666;
 }
 
-.dropmenu drop-panel>*:hover:after {
+.dropmenu drop-panel>*:hover:after,.dropmenu drop-panel>*.hover:after {
     content: '';
     width: calc(100% - 5px);
     height: calc(100% - 5px);

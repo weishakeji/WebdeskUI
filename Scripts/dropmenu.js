@@ -65,6 +65,7 @@
 					obj.domtit.find('drop-node').width(val - padding);
 					if (obj.datas) obj.dom.width(obj.datas.length * val);
 				}
+				obj.dom.find('drop-panel.level1').width(val > 200 ? val : 200);
 			};
 		},
 		'height': function(obj, val, old) {
@@ -159,9 +160,10 @@
 				obj.leave = false;
 			});
 			obj.leaveInterval = window.setInterval(function() {
-				if(!obj.leave)return;
+				if (!obj.leave) return;
 				if (--obj.leavetime <= 0) {
 					obj.dom.find('drop-panel').hide();
+					obj.domtit.find('drop-node').removeClass('hover');
 				}
 			}, 1000);
 		},
@@ -176,16 +178,20 @@
 				//隐藏其它面板
 				var brother = obj.getBrother(nid);
 				for (var i = 0; i < brother.length; i++) {
+					obj.domtit.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
+					$dom('drop-panel[pid=\'' + brother[i].id + '\'] drop-node').removeClass('hover');
 					var childs = obj.getChilds(brother[i].id);
 					for (var j = 0; j < childs.length; j++) {
 						$dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 					}
 				}
+				node.addClass('hover');
 				//显示当前面板
 				var offset = node.offset();
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
+					//当前面板的位置
 					panel.left(offset.left).top(offset.top + obj.height);
 					panel.show();
 				}
@@ -205,11 +211,14 @@
 				var brother = obj.getBrother(nid);
 				for (var i = 0; i < brother.length; i++) {
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
+					$dom('drop-panel[pid=\'' + brother[i].id + '\']').find('drop-node').removeClass('hover');
+					obj.dom.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					var childs = obj.getChilds(brother[i].id);
 					for (var j = 0; j < childs.length; j++) {
 						$dom('drop-panel[pid=\'' + childs[j].id + '\']').hide();
 					}
 				}
+				node.addClass('hover');
 				//显示当前面板
 				var offset = node.offset();
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
@@ -219,10 +228,11 @@
 				}
 			});
 			//当鼠标离开面板时，才允许计算消失时间
-			obj.dom.find('drop-panel drop-node').bind('mouseleave', function(e) {
-				obj.leavetime = 3;
-				obj.leave = true;
-			});
+			obj.dom.find('drop-panel drop-node').merge(obj.domtit.find('drop-node'))
+				.bind('mouseleave', function(e) {
+					obj.leavetime = 3;
+					obj.leave = true;
+				});
 		},
 		//节点鼠标点击事件
 		node_click: function(obj) {
@@ -237,6 +247,9 @@
 				obj.trigger('click', {
 					data: data
 				});
+				obj.leave = true;
+				obj.dom.find('drop-panel').hide();
+				obj.domtit.find('drop-node').removeClass('hover');
 			});
 		}
 	};
