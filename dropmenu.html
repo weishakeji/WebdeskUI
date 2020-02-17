@@ -245,8 +245,8 @@
                         <th scope="col">参数e</th>
                     </tr>
                     <tr>
-                        <td>add</td>
-                        <td>添加数据项时</td>
+                        <td>data</td>
+                        <td>当数据源变更时</td>
                         <td>同上</td>
                         <td>e.event：事件名称<br>
                 e.action：动作，默认与e.event同值<br>
@@ -319,6 +319,9 @@ var data = {
     pid: 0
 
 };
+drop.ondata(function(s,e){
+    console.log(e.data);
+});
 drop.add(data);
 var t = $dom.clone(data);
 t.title = '克隆第一个菜单';
@@ -328,6 +331,7 @@ drop.add(t);
 drop.onclick(function(s, e) {
     console.log('点击：' + e.data.title);
 });
+
 </script>
 
 </html>

@@ -23,14 +23,14 @@
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		//add:添加数据项时;click:点击菜单项
-		eval($ctrl.event_generate(['add', 'click']));
+		//data:数据项源变动时;click:点击菜单项
+		eval($ctrl.event_generate(['data', 'click']));
 
 		this.datas = new Array(); //数据源
 		this._datas = ''; //数据源的序列化字符串
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
-		//this.dombody = null; //控件内容区
+		this.dombody = null; //控件内容区
 		//初始化并生成控件
 		this._initialization();
 		this.bind = this._bind;
@@ -79,6 +79,9 @@
 					if (str != obj._datas) {
 						obj._restructure();
 						obj._datas = str;
+						obj.trigger('data', {
+							data: obj.datas
+						});
 					}
 				}, 10);
 			} else {
