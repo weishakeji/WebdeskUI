@@ -218,7 +218,7 @@
 
 			});
 			//当鼠标离开面板时，才允许计算消失时间
-			obj.dombody.find('vbar-panel vbar-node').merge(obj.dom.find('vbar-item'))
+			obj.dombody.find('vbar-panel').merge(obj.dom.find('vbar-item'))
 				.bind('mouseleave', function(e) {
 					obj.leavetime = 3;
 					obj.leave = true;

@@ -239,7 +239,7 @@
 				}
 			});
 			//当鼠标离开面板时，才允许计算消失时间
-			obj.dombody.find('drop-panel drop-node').merge(obj.domtit.find('drop-node'))
+			obj.dombody.find('drop-panel').merge(obj.domtit.find('drop-node'))
 				.bind('mouseleave', function(e) {
 					obj.leavetime = 3;
 					obj.leave = true;
