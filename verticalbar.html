@@ -76,7 +76,7 @@
     .intro-panel {
         margin: 10px;
         position: absolute;
-        width: calc(100% - 60px);
+        width: calc(100% - 100px);
         height: calc(100% - 140px);
         left: 0px;
         bottom: 0px;
@@ -135,6 +135,11 @@
         display: block;
         margin: 10px 0px 10px 0px;
     }
+    #vbar-area{
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
     </style>
 </head>
 
@@ -162,14 +167,14 @@
                 <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
             </div>
             <b>示例：</b>
-            <pre>
+                      <pre>
     var bar = $vbar.create({
         target: '#dropmenu-area',
         width: 120,height:30
     });
     bar.add(数据源);
-
 </pre>
+        </div>
             <b>属性:</b>
             <div>
                 <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
@@ -257,39 +262,40 @@
                     </tr>
                 </table>
             </div>
-        </div>
+      
+  </div>
+        <div id="vbar-area"></div>
 </body>
 <script type="text/javascript">
 var bar = $vbar.create({
     target: '#vbar-area',
-    width: 120,
-    height: 30
+    width: 30,
+    height: 'calc(100% - 100px)'
 });
-var data = [{
-        title: '控件说明',
-        tit: '说明',
-        ico: 'e72f',
-        url: '',
-        type: '',
-        marker: '',
-        intro: '',
-    },
-    {
+var data =[{
         title: '功能简介',
         url: 'other/treemenu-1.html',
-        intro: '基本功能简介',
-        font: {
-            color: 'green',
-            bold: true
-        }
+        intro: '基本功能简介'
     }, {
         title: '成员说明',
-        ico: 'a010'
-    }, {
-        title: '数据源',
+        ico: 'a010',
+        childs: [{
+            title: '属性',
+            ico: 'a025',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }]
+    },{
+        title:'数据源',
         url: 'other/treemenu-3.html'
-    }
-];
+    }];
 bar.add(data);
 bar.onclick(function(s, e) {
     console.log('点击：' + e.data.title);
