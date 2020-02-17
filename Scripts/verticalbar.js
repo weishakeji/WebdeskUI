@@ -206,10 +206,12 @@
 					panel.show();
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
-					var left = offset.left + panel.width() > maxwd ? offset.left - panel.width() - 8 : offset.left + 1;
+					var left = offset.left + panel.width() > maxwd ? offset.left - panel.width() - 8 : offset.left + obj.width + 8;
 					var top = offset.top + panel.width() > maxhg ? offset.top - panel.height() : offset.top;
 					//当前面板的位置
-					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
+					panel.left(left).top(top);
+					if (left - offset.left > 0) panel.attr('direction','left');
+					//.attr('x', left - offset.left).attr('y', top - offset.top);
 				}
 				obj.leavetime = 3;
 				obj.leave = false;
