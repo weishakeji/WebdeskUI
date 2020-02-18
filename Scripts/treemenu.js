@@ -32,6 +32,14 @@
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
+		//默认数据
+		this.def_data = {
+			title: '数据加载...',
+			tit: 'load',
+			type: 'loading',
+			ico: 'e621'
+		};
+		this.datas.push(this.def_data);
 		//初始化并生成控件
 		this._initialization();
 		this.bind = this._bind;
@@ -109,7 +117,10 @@
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//计算数据源的层深等信息
-						//for (var i = 0; i < obj.datas.length; i++)
+						for (var i = 0; i < obj.datas.length; i++) {
+							if (obj.datas[i].type && obj.datas[i].type == 'loading')
+								obj.datas.splice(i, 1);
+						}
 						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
 						obj._datas = JSON.stringify(obj.datas);
@@ -157,13 +168,15 @@
 			for (var i = 0; i < obj.datas.length; i++) {
 				var item = obj.datas[i];
 				var tabtag = obj.domtit.add('tree_tag');
-				tabtag.attr('item', item.title).attr('treeid', item.id);
+				tabtag.attr('title', item.title).attr('treeid', item.id);
 				tabtag.add('ico').html('&#x' + item.ico);
 				tabtag.add('itemtxt').html(item.tit);
+				if (item.type == 'loading') tabtag.addClass('loading');
 			}
 			//左侧空白区的高度
 			var tags = obj.domtit.find('tree_tag');
-			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * parseInt(tags.height())) + 'px)');
+			var hg = tags.height();
+			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * 60) + 'px)');
 		},
 		//右侧内容区
 		body: function(obj) {
@@ -175,7 +188,10 @@
 				area.attr('treeid', item.id).hide();
 				//右侧菜单的大标题
 				area.add('tree_tit').html(item.title);
-
+				if (item.type == 'loading') {
+					area.add('loading').html('&#x' + item.ico);
+					continue;
+				}
 				if (item.childs) {
 					for (var j = 0; j < item.childs.length; j++) {
 						_addchild(area, item.childs[j], obj);
@@ -338,6 +354,7 @@
 	};
 	//切换选项卡
 	fn.switch = function(obj, tag) {
+		if (tag == null) return;
 		this.domtit.find('tree_tag').removeClass('curr');
 		tag.addClass('curr');
 		this.dombody.childs().hide();

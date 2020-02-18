@@ -23,6 +23,7 @@
 
 .treemenu tree_tags tree_tag {
     cursor: pointer;
+    height: 60px;
     background-color: rgba(200, 200, 200, .6);
     transform: background-color .1s;
     -webkit-transition-property: background-color;
@@ -33,18 +34,40 @@
 .treemenu tree_tags tree_tag ico {
     height: 30px;
     width: 100%;
-    line-height: 35px;
+    line-height: 30px;
     text-align: center;
     display: block;
-    font-size: 18px;
+    font-size: 20px;
     font-family: "webdesk_icon" !important;
 }
-
+.treemenu tree_tags tree_tag.loading ico{
+    
+     -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 1s;
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+}
+@-webkit-keyframes rotate{from{-webkit-transform: rotate(0deg)}
+    to{-webkit-transform: rotate(360deg)}
+}
+@-moz-keyframes rotate{from{-moz-transform: rotate(0deg)}
+    to{-moz-transform: rotate(359deg)}
+}
+@-o-keyframes rotate{from{-o-transform: rotate(0deg)}
+    to{-o-transform: rotate(359deg)}
+}
+@keyframes rotate{from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
+}
 .treemenu tree_tags tree_tag itemtxt {
-    height: 30px;
+    height: 25px;
     width: calc(100% - 10px);
     overflow: hidden;
-    line-height: 30px;
+    line-height: 25px;
     font-size: 14px;
     padding: 0px 5px 0px 5px;
 }
@@ -111,7 +134,24 @@
     cursor: default;
     --background-color: green;
 }
-
+.treemenu tree_area loading {
+    height: 200px;
+    width: 100%;
+    line-height: 200px;
+    text-align: center;
+    display: block;
+    color: #999;
+    font-size: 35px;
+    font-family: "webdesk_icon" !important;
+     -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 2s;
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 2s;
+    -webkit-animation: rotate 2s linear infinite;
+    -moz-animation: rotate 2s linear infinite;
+    -o-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+}
 .treemenu tree_area tree_tit {
     height: 30px;
     line-height: 30px;
