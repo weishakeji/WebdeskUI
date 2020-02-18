@@ -151,6 +151,7 @@
 			obj.dombody.addClass('dropmenu').attr('ctrid', obj.id);
 			for (var i = 0; i < obj.datas.length; i++) {
 				if (obj.datas[i] == null) continue;
+
 				if (obj.datas[i].type == 'loading') continue;
 				if (obj.datas[i].childs && obj.datas[i].childs.length > 0)
 					_childs(obj.datas[i], obj);
@@ -159,12 +160,20 @@
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
 				panel.attr('pid', item.id).level(item.level);
-				panel.height(item.childs.length * obj.height).hide();
+				//计算高度
+				var height = 0;
 				for (var i = 0; i < item.childs.length; i++) {
+					if (item.childs[i].type && item.childs[i].type == 'hr') {
+						panel.append('hr');
+						height += 1;
+						continue;
+					}
+					height += obj.height;
 					panel.append(obj._createNode(item.childs[i]));
 					if (item.childs[i].childs && item.childs[i].childs.length > 0)
 						_childs(item.childs[i], obj);
 				}
+				panel.height(height).hide();
 				obj.dombody.append(panel);
 			}
 		}

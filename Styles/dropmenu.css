@@ -86,7 +86,7 @@
 }
 
 
-.dropmenu drop-panel>* {
+.dropmenu drop-panel>*:not(hr) {
     display: block;
     cursor: pointer;
     position: relative;
@@ -99,7 +99,13 @@
     line-height: 25px;
     position: relative;
 }
-
+.dropmenu drop-panel>hr {
+    height: 1px;
+    border: 0px;
+    margin: 0px;
+    margin-left: 30px;
+    background: #ddd;
+}
 .dropmenu drop-panel ico {
 
     display: block;
@@ -139,19 +145,19 @@
     color: #999;
 }
 
-.dropmenu drop-panel>*:hover child:after,
-.dropmenu drop-panel>*.hover child:after {
+.dropmenu drop-panel>*:not(hr):hover child:after,
+.dropmenu drop-panel>*:not(hr).hover child:after {
     color: #333;
 }
 
-.dropmenu drop-panel>*:hover,
-.dropmenu drop-panel>*.hover {
+.dropmenu drop-panel>*:not(hr):hover,
+.dropmenu drop-panel>*:not(hr).hover {
     box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
     text-shadow: 1px 1px 2px #666;
 }
 
-.dropmenu drop-panel>*:hover:after,
-.dropmenu drop-panel>*.hover:after {
+.dropmenu drop-panel>*:not(hr):hover:after,
+.dropmenu drop-panel>*:not(hr).hover:after {
     content: '';
     width: calc(100% - 5px);
     height: calc(100% - 5px);
