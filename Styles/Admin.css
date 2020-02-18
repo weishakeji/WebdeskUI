@@ -26,9 +26,15 @@ body{
     color: #999;
     text-align: left;
     text-shadow: 1px 1px 2px #666;
-    font-size: 18px;
+    font-size: 20px;
     cursor: default;
     user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#headbar span{
+	font-size: 14px;
 }
 #user-area{
 	position: absolute;
@@ -81,10 +87,11 @@ body{
 	
 }
 #dropmenu-area drop_roots{
-	color: #eee !important;
+	color: #ccc !important;
 }
 #dropmenu-area drop_roots drop-node:hover,
 #dropmenu-area drop_roots drop-node.hover {
+	color: #eee !important;
     background-color: rgba(150,150,150,.5) !important;
     text-shadow: 1px 1px 2px #666 !important;
 }

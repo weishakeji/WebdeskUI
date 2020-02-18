@@ -133,7 +133,7 @@
 			this.width = this._width;
 			this.height = this._height;
 			this.plwidth = this._plwidth;
-			this.level=this._level;
+			this.level = this._level;
 		}
 	};
 	//生成结构
