@@ -18,6 +18,7 @@
 			width: 100,
 			height: 30,
 			plwidth: 160, //子菜单面板的宽度
+			level: 1000, //菜单的初始深度
 			id: '',
 			bind: true //是否实时数据绑定
 		};
@@ -84,6 +85,16 @@
 		'plwidth': function(obj, val, old) {
 			if (obj.dombody) obj.dombody.find('drop-panel').width(val);
 		},
+		//设定深度
+		'level': function(obj, val, old) {
+			if (obj.dom) obj.dom.level(val);
+			obj.dombody.find('drop-panel').each(function() {
+				var id = $dom(this).attr('pid');
+				var data = obj.getData(id);
+				if (data == null) return;
+				$dom(this).level(data.level * data.index + val);
+			});
+		},
 		//是否启动实时数据绑定
 		'bind': function(obj, val, old) {
 			if (val) {
@@ -122,6 +133,7 @@
 			this.width = this._width;
 			this.height = this._height;
 			this.plwidth = this._plwidth;
+			this.level=this._level;
 		}
 	};
 	//生成结构
@@ -303,7 +315,7 @@
 			'height': this._height + 'px'
 		});
 		if (item.img) {
-			node.add('ico').add('img').attr('src',item.img);
+			node.add('ico').add('img').attr('src', item.img);
 		} else {
 			node.add('ico').html(item.ico ? '&#x' + item.ico : '');
 		}

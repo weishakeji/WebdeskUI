@@ -277,7 +277,7 @@ tabs_morebox {
     position: absolute;
     bottom: 1px;
     right: 1px;
-    z-index: 99999;
+    z-index: 999;
     transition: width 0.3s, height 0.3s, left 0.3s, top 0.3s, opacity 0.3s;
     overflow: auto;
     border-left: solid 1px #aaa;
