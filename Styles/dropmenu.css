@@ -68,11 +68,26 @@
 .dropmenu drop_roots drop-node ico {
     height: 100%;
     font-size: 16px;
+     display: block;
+    float: left;
     margin: 0px 5px 0px 10px;
 }
-
+.dropmenu drop_roots drop-node img{
+    width: 20px;
+    height: 20px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    --float: left;
+    border-radius: 10px;
+}
 .dropmenu drop_roots drop-node span {
     height: 100%;
+     display: block;
+     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /*子菜单面板*/
@@ -118,7 +133,16 @@
     text-align: center;
     margin-right: 6px;
 }
-
+.dropmenu drop-panel img{
+    width: 20px;
+    height: 20px;
+    display: block;    
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+}
 .dropmenu drop-panel span {
     padding-right: 20px;
     width: calc(100% - 31px - 30px);

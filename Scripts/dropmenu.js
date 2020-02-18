@@ -121,7 +121,7 @@
 			for (var t in this._baseEvents) this._baseEvents[t](this);
 			this.width = this._width;
 			this.height = this._height;
-			this.plwidth=this._plwidth;
+			this.plwidth = this._plwidth;
 		}
 	};
 	//生成结构
@@ -302,7 +302,11 @@
 			'line-height': this._height + 'px',
 			'height': this._height + 'px'
 		});
-		node.add('ico').html(item.ico ? '&#x' + item.ico : '');
+		if (item.img) {
+			node.add('ico').add('img').attr('src',item.img);
+		} else {
+			node.add('ico').html(item.ico ? '&#x' + item.ico : '');
+		}
 		var span = node.add('span');
 		//字体样式
 		if (item.font) {

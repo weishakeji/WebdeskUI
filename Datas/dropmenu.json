@@ -7,11 +7,12 @@
  		bold: true
  	}
  }, {
- 	title: '系统说明',
+ 	title: '系统说明系统说明系统说明',
  	ico: 'a010',
  	childs: [{
  		title: '产品介绍',
  		ico: 'a025',
+ 		img: 'images/head1.jpg',
  		url: 'other/treemenu-2.html',
  		childs: [{
  			title: '学练考一体'
