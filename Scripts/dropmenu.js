@@ -44,7 +44,7 @@
 	};
 	var fn = dropmenu.prototype;
 	fn._initialization = function() {
-		if (!this._id) this._id = 'tabs_' + new Date().getTime();
+		if (!this._id) this._id = 'dropmenu_' + new Date().getTime();
 	};
 	//添加数据源
 	fn.add = function(item) {
@@ -61,8 +61,8 @@
 			if (obj.dom) {
 				var root = obj.domtit.find('drop-node');
 				if (root.length > 0) {
-					var padding = parseInt(root.get(0).css('padding-right'));
-					obj.domtit.find('drop-node').width(val - padding);
+					//var padding = parseInt(root.get(0).css('padding-right'));					
+					obj.domtit.find('drop-node').width(val - 10);
 					if (obj.datas) obj.dom.width(obj.datas.length * val);
 				}
 				obj.dombody.find('drop-panel.level1').width(val > 200 ? val : 200);
@@ -77,8 +77,11 @@
 				obj._setinterval = window.setInterval(function() {
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
+						//计算数据源的层深等信息
+						for (var i = 0; i < obj.datas.length; i++)
+							obj.datas[i] = obj._calcLevel(obj.datas[i], 1);
 						obj._restructure();
-						obj._datas = str;
+						obj._datas = JSON.stringify(obj.datas);
 						obj.trigger('data', {
 							data: obj.datas
 						});
@@ -97,9 +100,6 @@
 		} else {
 			area.html(''); //清空原html节点
 			$dom('drop-body[ctrid=\'' + this.id + '\']').remove();
-			//计算数据源的层深等信息
-			for (var i = 0; i < this.datas.length; i++)
-				this.datas[i] = this._calcLevel(this.datas[i], 1);
 			//生成Html结构和事件
 			for (var t in this._builder) this._builder[t](this);
 			for (var t in this._baseEvents) this._baseEvents[t](this);
@@ -196,7 +196,7 @@
 					panel.show();
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
-					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() - 1 : offset.left + 1;
+					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;
 					var top = offset.top + obj.height + panel.width() > maxhg ? offset.top - panel.height() : offset.top + obj.height;
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);

@@ -18,23 +18,23 @@
 			width: '100%',
 			height: '100%',
 			id: '',
+			bind: true, //是否实时数据绑定
 			fold: false //是否折叠
 		};
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
-		//fold,折叠或展开;add，增加菜单项; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['fold', 'add', 'change', 'resize', 'click']));
+		//fold,折叠或展开;data，数据源变化时; change，切换根菜单,click点击菜单项
+		eval($ctrl.event_generate(['fold', 'data', 'change', 'resize', 'click']));
 
-		this.datas = new Array(); //子级		
+		this.datas = new Array(); //子级	
+		this._datas = ''; //数据源的序列化字符串	
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
 		//初始化并生成控件
 		this._initialization();
-		this._generate();
-		this.width = this._width;
-		this.height = this._height;
+		this.bind = this._bind;
 		//
 		$ctrls.add({
 			id: this.id,
@@ -45,7 +45,16 @@
 	};
 	var fn = treemenu.prototype;
 	fn._initialization = function() {
-		if (!this._id) this._id = 'tabs_' + new Date().getTime();
+		if (!this._id) this._id = 'treemenu_' + new Date().getTime();
+	};
+	//添加数据源
+	fn.add = function(item) {
+		if (item instanceof Array) {
+			for (var i = 0; i < item.length; i++)
+				this.add(item[i]);
+		} else {
+			this.datas.push(item);
+		}
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
@@ -55,7 +64,8 @@
 				obj.dombody.width(val - 40);
 				obj.trigger('resize', {
 					width: val,
-					height: obj._height
+					height: obj._height,
+					action: 'width'
 				});
 			}
 		},
@@ -66,7 +76,8 @@
 				obj.dombody.height(obj.dom.height());
 				obj.trigger('resize', {
 					width: obj._width,
-					height: val
+					height: val,
+					action: 'height'
 				});
 			}
 		},
@@ -90,13 +101,43 @@
 			obj.trigger('fold', {
 				action: val ? 'fold' : 'open'
 			});
+		},
+		//是否启动实时数据绑定
+		'bind': function(obj, val, old) {
+			if (val) {
+				obj._setinterval = window.setInterval(function() {
+					var str = JSON.stringify(obj.datas);
+					if (str != obj._datas) {
+						//计算数据源的层深等信息
+						//for (var i = 0; i < obj.datas.length; i++)
+						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
+						obj._restructure();
+						obj._datas = JSON.stringify(obj.datas);
+						obj.trigger('data', {
+							data: obj.datas
+						});
+					}
+				}, 10);
+			} else {
+				window.clearInterval(obj._setinterval);
+			}
 		}
 	};
-	//生成实始的构造
-	fn._generate = function() {
-		for (var t in this._builder) this._builder[t](this);
-		for (var t in this._baseEvents) this._baseEvents[t](this);
+	//重构
+	fn._restructure = function() {
+		var area = $dom(this.target);
+		if (area.length < 1) {
+			console.log('treemenu所在区域不存在');
+		} else {
+			area.html(''); //清空原html节点
+			//生成Html结构和事件
+			for (var t in this._builder) this._builder[t](this);
+			for (var t in this._baseEvents) this._baseEvents[t](this);
+			this.width = this._width;
+			this.height = this._height;
+		}
 	};
+
 	//生成结构
 	fn._builder = {
 		shell: function(obj) {
@@ -112,11 +153,46 @@
 		title: function(obj) {
 			obj.domtit = obj.dom.add('tree_tags');
 			obj.domtit.add('tree-foldbtn');
-			obj.domtit.add('tree-tagspace');
+			//左侧选项卡
+			for (var i = 0; i < obj.datas.length; i++) {
+				var item = obj.datas[i];
+				var tabtag = obj.domtit.add('tree_tag');
+				tabtag.attr('item', item.title).attr('treeid', item.id);
+				tabtag.add('ico').html('&#x' + item.ico);
+				tabtag.add('itemtxt').html(item.tit);
+			}
+			//左侧空白区的高度
+			var tags = obj.domtit.find('tree_tag');
+			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * parseInt(tags.height())) + 'px)');
 		},
 		//右侧内容区
 		body: function(obj) {
 			obj.dombody = obj.dom.add('tree_body');
+			for (var i = 0; i < obj.datas.length; i++) {
+				var item = obj.datas[i];
+				//右侧树形菜单区
+				var area = obj.dombody.add('tree_area');
+				area.attr('treeid', item.id).hide();
+				//右侧菜单的大标题
+				area.add('tree_tit').html(item.title);
+
+				if (item.childs) {
+					for (var j = 0; j < item.childs.length; j++) {
+						_addchild(area, item.childs[j], obj);
+					}
+				}
+			}
+			//添加树形的子级节点
+			function _addchild(area, item, obj) {
+				var box = area.add('tree_box');
+				box.attr('treeid', item.id);
+				obj._createNode(item, box);
+				if (item.childs && item.childs.length > 0) {
+					for (var i = 0; i < item.childs.length; i++) {
+						_addchild(box, item.childs[i], obj);
+					}
+				}
+			}
 		}
 	};
 	//基础事件，初始化时即执行
@@ -141,59 +217,36 @@
 			obj.leaveInterval = window.setInterval(function() {
 				if (obj.fold && --obj.leavetime <= 0) obj.dombody.width(0);
 			}, 1000);
-		}
-	};
-	//添加菜单项
-	fn.add = function(item) {
-		if (item == null) return;
-		if (item instanceof Array) {
-			for (var i = 0; i < item.length; i++)
-				this.add(item[i]);
-			return;
-		}
-		var size = this.datas.length;
-		item.id = 'tree_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
-		if (!item.index) item.index = size + 1;
-		if (!item.ico || item.ico == '') item.ico = 'a009';
-		if (!item.tit || item.tit == '') item.tit = item.title;
-		this.datas.push(item);
-		//左侧选项卡
-		var tabtag = this.domtit.add('tree_tag');
-		tabtag.attr('item', item.title).attr('treeid', item.id);
-		tabtag.add('ico').html('&#x' + item.ico);
-		tabtag.add('itemtxt').html(item.tit);
-		//左侧空白区的高度
-		var tags = this.domtit.find('tree_tag');
-		this.domtit.find('tree-tagspace').height('calc(100% - ' + (tags.length * parseInt(tags.height())) + 'px)');
-		//添加左侧标签事件
-		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tabtag);
-		//设置第一个为打开
-		this.switch(this, this.domtit.childs('tree_tag').first());
+		},
+		//左侧标签点击事件
+		rootclick: function(obj) {
+			obj.domtit.find('tree_tag').click(function(e) {
 
-		//右侧树形菜单区
-		var area = this.dombody.add('tree_area');
-		area.attr('treeid', item.id).hide();
-		//右侧菜单的大标题
-		area.add('tree_tit').html(item.title);
-		item = this._calcLevel(item, 0);
-		if (item.childs) {
-			for (var i = 0; i < item.childs.length; i++) {
-				this._addchild(area, item.childs[i]);
-			}
-		}
-		this.trigger('add', {
-			data: item
-		});
-	};
-	//添加树形的子级节点
-	fn._addchild = function(area, item) {
-		var box = area.add('tree_box');
-		box.attr('treeid', item.id);
-		this._createNode(item, box);
-		if (item.childs && item.childs.length > 0) {
-			for (var i = 0; i < item.childs.length; i++) {
-				this._addchild(box, item.childs[i]);
-			}
+				var node = event.target ? event.target : event.srcElement;
+				//获取标签id
+				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
+				var tag = $dom(node);
+				//获取组件id
+				while (!node.classList.contains('treemenu')) node = node.parentNode;
+				var ctrid = $dom(node).attr('ctrid');
+				//获取组件对象
+				var crt = $ctrls.get(ctrid);
+				//切换选项卡
+				crt.obj.switch(obj, tag);
+			});
+			obj.domtit.find('tree_tag').bind('mouseover', function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				//获取标签id
+				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
+				var tag = $dom(node);
+				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
+				var crt = $ctrls.get($dom(node).attr('ctrid'));
+				if (!crt.obj.fold) return;
+				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
+				crt.obj.leavetime = 3;
+				crt.obj.switch(obj, tag);
+			});
+			obj.switch(obj, obj.domtit.find('tree_tag').first())
 		}
 	};
 	//创建树形节点
@@ -245,22 +298,27 @@
 		}
 		return node;
 	};
-	//计算层深
-	fn._calcLevel = function(item, level) {
-		//补全一些信息
-		if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
-		if (!item.pid || item.pid < 0) item.pid = 0;
-		if (!item.level || item.level <= 0) item.level = level;
-		if (!item.path) item.path = item.title;
-		//计算层深
-		if (item.childs && item.childs.length > 0) {
-			for (var i = 0; i < item.childs.length; i++) {
-				item.childs[i].pid = item.id;
-				item.childs[i].path = item.path + ',' + item.childs[i].title;
-				item.childs[i] = this._calcLevel(item.childs[i], level + 1);
+	//计算层深，并补全一些信息
+	fn._calcLevel = function(items, level) {
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+			//补全一些信息
+			if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
+			if (!item.pid || item.pid < 0) item.pid = 0;
+			if (!item.level || item.level <= 0) item.level = level;
+			if (!item.path) item.path = item.title;
+			if (!item.ico || item.ico == '') item.ico = 'a009';
+			if (!item.tit || item.tit == '') item.tit = item.title;
+			if (!item.index) item.index = i;
+			if (item.childs && item.childs.length > 0) {
+				for (var j = 0; j < item.childs.length; j++) {
+					item.childs[j].pid = item.id;
+					item.childs[j].path = item.path + ',' + item.childs[j].title;
+					item.childs = this._calcLevel(item.childs, level + 1);
+				}
 			}
 		}
-		return item;
+		return items;
 	};
 	//获取数据源的节点
 	fn.getData = function(treeid) {
@@ -276,37 +334,6 @@
 				if (d != null) return d;
 			}
 			return d;
-		}
-	};
-	//左侧标签tag的基础事件
-	fn._tagBaseEvents = {
-		//左侧标签点击事件
-		tagclick: function(obj, tab) {
-			tab.click(function(e) {
-				var node = event.target ? event.target : event.srcElement;
-				//获取标签id
-				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				var tag = $dom(node);
-				//获取组件id
-				while (!node.classList.contains('treemenu')) node = node.parentNode;
-				var ctrid = $dom(node).attr('ctrid');
-				//获取组件对象
-				var crt = $ctrls.get(ctrid);
-				//切换选项卡
-				crt.obj.switch(obj, tag);
-			});
-			tab.bind('mouseover', function(e) {
-				var node = event.target ? event.target : event.srcElement;
-				//获取标签id
-				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
-				var tag = $dom(node);
-				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
-				var crt = $ctrls.get($dom(node).attr('ctrid'));
-				if (!crt.obj.fold) return;
-				crt.obj.dombody.show().css('z-index', 100).width(crt.obj.width - 40);
-				crt.obj.leavetime = 3;
-				crt.obj.switch(obj, tag);
-			});
 		}
 	};
 	//切换选项卡

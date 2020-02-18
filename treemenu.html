@@ -140,6 +140,7 @@ var data = {
 
 };
 tree.add(data);
+tree.add(data);
 
 tree.add({
     title: '演示数据',
@@ -179,6 +180,9 @@ tree.onfold(function(s, e) {
     } else {
         $dom('#tabsbox').width('calc(100% - ' + (s.width + 10) + 'px )');
     }
+});
+tree.ondata(function(s,e){
+    //console.log('数据源变更：'+JSON.stringify(e.data));
 });
 //树形菜单，根节点切换事件
 tree.onchange(function(s, e) {

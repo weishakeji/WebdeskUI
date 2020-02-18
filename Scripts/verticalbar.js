@@ -42,7 +42,7 @@
 	};
 	var fn = verticalbar.prototype;
 	fn._initialization = function() {
-		if (!this._id) this._id = 'tabs_' + new Date().getTime();
+		if (!this._id) this._id = 'vbar_' + new Date().getTime();
 	};
 	//添加数据源
 	fn.add = function(item) {

@@ -331,7 +331,9 @@ drop.add(t);
 drop.onclick(function(s, e) {
     console.log('点击：' + e.data.title);
 });
-
+drop.ondata(function(s,e){
+    console.log('数据源变更：'+e.data);
+});
 </script>
 
 </html>

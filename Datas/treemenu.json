@@ -1,0 +1,66 @@
+[{
+    title: '帮助一下',
+    tit: '说明',
+    ico: 'e72f',
+    url: '',
+    type: '',
+    marker: '',
+    intro: '',
+    childs: [{
+        title: '第二个界面',
+        url: 'other/treemenu-1.html',
+        intro: '基本功能简介'
+    }, {
+        title: '成员说明',
+        ico: 'a010',
+        childs: [{
+            title: '属性',
+            ico: 'a025',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }]
+    },{
+        title:'数据源',
+        url: 'other/treemenu-3.html'
+    }]
+
+},{
+    title: '控件说明',
+    tit: '说明',
+    ico: 'e72f',
+    url: '',
+    type: '',
+    marker: '',
+    intro: '',
+    childs: [{
+        title: '功能简介',
+        url: 'other/treemenu-1.html',
+        intro: '基本功能简介'
+    }, {
+        title: '成员说明',
+        ico: 'a010',
+        childs: [{
+            title: '属性',
+            ico: 'a025',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }]
+    },{
+        title:'数据源',
+        url: 'other/treemenu-3.html'
+    }]
+}]
