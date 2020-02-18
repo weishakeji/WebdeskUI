@@ -31,6 +31,14 @@
 		this.dom = null; //控件的html对象
 		this.domtit = null; //控件标签栏部分的html对象
 		this.dombody = null; //控件内容区
+		//默认数据
+		this.def_data = {
+			title: '加载中...',
+			tit: 'load',
+			type: 'loading',
+			ico: 'e621'
+		};
+		this.datas.push(this.def_data);
 		//初始化并生成控件
 		this._initialization();
 		this.bind = this._bind;
@@ -78,8 +86,11 @@
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//计算数据源的层深等信息
-						for (var i = 0; i < obj.datas.length; i++)
-							obj.datas[i] = obj._calcLevel(obj.datas[i], 1);
+						for (var i = 0; i < obj.datas.length; i++) {
+							if (obj.datas[i].type && obj.datas[i].type == 'loading')
+								obj.datas.splice(i, 1);
+						}
+						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
 						obj._datas = JSON.stringify(obj.datas);
 						obj.trigger('data', {
@@ -130,6 +141,7 @@
 			}
 			for (var i = 0; i < obj.datas.length; i++) {
 				var node = obj._createNode(obj.datas[i]);
+				if (obj.datas[i].type == 'loading') node.addClass('loading');
 				if (node != null) obj.domtit.append(node);
 			}
 		},
@@ -139,6 +151,7 @@
 			obj.dombody.addClass('dropmenu').attr('ctrid', obj.id);
 			for (var i = 0; i < obj.datas.length; i++) {
 				if (obj.datas[i] == null) continue;
+				if (obj.datas[i].type == 'loading') continue;
 				if (obj.datas[i].childs && obj.datas[i].childs.length > 0)
 					_childs(obj.datas[i], obj);
 			}
@@ -181,7 +194,8 @@
 				var nid = node.attr('nid');
 				//隐藏其它面板
 				var brother = obj.getBrother(nid);
-				for (var i = 0; i < brother.length; i++) {
+				if (brother == null) return;
+				for (var i = 0; brother != null && i < brother.length; i++) {
 					obj.domtit.find('drop-node[nid=\'' + brother[i].id + '\']').removeClass('hover');
 					$dom('drop-panel[pid=\'' + brother[i].id + '\']').hide();
 					$dom('drop-panel[pid=\'' + brother[i].id + '\'] drop-node').removeClass('hover');
@@ -287,22 +301,26 @@
 		return node;
 	};
 	//计算层深
-	fn._calcLevel = function(item, level) {
-		if (item == null) return;
-		//补全一些信息
-		if (!item.id || item.id <= 0) item.id = Math.floor(Math.random() * 100000);
-		if (!item.pid || item.pid < 0) item.pid = 0;
-		if (!item.level || item.level <= 0) item.level = level;
-		if (!item.path) item.path = item.title;
-		//计算层深
-		if (item.childs && item.childs.length > 0) {
-			for (var i = 0; i < item.childs.length; i++) {
-				item.childs[i].pid = item.id;
-				item.childs[i].path = item.path + ',' + item.childs[i].title;
-				item.childs[i] = this._calcLevel(item.childs[i], level + 1);
+	fn._calcLevel = function(items, level) {
+		for (var i = 0; i < items.length; i++) {
+			var item = items[i];
+			//补全一些信息
+			if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
+			if (!item.pid || item.pid < 0) item.pid = 0;
+			if (!item.level || item.level <= 0) item.level = level;
+			if (!item.path) item.path = item.title;
+			if (!item.ico || item.ico == '') item.ico = 'a009';
+			if (!item.tit || item.tit == '') item.tit = item.title;
+			if (!item.index) item.index = i;
+			if (item.childs && item.childs.length > 0) {
+				for (var j = 0; j < item.childs.length; j++) {
+					item.childs[j].pid = item.id;
+					item.childs[j].path = item.path + ',' + item.childs[j].title;
+					item.childs = this._calcLevel(item.childs, level + 1);
+				}
 			}
 		}
-		return item;
+		return items;
 	};
 	//获取数据源的节点
 	fn.getData = function(treeid) {
