@@ -1,28 +1,29 @@
  [{
- 	title: '功能简介',
+ 	title: '网站首页',
  	url: 'other/treemenu-1.html',
  	intro: '基本功能简介',
- 	font: { 		
+ 	ico: 'a020',
+ 	font: {
  		bold: true
  	}
  }, {
- 	title: '成员说明',
+ 	title: '系统说明',
  	ico: 'a010',
  	childs: [{
- 		title: '属性',
+ 		title: '角色',
  		ico: 'a025',
  		url: 'other/treemenu-2.html',
  		childs: [{
- 			title: '测试子菜单'
+ 			title: '机构管理员'
  		}, {
- 			title: '测试子菜单二'
+ 			title: '超级管理员'
  		}]
  	}, {
- 		title: '方法',
+ 		title: '日志',
  		ico: 'a023',
  		url: 'other/treemenu-2.html'
  	}, {
- 		title: '事件',
+ 		title: '接口配置',
  		ico: 'a024',
  		url: 'other/treemenu-2.html',
  		childs: [{
@@ -32,6 +33,15 @@
  		}]
  	}]
  }, {
- 	title: '数据源',
- 	url: 'other/treemenu-3.html'
+ 	title: '帮助',
+ 	url: 'other/treemenu-3.html',
+ 	childs: [{
+ 		title: '查看帮助'
+ 	}, {
+ 		title: '版权'
+ 	}, {
+ 		title: '开源协议'
+ 	}, {
+ 		title: '关于'
+ 	}]
  }]

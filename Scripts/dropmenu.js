@@ -309,7 +309,7 @@
 			if (!item.pid || item.pid < 0) item.pid = 0;
 			if (!item.level || item.level <= 0) item.level = level;
 			if (!item.path) item.path = item.title;
-			if (!item.ico || item.ico == '') item.ico = 'a009';
+			//if (!item.ico || item.ico == '') item.ico = 'a009';
 			if (!item.tit || item.tit == '') item.tit = item.title;
 			if (!item.index) item.index = i;
 			if (item.childs && item.childs.length > 0) {
@@ -325,7 +325,7 @@
 	//获取数据源的节点
 	fn.getData = function(treeid) {
 		if (this.datas.length < 1) return null;
-		return getdata(treeid, this.datas);
+		return $dom.clone(getdata(treeid, this.datas));
 		//
 		function getdata(treeid, datas) {
 			var d = null;

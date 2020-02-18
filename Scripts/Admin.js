@@ -71,7 +71,7 @@ $dom.ready(function() {
 	});
 	//树形菜单节点点击事件
 	tree.onclick(function(s, e) {
-		var url = e.data.url ? e.data.url : '';
+		//var url = e.data.url ? e.data.url : '';
 		tabs.add(e.data);
 	});
 

@@ -339,7 +339,7 @@
 	//获取数据源的节点
 	fn.getData = function(treeid) {
 		if (this.datas.length < 1) return null;
-		return getdata(treeid, this.datas);
+		return $dom.clone(getdata(treeid, this.datas));
 		//
 		function getdata(treeid, datas) {
 			var d = null;
