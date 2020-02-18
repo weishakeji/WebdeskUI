@@ -34,7 +34,8 @@ $dom.ready(function() {
 	var usermenu = window.$dropmenu.create({
 		target: '#user-area',
 		width: 100,
-		plwidth: 120
+		plwidth: 120,
+		level:2000
 	});
 	$api.get('userinfo.json').then(function(req) {
 		usermenu.add(req.data);

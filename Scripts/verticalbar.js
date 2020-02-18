@@ -15,6 +15,7 @@
 			target: '', //所在Html区域			
 			width: 100,
 			height: 30,
+			level:1000,		//初始深度
 			id: '',
 			bind: true //是否实时数据绑定
 		};
@@ -61,6 +62,16 @@
 		'height': function(obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
 		},
+		//设定深度
+		'level': function(obj, val, old) {
+			if (obj.dom) obj.dom.level(val);
+			obj.dombody.find('vbar-panel').each(function() {
+				var id = $dom(this).attr('pid');
+				var data = obj.getData(id);
+				if (data == null) return;
+				$dom(this).level(data.level + val);
+			});
+		},
 		//是否启动实时数据绑定
 		'bind': function(obj, val, old) {
 			if (val) {
@@ -95,6 +106,7 @@
 			for (var t in this._baseEvents) this._baseEvents[t](this);
 			this.width = this._width;
 			this.height = this._height;
+			this.level = this._level;
 		}
 	};
 	//生成结构
