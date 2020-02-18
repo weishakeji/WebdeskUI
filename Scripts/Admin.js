@@ -18,18 +18,31 @@ window.onload = function() {
 
 }
 $dom.ready(function() {
-	//下拉菜单
+	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
 		width: 100
+	}).ondata(function(s, e) {
+		//设置页面顶部的文本（系统名称）
+		var left = s.dom.width() + 20;
+		$dom('#headbar').left(left).width('calc(100% - ' + left + 'px - ' + ($dom("#user-area").width() + 20) + 'px)');
 	});
 	$api.get('dropmenu.json').then(function(req) {
 		drop.add(req.data);
 	});
+	//右上角菜单,用户信息
+	var usermenu = window.$dropmenu.create({
+		target: '#user-area',
+		width: 100,
+		plwidth: 120
+	});
+	$api.get('userinfo.json').then(function(req) {
+		usermenu.add(req.data);
+	});
 	//树形菜单
 	var tree = $treemenu.create({
 		target: '#treemenu-area',
-		width: 300
+		width: 200
 	});
 	$api.get('treemenu.json').then(function(req) {
 		tree.add(req.data);
@@ -56,7 +69,7 @@ $dom.ready(function() {
 	});
 
 	var size = function(s, e) {
-		console.log('treemenu的宽:' + e.width + '，高：' + e.height);
+		//console.log('treemenu的宽:' + e.width + '，高：' + e.height);
 		$dom('#tabs-area').width('calc(100% - ' + (e.width + vbar.width + 10) + 'px )');
 	};
 	tree.onresize(size);

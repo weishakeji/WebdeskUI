@@ -18,6 +18,31 @@ body{
     top: 5px;
     left: 5px;
 }
+#headbar{
+	position: absolute;
+    top: 5px;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    text-align: left;
+    text-shadow: 1px 1px 2px #666;
+    font-size: 18px;
+    cursor: default;
+    user-select: none;
+}
+#user-area{
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 30px;
+    width: 100px;
+    background-color: #444;
+}
+#user-area drop_roots drop-node{
+	background-color: transparent !important;
+	color: #eee !important;
+	text-align: right !important;
+}
 
 #body {
     width: calc(100% - 10px);
@@ -51,15 +76,15 @@ body{
 	font-size: 18px !important;
 }
 /*样式*/
-.dropmenu{
+#dropmenu-area.dropmenu{
 	background-color: rgba(150,150,150,.3) !important;
 	
 }
-.dropmenu drop_roots{
+#dropmenu-area drop_roots{
 	color: #eee !important;
 }
-.dropmenu drop_roots drop-node:hover,
-.dropmenu drop_roots drop-node.hover {
+#dropmenu-area drop_roots drop-node:hover,
+#dropmenu-area drop_roots drop-node.hover {
     background-color: rgba(150,150,150,.5) !important;
     text-shadow: 1px 1px 2px #666 !important;
 }

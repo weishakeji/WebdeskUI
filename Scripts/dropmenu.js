@@ -17,6 +17,7 @@
 			target: '', //所在Html区域			
 			width: 100,
 			height: 30,
+			plwidth: 160, //子菜单面板的宽度
 			id: '',
 			bind: true //是否实时数据绑定
 		};
@@ -79,6 +80,10 @@
 		'height': function(obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
 		},
+		//子菜面板宽度
+		'plwidth': function(obj, val, old) {
+			if (obj.dombody) obj.dombody.find('drop-panel').width(val);
+		},
 		//是否启动实时数据绑定
 		'bind': function(obj, val, old) {
 			if (val) {
@@ -116,6 +121,7 @@
 			for (var t in this._baseEvents) this._baseEvents[t](this);
 			this.width = this._width;
 			this.height = this._height;
+			this.plwidth=this._plwidth;
 		}
 	};
 	//生成结构
