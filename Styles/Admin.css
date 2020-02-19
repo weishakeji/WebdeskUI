@@ -49,7 +49,9 @@ body{
 	color: #eee !important;
 	text-align: center !important;
 }
-
+#user-area span{
+	color: #eee !important;
+}
 #body {
     width: calc(100% - 10px);
     height: calc(100% - 10px - 35px);

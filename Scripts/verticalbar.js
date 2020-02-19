@@ -15,7 +15,7 @@
 			target: '', //所在Html区域			
 			width: 100,
 			height: 30,
-			level:1000,		//初始深度
+			level: 1000, //初始深度
 			id: '',
 			bind: true //是否实时数据绑定
 		};
@@ -149,10 +149,18 @@
 				var panel = $dom(document.createElement('vbar-panel'));
 				panel.attr('pid', obj.datas[i].id).level(obj.datas[i].level);
 				if (obj.datas[i].childs && obj.datas[i].childs.length > 0) {
-					panel.height(obj.datas[i].childs.length * 30);
+					//计算高度
+					var height = 0;
 					for (var j = 0; j < obj.datas[i].childs.length; j++) {
+						if (obj.datas[i].childs[j].type && obj.datas[i].childs[j].type == 'hr') {
+							panel.append('hr');
+							height += 1;
+							continue;
+						}
+						height += 30;
 						panel.append(_childnode(obj.datas[i].childs[j], obj)).addClass('child');
 					}
+					panel.height(height);
 				} else {
 					//如果没有子级菜单，则显示提示
 					panel.html(obj.datas[i].title);
@@ -165,7 +173,16 @@
 				var node = $dom(document.createElement('vbar-node'));
 				node.attr('nid', item.id);
 				node.add('ico').html(item.ico ? '&#x' + item.ico : '');
-				var span = node.add('span');
+				//节点类型
+				node.attr('type', item.type ? item.type : 'node');
+				var span = null;
+				if (item.type == 'link') {
+					var link = node.add('a');
+					link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
+					span = link.add('span');
+				} else {
+					span = node.add('span');
+				}
 				//字体样式
 				if (item.font) {
 					if (item.font.color) node.css('color', item.font.color);
@@ -222,7 +239,7 @@
 					var top = offset.top + panel.width() > maxhg ? offset.top - panel.height() : offset.top;
 					//当前面板的位置
 					panel.left(left).top(top);
-					if (left - offset.left > 0) panel.attr('direction','left');
+					if (left - offset.left > 0) panel.attr('direction', 'left');
 					//.attr('x', left - offset.left).attr('y', top - offset.top);
 				}
 				obj.leavetime = 3;
@@ -238,7 +255,7 @@
 		},
 		//节点鼠标点击事件
 		node_click: function(obj) {
-			obj.dom.find('vbar-item').merge(obj.dombody.find('vbar-node'))
+			obj.dom.find('vbar-item').merge(obj.dombody.find('vbar-node:not([type=link])'))
 				.click(function(e) {
 					var n = event.target ? event.target : event.srcElement;
 					while ($dom(n).attr('nid') == null) n = n.parentNode;

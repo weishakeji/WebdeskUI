@@ -4,7 +4,12 @@
     background-color: rgba(255, 255, 255, .6);
     border-radius: 2px;
 }
-
+.verticalbar a{
+    text-decoration:none;
+}
+.verticalbar a,.verticalbar span{
+    color: #444;
+}
 .verticalbar vbar-item {
     font-family: "webdesk_icon" !important;
     display: block;
@@ -87,7 +92,13 @@ vbar-panel vbar-node {
     line-height: 30px;
     position: relative;
 }
-
+vbar-panel>hr {
+    height: 1px;
+    border: 0px;
+    margin: 0px;
+    margin-left: 30px;
+    background: #ddd;
+}
 vbar-panel vbar-node ico {
     font-family: "webdesk_icon" !important;
     display: inline-block;
@@ -100,7 +111,17 @@ vbar-panel vbar-node ico {
     text-align: center;
     margin-right: 6px;
 }
-
+vbar-panel vbar-node a {
+    width: calc(100% - 30px);
+    display: block;
+    position: absolute;
+    z-index: 2;    
+    top: 0px;
+    left: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 vbar-panel vbar-node:hover {
     box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
     text-shadow: 1px 1px 2px #666;
@@ -114,6 +135,7 @@ vbar-panel vbar-node:hover:after {
     position: absolute;
     left: 2px;
     top: 2px;
+    z-index: 1;
     border-radius: 3px;
     background-color: rgba(200, 200, 200, 0.3);
     --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
