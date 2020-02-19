@@ -15,6 +15,7 @@
         color: #333;
         margin: 0px;
         padding: 0px;
+        background-image: linear-gradient(#fff, #1B9AF7);
     }
 
     body>*:not(:first-child) {
@@ -45,10 +46,12 @@
     }
 
     header {
-        background-color: #666;
+        background-color: #1B9AF7;
         height: 40px;
         line-height: 40px;
-        //width: 100%;
+        box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+        text-shadow: 1px 1px 2px #666;
+        color: #fff;
     }
 
     header>div {
@@ -60,7 +63,7 @@
     header i {
         font-family: "webdesk_icon" !important;
         font-style: normal;
-        color: #eee;
+        color: #fff;
         font-size: 20px;
         margin-right: 10px;
     }
@@ -75,7 +78,7 @@
     header a:hover,
     header a:hover * {
         text-decoration: none;
-        color: rgba(200, 0, 0, .9);
+        --color: rgba(200, 0, 0, .9);
         transform: scale(1.1);
     }
 
@@ -115,12 +118,14 @@
         padding: 0px;
         min-height: 300px;
         position: relative;
-        box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.3), -1px -1px 2px rgba(122, 122, 122, 0.3);
+        transform: all .5s;
+        box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
         cursor: default;
     }
 
     dl:hover {
         background-color: #eee;
+        background-image: linear-gradient(#b1dcfb, #1B9AF7);
         box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
     }
 
@@ -141,6 +146,9 @@
 
     dt {
         border-bottom: solid 1px #ccc;
+        box-shadow: 0 3px 0 #81c5f7;
+         box-shadow:rgb(255, 255, 255) 0px 0px 18px inset;
+        background-image: linear-gradient(to bottom right,rgba(255,255,255,.6), rgba(255,255,255,.2));
     }
 
     dt i {
@@ -166,7 +174,7 @@
         margin-left: -25px;
     }
 
-    dl a {
+    dl a.btn {
         display: block;
         position: absolute;
         bottom: 0px;
@@ -174,9 +182,11 @@
         width: 100%;
         height: 35px;
         line-height: 35px;
-        background-color: #ccc;
+        background-color: rgba(200,200,200,0.3);
         text-decoration: none;
         color: #333;
+        box-shadow:rgb(255, 255, 255) 0px 0px 5px inset;
+        --background-image: linear-gradient(to bottom right,rgba(255,255,255,.6), rgba(255,255,255,.2));
     }
 
     dl a:hover {
@@ -186,9 +196,10 @@
     .footer {
         width: 100% !important;
         margin-bottom: 50px;
-        background-color: #444;
+        background-color: #0880d7;
         padding: 20px 0px 20px 0px;
         color: #fff !important;
+        box-shadow: 0px -3px 0 #1B9AF7, 0px -3px 3px rgba(0, 0, 0, 0.3);
     }
 
     .footer .company {
@@ -202,6 +213,47 @@
 
     svg {
         margin-right: 5px;
+    }
+
+    #adminbtn {
+        display: block;
+        width: 200px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        border: solid 1px #999;
+        color: #FFF;
+        border-radius: 4px;
+        background-color: #1B9AF7;
+        border-color: #1B9AF7;
+        font-style: normal;
+        text-align: left;
+        text-decoration: none;
+        box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+        text-shadow: 1px 1px 2px #666;
+        transform: background-color .2s;
+    }
+
+    #adminbtn:before {
+        content: '\a010';
+        font-family: "webdesk_icon" !important;
+        font-style: normal;
+        color: #eee;
+        font-size: 30px;
+        margin-right: 10px;
+        width: 40px;
+        height: 40px;
+        display: block;
+        float: left;
+        margin-left: 10px;
+        border-right: solid 1px #ccc;
+        box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    #adminbtn:hover {
+        background-color: #3ea9f7;
+
+        box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
     }
     </style>
 </head>
@@ -219,7 +271,7 @@
                 </svg>Github开源库</a>
         </div>
     </header>
-     <div class="intro">
+    <div class="intro">
         <p style="color: red;">主要代码写于2020年春节新冠病毒流行期间，余毒尚存，谨慎使用！</p>
     </div>
     <div class="intro">
@@ -227,6 +279,9 @@
         <p>原本没有打算自己写UI，毕竟开源且免费的UI库太多了，不过没有找到满足我需求的。有一些比较牛逼的，但不免费。考虑到产品开发和应用，不希望将来在版权上受制于人，还是自己写吧。由于精力有限，我只考虑写一些主要的控件。</p>
         <p>其实我的需求并不复杂——我只是不希望我的B/S架构的管理系统看起来像个网页！</p>
     </div>
+    <a id="adminbtn" href="admin.html">
+        后台管理模板
+    </a>
     <div class="items">
         <dl>
             <dt><i>&#xe77c</i> pagebox<br />弹窗</dt>
@@ -256,14 +311,13 @@
             <dd>无限级菜单下拉</dd>
             <dd>可折叠、可自定义节点样式</dd>
             <dd>事件自定义</dd>
-             <dd>数据源双向绑定</dd>
+            <dd>数据源双向绑定</dd>
             <a class="btn" href="dropmenu.html" target="_blank">查看演示</a>
         </dl>
-         <div style="margin-top: 40px;text-align: left;line-height: 40px;">
-     其它控件：<a href='verticalbar.html' target="_blank">竖形工具条</a>
+        <div style="margin-top: 40px;text-align: left;line-height: 40px;">
+            其它控件：<a href='verticalbar.html' target="_blank">竖形工具条</a>
+        </div>
     </div>
-    </div>
-   
     <div class="footer">
         <p class="company"> <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">郑州微厦计算机科技有限公司 </a></p>
         <div>
