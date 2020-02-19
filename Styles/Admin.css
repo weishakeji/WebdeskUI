@@ -86,7 +86,7 @@ body{
 	background-color: rgba(150,150,150,.3) !important;
 	
 }
-#dropmenu-area drop_roots{
+#dropmenu-area drop_roots *{
 	color: #ccc !important;
 }
 #dropmenu-area drop_roots drop-node:hover,

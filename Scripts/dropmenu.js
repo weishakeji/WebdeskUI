@@ -177,7 +177,7 @@
 
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
-				panel.attr('pid', item.id).level(item.level+item.index+1);
+				panel.attr('pid', item.id).level(item.level + item.index + 1);
 				//计算高度
 				var height = 0;
 				for (var i = 0; i < item.childs.length; i++) {
@@ -288,7 +288,7 @@
 		},
 		//节点鼠标点击事件
 		node_click: function(obj) {
-			obj.dombody.find('drop-node').click(function(e) {
+			obj.dombody.find('drop-node:not([type=link])').click(function(e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				//节点id
@@ -319,7 +319,17 @@
 		} else {
 			node.add('ico').html(item.ico ? '&#x' + item.ico : '');
 		}
-		var span = node.add('span');
+		//节点类型
+		node.attr('type', item.type ? item.type : 'node');
+		var span = null;
+		if (item.type == 'link') {
+			var link = node.add('a');
+			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
+			span = link.add('span');
+		} else {
+			span = node.add('span');
+		}
+
 		//字体样式
 		if (item.font) {
 			if (item.font.color) node.css('color', item.font.color);

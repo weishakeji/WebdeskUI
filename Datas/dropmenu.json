@@ -1,7 +1,8 @@
  [{
  	title: '网站首页',
- 	url: 'other/treemenu-1.html',
+ 	url: '/',
  	intro: '基本功能简介',
+ 	type:'link',
  	ico: 'a020',
  	font: {
  		bold: true
@@ -12,10 +13,13 @@
  	childs: [{
  		title: '产品介绍',
  		ico: 'a025',
+ 		type:'link',
  		img: 'images/head1.jpg',
  		url: 'other/treemenu-2.html',
  		childs: [{
- 			title: '学练考一体'
+ 			title: '学练考一体',
+ 			url:'http://www.baidu.com',
+ 			type:'link',
  		}, {
  			title: '点播.直播.支付'
  		}]

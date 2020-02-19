@@ -25,7 +25,8 @@
             left: null,
             bottom: null,
             right: null,
-            level: null,
+            level: null,        //窗体的层深
+            initLvl:3000,   //初始层深
             title: '默认标题',
             ico: '&#xe77c', //图标
             url: '',
@@ -202,7 +203,7 @@
         });
         //设置层深
         var maxlevel = $dom('.pagebox').level();
-        this.level = maxlevel < 1 ? 10000 : maxlevel + 1;
+        this.level = maxlevel < 1 ? this.initLvl : maxlevel + 2;
         //设置一些初始值
         this.min = this._min;
         this.max = this._max;
@@ -569,12 +570,12 @@
             boxs.removeClass('pagebox_focus');
             ctrl.dom.addClass('pagebox_focus');
             var level = boxs.level();
-            ctrl.obj.level = level < 1 ? 10000 : level + 1;
+            ctrl.obj.level = level < 1 ? obj.initLvl : level + 2;
             //如果是最大化，则子窗体要浮于上面
             if (ctrl.obj.full) {
                 var childs = ctrl.obj.getChilds();
                 for (var i = 0; i < childs.length; i++) {
-                    childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
+                    childs[i].level = childs[i].level - obj.initLvl + ctrl.obj.level;
                 }
             }
             //激活当前窗体的焦点事件
@@ -645,7 +646,7 @@
         //如果是最大化，则子窗体要浮于上面      
         var childs = ctrl.obj.getChilds();
         for (var i = 0; i < childs.length; i++) {
-            childs[i].level = childs[i].level - 10000 + ctrl.obj.level;
+            childs[i].level = childs[i].level - ctrl.obj.initLvl + ctrl.obj.level;
         }
     };
     //最小化
@@ -697,7 +698,7 @@
             ctrl.obj.trigger('restore', {
                 'action': 'from-full'
             });
-            ctrl.obj.level = $dom('.pagebox').level() + 1;
+            ctrl.obj.level = $dom('.pagebox').level() + 2;
             ctrl.obj.resize = true;
             ctrl.obj._full = false;
         } else {

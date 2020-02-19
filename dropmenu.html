@@ -278,15 +278,14 @@ var data = {
     title: '控件说明',
     tit: '说明',
     ico: 'e72f',
-    url: '',
-    type: '',
+    url: '/',
     marker: '',
     intro: '',
-
     childs: [{
         title: '功能简介',
         url: 'other/treemenu-1.html',
         intro: '基本功能简介',
+        type:'link',
         font: {
             color: 'green',
             bold: true
@@ -328,6 +327,7 @@ var data = {
 drop.ondata(function(s,e){
     console.log(e.data);
 });
+drop.add({title:'首页',url:'/',type:'link',ico: 'a020'});
 drop.add(data);
 var t = $dom.clone(data);
 t.title = '克隆第一个菜单';
