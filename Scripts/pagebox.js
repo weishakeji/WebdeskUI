@@ -25,8 +25,8 @@
             left: null,
             bottom: null,
             right: null,
-            level: null,        //窗体的层深
-            initLvl:3000,   //初始层深
+            level: null, //窗体的层深
+            initLvl: 3000, //初始层深
             title: '默认标题',
             ico: '&#xe77c', //图标
             url: '',
@@ -43,7 +43,7 @@
             dropmenu: false //下拉菜单是否显示
         };
         for (var t in param) this.attrs[t] = param[t];
-        eval($ctrl.attr_generate(this.attrs));        
+        eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
         //shown打开，shut关闭，load加载，fail加载失败，
         //click点击，drag拖动,focus得到焦点，blur失去焦点
@@ -52,7 +52,7 @@
             'click', 'drag', 'focus', 'blur',
             'mini', 'full', 'restore', 'resize'
         ];
-        eval($ctrl.event_generate(customEvents));  
+        eval($ctrl.event_generate(customEvents));
         //以下不支持双向绑定
         this.parent = null; //父窗体对象
         this.childs = new Array(); //子级窗体
@@ -290,7 +290,7 @@
             menu.add('menu_close').html('关闭');
             obj.domdrop = menu;
         },
-        //遮罩
+        //内部遮罩
         mask: function(obj) {
             obj.dom.append('pagebox_mask');
         }
@@ -527,6 +527,15 @@
     fn.toMinimize = function() {
         return box.toMinimize(this.id);
     };
+    //处于背景的遮罩
+    fn.bgmask = {
+        show: function() {
+            box.mask.show(this);
+        },
+        hide: function() {
+            box.mask.hide();
+        }
+    };
     /*** 
     以下是静态方法
     *****/
@@ -746,6 +755,7 @@
             //移动窗体   
             if (ago.target == 'pagebox_dragbar') {
                 if (box.move) {
+                    ctrl.obj.bgmask.show();
                     box.left = ago.offset.left + eargs.move.x;
                     box.top = ago.offset.top + eargs.move.y;
                     //触发拖动事件
@@ -755,6 +765,7 @@
             } else {
                 //缩放窗体
                 if (box.resize) {
+                    ctrl.obj.bgmask.show();
                     var minWidth = 200,
                         minHeight = 150;
                     if (ctrl.dom.attr('resize') != 'false') {
@@ -780,6 +791,7 @@
             //
         });
         document.addEventListener('mouseup', function(e) {
+            box.mask.hide();
             var mouse = $dom.mouse(e);
             $ctrls.removeAttr('mousedown');
             var page = $dom('.pagebox_focus');
@@ -792,6 +804,7 @@
             $dom('div.pagebox_full')
                 .width(window.innerWidth - 3).height(innerHeight - 2)
                 .left(1).top(0);
+            box.mask.resize();
         });
         document.addEventListener('mousedown', function(e) {
             //如果点在最小化管理区，则不隐藏最小管理面板
@@ -862,6 +875,26 @@
         else
             area.css('overflow', 'hidden');
     };
+    //窗体的背景遮罩层，当拖动时出现，用于当窗体处于Iframe时，鼠标一旦离开窗体会失去效果
+    box.mask = {
+        show: function(obj) {
+            var mask = $dom('pagebox_bg_mask');
+            if (mask.length < 1) mask = $dom(document.body).add('pagebox_bg_mask');
+            mask.width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
+            mask.level(obj.level - 1);
+            mask.show();           
+        },
+        hide: function() {
+            var mask = $dom('pagebox_bg_mask');
+            if (mask.length < 1) return;
+            mask.hide();
+        },
+        resize: function() {
+            var mask = $dom('pagebox_bg_mask');
+            if (mask.length < 1) return;
+            mask.width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
+        }
+    }
     win.$pagebox = box;
     win.$pagebox.dragRealize();
     win.$pagebox.pageboxcollect();

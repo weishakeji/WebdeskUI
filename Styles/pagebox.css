@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .pagebox {
     background-color: rgba(226, 224, 224, 0.8);
     border-radius: 6px;
@@ -125,6 +126,7 @@
     from {
         transform: rotate(0deg)
     }
+
     to {
         transform: rotate(359deg)
     }
@@ -153,10 +155,10 @@
     width: 150px;
     position: absolute;
     z-index: 5;
-    background-color: rgba(238,238,238,1);
+    background-color: rgba(238, 238, 238, 1);
     border: 1px solid #999;
     --border-top: none;
-    --border-left: none;    
+    --border-left: none;
 }
 
 .pagebox dropmenu>*:not(hr) {
@@ -176,12 +178,13 @@
     border-right: 1px solid #ddd;
     float: left;
     color: #666;
-   
+
     text-align: center;
     margin-right: 6px;
 }
 
-.pagebox dropmenu>*.disable, .pagebox dropmenu>*.disable::before {
+.pagebox dropmenu>*.disable,
+.pagebox dropmenu>*.disable::before {
     color: #ccc;
     pointer-events: none;
 }
@@ -344,7 +347,7 @@
 .pagebox_full btnbox btn_max::before {
     content: "\e6c4";
     font-weight: 400;
-     padding-top: 1px;
+    padding-top: 1px;
 }
 
 .pagebox btnbox btn_close {
@@ -419,13 +422,30 @@
     position: absolute;
     width: calc(100% - 8px - 2px);
     height: calc(100% - 28px - 3px - 2px);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.01);
     bottom: 4px;
     left: 5px;
     z-index: 4;
     display: block;
 }
+/*正在拖动窗体时，显示遮罩*/
 
+.pagebox_drag pagebox_mask {
+    display: block !important;
+}
+
+.pagebox_focus pagebox_mask {
+    display: none;
+}
+/*窗体背景遮罩*/
+pagebox_bg_mask {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(255, 255, 255, .01);
+
+}
 /* 焦点窗体的样式 */
 
 .pagebox_focus {
@@ -441,22 +461,14 @@
     background-color: rgb(218, 230, 245);
 }
 
-/*正在拖动窗体时，显示遮罩*/
 
-.pagebox_drag pagebox_mask {
-    display: block !important;
-}
-
-.pagebox_focus pagebox_mask {
-    display: none;
-}
 
 /*窗体最小化的管理区*/
 
 .pagebox-collect {
     width: 45px;
-    height:45px;
-    
+    height: 45px;
+
     z-index: 999999;
     color: #333;
     cursor: pointer;
@@ -477,37 +489,39 @@
 }
 
 pagebox-minarea {
-    background-color: rgba(238,238,238,.8);
+    background-color: rgba(238, 238, 238, .8);
     border: solid 1px #ccc;
     position: absolute;
     z-index: 999999;
     border-radius: 3px;
-    transition:opacity 0.3s,width 0.5s, height 0.5s;
+    transition: opacity 0.3s, width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
-    box-shadow:rgb(238,238,238) 0px 0px 8px inset;
+    box-shadow: rgb(238, 238, 238) 0px 0px 8px inset;
 }
+
 /*最小化的窗体*/
-pagebox-min{
+pagebox-min {
     display: block;
     width: 150px;
     height: 30px;
     user-select: none;
     cursor: default;
-    background-color: rgba(161, 197, 247, 0.4);   
+    background-color: rgba(161, 197, 247, 0.4);
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     border-radius: 3px;
-    border: 1px solid rgba(62, 63, 63, 0.3);   
+    border: 1px solid rgba(62, 63, 63, 0.3);
     overflow: hidden;
     float: left;
     position: relative;
     margin: 8px 0px 0px 8px;
-    transition:opacity 0.3s;
+    transition: opacity 0.3s;
 }
 
-pagebox-min:hover{
-     background-color: rgba(161, 197, 247, 0.8);
-     box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
+pagebox-min:hover {
+    background-color: rgba(161, 197, 247, 0.8);
+    box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
 }
+
 pagebox-min pb-ico {
     height: 30px;
     width: auto;
@@ -519,6 +533,7 @@ pagebox-min pb-ico {
     font-family: "webdesk_icon" !important;
     text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
+
 pagebox-min pb-text {
     height: 30px;
     line-height: 30px;
@@ -534,21 +549,24 @@ pagebox-min pb-text {
     cursor: default;
     text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
-pagebox-min btn_close{
+
+pagebox-min btn_close {
     background-color: rgb(245, 45, 45);
     box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
     width: 16px;
     height: 16px;
     position: absolute;
-    top:7px;
+    top: 7px;
     right: 7px;
     cursor: pointer;
 }
-pagebox-min btn_close.disable{
+
+pagebox-min btn_close.disable {
     background-color: #999;
     pointer-events: none;
 }
-pagebox-min btn_close:before{
+
+pagebox-min btn_close:before {
     content: "\e606";
     display: block;
     text-align: center;
@@ -559,3 +577,4 @@ pagebox-min btn_close:before{
     border-radius: 0px 0px 4px 0px;
     font-family: "webdesk_icon" !important;
 }
+
