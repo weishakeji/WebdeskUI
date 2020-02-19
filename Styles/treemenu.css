@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 .treemenu {
     border-radius: 4px 0px 0px 4px;
     width: 100%;
@@ -11,12 +12,16 @@
 .treemenu * {
     display: block;
 }
-.treemenu a{
-    text-decoration:none;
+
+.treemenu a {
+    text-decoration: none;
 }
-.treemenu  a, .treemenu span{
-    color: #000;
+
+.treemenu a,
+.treemenu span {
+    color: #ccc;
 }
+
 .treemenu tree_tags {
     width: 40px;
     height: 100%;
@@ -29,11 +34,12 @@
 .treemenu tree_tags tree_tag {
     cursor: pointer;
     height: 60px;
-    background-color: rgba(200, 200, 200, .6);
+    background-color: rgba(0, 1, 2, 0.6);
     transform: background-color .1s;
     -webkit-transition-property: background-color;
     -webkit-transition-duration: .3s;
     -webkit-transition-timing-function: ease;
+    color: #666;
 }
 
 .treemenu tree_tags tree_tag ico {
@@ -45,9 +51,10 @@
     font-size: 20px;
     font-family: "webdesk_icon" !important;
 }
-.treemenu tree_tags tree_tag.loading ico{
-    
-     -webkit-transition-property: -webkit-transform;
+
+.treemenu tree_tags tree_tag.loading ico {
+
+    -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 1s;
     -moz-transition-property: -moz-transform;
     -moz-transition-duration: 1s;
@@ -56,18 +63,47 @@
     -o-animation: rotate 1s linear infinite;
     animation: rotate 1s linear infinite;
 }
-@-webkit-keyframes rotate{from{-webkit-transform: rotate(0deg)}
-    to{-webkit-transform: rotate(360deg)}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg)
+    }
 }
-@-moz-keyframes rotate{from{-moz-transform: rotate(0deg)}
-    to{-moz-transform: rotate(359deg)}
+
+@-moz-keyframes rotate {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+
+    to {
+        -moz-transform: rotate(359deg)
+    }
 }
-@-o-keyframes rotate{from{-o-transform: rotate(0deg)}
-    to{-o-transform: rotate(359deg)}
+
+@-o-keyframes rotate {
+    from {
+        -o-transform: rotate(0deg)
+    }
+
+    to {
+        -o-transform: rotate(359deg)
+    }
 }
-@keyframes rotate{from{transform: rotate(0deg)}
-    to{transform: rotate(359deg)}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(359deg)
+    }
 }
+
 .treemenu tree_tags tree_tag itemtxt {
     height: 25px;
     width: calc(100% - 10px);
@@ -78,7 +114,8 @@
 }
 
 .treemenu tree_tags tree_tag.curr {
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(39, 33, 33, 0.8);
+    color: #ccc;
 }
 
 /*折叠按钮*/
@@ -91,6 +128,7 @@
     text-align: center;
     cursor: pointer;
     z-index: 2;
+    color: #555;
 }
 
 .treemenu tree_tags tree-foldbtn.fold {
@@ -114,7 +152,7 @@
     display: block;
     height: 150px;
     position: absolute;
-    background-color: rgba(200, 200, 200, .6);
+    background-color: rgba(0, 1, 2, 0.6);
     bottom: 0px;
     z-index: 1;
 
@@ -122,7 +160,7 @@
 
 /*树形菜单区域*/
 .treemenu tree_body {
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(39, 33, 33, 0.8);
     height: 100%;
     float: right;
     overflow: auto;
@@ -139,6 +177,7 @@
     cursor: default;
     --background-color: green;
 }
+
 .treemenu tree_area loading {
     height: 200px;
     width: 100%;
@@ -148,7 +187,7 @@
     color: #999;
     font-size: 35px;
     font-family: "webdesk_icon" !important;
-     -webkit-transition-property: -webkit-transform;
+    -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 2s;
     -moz-transition-property: -moz-transform;
     -moz-transition-duration: 2s;
@@ -157,6 +196,7 @@
     -o-animation: rotate 2s linear infinite;
     animation: rotate 2s linear infinite;
 }
+
 .treemenu tree_area tree_tit {
     height: 30px;
     line-height: 30px;
@@ -165,9 +205,11 @@
     font-size: 15px;
     border-radius: 3px;
     text-align: center;
-    border: solid 1px #aaa;
-    background-color: rgba(255, 255, 255, .4);
-
+    --border: solid 1px #aaa;
+    background-color: rgba(255, 255, 255, .2);
+    color: #ccc;
+    text-shadow: 1px 1px 2px #333;
+    background-image: linear-gradient(rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
 }
 
 /*树形节点*/
@@ -192,7 +234,7 @@
 }
 
 .treemenu tree-node span ico {
-   --content: attr(ico);
+    --content: attr(ico);
     --content: '('+attr(ico)+')';
     line-height: 30px;
     font-size: 18px;
@@ -225,25 +267,30 @@
 }
 
 .treemenu tree-node:hover {
-    background-color: rgba(200,200,200,0.3);
+    --background-color: rgba(200, 200, 200, 1);
     text-shadow: 1px 1px 2px #666;
+   
 }
+.treemenu tree-node:hover span,.treemenu tree-node:hover a{
+     color: #fff;
 
+}
 .treemenu tree-node:hover:after {
     color: #fff;
 }
 
 .treemenu tree-node:hover:before {
     content: '';
-    width: calc(100% - 5px);
-    height: calc(100% - 5px);
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
     border: solid 1px rgba(160, 160, 160, 0.6);
     position: absolute;
-    left: 2px;
-    top: 2px;
-     z-index: 1;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
     border-radius: 3px;
     background: rgba(200, 200, 200, 0.2);
+    box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
     --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
 

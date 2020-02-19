@@ -9,8 +9,22 @@ body {
     overflow: hidden;
     background-color: rgb(27, 87, 148);
 }
-body{
-	-- background: url('../images/530cd9ce43bbc8d0c9176885.jpg');
+
+body {
+    background: url('../images/1b3676fc1cbf662b0b244d61.jpg');
+    background-size: 100% 100%;
+}
+
+#header-box {
+    height: 35px;
+    width: 100%;
+    position: relative;
+}
+
+#body {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px - 35px);
+    margin: 5px;
 }
 
 #dropmenu-area {
@@ -18,8 +32,9 @@ body{
     top: 5px;
     left: 5px;
 }
-#headbar{
-	position: absolute;
+
+#headbar {
+    position: absolute;
     top: 5px;
     height: 30px;
     line-height: 30px;
@@ -33,67 +48,71 @@ body{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#headbar span{
-	font-size: 14px;
+
+#headbar span {
+    font-size: 14px;
 }
-#user-area{
-	position: absolute;
+
+#user-area {
+    position: absolute;
     top: 5px;
     right: 5px;
     height: 30px;
     width: 100px;
     background-color: transparent;
 }
-#user-area drop_roots drop-node{
-	background-color: transparent !important;
-	color: #eee !important;
-	text-align: center !important;
+
+#user-area drop_roots drop-node {
+    background-color: transparent !important;
+    color: #eee !important;
+    text-align: center !important;
 }
-#user-area span{
-	color: #eee !important;
+
+#user-area span {
+    color: #eee !important;
 }
-#body {
-    width: calc(100% - 10px);
-    height: calc(100% - 10px - 35px);
- 
-    position:absolute;
-    left:5px;
-    bottom: 5px;
+
+#treemenu-area {
+    float: left;
 }
-#treemenu-area{
-	float: left;
+
+#tabs-area {
+    float: right;
+    margin-right: 5px;
 }
-#tabs-area{
-	float: right;
-	margin-right: 5px;
+
+#vbar-area {
+    float: right;
+    margin-top: 35px;
 }
-#vbar-area{
-	float: right;
-	margin-top: 35px;
+
+#pageboxcollect {
+    position: absolute;
+    right: 5px;
+    bottom: 0px;
+    z-index: 99999;
+    width: 30px;
+    height: 30px;
+    font-size: 16px !important;
 }
-#pageboxcollect{
-	position:absolute;
-	right: 5px;
-	bottom: 0px;
-	z-index: 99999;
-	width: 30px;
-	height: 30px;
-	font-size: 16px !important;
+
+#pageboxcollect:before {
+    font-size: 18px !important;
 }
-#pageboxcollect:before{
-	font-size: 18px !important;
-}
+
 /*样式*/
-#dropmenu-area.dropmenu{
-	background-color: rgba(150,150,150,.3) !important;
-	
+#dropmenu-area.dropmenu {
+    background-color: rgba(150, 150, 150, .3) !important;
+
 }
-#dropmenu-area drop_roots *{
-	color: #ccc !important;
+
+#dropmenu-area drop_roots * {
+    color: #ccc !important;
 }
+
 #dropmenu-area drop_roots drop-node:hover,
 #dropmenu-area drop_roots drop-node.hover {
-	color: #eee !important;
-    background-color: rgba(150,150,150,.5) !important;
+    color: #eee !important;
+    background-color: rgba(150, 150, 150, .5) !important;
     text-shadow: 1px 1px 2px #666 !important;
 }

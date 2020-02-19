@@ -93,10 +93,12 @@
 		'fold': function(obj, val, old) {
 			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
 			if (val) {
+				//折叠
 				obj.dom.width(40);
 				var offset = obj.dom.offset();
 				obj.dombody.css('position', 'absolute');
-				obj.dombody.left(offset.left + 40).height(obj.dom.height()).width(0);
+				console.log(offset.left);
+				obj.dombody.left(offset.left + obj.domtit.width()).height(obj.dom.height()).width(0);
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
