@@ -92,7 +92,7 @@
 				var id = $dom(this).attr('pid');
 				var data = obj.getData(id);
 				if (data == null) return;
-				$dom(this).level(data.level * data.index + val);
+				$dom(this).level(data.level + val);
 			});
 		},
 		//是否启动实时数据绑定
@@ -177,7 +177,7 @@
 
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
-				panel.attr('pid', item.id).level(item.level);
+				panel.attr('pid', item.id).level(item.level+item.index+1);
 				//计算高度
 				var height = 0;
 				for (var i = 0; i < item.childs.length; i++) {

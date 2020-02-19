@@ -7,7 +7,7 @@ body {
     margin: 0px;
     padding: 0px;
     overflow: hidden;
-    background-color: #444;
+    background-color: rgb(27, 87, 148);
 }
 body{
 	-- background: url('../images/530cd9ce43bbc8d0c9176885.jpg');
@@ -23,7 +23,7 @@ body{
     top: 5px;
     height: 30px;
     line-height: 30px;
-    color: #999;
+    color: #fff;
     text-align: left;
     text-shadow: 1px 1px 2px #666;
     font-size: 20px;
@@ -42,7 +42,7 @@ body{
     right: 5px;
     height: 30px;
     width: 100px;
-    background-color: #444;
+    background-color: transparent;
 }
 #user-area drop_roots drop-node{
 	background-color: transparent !important;
