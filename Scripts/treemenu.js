@@ -270,7 +270,16 @@
 		var node = box.add('tree-node');
 		node.css('padding-left', (item.level * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
-		var span = node.add('span');
+		//节点类型
+		node.attr('type', item.type ? item.type : 'node');
+		var span = null;
+		if (item.type == 'link') {
+			var link = node.add('a');
+			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
+			span = link.add('span');
+		} else {
+			span = node.add('span');
+		}
 		//字体样式
 		if (item.font) {
 			if (item.font.color) span.css('color', item.font.color);
@@ -295,22 +304,24 @@
 
 			});
 		} else {
-			//节点点击事件
-			node.click(function(e) {
-				var n = event.target ? event.target : event.srcElement;
-				while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
-				//节点id
-				var treeid = $dom(n).attr('treeid');
-				//对象
-				var tree = n;
-				while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
-				var crt = $ctrls.get($dom(tree).attr('ctrid'));
-				var datanode = crt.obj.getData(treeid); //数据源节点
-				crt.obj.trigger('click', {
-					treeid: treeid,
-					data: datanode
+			if (item.type != 'link') {
+				//节点点击事件
+				node.click(function(e) {
+					var n = event.target ? event.target : event.srcElement;
+					while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
+					//节点id
+					var treeid = $dom(n).attr('treeid');
+					//对象
+					var tree = n;
+					while (!$dom(tree).hasClass('treemenu')) tree = tree.parentNode;
+					var crt = $ctrls.get($dom(tree).attr('ctrid'));
+					var datanode = crt.obj.getData(treeid); //数据源节点
+					crt.obj.trigger('click', {
+						treeid: treeid,
+						data: datanode
+					});
 				});
-			});
+			}
 		}
 		return node;
 	};

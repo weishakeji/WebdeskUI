@@ -11,7 +11,12 @@
 .treemenu * {
     display: block;
 }
-
+.treemenu a{
+    text-decoration:none;
+}
+.treemenu  a, .treemenu span{
+    color: #000;
+}
 .treemenu tree_tags {
     width: 40px;
     height: 100%;
@@ -182,6 +187,8 @@
 .treemenu tree-node span {
     width: auto;
     display: inline-block;
+    z-index: 2;
+    position: absolute;
 }
 
 .treemenu tree-node span ico {
@@ -213,6 +220,7 @@
     text-align: center;
     top: 0px;
     right: 5px;
+
     font-family: "webdesk_icon" !important;
 }
 
@@ -233,6 +241,7 @@
     position: absolute;
     left: 2px;
     top: 2px;
+     z-index: 1;
     border-radius: 3px;
     background: rgba(200, 200, 200, 0.2);
     --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
