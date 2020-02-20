@@ -2,7 +2,7 @@
  * 主 题：控件管理，
  * 说 明：
  * 1、主要目的是用于对控件的集中管理；
-
+ 
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年1月1日
  * 最后修订：2020年2月4日
@@ -30,7 +30,7 @@
 
 	//实现对象属性的双向绑定
 	control.attr_generate = function(attrArr) {
-		var str = '';		
+		var str = '';
 		for (var t in attrArr) {
 			str += 'this[\'_' + t + '\'] = this.attrs[\'' + t + '\'];';
 			str += 'Object.defineProperty(this, \'' + t + '\', {\
@@ -52,8 +52,8 @@
                     });';
 		}
 		//添加监听的方法
-		str+='this._watchlist = new Array();';
-		str+='this.watch = function(obj) {\
+		str += 'this._watchlist = new Array();';
+		str += 'this.watch = function(obj) {\
 		        if (typeof(obj) != \'object\') return;\
 		        for (var t in obj) {\
 		            this._watchlist.push({key: t,func: obj[t]});\
@@ -93,10 +93,20 @@
 		bind: function(eventName, func) {
 			if (typeof(func) == "function") {
 				if (!this._eventlist) this._eventlist = new Array();
-				this._eventlist.push({
-					'name': eventName,
-					'event': func
-				});
+				var exist = false;
+				for (var i = 0; i < this._eventlist.length; i++) {
+					var item = this._eventlist[i]
+					if (item.name == eventName && JSON.stringify(item.event) == JSON.stringify(func)) {
+						exist = true;
+						break;
+					}
+				}
+				if (!exist) {
+					this._eventlist.push({
+						'name': eventName,
+						'event': func
+					});
+				}
 			}
 			return this;
 		},
