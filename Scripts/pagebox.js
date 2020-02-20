@@ -584,7 +584,7 @@
             if (ctrl.obj.full) {
                 var childs = ctrl.obj.getChilds();
                 for (var i = 0; i < childs.length; i++) {
-                    childs[i].level = childs[i].level - obj.initLvl + ctrl.obj.level;
+                    childs[i].level = childs[i].level - ctrl.obj.initLvl + ctrl.obj.level;
                 }
             }
             //激活当前窗体的焦点事件
