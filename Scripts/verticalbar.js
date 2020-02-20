@@ -263,6 +263,7 @@
 					var nid = $dom(n).attr('nid');
 					var obj = verticalbar._getObj(n);
 					var data = obj.getData(nid);
+					if (data.childs) return;
 					//
 					obj.trigger('click', {
 						data: data

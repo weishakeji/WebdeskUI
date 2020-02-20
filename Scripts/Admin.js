@@ -73,29 +73,21 @@ $dom.ready(function() {
 			url: 'other/treemenu-1.html'
 		}
 	});
-
-	//创建窗体
-	var box = $pagebox.create({
-		width: 400,
-		height: 300,
-		url: 'pagebox-child.html',
-		title: '可移动，可缩放；双击标题栏全屏,标题右键菜单'
-	});
-	box.open();
 });
 //节点点击事件，tree,drop,vbar统一用这一个
 function nodeClick(sender, eventArgs) {
 	var data = eventArgs.data;
+	if(data.childs)return;
 	//节点类型
 	//open：弹窗，item菜单项（在tabs中打开)，event脚本事件,
 	//link外链接（直接响应）,node节点下的子项将一次性打开（此处不触发）
-	console.log(eventArgs.data.title);
+	//console.log(eventArgs.data.title);
 	switch (data.type) {
 		case 'open':
 			$pagebox.create({
 				id: data.id ? data.id : null,
 				width: data.width ? data.width : 400,
-				height: data.height ? data.height : 300,
+				height: data.height ? data.height : 200,
 				url: data.url ? data.url : '',
 				title: data.title
 			}).open();

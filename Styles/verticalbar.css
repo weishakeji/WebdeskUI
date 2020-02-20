@@ -4,12 +4,16 @@
     background-color: rgba(255, 255, 255, .6);
     border-radius: 2px;
 }
-.verticalbar a{
-    text-decoration:none;
+
+.verticalbar a {
+    text-decoration: none;
 }
-.verticalbar a,.verticalbar span{
+
+.verticalbar a,
+.verticalbar span {
     color: #444;
 }
+
 .verticalbar vbar-item {
     font-family: "webdesk_icon" !important;
     display: block;
@@ -21,6 +25,7 @@
     text-align: center;
     margin-right: 6px;
     cursor: pointer;
+    user-select: none;
 }
 
 .verticalbar vbar-item:hover,
@@ -59,6 +64,7 @@ vbar-panel:before {
     margin-right: -11px;
     margin-top: 5px;
 }
+
 vbar-panel[direction='left']:before {
     content: '\20';
     width: 8px;
@@ -72,18 +78,22 @@ vbar-panel[direction='left']:before {
     margin-left: -11px;
     margin-top: 5px;
 }
-vbar-panel.child{
-    padding:0px;
+
+vbar-panel.child {
+    padding: 0px;
     min-width: 80px;
 }
-vbar-panel.child:before{
-     margin-right: -5px;
-      margin-top: 8px;
+
+vbar-panel.child:before {
+    margin-right: -5px;
+    margin-top: 8px;
 }
-vbar-panel[direction='left'].child:before{
-     margin-left: -5px;
-     margin-top: 8px;
+
+vbar-panel[direction='left'].child:before {
+    margin-left: -5px;
+    margin-top: 8px;
 }
+
 vbar-panel vbar-node {
     display: block;
     width: auto;
@@ -92,6 +102,7 @@ vbar-panel vbar-node {
     line-height: 30px;
     position: relative;
 }
+
 vbar-panel>hr {
     height: 1px;
     border: 0px;
@@ -99,6 +110,7 @@ vbar-panel>hr {
     margin-left: 30px;
     background: #ddd;
 }
+
 vbar-panel vbar-node ico {
     font-family: "webdesk_icon" !important;
     display: inline-block;
@@ -111,26 +123,29 @@ vbar-panel vbar-node ico {
     text-align: center;
     margin-right: 6px;
 }
+
 vbar-panel vbar-node a {
     width: calc(100% - 30px);
     display: block;
     position: absolute;
-    z-index: 2;    
+    z-index: 2;
     top: 0px;
     left: 35px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 vbar-panel vbar-node:hover {
     box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
     text-shadow: 1px 1px 2px #666;
 }
+
 vbar-panel vbar-node:hover:after {
     content: '';
     display: block;
     width: calc(100% - 5px);
-    height:  calc(100% - 5px);
+    height: calc(100% - 5px);
     border: solid 1px rgba(200, 200, 200, 0.8);
     position: absolute;
     left: 2px;
