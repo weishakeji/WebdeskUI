@@ -63,7 +63,7 @@
     var fn = box.prototype;
     //初始化相关参数
     fn._initialization = function() {
-        this.id = 'pagebox_' + new Date().getTime();
+        if (!this.id) this.id = 'pagebox_' + new Date().getTime();
         //是否有父级窗体
         var parent = $ctrls.get(this.pid);
         if (parent != null) {
@@ -542,6 +542,12 @@
     //创建一个窗体对象
     box.create = function(param) {
         if (param == null) param = {};
+        //如果窗体已经存在
+        if (param.id) {
+            var ctrl = $ctrls.get(param.id);
+            if (ctrl != null && ctrl.dom != null)
+                return ctrl.obj.focus().toWindow();
+        }
         if (typeof(param.pid) == 'undefined') param.pid = window.name;
         var pbox = new box(param);
         pbox._initialization();
@@ -631,8 +637,8 @@
     //最大化
     box.toFull = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        if (!ctrl.obj.max) return;
-        if (!ctrl.obj.trigger('full')) return;
+        if (!ctrl.obj.max) return ctrl.obj;
+        if (!ctrl.obj.trigger('full')) return ctrl.obj;
         //记录放大前的数据，用于还原
         ctrl.win_offset = ctrl.dom.offset();
         ctrl.win_size = {
@@ -657,12 +663,13 @@
         for (var i = 0; i < childs.length; i++) {
             childs[i].level = childs[i].level - ctrl.obj.initLvl + ctrl.obj.level;
         }
+        return ctrl.obj;
     };
     //最小化
     box.toMinimize = function(boxid) {
         var ctrl = $ctrls.get(boxid);
-        if (!ctrl.obj.min) return;
-        if (!ctrl.obj.trigger('mini')) return;
+        if (!ctrl.obj.min) return ctrl.obj;
+        if (!ctrl.obj.trigger('mini')) return ctrl.obj;
         //记录之前的数据，用于还原
         if (!ctrl.obj.full) {
             ctrl.win_offset = ctrl.dom.offset();
@@ -695,12 +702,13 @@
                 collect.removeClass('pagebox-collect-action');
             }, 150);
         }, 300);
+        return ctrl.obj;
     };
     //恢复窗体状态
     box.toWindow = function(boxid) {
         var ctrl = $ctrls.get(boxid);
         if (ctrl == null) return;
-        if (!(ctrl.dom.hasClass('pagebox_full') || ctrl.dom.hasClass('pagebox_min'))) return;
+        if (!(ctrl.dom.hasClass('pagebox_full') || ctrl.dom.hasClass('pagebox_min'))) return ctrl.obj;
         //从最大化还原
         if (ctrl.dom.hasClass('pagebox_full')) {
             ctrl.dom.removeClass('pagebox_full');
@@ -716,6 +724,7 @@
             ctrl.obj.trigger('restore', {
                 'action': 'from-min'
             });
+            ctrl.obj._mini = false;
         }
         ctrl.dom.css('opacity', 1);
         ctrl.obj.left = ctrl.win_offset.left;
@@ -727,6 +736,7 @@
         window.setTimeout(function() {
             ctrl.dom.css('transition', '');
         }, 300);
+        return ctrl.obj;
     };
     //拖动窗体所需的事件
     box.dragRealize = function() {
@@ -882,7 +892,7 @@
             if (mask.length < 1) mask = $dom(document.body).add('pagebox_bg_mask');
             mask.width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
             mask.level(obj.level - 1);
-            mask.show();           
+            mask.show();
         },
         hide: function() {
             var mask = $dom('pagebox_bg_mask');
