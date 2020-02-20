@@ -73,7 +73,7 @@ $dom.ready(function() {
 			url: 'other/treemenu-1.html'
 		}
 	});
-	tabs.onshut(tabsShut);
+	tabs.onshut(tabsShut).onchange(tabsChange);
 	window.tabsContent = tabs;
 });
 /*
@@ -110,25 +110,58 @@ function nodeClick(sender, eventArgs) {
 			break;
 	}
 }
-//选择卡关闭事件
+//选项卡关闭事件
 function tabsShut(sender, eventArgs) {
 	var data = eventArgs.data;
 	//获取当前标签生成的窗体
 	var boxs = $ctrls.all('pagebox');
 	var arr = new Array();
 	for (var i = 0; i < boxs.length; i++) {
-		if (boxs[i].obj.pid == data.id) arr.push(boxs[i].obj);
-	}
-	if (arr.length > 0) {
-		if (confirm('当前选项卡“'+data.title+'”的窗体未关闭，\n是否全部关闭？')) {
-			//关闭当前标签生成的窗体
-			for (var i = 0; i < arr.length; i++) {
-				arr[i].shut();
+		if (boxs[i].obj.pid == data.id) {
+			arr.push(boxs[i].obj);
+			var childs = boxs[i].obj.getChilds();
+			for (var j = 0; j < childs.length; j++) {
+				arr.push(childs[j]);
 			}
+		}
+	}
+	//关闭当前标签生成的窗体
+	if (arr.length > 0) {
+		if (confirm('当前选项卡“' + data.title + '”有 ' + arr.length + '个 窗体未关闭，\n是否全部关闭？')) {
+			for (var i = 0; i < arr.length; i++) arr[i].shut();
 			return true;
 		}
 		return false;
 	}
 	return true;
-	//console.log('共有窗体：' + arr[0].title);
+}
+//选项卡切换事件
+function tabsChange(sender, eventArgs) {
+	var data = eventArgs.data;
+	//所有窗体
+	var boxs = $ctrls.all('pagebox');
+	//获取当前标签生成的窗体，全部还原
+	var arr = new Array();
+	for (var i = 0; i < boxs.length; i++) {
+		if (boxs[i].obj.pid == data.id) {
+			arr.push(boxs[i].obj);
+			var childs = boxs[i].obj.getChilds();
+			for (var j = 0; j < childs.length; j++) {
+				arr.push(childs[j]);
+			}
+		}
+	}
+	for (var i = 0; i < arr.length; i++) arr[i].toWindow();
+	//
+	//非当前标签的窗体，全部最小化
+	var other = new Array();
+	for (var i = 0; i < boxs.length; i++) {
+		var exist = false;
+		for (var j = 0; j < arr.length; j++) {
+			if (boxs[i].obj.id == arr[j].id) exist = true;
+		}
+		if (!exist) other.push(boxs[i].obj);
+	}
+	//最小化
+	for (var i = 0; i < other.length; i++) other[i].mini = true;
 }
