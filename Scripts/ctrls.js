@@ -189,8 +189,17 @@
 			for (var key in this.muster) delete(this.muster[key]);
 			return this;
 		};
-		this.all = function() {
-			return this.muster;
+		//获取所有控件
+		//type:某一类控件，如pagebox
+		this.all = function(type) {
+			if (type == null) return this.muster;
+			var arr = new Array();
+			for (var prop in this.muster) {
+				if (this.muster[prop].type == type) {
+					arr.push(this.muster[prop]);
+				}
+			}
+			return arr;
 		};
 		//返回control对象
 		this.get = function(key) {

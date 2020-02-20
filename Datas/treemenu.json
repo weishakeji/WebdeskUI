@@ -34,7 +34,8 @@
             }]
         }, {
             title: '成员说明',
-            ico: 'e77c'
+            ico: 'e77c',
+            url:'other/pagebox.html'
         }]
     }, {
         title: '选项卡 Tabs',

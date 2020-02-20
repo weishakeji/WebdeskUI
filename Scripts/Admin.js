@@ -64,7 +64,7 @@ $dom.ready(function() {
 		vbar.add(req.data);
 	});
 	//选项卡
-	window.tabsContent = $tabs.create({
+	var tabs = $tabs.create({
 		target: '#tabs-area',
 		width: 1,
 		default: {
@@ -73,11 +73,16 @@ $dom.ready(function() {
 			url: 'other/treemenu-1.html'
 		}
 	});
+	tabs.onshut(tabsShut);
+	window.tabsContent = tabs;
 });
+/*
+	事件
+*/
 //节点点击事件，tree,drop,vbar统一用这一个
 function nodeClick(sender, eventArgs) {
 	var data = eventArgs.data;
-	if(data.childs)return;
+	if (data.childs) return; //如果有下级节点，则不响应事件
 	//节点类型
 	//open：弹窗，item菜单项（在tabs中打开)，event脚本事件,
 	//link外链接（直接响应）,node节点下的子项将一次性打开（此处不触发）
@@ -99,10 +104,31 @@ function nodeClick(sender, eventArgs) {
 			} catch (err) {
 				alert('脚本执行错误，请仔细检查：\n' + data.url);
 			}
-
 			break;
 		default:
 			window.tabsContent.add(data);
 			break;
 	}
+}
+//选择卡关闭事件
+function tabsShut(sender, eventArgs) {
+	var data = eventArgs.data;
+	//获取当前标签生成的窗体
+	var boxs = $ctrls.all('pagebox');
+	var arr = new Array();
+	for (var i = 0; i < boxs.length; i++) {
+		if (boxs[i].obj.pid == data.id) arr.push(boxs[i].obj);
+	}
+	if (arr.length > 0) {
+		if (confirm('当前选项卡“'+data.title+'”的窗体未关闭，\n是否全部关闭？')) {
+			//关闭当前标签生成的窗体
+			for (var i = 0; i < arr.length; i++) {
+				arr[i].shut();
+			}
+			return true;
+		}
+		return false;
+	}
+	return true;
+	//console.log('共有窗体：' + arr[0].title);
 }
