@@ -18,7 +18,8 @@
 }
 
 .treemenu a,
-.treemenu span {
+.treemenu span,
+.treemenu tree-node ico {
     color: #ccc;
 }
 
@@ -231,18 +232,20 @@
     display: inline-block;
     z-index: 2;
     position: absolute;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.treemenu tree-node span ico {
-    --content: attr(ico);
-    --content: '('+attr(ico)+')';
+.treemenu tree-node ico {
     line-height: 30px;
     font-size: 18px;
     height: 30px;
     font-weight: normal;
     width: 20px;
     float: left;
-    margin-right: 2px;
+    margin-right: 5px;
     display: inline-block;
     font-family: "webdesk_icon" !important;
 }
@@ -269,12 +272,15 @@
 .treemenu tree-node:hover {
     --background-color: rgba(200, 200, 200, 1);
     text-shadow: 1px 1px 2px #666;
-   
-}
-.treemenu tree-node:hover span,.treemenu tree-node:hover a{
-     color: #fff;
 
 }
+
+.treemenu tree-node:hover span,
+.treemenu tree-node:hover a {
+    color: #fff;
+
+}
+
 .treemenu tree-node:hover:after {
     color: #fff;
 }

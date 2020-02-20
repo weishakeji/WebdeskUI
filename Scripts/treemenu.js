@@ -270,10 +270,11 @@
 	//创建树形节点
 	fn._createNode = function(item, box) {
 		var node = box.add('tree-node');
-		node.css('padding-left', (item.level * 15) + 'px');
+		node.css('padding-left', ((item.level-1) * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
 		//节点类型
 		node.attr('type', item.type ? item.type : 'node');
+		node.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
 		var span = null;
 		if (item.type == 'link') {
 			var link = node.add('a');
@@ -289,7 +290,8 @@
 			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
 		}
 		span.html(item.title);
-		span.add('ico').html('&#x' + (item.ico ? item.ico : 'a022'));
+		span.width('calc(100% - '+((item.level-1) * 15 + 40)+'px)');
+		
 		//如果有下级节点
 		if (item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function(e) {

@@ -26,7 +26,7 @@ $dom.ready(function() {
 		//设置页面顶部的文本（系统名称）
 		var left = s.dom.width() + 20;
 		$dom('#headbar').left(left).width('calc(100% - ' + left + 'px - ' + ($dom("#user-area").width() + 20) + 'px)');
-	});
+	}).onclick(nodeClick);
 	$api.get('dropmenu.json').then(function(req) {
 		drop.add(req.data);
 	});
@@ -35,8 +35,8 @@ $dom.ready(function() {
 		target: '#user-area',
 		width: 100,
 		plwidth: 120,
-		level:2000
-	});
+		level: 2000
+	}).onclick(nodeClick);
 	$api.get('userinfo.json').then(function(req) {
 		usermenu.add(req.data);
 	});
@@ -44,7 +44,12 @@ $dom.ready(function() {
 	var tree = $treemenu.create({
 		target: '#treemenu-area',
 		width: 200
-	});
+	}).onresize(function(s, e) { //当宽高变更时
+		$dom('#tabs-area').width('calc(100% - ' + (e.width + vbar.width + 10) + 'px )');
+	}).onfold(function(s, e) { //当右侧树形折叠时
+		var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
+		$dom('#tabs-area').width('calc(100% - ' + width + 'px )');
+	}).onclick(nodeClick);
 	$api.get('treemenu.json').then(function(req) {
 		tree.add(req.data);
 	});
@@ -54,12 +59,12 @@ $dom.ready(function() {
 		id: 'rbar-156',
 		width: 30,
 		height: 'calc(100% - 35px)'
-	});
+	}).onclick(nodeClick);
 	$api.get('vbar.json').then(function(req) {
 		vbar.add(req.data);
 	});
 	//选项卡
-	var tabs = $tabs.create({
+	window.tabsContent = $tabs.create({
 		target: '#tabs-area',
 		width: 1,
 		default: {
@@ -69,36 +74,43 @@ $dom.ready(function() {
 		}
 	});
 
-	var size = function(s, e) {
-		//console.log('treemenu的宽:' + e.width + '，高：' + e.height);
-		$dom('#tabs-area').width('calc(100% - ' + (e.width + vbar.width + 10) + 'px )');
-	};
-	tree.onresize(size);
-	//tree.width = 260;
-	//折叠
-	tree.onfold(function(s, e) {
-		if (e.action == 'fold') {
-			$dom('#tabs-area').width('calc(100% - ' + (vbar.width + 50) + 'px )');
-		} else {
-			$dom('#tabs-area').width('calc(100% - ' + (s.width + vbar.width + 10) + 'px )');
-		}
-	});
-	//树形菜单节点点击事件
-	tree.onclick(function(s, e) {
-		//var url = e.data.url ? e.data.url : '';
-		tabs.add(e.data);
-	});
-
 	//创建窗体
 	var box = $pagebox.create({
 		width: 400,
 		height: 300,
-		resize: true,
-		min: true,
-		max: true,
-		close: true,
 		url: 'pagebox-child.html',
 		title: '可移动，可缩放；双击标题栏全屏,标题右键菜单'
 	});
 	box.open();
 });
+//节点点击事件，tree,drop,vbar统一用这一个
+function nodeClick(sender, eventArgs) {
+	var data = eventArgs.data;
+	//节点类型
+	//open：弹窗，item菜单项（在tabs中打开)，event脚本事件,
+	//link外链接（直接响应）,node节点下的子项将一次性打开（此处不触发）
+	console.log(eventArgs.data.title);
+	switch (data.type) {
+		case 'open':
+			$pagebox.create({
+				id: data.id ? data.id : null,
+				width: data.width ? data.width : 400,
+				height: data.height ? data.height : 300,
+				url: data.url ? data.url : '',
+				title: data.title
+			}).open();
+			break;
+		case 'event':
+			if (!data.url) return;
+			try {
+				eval(data.url);
+			} catch (err) {
+				alert('脚本执行错误，请仔细检查：\n' + data.url);
+			}
+
+			break;
+		default:
+			window.tabsContent.add(data);
+			break;
+	}
+}
