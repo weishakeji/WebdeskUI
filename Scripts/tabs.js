@@ -210,7 +210,10 @@
 					if (action == 'closeleft') {
 						for (var i = 0; i < index; i++) tabids.push(obj.childs[i].id);
 					}
-					obj.remove(tabids, true);
+					//批量关闭
+					for (var i = 0; i < tabids.length; i++) {
+						obj.remove(tabids[i], true);
+					}
 				}
 				//最大化
 				if (action == 'full') {
@@ -416,6 +419,7 @@
 			return this.focus(tag.attr('tabid'));
 		}
 		var tag = $dom.isdom(tabid) ? tabid : this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
+		var data = this.getData(tag.attr('tabid'));
 		//当前处于焦点的标签
 		var tagcurr = this.domtit.find('.tagcurr');
 		if (tagcurr.length > 0 && tag.attr('tabid') == tagcurr.attr('tabid')) {
@@ -430,10 +434,9 @@
 		//设置当前标签为焦点
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
-		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();
-		var data = this.getData(tabid);
+		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();		
 		//触发事件
-		if (istrigger) this.trigger('change', {
+		if (istrigger && data!=null) this.trigger('change', {
 			tabid: tag.attr('tabid'),
 			data: data
 		});
@@ -456,7 +459,7 @@
 	//移除某个选项卡
 	//istrigger：是否触发事件
 	fn.remove = function(tabid, istrigger) {
-		if (tabid instanceof Array) {
+		/*if (tabid instanceof Array) {
 			var datas = new Array();
 			for (var i = 0; i < tabid.length; i++) {
 				for (var j = 0; j < this.childs.length; j++) {
@@ -469,8 +472,16 @@
 				data: datas
 			});
 			return this;
-		}
+		}*/
 		var data = this.getData(tabid);
+		//触发关闭事件,如果返回false,则不再关闭
+		if (istrigger) {
+			var t = this.trigger('shut', {
+				tabid: tabid,
+				data: data
+			});
+			if (!t) return this;
+		}		
 		var tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		//设置关闭后的焦点选项卡
 		var next = null;
@@ -491,13 +502,7 @@
 		//重建索引和焦点标签
 		this.order();
 		if (next != null) this.focus(next, true);
-		//触发事件
-		if (istrigger) {
-			this.trigger('shut', {
-				tabid: tabid,
-				data: data
-			});
-		}
+
 		//如果全都没有了，则显示默认标签
 		if (this.childs.length < 1 && this.default) {
 			this.add(this.default);
