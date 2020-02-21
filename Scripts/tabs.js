@@ -238,7 +238,7 @@
 		//如果id已经存在，则不再添加，设置原有标签为焦点
 		for (var i = 0; tab.id && i < this.childs.length; i++) {
 			if (this.childs[i].id == tab.id) {
-				this.focus(String(tab.id), false);
+				this.focus(String(tab.id), true);
 				return;
 			}
 		}
@@ -250,7 +250,7 @@
 		this.childs.push(tab);
 		//添加标签
 		var tabtag = this.domtit.add('tab_tag');
-		tabtag.attr('title', tab.title).attr('tabid', tab.id);
+		tabtag.attr('title', tab.path).attr('tabid', tab.id);
 		tabtag.add('ico').html('&#x' + tab.ico);
 		tabtag.add('tagtxt').html(tab.title);
 		tabtag.add('close');
@@ -288,13 +288,13 @@
 		}
 		space.append(iframe[0]);
 		this.order();
-		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
-		this.focus(String(tab.id), false);
+		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);		
 		//新增标签的事件
 		this.trigger('add', {
 			tabid: tab.id,
 			data: tab
 		});
+		this.focus(String(tab.id), true);
 		return this;
 	};
 	//标签栏的可视区域,没有用到此代码

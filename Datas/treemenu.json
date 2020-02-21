@@ -7,6 +7,22 @@
     marker: '',
     intro: '',
     childs: [{
+        title: '选项卡 Tabs',
+        ico: 'a004',
+        childs: [{
+            title: '功能介绍',
+            ico: 'a023',
+            url: 'other/tabs-1.html'
+        }, {
+            title: '与弹窗互动',
+            ico: 'e77c',
+            url: 'other/pagebox-2.html'
+        }, {
+            title: '成员说明',
+            ico: 'a025',
+            url: 'other/tabs-2.html'
+        }]
+    }, {
         title: '弹窗 Pagebox',
         url: 'pagebox.html',
         ico: 'e77c',
@@ -35,44 +51,39 @@
         }, {
             title: '成员说明',
             ico: 'e77c',
-            url:'other/pagebox.html'
-        }]
-    }, {
-        title: '选项卡 Tabs',
-        ico: 'a004',
-        childs: [{
-            title: '功能介绍',
-            ico: 'a025',
-            url: 'other/treemenu-2.html'
-        }, {
-            title: '与弹窗的互动',
-            ico: 'e77c'
+            url: 'other/pagebox.html'
         }]
     }, {
         title: '树形菜单',
         childs: [{
-            title: '默认打开',
-            intro: '默认在右侧tabs中打开'
+            title: '默认打开方式',
+            intro: '默认在右侧tabs中打开',
+            url: 'other/treemenu-1.html'
         }, {
             title: '超链接测试',
-            type:'link',
-            url:'http://www.weishakeji.net'
+            type: 'link',
+            url: 'http://www.weishakeji.net'
         }, {
             title: '脚本执行测试',
-            type:'event',
+            type: 'event',
             url: 'alert("脚本执行测试，OK !");'
         }]
     }, {
         title: '下拉菜单',
-        ico: 'a010',
-        url: 'other/treemenu-3.html',
+        ico: 'a005',
         childs: [{
-            title: '功能介绍'
+            title: '功能介绍',
+            ico: 'a003',
+            url: 'dropmenu.html'
         }]
     }, {
         title: '其它',
         ico: 'a010',
-        url: 'other/treemenu-3.html'
+        childs: [{
+            title: '树形工具条'
+        }, {
+            title: '时间显示'
+        }]
     }]
 
 }, {

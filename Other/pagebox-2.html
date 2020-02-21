@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <title>Pagebox</title>
+    <style type="text/css">
+    html,
+    body {
+        overflow: hidden;
+    }
+
+    #show {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+    * {
+        font-size: 15px;
+    }
+
+    p {
+        font-size: 18px;
+        margin: 10px 20px 10px 20px;
+        padding: 0px;
+        line-height: 25px;
+
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    h1:before {
+        //content: "\e77e";
+        content: "\e77c";
+        font-size: 35px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
+
+    a.home {
+        width: 100%;
+        position: absolute;
+        height: 40px;
+        line-height: 40px;
+        display: inline-block;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+    }
+
+    p{
+
+    }
+
+    b {
+        font-size: 16px !important;
+        margin-top: 10px !important;
+        display: block;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='self.event.returnValue=false'>
+ 
+    <div>
+        <h1 class="webdesk_icon" style="margin: 0px 0px 0px 20px">测试选项卡与弹窗的互动
+        </h1>
+        <p>&nbsp;</p>
+        <p>在选项卡内创建的窗体，与选项卡有关联性。</p>
+        <ul>
+            <li>当切换选项卡时，关联窗体会最小化或还原</li>
+            <li>当选项卡关闭时，关联的窗体会同步关闭</li>            
+        </ul>
+    </div>
+    <div class="btnbox" style="position: absolute;top: 40px;right: 20px">
+        <button type="button">创建窗体</button>
+        <div style="color: red;">然后，切换选项卡，试试</div>
+        <div style="font-size: 12px;margin-top: 20px; color: #aaa;">可以点击标签切换，也可以鼠标滚轮切换</div>
+    </div>
+    
+</body>
+<script type="text/javascript">
+$dom('button').click(function() {
+    window.top.$pagebox.create({
+        width: 400,
+        height: 300,
+        pid:window.name,
+        url: 'pagebox-child.html',
+        title: '可移动，可缩放；双击标题栏全屏'
+    }).open();
+});
+
+</script>
+
+</html>

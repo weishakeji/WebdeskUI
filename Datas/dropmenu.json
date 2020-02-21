@@ -45,19 +45,24 @@
  	}]
  }, {
  	title: '帮助',
+ 	ico:'a026',
  	url: 'other/treemenu-3.html',
  	childs: [{
- 		title: '查看帮助'
+ 		title: '查看帮助',
+ 		ico:'a026'
  	}, {
- 		title: '版权'
+ 		title: '版权',
+ 		ico:'a028'
  	}, {
- 		title: '开源协议'
+ 		title: '开源协议',
+ 		ico:'a034'
  	}, {
  		type: 'hr'
  	}, {
  		title: '微厦科技'
+ 		
  	}, {
  		title: '关于',
- 		ico: 'a021'
+ 		ico: 'a031'
  	}]
  }]

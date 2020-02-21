@@ -1,15 +1,15 @@
 [{
-title:'设置',
-ico:'e72f'
+title:'主题皮肤',
+ico:'a044'
 
 },{
     title: '开源协议',
     url: 'other/treemenu-1.html',
-    ico:'a010',
+    ico:'a034',
     intro: '基本功能简介'
 }, {
     title: '在线帮助',
-    ico: 'a003',
+    ico: 'e72f',
     childs: [{
         title: '在线学习',
         ico: 'a025',
@@ -31,5 +31,5 @@ ico:'e72f'
 }, {
     title: '关于',
     url: 'other/treemenu-3.html',
-    ico:'e6bd'
+    ico:'a031'
 }]
