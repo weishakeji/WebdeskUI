@@ -8,7 +8,7 @@
  * 最后修订：2020年2月4日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function() {
+(function(win) {
 	/* 用于记录对象时所需的一些属性 */
 	var control = function(param) {
 		this.id = 0; //控件的id
@@ -145,7 +145,7 @@
 				}
 			}
 		},
-		//获取某一类事件的集体，用于事件多播
+		//获取某一类事件的集合，用于事件多播
 		list: function(eventName) {
 			var arrEvent = new Array();
 			if (!this._eventlist) return arrEvent;
@@ -241,9 +241,9 @@
 			}
 		}
 	};
-	window.$ctrl = control;
-	window.$ctrls = new controls();
-})();
+	win.$ctrl = control;
+	win.$ctrls = new controls();
+})(window);
 /*
 var t = window.$ctrls.add('ttt', new $contrl({ id: 5899, type: 'pagebox' }));
 console.log(t.size());

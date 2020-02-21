@@ -13,9 +13,8 @@
  	childs: [{
  		title: '产品介绍',
  		ico: 'a025',
- 		type:'link',
- 		img: 'images/head1.jpg',
- 		url: 'other/treemenu-2.html',
+ 		type:'link',		
+ 	
  		childs: [{
  			title: '学练考一体',
  			url:'http://www.baidu.com',
@@ -26,6 +25,7 @@
  	}, {
  		title: '功能特点',
  		ico: 'a023',
+ 		img: 'images/head1.jpg',
  		url: 'other/treemenu-2.html'
  	}, {
  		title: '应用场景',
@@ -55,7 +55,15 @@
  		ico:'a028'
  	}, {
  		title: '开源协议',
- 		ico:'a034'
+ 		ico:'a034',
+ 		type:'open',
+ 		url:'other/mit.html',
+ 		width:620,
+ 		height:350,
+ 		min:false,
+ 		max:false,
+ 		resize:false,
+        id:'license_mit'
  	}, {
  		type: 'hr'
  	}, {

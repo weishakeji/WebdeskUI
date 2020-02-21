@@ -19,8 +19,8 @@
         if (param == null || typeof(param) != 'object') param = {};
         //默认参数，
         this.attrs = {
-            width: 100,
-            height: 200,
+            width: 200,
+            height: 150,
             top: null,
             left: null,
             bottom: null,

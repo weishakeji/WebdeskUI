@@ -449,7 +449,7 @@ pagebox_bg_mask {
 /* 焦点窗体的样式 */
 
 .pagebox_focus {
-    background-color: rgba(161, 197, 247, 0.8);
+    background-color: rgba(161, 197, 247, 0.95);
     box-shadow: 2px 2px 3px 1px rgba(122, 122, 122, 0.3), -2px -2px 3px 1px rgba(122, 122, 122, 0.3);
 }
 
