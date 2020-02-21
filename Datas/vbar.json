@@ -3,10 +3,16 @@ title:'主题皮肤',
 ico:'a044'
 
 },{
-    title: '开源协议',
-    url: 'other/treemenu-1.html',
-    ico:'a034',
-    intro: '基本功能简介'
+   title: '开源协议',
+        ico:'a034',
+        type:'open',
+        url:'other/mit.html',
+       width:620,
+        height:350,
+        min:false,
+        max:false,
+        resize:false,
+        id:'license_mit'
 }, {
     title: '在线帮助',
     ico: 'e72f',

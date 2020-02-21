@@ -89,14 +89,6 @@ function nodeClick(sender, eventArgs) {
 	//console.log(eventArgs.data.title);
 	switch (data.type) {
 		case 'open':
-		/*
-			$pagebox.create(data)({
-				id: data.id ? data.id : null,
-				width: data.width ? data.width : 400,
-				height: data.height ? data.height : 200,
-				url: data.url ? data.url : '',
-				title: data.title
-			}).open();*/
 			$pagebox.create(data).open();
 			break;
 		case 'event':
@@ -108,7 +100,8 @@ function nodeClick(sender, eventArgs) {
 			}
 			break;
 		default:
-			window.tabsContent.add(data);
+			if (!!data.url)
+				window.tabsContent.add(data);
 			break;
 	}
 }
