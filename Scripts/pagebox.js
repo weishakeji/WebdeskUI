@@ -28,7 +28,7 @@
             level: null, //窗体的层深
             initLvl: 3000, //初始层深
             title: '默认标题',
-            ico: '&#xe77c', //图标
+            ico: 'e77c', //图标
             url: '',
             id: 0,
             pid: '', //父级窗体名称
@@ -239,7 +239,7 @@
         title: function(obj) {
             //图标和标题文字
             var title = obj.dom.add('pagebox_title');
-            title.add('pb-ico').html(obj.ico);
+            title.add('pb-ico').html('&#x'+obj.ico);
             if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.add('pb-ico').addClass('pb-loading').html('&#xe621');
@@ -454,7 +454,7 @@
         title: function(target, area) {
             var min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
             //图标和标题文字           
-            min.add('pb-ico').html(target.ico);
+            min.add('pb-ico').html('&#x'+target.ico);
             min.add('pb-text').html(target.title);
             min.find('pb-ico,pb-text').click(function(e) {
                 var obj = box._getObj(e);

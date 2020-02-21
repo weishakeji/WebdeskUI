@@ -30,6 +30,13 @@ ico:'a044'
     }]
 }, {
     title: '关于',
-    url: 'other/treemenu-3.html',
-    ico:'a031'
+        ico: 'a031',
+        url:'other/about.html',
+        type:'open',
+        width:600,
+        height:400,
+        min:false,
+        max:false,
+        resize:false,
+        id:'about'
 }]

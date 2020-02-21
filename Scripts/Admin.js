@@ -89,13 +89,15 @@ function nodeClick(sender, eventArgs) {
 	//console.log(eventArgs.data.title);
 	switch (data.type) {
 		case 'open':
-			$pagebox.create({
+		/*
+			$pagebox.create(data)({
 				id: data.id ? data.id : null,
 				width: data.width ? data.width : 400,
 				height: data.height ? data.height : 200,
 				url: data.url ? data.url : '',
 				title: data.title
-			}).open();
+			}).open();*/
+			$pagebox.create(data).open();
 			break;
 		case 'event':
 			if (!data.url) return;
