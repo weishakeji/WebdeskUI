@@ -250,7 +250,7 @@
 		this.childs.push(tab);
 		//添加标签
 		var tabtag = this.domtit.add('tab_tag');
-		tabtag.attr('title', tab.path).attr('tabid', tab.id);
+		tabtag.attr('title', tab.title).attr('tabid', tab.id);
 		tabtag.add('ico').html('&#x' + tab.ico);
 		tabtag.add('tagtxt').html(tab.title);
 		tabtag.add('close');

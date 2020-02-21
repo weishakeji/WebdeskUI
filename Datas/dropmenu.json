@@ -8,7 +8,7 @@
  		bold: true
  	}
  }, {
- 	title: '系统说明系统说明系统说明',
+ 	title: '系统说明',
  	ico: 'a010',
  	childs: [{
  		title: '产品介绍',
