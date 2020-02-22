@@ -67,7 +67,10 @@
  	}, {
  		type: 'hr'
  	}, {
- 		title: '微厦科技'
+ 		title: '微厦科技',
+ 		type:'link',
+ 		ico: 'a024',
+ 		url:'http://www.weishakeji.net'
  		
  	}, {
  		title: '关于',

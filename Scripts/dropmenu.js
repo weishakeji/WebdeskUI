@@ -316,19 +316,25 @@
 			'line-height': this._height + 'px',
 			'height': this._height + 'px'
 		});
-		if (item.img) {
-			node.add('ico').add('img').attr('src', item.img);
-		} else {
-			node.add('ico').html(item.ico ? '&#x' + item.ico : '');
-		}
+
 		//节点类型
 		node.attr('type', item.type ? item.type : 'node');
 		var span = null;
 		if (item.type == 'link') {
 			var link = node.add('a');
+			if (item.img) {
+				link.add('ico').add('img').attr('src', item.img);
+			} else {
+				link.add('ico').html(item.ico ? '&#x' + item.ico : '');
+			}
 			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
 			span = link.add('span');
 		} else {
+			if (item.img) {
+				node.add('ico').add('img').attr('src', item.img);
+			} else {
+				node.add('ico').html(item.ico ? '&#x' + item.ico : '');
+			}
 			span = node.add('span');
 		}
 
