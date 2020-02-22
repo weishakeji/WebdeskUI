@@ -36,6 +36,8 @@
 }
 .dropmenu drop_roots {
     height: 100%;
+    display: flex;
+    flex-direction: row;
 }
 .dropmenu drop-node a{
     text-decoration:none;
@@ -58,6 +60,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-right: 10px;
+    flex: 1;
 }
 
 .dropmenu drop_roots drop-node:hover,
@@ -99,7 +102,7 @@
 .dropmenu drop-panel {
     position: absolute;
     background-color: rgba(238,238,238,.96);
-    width: 180px;
+    min-width: 120px;
     border-radius: 2px;
     border: 1px solid #bbb;
     --box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.6), -2px -2px 2px rgba(200, 200, 200, 0.6);

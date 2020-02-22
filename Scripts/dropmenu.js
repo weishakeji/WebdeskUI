@@ -17,7 +17,7 @@
 			target: '', //所在Html区域			
 			width: 100,
 			height: 30,
-			plwidth: 160, //子菜单面板的宽度
+			plwidth: 150, //子菜单面板的宽度
 			level: 1000, //菜单的初始深度
 			id: '',
 			bind: true //是否实时数据绑定
@@ -69,13 +69,14 @@
 	fn._watch = {
 		'width': function(obj, val, old) {
 			if (obj.dom) {
-				var root = obj.domtit.find('drop-node');
-				if (root.length > 0) {
-					//var padding = parseInt(root.get(0).css('padding-right'));					
-					obj.domtit.find('drop-node').width(val - 10);
-					if (obj.datas) obj.dom.width(obj.datas.length * val);
+				obj.dom.width(val);
+				//第一次下拉菜单的宽度，不受plwidth属性限制
+				if (obj.datas && obj.datas.length > 0) {
+					var wd = val / obj.datas.length;
+					wd = wd > obj.plwidth ? wd : obj.plwidth;
+					obj.dombody.find('drop-panel.level1').width(wd);
 				}
-				obj.dombody.find('drop-panel.level1').width(val > 200 ? val : 200);
+
 			};
 		},
 		'height': function(obj, val, old) {
@@ -83,7 +84,7 @@
 		},
 		//子菜面板宽度
 		'plwidth': function(obj, val, old) {
-			if (obj.dombody) obj.dombody.find('drop-panel').width(val);
+			if (obj.dombody) obj.dombody.find('drop-panel:not(.level1)').width(val);
 		},
 		//设定深度
 		'level': function(obj, val, old) {
@@ -178,6 +179,7 @@
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
 				panel.attr('pid', item.id).level(item.level + item.index + 1);
+				if (item.level == 1) panel.addClass('level1');
 				//计算高度
 				var height = 0;
 				for (var i = 0; i < item.childs.length; i++) {
