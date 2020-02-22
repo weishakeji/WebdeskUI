@@ -1,7 +1,7 @@
  [{
- 	title: '网站首页',
+ 	title: '首页',
  	url: '/',
- 	intro: '基本功能简介',
+ 	intro: '网站首页',
  	type:'link',
  	ico: 'a020',
  	font: {

@@ -138,14 +138,18 @@
         display: block;
         margin: 10px 0px 10px 0px;
     }
+    #dropmenu-area{
+        background-color: rgba(200,200,200,0.6);
+    }
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
     <div style="height: 40px; padding-left: 20px;">
-        <h1><b class="webdesk_icon"></b>Dropmenu.js 下拉菜单 <span>（无限树形分级，可自定义节点样式）</span><a class='home' href="index.html">返回首页</a></h1>
+        <h1><b class="webdesk_icon"></b>Dropmenu.js 下拉菜单 <span>（无限树形分级，可自定义节点样式）</span></h1>
     </div>
     <div style='margin: 10px;width: calc(100% - 20px);height: calc(100% - 20px - 40px);'>
+         <div id="dropmenu-left" style="position: absolute;left: 10px;top: 50px"></div>
         <div id="dropmenu-area" style="position: absolute;right: 10px;top: 50px"></div>
     </div>
     <div class="intro-panel">
@@ -270,10 +274,12 @@
 </body>
 <script type="text/javascript">
 var drop = $dropmenu.create({
-    target: '#dropmenu-area',
-    width: 120,
+    target: '#dropmenu-left',
+    width: 300,
     height: 30
 });
+
+
 var data = {
     title: '控件说明',
     tit: '说明',
@@ -325,8 +331,10 @@ var data = {
 
 };
 drop.ondata(function(s,e){
-    console.log(e.data);
+    console.log('数据源变更：'+e.data);
+    drop2.add(e.data);
 });
+
 drop.add({title:'首页',url:'/',type:'link',ico: 'a020'});
 drop.add(data);
 var t = $dom.clone(data);
@@ -337,9 +345,15 @@ drop.add(t);
 drop.onclick(function(s, e) {
     console.log('点击：' + e.data.title);
 });
-drop.ondata(function(s,e){
-    console.log('数据源变更：'+e.data);
+var drop2=$dropmenu.create({
+    target: '#dropmenu-area',
+    width: 120,
+    height: 30
 });
+
+
+
+
 </script>
 
 </html>

@@ -102,11 +102,12 @@
 				obj._setinterval = window.setInterval(function() {
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
-						//计算数据源的层深等信息
+						//去除loading信息
 						for (var i = 0; i < obj.datas.length; i++) {
 							if (obj.datas[i].type && obj.datas[i].type == 'loading')
 								obj.datas.splice(i, 1);
-						}
+						}						
+						//计算数据源的层深等信息
 						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
 						obj._datas = JSON.stringify(obj.datas);
