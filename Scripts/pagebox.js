@@ -281,6 +281,7 @@
         //左上角图标的下拉菜单
         dropmenu: function(obj) {
             var menu = obj.dom.add('dropmenu');
+            menu.addClass('ui_menu');
             menu.add('menu_fresh').html('刷新');
             menu.append('hr');
             menu.add('menu_min').html('最小化');
@@ -563,6 +564,15 @@
         var ctrl = $ctrls.get(boxid);
         return ctrl.obj.parent;
     };
+    //所有窗体
+    box.all = function() {
+        var boxs = $ctrls.all('pagebox');
+        var arr = new Array();
+        for (var i = 0; i < boxs.length; i++) {
+            arr.push(boxs[i].obj);
+        }
+        return arr;
+    };
     //用于事件中，取点击的pagebox的对象
     box._getObj = function(e) {
         var node = event.target ? event.target : event.srcElement;
@@ -841,14 +851,66 @@
     box.pageboxcollect = function() {
         window.addEventListener('load', function(e) {
             var collect = $dom(window.$pageboxcollect);
+            collect.attr('title', '窗体管理');
+            var area = $dom('pagebox-minarea');
+            if (area.length < 1) area = $dom('body').add('pagebox-minarea');
+            //窗体管理的点击事件
             collect.addClass('pagebox-collect').click(function() {
                 var state = collect.attr('state');
                 collect.attr('state', state == 'open' ? 'close' : 'open');
                 if (collect.attr('state') == 'open')
                     box.pageboxcollect_boxcreate();
             });
+            //窗体集中管理中的右键菜单
+            collect.merge($dom('pagebox-minarea')).bind('contextmenu', function(e) {
+                var menu = box.pageboxcollect_contextmenu($dom.mouse(e));
+            });
         });
 
+    };
+    //窗体集中管理区的右键菜单
+    box.pageboxcollect_contextmenu = function(mouse) {
+        var menu = $dom('pageboxcollect_contextmenu');
+        if (menu.length < 1) {
+            menu = $dom('body').add('pageboxcollect_contextmenu');
+            menu.addClass('ui_menu');
+            menu.css('position', 'absolute');
+            menu.add('menu_all_towindow').html('全部还原');
+            menu.add('menu_all_min').html('全部最小化');
+            menu.add('hr');
+            menu.add('menu_all_close').html('全部关闭');
+            //菜单事件
+            menu.childs().click(function(e) {
+                //识别按钮，获取事件动作             
+                var node = event.target ? event.target : event.srcElement;
+                if (node.tagName.indexOf('_') < 0) return;
+                var action = node.tagName.substring(node.tagName.lastIndexOf('_') + 1).toLowerCase();
+                $dom('pageboxcollect_contextmenu').hide();
+                var boxs = box.all();
+                for (var i = 0; i < boxs.length; i++) {
+                    //还原
+                    if (action == 'towindow') {
+                        if (boxs[i].mini) boxs[i].mini = false;
+                        if (boxs[i].full) boxs[i].full = false;
+                    }
+                    //最小化
+                    if (action == 'min') boxs[i].mini = true;
+                    //关闭
+                    if (action == 'close') boxs[i].shut();
+                }
+            });
+
+            menu.bind('mouseleave', function(e) {
+                $dom('pageboxcollect_contextmenu').hide();
+            });
+        }
+        menu.show();
+        var maxwd = window.innerWidth;
+        var maxhg = window.innerHeight;
+        var left = mouse.x + menu.width() > maxwd ? mouse.x - menu.width() + 5 : mouse.x - 5;
+        var top = mouse.y + menu.height() > maxhg ? mouse.y - menu.height() + 5 : mouse.y - 5;
+        menu.left(left).top(top);
+        return menu;
     };
     //生成窗体最小化的管理区
     box.pageboxcollect_boxcreate = function() {
