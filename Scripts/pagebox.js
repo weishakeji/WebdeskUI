@@ -552,12 +552,12 @@
         if (typeof(param.pid) == 'undefined') param.pid = window.name;
         var pbox = new box(param);
         pbox._initialization();
+        //加载后，禁用右键
         pbox.onload(function(s, e) {
             var doc = s.document();
             doc.document.oncontextmenu = function() {
                 return false
             }
-            console.log(e.target);
         });
         return pbox;
     };
