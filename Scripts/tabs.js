@@ -29,7 +29,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
-		eval($ctrl.event_generate(['shut', 'add', 'change', 'full']));
+		eval($ctrl.event_generate(['shut', 'add', 'change', 'full','help']));
 		//以下不支持双向绑定
 		this.childs = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -277,6 +277,8 @@
 			'src': tab.url ? tab.url : ''
 		});
 		iframe.width('100%');
+		//如果有帮助，但没有路径，那么路径等于标题
+		if (!!tab.help && !tab.path) tab.path = tab.title;
 		if (!!tab.path) {
 			var path = space.add('tabpath');
 			var paths = tab.path.split(',');
@@ -284,6 +286,7 @@
 				path.html(path.html() + paths[i]);
 				if (i < paths.length - 1) path.html(path.html() + '<i>></i>');
 			}
+			if (!!tab.help) path.add('help');
 			path.width('100%').height(30);
 			iframe.height('calc(100% - 30px)');
 		} else {
@@ -386,6 +389,21 @@
 					event.preventDefault();
 					return false;
 				});
+		},
+		//帮助按钮点击事件
+		help: function(obj, tabid) {
+			obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] help').click(function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
+				var tabid = $dom(node).attr('tabid');
+				var obj = tabs._getObj(node);
+				var data = obj.getData(tabid); //当前数据项
+				//触发帮助信息打开的事件
+				obj.trigger('help', {
+					tabid: tabid,
+					data: data
+				})
+			});
 		}
 	};
 	//排序
@@ -462,20 +480,6 @@
 	//移除某个选项卡
 	//istrigger：是否触发事件
 	fn.remove = function(tabid, istrigger) {
-		/*if (tabid instanceof Array) {
-			var datas = new Array();
-			for (var i = 0; i < tabid.length; i++) {
-				for (var j = 0; j < this.childs.length; j++) {
-					if (this.childs[j].id == tabid[i]) datas.push(this.childs[j])
-				}
-				this.remove(tabid[i], false);
-			}
-			this.trigger('shut', {
-				tabid: tabid,
-				data: datas
-			});
-			return this;
-		}*/
 		var data = this.getData(tabid);
 		//触发关闭事件,如果返回false,则不再关闭
 		if (istrigger) {

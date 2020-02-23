@@ -487,6 +487,10 @@ pagebox_bg_mask {
 
 .pagebox-collect::before {
     content: '\a002';
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 100%;
     font-family: "webdesk_icon" !important;
     font-size: 40px;
 }

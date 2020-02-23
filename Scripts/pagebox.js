@@ -453,6 +453,7 @@
         },
         title: function(target, area) {
             var min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
+            min.attr('title', target.title);
             //图标和标题文字           
             min.add('pb-ico').html('&#x' + target.ico);
             min.add('pb-text').html(target.title);
@@ -863,10 +864,10 @@
         region += document.documentElement.clientWidth / 2 < offset.left + collect.width() / 2 ? 'right' : 'left';
         region += document.documentElement.clientHeight / 2 < offset.top + collect.height() / 2 ? 'bottom' : 'top';
         //设置"最小化的管理区"的位置
-        if (region.indexOf('right') > -1) area.css('right', (document.documentElement.clientWidth - offset.left) + 'px');
+        if (region.indexOf('right') > -1) area.css('right', (document.documentElement.clientWidth - offset.left + 0) + 'px');
         if (region.indexOf('left') > -1) area.left(offset.left + collect.width());
         if (region.indexOf('top') > -1) area.top(offset.top);
-        if (region.indexOf('bottom') > -1) area.css('bottom', (document.documentElement.clientHeight - offset.top - collect.height()) + 'px');
+        if (region.indexOf('bottom') > -1) area.css('bottom', (document.documentElement.clientHeight - offset.top - collect.height() * 3 / 4) + 'px');
     };
     //自动设置最小化管理的宽高
     box.pageboxcollect_boxsize = function() {

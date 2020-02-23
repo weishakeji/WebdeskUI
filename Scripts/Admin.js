@@ -74,6 +74,15 @@ $dom.ready(function() {
 		}
 	});
 	tabs.onshut(tabsShut).onchange(tabsChange);
+	tabs.onhelp(function(s, e) {
+		$pagebox.create({
+			pid: e.data.id,		//父id,此处必须设置，用于判断该弹窗属于哪个选项卡
+			width: 600,
+			height: 400,
+			url: e.data.help,
+			title: e.data.title + '- 帮助'
+		}).open();
+	});
 	window.tabsContent = tabs;
 });
 /*

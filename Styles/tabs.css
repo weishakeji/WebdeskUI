@@ -262,6 +262,24 @@ tabs_tagbox tab_tag close:hover {
     transform: rotate(180deg);
     font-family: "webdesk_icon" !important;
 }
+
+.tabsbox tabs_body tabpace tabpath help:before{
+   display: block;
+    width: 30px;
+    height:30px;
+    position: absolute;
+    right: 14px;
+    top:0px;
+    content: '\a026';
+    text-align: left;
+    color: #999;
+    font-size: 18px;
+     font-family: "webdesk_icon" !important;
+}
+.tabsbox tabs_body tabpace tabpath help:hover{
+    cursor: pointer;
+    text-shadow: 1px 1px 2px #666;
+}
 .tabsbox tabs_body tabpace iframe {
     
     bottom: 0px;

@@ -18,6 +18,11 @@
             ico: 'e77c',
             url: 'other/pagebox-2.html'
         }, {
+            title: '带帮助按钮',
+            ico: 'e77c',
+            url: 'other/pagebox-2.html',
+            help:'other/pagebox-2.html'
+        }, {
             title: '成员说明',
             ico: 'a025',
             url: 'other/tabs-2.html'
