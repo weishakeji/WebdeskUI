@@ -428,6 +428,7 @@
     z-index: 4;
     display: block;
 }
+
 /*正在拖动窗体时，显示遮罩*/
 
 .pagebox_drag pagebox_mask {
@@ -437,6 +438,7 @@
 .pagebox_focus pagebox_mask {
     display: none;
 }
+
 /*窗体背景遮罩*/
 pagebox_bg_mask {
     display: block;
@@ -446,6 +448,7 @@ pagebox_bg_mask {
     background-color: rgba(255, 255, 255, .01);
 
 }
+
 /* 焦点窗体的样式 */
 
 .pagebox_focus {
@@ -577,4 +580,3 @@ pagebox-min btn_close:before {
     border-radius: 0px 0px 4px 0px;
     font-family: "webdesk_icon" !important;
 }
-

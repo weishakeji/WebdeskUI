@@ -26,7 +26,7 @@
             bottom: null,
             right: null,
             level: null, //窗体的层深
-            initLvl: 3000, //初始层深
+            initLvl: 10000, //初始层深
             title: '默认标题',
             ico: 'e77c', //图标
             url: '',
@@ -239,7 +239,7 @@
         title: function(obj) {
             //图标和标题文字
             var title = obj.dom.add('pagebox_title');
-            title.add('pb-ico').html('&#x'+obj.ico);
+            title.add('pb-ico').html('&#x' + obj.ico);
             if (obj.url != '') {
                 title.find('pb-ico').hide();
                 title.add('pb-ico').addClass('pb-loading').html('&#xe621');
@@ -454,7 +454,7 @@
         title: function(target, area) {
             var min = area.find('pagebox-min[boxid=\'' + target.id + '\']');
             //图标和标题文字           
-            min.add('pb-ico').html('&#x'+target.ico);
+            min.add('pb-ico').html('&#x' + target.ico);
             min.add('pb-text').html(target.title);
             min.find('pb-ico,pb-text').click(function(e) {
                 var obj = box._getObj(e);
@@ -527,14 +527,13 @@
     fn.toMinimize = function() {
         return box.toMinimize(this.id);
     };
-    //处于背景的遮罩
-    fn.bgmask = {
-        show: function() {
-            box.mask.show(this);
-        },
-        hide: function() {
-            box.mask.hide();
-        }
+    //显示背景的遮罩
+    fn.showBgMark = function() {
+        box.mask.show(this);
+    };
+    //隐藏背景的遮罩
+    fn.hideBgMask = function() {
+        box.mask.hide();
     };
     /*** 
     以下是静态方法
@@ -765,7 +764,7 @@
             //移动窗体   
             if (ago.target == 'pagebox_dragbar') {
                 if (box.move) {
-                    ctrl.obj.bgmask.show();
+                    ctrl.obj.showBgMark();
                     box.left = ago.offset.left + eargs.move.x;
                     box.top = ago.offset.top + eargs.move.y;
                     //触发拖动事件
@@ -775,7 +774,7 @@
             } else {
                 //缩放窗体
                 if (box.resize) {
-                    ctrl.obj.bgmask.show();
+                    ctrl.obj.hideBgMark();
                     var minWidth = 200,
                         minHeight = 150;
                     if (ctrl.dom.attr('resize') != 'false') {

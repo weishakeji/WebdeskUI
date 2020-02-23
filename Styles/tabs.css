@@ -448,7 +448,7 @@ tabs_morebox tab_tag close:before {
 /*最大化区域*/
 tabs_fullbox {
     position: absolute;
-    z-index: 999999;
+    z-index: 9999;
     //background-color: rgba(255,0,0,.6);
     background-color: #fff;
     display: none;

@@ -74,8 +74,11 @@
 		//更多标签的面板是否显示
 		'morebox': function(obj, val, old) {
 			if (obj.domore) {
-				if (val) obj.domore.width(200).css('opacity', 1);
+				if (val) obj.domore.show().width(200).css('opacity', 1);
 				if (!val) obj.domore.width(0).css('opacity', 0);
+				window.setTimeout(function() {
+					if (!val) obj.domore.hide();
+				}, 300);
 			}
 		},
 		//右键菜单的显示
@@ -288,7 +291,7 @@
 		}
 		space.append(iframe[0]);
 		this.order();
-		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);		
+		for (var t in this._tagBaseEvents) this._tagBaseEvents[t](this, tab.id);
 		//新增标签的事件
 		this.trigger('add', {
 			tabid: tab.id,
@@ -434,9 +437,9 @@
 		//设置当前标签为焦点
 		tag.addClass('tagcurr');
 		tag.level(this.domtit.childs().level() + 1);
-		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();		
+		this.dombody.find('tabpace[tabid=\'' + tag.attr('tabid') + '\']').show();
 		//触发事件
-		if (istrigger && data!=null) this.trigger('change', {
+		if (istrigger && data != null) this.trigger('change', {
 			tabid: tag.attr('tabid'),
 			data: data
 		});
@@ -481,7 +484,7 @@
 				data: data
 			});
 			if (!t) return this;
-		}		
+		}
 		var tittag = this.domtit.find('tab_tag[tabid=\'' + tabid + '\']');
 		//设置关闭后的焦点选项卡
 		var next = null;
