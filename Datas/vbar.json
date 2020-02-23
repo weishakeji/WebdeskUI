@@ -3,6 +3,10 @@ title:'主题皮肤',
 ico:'a044'
 
 },{
+title:'夜间模式/日间模式',
+ico:'a032'
+
+},{
    title: '开源协议',
         ico:'a034',
         type:'open',

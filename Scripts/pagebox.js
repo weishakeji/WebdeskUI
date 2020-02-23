@@ -552,6 +552,13 @@
         if (typeof(param.pid) == 'undefined') param.pid = window.name;
         var pbox = new box(param);
         pbox._initialization();
+        pbox.onload(function(s, e) {
+            var doc = s.document();
+            doc.document.oncontextmenu = function() {
+                return false
+            }
+            console.log(e.target);
+        });
         return pbox;
     };
     //创建窗体对象并打开
@@ -785,7 +792,7 @@
             } else {
                 //缩放窗体
                 if (box.resize) {
-                    ctrl.obj.hideBgMark();
+                    ctrl.obj.showBgMark();
                     var minWidth = 200,
                         minHeight = 150;
                     if (ctrl.dom.attr('resize') != 'false') {
