@@ -97,7 +97,6 @@
 				obj.dom.width(40);
 				var offset = obj.dom.offset();
 				obj.dombody.css('position', 'absolute');
-				console.log(offset.left);
 				obj.dombody.left(offset.left + obj.domtit.width()).height(obj.dom.height()).width(0);
 			} else {
 				obj.dom.width(obj.width);
