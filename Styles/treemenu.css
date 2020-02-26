@@ -217,7 +217,7 @@
 /*树形节点*/
 .treemenu tree-node {
     position: relative;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 30px;
     height: 30px;
     cursor: pointer;
@@ -225,7 +225,7 @@
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: nowrap;   
 }
 
 .treemenu tree-node span {
@@ -272,7 +272,7 @@
 
 .treemenu tree-node:hover {
     --background-color: rgba(200, 200, 200, 1);
-    text-shadow: 1px 1px 2px #666;
+    text-shadow: 1px 1px 2px #999;
 
 }
 

@@ -9,11 +9,17 @@
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
     <script type="text/javascript" src="Scripts/ctrls.js"></script>
     <script type="text/javascript" src="Scripts/Dropmenu.js"></script>
-    <script type="text/javascript" src="Scripts/tabs.js"></script>
     <link rel="stylesheet" type="text/css" href="Styles/Dropmenu.css" />
-    <link rel="stylesheet" type="text/css" href="Styles/tabs.css" />
     <style type="text/css">
     html,
+    body {
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+
+    }
+
     body {
         overflow: hidden;
         background: url('images/530cd9ce43bbc8d0c9176885.jpg');
@@ -138,8 +144,9 @@
         display: block;
         margin: 10px 0px 10px 0px;
     }
-    #dropmenu-area{
-        background-color: rgba(200,200,200,0.6);
+
+    #dropmenu-area {
+        background-color: rgba(200, 200, 200, 0.6);
     }
     </style>
 </head>
@@ -149,14 +156,14 @@
         <h1><b class="webdesk_icon"></b>Dropmenu.js 下拉菜单 <span>（无限树形分级，可自定义节点样式）</span></h1>
     </div>
     <div style='margin: 10px;width: calc(100% - 20px);height: calc(100% - 20px - 40px);'>
-         <div id="dropmenu-left" style="position: absolute;left: 10px;top: 50px"></div>
+        <div id="dropmenu-left" style="position: absolute;left: 10px;top: 50px"></div>
         <div id="dropmenu-area" style="position: absolute;right: 10px;top: 50px"></div>
     </div>
     <div class="intro-panel">
         <b>简述：</b>
         <div>
             <ul>
-                <li>支持无限级菜单分类</li>               
+                <li>支持无限级菜单分类</li>
                 <li>可自定义节点样式，例如：粗体、斜体、颜色</li>
                 <li>属性支持双向绑定，可监听</li>
                 <li>节点事件可定义</li>
@@ -206,7 +213,7 @@
                     <td>√ </td>
                     <td>√ </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td>plwidth</td>
                     <td>子菜单面板panel的宽度，第一级菜单面板会跟据根菜单宽度变化，子菜单宽度为width/datas.length</td>
                     <td>√ </td>
@@ -259,9 +266,9 @@
                         <td>当数据源变更时</td>
                         <td>同上</td>
                         <td>e.event：事件名称<br>
-                e.action：动作，默认与e.event同值<br>
-                e.target：响应事件的html元素，此处为窗体的html<br>
-                e.data：数据源</td>
+                            e.action：动作，默认与e.event同值<br>
+                            e.target：响应事件的html元素，此处为窗体的html<br>
+                            e.data：数据源</td>
                     <tr>
                         <td>click</td>
                         <td>节点点击</td>
@@ -291,7 +298,7 @@ var data = {
         title: '功能简介',
         url: 'other/treemenu-1.html',
         intro: '基本功能简介',
-        type:'link',
+        type: 'link',
         font: {
             color: 'green',
             bold: true
@@ -330,12 +337,12 @@ var data = {
     pid: 0
 
 };
-drop.ondata(function(s,e){
-    console.log('数据源变更：'+e.data);
+drop.ondata(function(s, e) {
+    console.log('数据源变更：' + e.data);
     drop2.add(e.data);
 });
 
-drop.add({title:'首页',url:'/',type:'link',ico: 'a020'});
+drop.add({ title: '首页', url: '/', type: 'link', ico: 'a020' });
 drop.add(data);
 var t = $dom.clone(data);
 t.title = '克隆第一个菜单';
@@ -345,15 +352,11 @@ drop.add(t);
 drop.onclick(function(s, e) {
     console.log('点击：' + e.data.title);
 });
-var drop2=$dropmenu.create({
+var drop2 = $dropmenu.create({
     target: '#dropmenu-area',
     width: 120,
     height: 30
 });
-
-
-
-
 </script>
 
 </html>
