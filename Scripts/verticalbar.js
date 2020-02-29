@@ -338,7 +338,7 @@
 		return childs;
 	};
 	/*
-	dropmenu的静态方法
+	静态方法
 	*/
 	verticalbar.create = function(param) {
 		if (param == null) param = {};

@@ -220,7 +220,7 @@
 				}
 				//最大化
 				if (action == 'full') {
-					obj.focus(String(tabid));
+					obj.focus(String(tabid),true);
 					tabs.full(obj, tabid);
 				}
 				//还原

@@ -130,6 +130,7 @@
     cursor: pointer;
     z-index: 2;
     color: #555;
+    --transition: transform 0.3s;
 }
 
 .treemenu tree_tags tree-foldbtn.fold {

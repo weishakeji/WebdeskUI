@@ -622,5 +622,5 @@
 	})();
 	//创建全局对象，方便调用
 	window.$dom = webdom;
-	window.$dom.load.css('styles/webdesk.ui.core.css');
+	window.$dom.load.css('/styles/webdesk.ui.core.css');
 })();

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Timer</title>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="Scripts/ctrls.js"></script>
+    <script type="text/javascript" src="Scripts/timer.js"></script>
+    <style type="text/css">
+    html,
+    body {
+        overflow: hidden;
+        background-size: 100% 100%;
+        background-color: #eee;
+    }
+
+    h1 {
+        font-size: 25px;
+        color: #333;
+        margin: 0px;
+        display: block;
+        overflow: hidden;
+        height: 40px;
+        font-weight: 900;
+        white-space: nowrap;
+        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+    }
+
+    h1 span {
+
+        font-size: 15px;
+        margin-left: 20px;
+    }
+
+    h1 b:before {
+        content: "\a021";
+        font-size: 30px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
+
+    a.home {
+        display: block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+    }
+
+    #space {
+        float: left;
+        background-color: yellow;
+        height: 200px;
+        width: 200px;
+        transition: width 0.3s, height 0.3s;
+    }
+
+
+
+    a {
+        color: #000;
+    }
+
+    p {
+        font-size: 15px;
+        margin: 0px;
+        padding: 0px;
+        line-height: 25px;
+    }
+
+    .intro-panel {
+        margin: 10px;
+        position: absolute;
+        width: calc(100% - 140px);
+        height: calc(100% - 140px);
+        left: 40px;
+        bottom: 0px;
+        padding: 20px;
+        overflow: auto;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+    timer{
+        display: block;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='return false;'>
+    <div style="height: 40px; padding-left: 20px;">
+        <h1><b class="webdesk_icon"></b>Timer.js 时间显示 <a class='home' href="index.html">返回首页</a></h1>
+    </div>
+    <div class="intro-panel">
+        <b>简述：</b>
+        <div>
+            <ul>
+                <li>功能比较简单，只是显示时间</li>
+                <li>可以格式化</li>
+            </ul>
+        </div>
+
+        <timer format='yyyy年M月d日 星期w hh:mm:ss'></timer>
+
+         <timer format='yy-M-d HH:mm:ss'></timer>
+    </div>
+</body>
+<script type="text/javascript">
+    window.$timer.watch({
+        'second':function(obj,val,old){
+            //console.log(val);
+        }
+    });
+</script>
+</html>
