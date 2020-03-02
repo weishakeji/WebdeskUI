@@ -17,7 +17,7 @@
         versionDefault: "1", //默认版本号
         //调用地址的根路径
         baseURL: '',
-        pathUrl: "datas/", //url路径
+        pathUrl: "/datas/", //url路径
     };
     //版权信息
     var copyright = {};

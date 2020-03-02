@@ -21,7 +21,8 @@ $dom.ready(function() {
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
-		width: 110
+		width: 110,
+		id:'main_menu'
 	}).ondata(function(s, e) {
 		//设置页面顶部的文本（系统名称）
 		var left = s.dom.width() + 20;

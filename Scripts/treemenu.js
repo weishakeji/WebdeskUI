@@ -204,7 +204,7 @@
 				var box = area.add('tree_box');
 				box.attr('treeid', item.id);
 				obj._createNode(item, box);
-				if (item.childs && item.childs.length > 0) {
+				if (item.childs && item.childs.length > 0) {					
 					for (var i = 0; i < item.childs.length; i++) {
 						_addchild(box, item.childs[i], obj);
 					}
@@ -298,11 +298,11 @@
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
 				if (tnode.hasClass('folder')) {
-					tnode.attr('class', 'folderclose');
-					tnode.parent().find('tree_box').hide();
+					tnode.attr('class', 'folderclose');					
+					tnode.siblings('tree_box').hide();					
 				} else {
 					tnode.attr('class', 'folder');
-					tnode.parent().find('tree_box').show();
+					tnode.siblings('tree_box').show();					
 				}
 
 			});

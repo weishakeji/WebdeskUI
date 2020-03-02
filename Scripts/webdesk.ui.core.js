@@ -122,10 +122,8 @@
 		}, 1);
 		return new webdom(nodes);
 	};
-	fn.siblings = function() {
-		return this.each(function() {
-			return this.parentNode.childNodes;
-		}, 1);
+	fn.siblings = function(query) {
+		return this.parent().childs(query);	
 	};
 	fn.childs = function(query) {
 		var nodes = this.each(function() {

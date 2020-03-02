@@ -54,7 +54,7 @@
 	};
 	var fn = dropmenu.prototype;
 	fn._initialization = function() {
-		if (!this._id) this._id = 'dropmenu_' + new Date().getTime();
+		if (!this._id) this._id = 'dropmenu_' + Math.random();
 	};
 	//添加数据源
 	fn.add = function(item) {
@@ -106,7 +106,7 @@
 						for (var i = 0; i < obj.datas.length; i++) {
 							if (obj.datas[i].type && obj.datas[i].type == 'loading')
 								obj.datas.splice(i, 1);
-						}						
+						}
 						//计算数据源的层深等信息
 						obj.datas = obj._calcLevel($dom.clone(obj.datas), 1);
 						obj._restructure();
