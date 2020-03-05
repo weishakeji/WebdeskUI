@@ -118,7 +118,7 @@
 			if (!eventArgs) eventArgs = {};
 			if (!eventArgs['event']) eventArgs['event'] = eventName;
 			if (!eventArgs['action']) eventArgs['action'] = eventName;
-			if (!eventArgs['target']) eventArgs['target'] = this.dom[0];
+			if (!eventArgs['target']) eventArgs['target'] = this.dom;
 			//执行事件，当事件中有任一事件返回false，则不再继续执行后续事件
 			var results = [];
 			for (var i = 0; i < arrEvent.length; i++) {

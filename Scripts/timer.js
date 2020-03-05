@@ -27,11 +27,17 @@
 		/* 自定义事件 */
 		//time:当时间初始化时
 		eval($ctrl.event_generate(['time']));
-		//本地Js时间
-		this.localtime = new Date();
+
+		this.datas = new Array(); //数据源，用于记录执行计划
+		this._datas = ''; //数据源的序列化字符串
 		this._initialization();
-		//this._restructure();
 		for (var t in this._baseEvents) this._baseEvents[t](this);
+			$ctrls.add({
+			id: this.id,
+			obj: this,
+			dom: $dom('timer'),
+			type: 'timer'
+		});
 	};
 	var fn = timer.prototype;
 	fn._initialization = function() {
@@ -45,9 +51,25 @@
 			if (Object.prototype.toString.call(val) === "[object String]") {
 				obj._time = new Date(val);
 			}
+			obj.trigger('time', {
+				time: obj._time
+			});
 		},
 		'second': function(obj, val, old) {
-			//console.log(val);
+			for (var i = 0; i < obj.datas.length; i++) {
+				var plan = obj.datas[i];
+				plan._val = !plan._val ? plan.val - 1 : plan._val - 1;
+
+				if (plan._val == 0) {
+					plan._val = plan.val;
+					//循环执行
+					if (plan.loop < 0 || plan.loop > 0) {
+						plan.event.call(obj, plan);
+						if (plan.loop > 0) plan.loop--;
+						if (plan.loop == 0) obj.delplan(plan.id);
+					}
+				}
+			}
 		}
 	}
 	fn.format = function(fmt) {
@@ -80,6 +102,62 @@
 				obj._restructure();
 			}, 1000);
 		}
+	};
+	//添加执行计划
+	/*
+	var plan = {
+			val: 10,
+			unit: 's', //单位，默认为秒
+			loop: 10,
+			event: 'function',
+			id: 'dd'
+		}
+	*/
+	fn.addplan = function(plan) {
+		if (arguments.length == 1) {
+			if (plan == null || typeof(plan) != 'object') plan = {};
+			if (!plan.id) plan.id = this.datas.length + '_' + new Date().getTime();
+			if (!plan.unit) plan.unit = 's';
+			if (!plan.loop || !(typeof plan.loop === 'number')) plan.loop = -1;
+			if (!plan.event || typeof(plan.event) != "function") plan.event = null;
+			//计算间隔时间
+			if (plan.unit == 'm') plan.val = plan.val * 60;
+			if (plan.unit == 'h') plan.val = plan.val * 60 * 60;
+			if (plan.unit == 'd') plan.val = plan.val * 60 * 60 * 24;
+			plan.unit = 's';
+			//添加，添加之前删除原有
+			this.delplan(plan.id);
+			this.datas.push(plan);
+			return plan.id;
+		}
+		if (arguments.length > 1) {
+			var time = arguments[0].split(':');
+			var p = {};
+			p.event = arguments[1];
+			if (time.length == 1) p.val = parseInt(time[0]);
+			if (time.length == 2) p.val = parseInt(time[0]) * 60 + parseInt(time[1]);
+			if (time.length == 3) p.val = parseInt(time[0]) * 60 * 60 + parseInt(time[1]) * 60 + parseInt(time[2]);
+			return this.addplan(p);
+		}
+
+	};
+	//删除执行计划
+	fn.delplan = function(id) {
+		if (id == null) {
+			this.datas = [];
+			return;
+		}
+		for (var i = 0; i < this.datas.length; i++) {
+			if (this.datas[i].id == id) {
+				this.datas.splice(i, 1);
+				continue;
+			}
+		}
+	};
+	//输出格式化的当前时间
+	fn.format = function(fmt, date) {
+		if (date == null) date = this.time;
+		return timer.format(fmt, date);
 	}
 	/*
 	timer的静态方法

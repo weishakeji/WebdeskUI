@@ -14,7 +14,14 @@ body {
     background: url('../images/1b3676fc1cbf662b0b244d61.jpg');
     background-size: 100% 100%;
 }
-
+timer{
+    display: block;
+    position: absolute;
+    top: 56px;
+    right: 70px;
+    font-size: 10px;
+    color: rgba(255,255,255,.8);
+}
 #header-box {
     height: 35px;
     width: 100%;
