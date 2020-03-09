@@ -81,7 +81,7 @@
 			if (obj.dom) {
 				obj.dom.height(val);
 				obj.domtit.height(val);
-				obj.dombody.height(obj.dom.height());
+				//obj.dombody.height(obj.dom.height());
 				obj.trigger('resize', {
 					width: obj._width,
 					height: val,

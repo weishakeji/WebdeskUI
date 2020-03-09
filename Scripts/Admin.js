@@ -11,27 +11,35 @@
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
 window.onload = function() {
+	/*
+	var skin = $api.cookie('WebdeskUI-skin');
+	skin = skin != null ? skin : 'win7'
+	console.log(skin);
 	//加载控件资源
-	var resources = ['treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
+	var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
 	for (var i = 0; i < resources.length; i++) {
-		window.$dom.load.css('styles/' + resources[i] + '.css');
+		window.$dom.load.css('skins/' + skin + '/' + resources[i] + '.css');
 		//window.$dom.load.js('Scripts/' + resources[i] + '.js');
 	}
+*/
+	window.$skins.loadCss();
+};
 
-}
+
 $dom.ready(function() {
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
 		width: 110,
-		id:'main_menu'
+		id: 'main_menu'
 	}).ondata(function(s, e) {
 		//设置页面顶部的文本（系统名称）
 		var left = s.dom.width() + 20;
-		$dom('#headbar').left(left).width('calc(100% - ' + left + 'px - ' + ($dom("#user-area").width() + 20) + 'px)');
+		$dom('#headbar').left(left);
+		//.width('calc(100% - ' + left + 'px - ' + ($dom("#user-area").width() + 20) + 'px)');
 	}).onclick(nodeClick);
-	$api.get('dropmenu.json').then(function(req) {
-		drop.add(req.data);
+	$dom.get('datas/dropmenu.json', function(d) {
+		drop.add(eval(d));
 	});
 	//右上角菜单,用户信息
 	var usermenu = window.$dropmenu.create({
@@ -40,9 +48,10 @@ $dom.ready(function() {
 		plwidth: 120,
 		level: 2000
 	}).onclick(nodeClick);
-	$api.get('userinfo.json').then(function(req) {
-		usermenu.add(req.data);
+	$dom.get('datas/userinfo.json',function(req) {
+		usermenu.add(eval('('+req+')'));
 	});
+
 	//树形菜单
 	var tree = $treemenu.create({
 		target: '#treemenu-area',
@@ -53,8 +62,8 @@ $dom.ready(function() {
 		var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
 		$dom('#tabs-area').width('calc(100% - ' + width + 'px )');
 	}).onclick(nodeClick);
-	$api.get('treemenu.json').then(function(req) {
-		tree.add(req.data);
+	$dom.get('datas/treemenu.json',function(req) {
+		tree.add(eval(req));
 	});
 	//竖形工具条
 	var vbar = $vbar.create({
@@ -63,8 +72,8 @@ $dom.ready(function() {
 		width: 30,
 		height: 'calc(100% - 35px)'
 	}).onclick(nodeClick);
-	$api.get('vbar.json').then(function(req) {
-		vbar.add(req.data);
+	$dom.get('datas/vbar.json',function(req) {
+		vbar.add(eval('('+req+')'));
 	});
 	//选项卡
 	var tabs = $tabs.create({
@@ -79,7 +88,7 @@ $dom.ready(function() {
 	tabs.onshut(tabsShut).onchange(tabsChange);
 	tabs.onhelp(function(s, e) {
 		$pagebox.create({
-			pid: e.data.id,		//父id,此处必须设置，用于判断该弹窗属于哪个选项卡
+			pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
 			width: 600,
 			height: 400,
 			url: e.data.help,

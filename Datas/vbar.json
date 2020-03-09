@@ -1,22 +1,28 @@
 [{
-title:'主题皮肤',
-ico:'a044'
+    title: '主题皮肤',
+    ico: 'a044',
+    url: 'Skinsetup.html',
+    type: 'open',
+    width: 480,
+    height: 270,
+    id: 'Skinsetup'
+}, {
+    title: '夜间模式/日间模式',
+    ico: 'a032',
+    type:'event',
+    url:'window.$skins.switch()'
 
-},{
-title:'夜间模式/日间模式',
-ico:'a032'
-
-},{
-   title: '开源协议',
-        ico:'a034',
-        type:'open',
-        url:'other/mit.html',
-       width:620,
-        height:350,
-        min:false,
-        max:false,
-        resize:false,
-        id:'license_mit'
+}, {
+    title: '开源协议',
+    ico: 'a034',
+    type: 'open',
+    url: 'other/mit.html',
+    width: 620,
+    height: 350,
+    min: false,
+    max: false,
+    resize: false,
+    id: 'license_mit'
 }, {
     title: '在线帮助',
     ico: 'e72f',
@@ -40,13 +46,13 @@ ico:'a032'
     }]
 }, {
     title: '关于',
-        ico: 'a031',
-        url:'other/about.html',
-        type:'open',
-        width:600,
-        height:400,
-        min:false,
-        max:false,
-        resize:false,
-        id:'about'
+    ico: 'a031',
+    url: 'other/about.html',
+    type: 'open',
+    width: 600,
+    height: 400,
+    min: false,
+    max: false,
+    resize: false,
+    id: 'about'
 }]

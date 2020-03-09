@@ -123,7 +123,7 @@
 		return new webdom(nodes);
 	};
 	fn.siblings = function(query) {
-		return this.parent().childs(query);	
+		return this.parent().childs(query);
 	};
 	fn.childs = function(query) {
 		var nodes = this.each(function() {
@@ -502,6 +502,78 @@
 		}
 		return obj;
 	};
+	webdom.ajax = function(options) {
+		function empty() {}
+
+		function obj2Url(obj) {
+			var arr = [];
+			for (var i in obj) {
+				arr.push(encodeURI(i) + '=' + encodeURI(obj[i]));
+			}
+			return arr.join('&').replace(/%20/g, '+');
+		}
+		var opt = {
+			url: '', //请求地址
+			sync: true, //true，异步 | false　同步，会锁死浏览器，并且open方法会报浏览器警告
+			method: 'GET', //提交方法
+			data: null, //提交数据
+			dataType: 'json', //返回数据类型
+			username: null, //账号
+			password: null, //密码
+			success: empty, //成功返回回调
+			error: empty, //错误信息回调
+			timeout: 10000 //请求超时ms
+		};
+		Object.assign(opt, options); //直接合并对象,opt已有属性将会被options替换
+		var abortTimeout = null;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				xhr.onreadystatechange = empty;
+				clearTimeout(abortTimeout);
+				if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+					var result = xhr.responseText;
+					try {
+						if (opt.dataType == 'json') {
+							result = result.replace(' ', '') == '' ? null : JSON.parse(result);
+						}
+					} catch (e) {
+						opt.error(e, xhr);
+						xhr.abort();
+					}
+					opt.success(result, xhr);
+				} else if (0 == xhr.status) {
+					opt.error("跨域请求失败", xhr);
+				} else {
+					opt.error(xhr.statusText, xhr);
+				}
+			}
+		};
+		var data = opt.data ? obj2Url(opt.data) : opt.data;
+		opt.method = opt.method.toUpperCase();
+		if (opt.method == 'GET') {
+			opt.url += (opt.url.indexOf('?') == -1 ? '?' : '&') + data;
+		}
+		xhr.open(opt.method, opt.url, opt.sync, opt.username, opt.password);
+		if (opt.method == 'POST') {
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		}
+		if (opt.timeout > 0) {
+			abortTimeout = setTimeout(function() {
+				xhr.onreadystatechange = empty;
+				xhr.abort();
+				opt.error('网络请求超时', xhr);
+			}, opt.timeout);
+		}
+		xhr.send(data);
+	};
+	webdom.get = function(url, func) {
+		var opt = {
+			url: url,
+			success: func
+		};
+		this.ajax(opt);
+	};
 	//鼠标的坐标值
 	webdom.mouse = function(e) {
 		var x = 0,
@@ -560,12 +632,13 @@
 	};
 	//加载css或js文件
 	webdom.load = {
-		css: function(url) {
+		css: function(url, tagName) {
 			var head = document.getElementsByTagName('head')[0];
 			var link = document.createElement('link');
 			link.type = 'text/css';
 			link.rel = 'stylesheet';
 			link.href = url;
+			link.setAttribute('tag', tagName);
 			head.appendChild(link);
 		},
 		js: function(url) {
@@ -622,3 +695,72 @@
 	window.$dom = webdom;
 	window.$dom.load.css('/styles/webdesk.ui.core.css');
 })();
+
+/*
+ 	风格管理
+*/
+(function(window) {
+	var skin_obj = {
+		name: '',
+		intro: '',
+		author: '',
+		crtTime: '',
+		qq: '',
+		phone: ''
+	}
+	//皮肤管理
+	var skins = function() {
+		this.night = false;
+		this.list = [];
+		this._list = ['win7', 'win10'];
+		this._night = '_Night'; //夜间模式
+		this._cookies = {
+			curr: 'WebdeskUI-admin-skin',
+			night: 'WebdeskUI-admin-night'
+		};
+		//当前皮肤
+		this.current = function() {
+			var skin = $api.cookie(this._cookies.curr);
+			return skin != null ? skin : this._list[0];
+		};
+		//设置当前皮肤
+		this.setup = function(name) {
+			$api.cookie(this._cookies.curr, name);
+			this.loadCss();
+		};
+		//切换夜间模式或日间模式
+		this.switch = function() {
+			var night = !this.isnight();
+			$api.cookie(this._cookies.night, String(night));
+			this.loadCss();
+			return night;
+		};
+		//是不是夜晚模式
+		this.isnight = function() {
+			var night = $api.cookie(this._cookies.night);
+			if (night == null || night == 'false') return false;
+			return true;
+		};
+	}
+	var fn = skins.prototype;
+	//加载csss
+	fn.loadCss = function() {
+		//清除之前的
+		$dom('link[tag=skin]').remove();
+		//加载控件资源
+		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
+		var skin = this.isnight() ? this._night : this.current();
+		for (var i = 0; i < resources.length; i++) {
+			window.$dom.load.css('skins/' + skin + '/' + resources[i] + '.css', 'skin');
+		}
+	}
+	window.$skins = new skins();
+	for (var i = 0; i < window.$skins._list.length; i++) {
+		var skin = window.$skins._list[i];
+		$dom.get('skins/' + skin + '/intro.json', function(d) {
+			if (d == null) return;
+			var obj=eval('('+d+')');
+			window.$skins.list.push(obj);
+		});
+	}
+})(window);
