@@ -3,7 +3,7 @@
     ico: 'a044',
     url: 'Skinsetup.html',
     type: 'open',
-    width: 480,
+    width: 565,
     height: 270,
     id: 'Skinsetup'
 }, {

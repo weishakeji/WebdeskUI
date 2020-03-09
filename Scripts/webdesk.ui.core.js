@@ -712,7 +712,7 @@
 	var skins = function() {
 		this.night = false;
 		this.list = [];
-		this._list = ['win7', 'win10'];
+		this._list = ['win7', 'win10','chinese'];
 		this._night = '_Night'; //夜间模式
 		this._cookies = {
 			curr: 'WebdeskUI-admin-skin',
@@ -726,6 +726,7 @@
 		//设置当前皮肤
 		this.setup = function(name) {
 			$api.cookie(this._cookies.curr, name);
+			if(this.isnight())this.switch();
 			this.loadCss();
 		};
 		//切换夜间模式或日间模式
@@ -753,14 +754,20 @@
 		for (var i = 0; i < resources.length; i++) {
 			window.$dom.load.css('skins/' + skin + '/' + resources[i] + '.css', 'skin');
 		}
-	}
-	window.$skins = new skins();
-	for (var i = 0; i < window.$skins._list.length; i++) {
-		var skin = window.$skins._list[i];
-		$dom.get('skins/' + skin + '/intro.json', function(d) {
-			if (d == null) return;
+	};
+	fn.loadskin=function(skin){
+		$dom.get('/skins/' + skin + '/intro.json', function(d) {
+			if (d == null || d =='') return;
 			var obj=eval('('+d+')');
+			obj.tag=skin;
+			obj.path='/skins/' + skin;
 			window.$skins.list.push(obj);
 		});
+	}
+	window.$skins = new skins();
+	//加载风格信息
+	for (var i = 0; i < window.$skins._list.length; i++) {
+		var skin = window.$skins._list[i];
+		window.$skins.loadskin(skin);
 	}
 })(window);
