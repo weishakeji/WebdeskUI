@@ -15,7 +15,7 @@
 		if (param == null || typeof(param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
-			width: 100,
+			width: 0,
 			height: 30,
 			plwidth: 150, //子菜单面板的宽度
 			level: 1000, //菜单的初始深度
@@ -44,6 +44,7 @@
 		//初始化并生成控件
 		this._initialization();
 		this.bind = this._bind;
+		//this.target = this._target;
 		//
 		$ctrls.add({
 			id: this.id,
@@ -67,8 +68,18 @@
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
+		'target': function(obj, val, old) {
+			var area = $dom(obj.target);
+			if (area.length < 1) {
+				console.log('dropmenu的target不正确');
+				return;
+			}
+			//if(obj.width<=0)
+			//obj.width=area.width();
+			//console.log(area.width());
+		},
 		'width': function(obj, val, old) {
-			if (obj.dom) {
+			if (obj.dom) {				
 				obj.dom.width(val);
 				//第一次下拉菜单的宽度，不受plwidth属性限制
 				if (obj.datas && obj.datas.length > 0) {
@@ -132,7 +143,9 @@
 			//生成Html结构和事件
 			for (var t in this._builder) this._builder[t](this);
 			for (var t in this._baseEvents) this._baseEvents[t](this);
-			this.width = this._width;
+			this.target = this._target;
+			if (this._width > 0)
+				this.width = this._width;			
 			this.height = this._height;
 			this.plwidth = this._plwidth;
 			this.level = this._level;

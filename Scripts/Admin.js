@@ -27,20 +27,27 @@ window.onload = function() {
 
 
 $dom.ready(function() {
+	window.$skins.onchange(function(s,e){
+		//设置页面顶部的文本（系统名称）
+		window.setTimeout(function() {
+			var left = $dom('#dropmenu-area').width() + 10;
+			$dom('#headbar').left(left);
+			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
+		}, 200);
+	});
+	window.$skins.onchange();
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
-		width: 110,
+		//width: 280,
 		id: 'main_menu'
 	}).ondata(function(s, e) {
-		//设置页面顶部的文本（系统名称）
-		var left = s.dom.width() + 20;
-		$dom('#headbar').left(left);
-		//.width('calc(100% - ' + left + 'px - ' + ($dom("#user-area").width() + 20) + 'px)');
+		
 	}).onclick(nodeClick);
 	$dom.get('datas/dropmenu.json', function(d) {
 		drop.add(eval(d));
 	});
+
 	//右上角菜单,用户信息
 	var usermenu = window.$dropmenu.create({
 		target: '#user-area',
@@ -48,8 +55,8 @@ $dom.ready(function() {
 		plwidth: 120,
 		level: 2000
 	}).onclick(nodeClick);
-	$dom.get('datas/userinfo.json',function(req) {
-		usermenu.add(eval('('+req+')'));
+	$dom.get('datas/userinfo.json', function(req) {
+		usermenu.add(eval('(' + req + ')'));
 	});
 
 	//树形菜单
@@ -62,7 +69,7 @@ $dom.ready(function() {
 		var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
 		$dom('#tabs-area').width('calc(100% - ' + width + 'px )');
 	}).onclick(nodeClick);
-	$dom.get('datas/treemenu.json',function(req) {
+	$dom.get('datas/treemenu.json', function(req) {
 		tree.add(eval(req));
 	});
 	//竖形工具条
@@ -72,8 +79,8 @@ $dom.ready(function() {
 		width: 30,
 		height: 'calc(100% - 35px)'
 	}).onclick(nodeClick);
-	$dom.get('datas/vbar.json',function(req) {
-		vbar.add(eval('('+req+')'));
+	$dom.get('datas/vbar.json', function(req) {
+		vbar.add(eval('(' + req + ')'));
 	});
 	//选项卡
 	var tabs = $tabs.create({

@@ -43,6 +43,7 @@ timer {
     position: absolute;
     top: 5px;
     left: 5px;
+    width: 260px;
 }
 
 #headbar {
@@ -59,6 +60,7 @@ timer {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: all 0.3s;
 }
 
 #headbar span {
