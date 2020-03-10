@@ -27,15 +27,6 @@ window.onload = function() {
 
 
 $dom.ready(function() {
-	window.$skins.onchange(function(s,e){
-		//设置页面顶部的文本（系统名称）
-		window.setTimeout(function() {
-			var left = $dom('#dropmenu-area').width() + 10;
-			$dom('#headbar').left(left);
-			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
-		}, 200);
-	});
-	window.$skins.onchange();
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
@@ -101,6 +92,20 @@ $dom.ready(function() {
 		}).open();
 	});
 	window.tabsContent = tabs;
+
+	//风格切换事件
+	window.$skins.onchange(function(s, e) {
+		//设置页面顶部的文本（系统名称）
+		window.setTimeout(function() {
+			var left = $dom('#dropmenu-area').width() + 10;
+			$dom('#headbar').css('opacity', 1).left(left);
+			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
+		}, 300);
+	});
+	window.setTimeout(function() {
+		window.$skins.onchange();
+	}, 1000)
+
 });
 /*
 	事件
