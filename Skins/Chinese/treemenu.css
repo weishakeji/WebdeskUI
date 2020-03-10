@@ -40,7 +40,7 @@
     -webkit-transition-property: background-color;
     -webkit-transition-duration: .3s;
     -webkit-transition-timing-function: ease;
-    color: #666;
+    color: #aaa;
 }
 
 .treemenu tree_tags tree_tag ico {
@@ -115,8 +115,8 @@
 }
 
 .treemenu tree_tags tree_tag.curr {
-    background-color: rgba(39, 33, 33, 0.8);
-    color: #ccc;
+    background-color: rgba(39, 33, 33, 0.9);
+    color: #fff;
 }
 
 /*折叠按钮*/
@@ -129,7 +129,7 @@
     text-align: center;
     cursor: pointer;
     z-index: 2;
-    color: #555;
+    color: #d8d7d7;
     --transition: transform 0.3s;
 }
 
@@ -162,7 +162,7 @@
 
 /*树形菜单区域*/
 .treemenu tree_body {
-    background-color: rgba(39, 33, 33, 0.8);
+    background-color: rgba(39, 33, 33, 0.9);
     height: 100%;
     float: right;
     overflow-y: auto;
@@ -178,7 +178,7 @@
     margin: 0px;
     padding: 0px;
     cursor: default;
-    --background-color: green;
+    
 }
 
 .treemenu tree_area loading {
@@ -213,6 +213,7 @@
     color: #ccc;
     text-shadow: 1px 1px 2px #333;
     background-image: linear-gradient(rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
+
 }
 
 /*树形节点*/

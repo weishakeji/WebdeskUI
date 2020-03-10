@@ -4,7 +4,7 @@
     url: 'Skinsetup.html',
     type: 'open',
     width: 565,
-    height: 270,
+    height: 210,
     id: 'Skinsetup'
 }, {
     title: '夜间模式/日间模式',

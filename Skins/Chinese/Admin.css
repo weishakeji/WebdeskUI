@@ -47,15 +47,16 @@ timer{
     top: 5px;
     height: 30px;
     line-height: 30px;
-    color: #fff;
+    color: #666;
     text-align: left;
-    text-shadow: 1px 1px 2px #666;
+    text-shadow: 1px 1px 2px #999;
     font-size: 20px;
     cursor: default;
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-indent: 60px;
 }
 
 #headbar span {
@@ -78,7 +79,7 @@ timer{
 }
 
 #user-area span {
-    color: #eee !important;
+    color: #999 !important;
 }
 
 #treemenu-area {
@@ -112,7 +113,7 @@ timer{
 
 /*样式*/
 #dropmenu-area.dropmenu {
-    background-color: rgba(150, 150, 150, .3) !important;
+    background-color: rgba(0, 0, 0, .6) !important;
 
 }
 

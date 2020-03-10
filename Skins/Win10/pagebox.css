@@ -324,7 +324,7 @@
     height: 18px;
     line-height: 18px;
     cursor: pointer;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .8), rgba(255, 255, 255, .1));
+    --background: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .8), rgba(255, 255, 255, .1));
 }
 
 .pagebox btnbox btn_min {}
