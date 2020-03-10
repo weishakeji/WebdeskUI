@@ -283,7 +283,7 @@ tabs_tagbox tab_tag close:hover {
 tabs_morebox {
     width: 0px;
     height: calc(100% - 36px);
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(156, 153, 153, 0.8);
     position: absolute;
     bottom: 1px;
     right: 1px;
@@ -305,10 +305,9 @@ tabs_morebox tab_tag ico {
     margin-left: 5px;
     line-height: 30px;
     font-size: 15px;
-    color: #aaa;
+    color: #333;
     float: left;
     font-family: "webdesk_icon" !important;
-    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
 tabs_morebox tab_tag {
@@ -346,7 +345,6 @@ tabs_morebox tab_tag tagtxt {
     z-index: 1;
     float: left;
     cursor: default;
-    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
 tabs_morebox tab_tag close {

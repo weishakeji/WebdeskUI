@@ -409,7 +409,7 @@
     bottom: 5px;
     left: 6px;
     position: absolute;
-    background-color: rgba(226, 224, 224, 1);
+    background-color: rgb(119, 118, 118);
     border: 1px solid #777;
     border-radius: 0px 0px 6px 6px;
     box-shadow: 0px -1px 2px 1px rgba(255, 255, 255, 0.8);
@@ -460,7 +460,7 @@ pagebox_bg_mask {
 }
 
 .pagebox_focus iframe {
-    background-color: rgb(218, 230, 245);
+    background-color: rgb(119, 129, 142);
 }
 
 
@@ -497,7 +497,7 @@ pagebox_bg_mask {
 pagebox-minarea {
     overflow-y: auto;
     overflow-x: hidden;
-    background-color: rgba(238, 238, 238, .9);
+    background-color:rgba(128, 121, 121, 0.9);
     border: solid 1px #ccc;
     position: absolute;
     z-index: 999999;
