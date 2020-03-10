@@ -41,8 +41,6 @@ $dom.ready(function() {
 		target: '#dropmenu-area',
 		//width: 280,
 		id: 'main_menu'
-	}).ondata(function(s, e) {
-		
 	}).onclick(nodeClick);
 	$dom.get('datas/dropmenu.json', function(d) {
 		drop.add(eval(d));

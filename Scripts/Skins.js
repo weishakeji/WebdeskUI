@@ -1,0 +1,82 @@
+/*
+ 	风格管理
+*/
+(function(window) {
+	//皮肤管理
+	var skins = function() {
+		this.night = false;
+		this.list = [];
+		this._list = ['win7', 'win10', 'chinese'];
+		this._night = '_Night'; //夜间模式
+		this._cookies = {
+			curr: 'WebdeskUI-admin-skin',
+			night: 'WebdeskUI-admin-night'
+		};
+		//当前皮肤
+		this.current = function() {
+			var skin = $api.cookie(this._cookies.curr);
+			return skin != null ? skin : this._list[0];
+		};
+		//设置当前皮肤
+		this.setup = function(name) {
+			$api.cookie(this._cookies.curr, name);
+			if (this.isnight()) this.switch();
+			this.loadCss();
+			this.trigger('setup', {
+				skin: name
+			});
+			this.trigger('change');
+		};
+		//切换夜间模式或日间模式
+		this.switch = function() {
+			var night = !this.isnight();
+			$api.cookie(this._cookies.night, String(night));
+			this.loadCss();
+			this.trigger('switch', {
+				night: night
+			});
+			this.trigger('change');
+			return night;
+		};
+		//是不是夜晚模式
+		this.isnight = function() {
+			var night = $api.cookie(this._cookies.night);
+			if (night == null || night == 'false') return false;
+			return true;
+		};
+		/*自定义事件
+		switch：日间模式与夜间模式切换时触发
+		setup:设置皮肤时触发
+		change:不管哪种变化，都触发
+		*/
+		var customEvents = ['switch', 'setup', 'change'];
+		eval($ctrl.event_generate(customEvents));
+	}
+	var fn = skins.prototype;
+	//加载csss
+	fn.loadCss = function() {
+		//清除之前的
+		$dom('link[tag=skin]').remove();
+		//加载控件资源
+		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
+		var skin = this.isnight() ? this._night : this.current();
+		for (var i = 0; i < resources.length; i++) {
+			window.$dom.load.css('skins/' + skin + '/' + resources[i] + '.css', 'skin');
+		}
+	};
+	fn.loadskin = function(skin) {
+		$dom.get('/skins/' + skin + '/intro.json', function(d) {
+			if (d == null || d == '') return;
+			var obj = eval('(' + d + ')');
+			obj.tag = skin;
+			obj.path = '/skins/' + skin;
+			window.$skins.list.push(obj);
+		});
+	}
+	window.$skins = new skins();
+	//加载风格信息
+	for (var i = 0; i < window.$skins._list.length; i++) {
+		var skin = window.$skins._list[i];
+		window.$skins.loadskin(skin);
+	}
+})(window);

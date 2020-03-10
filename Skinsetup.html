@@ -15,6 +15,9 @@
         float: left;
         cursor: pointer;
         transition: all .3s;
+        position: relative;
+        overflow: hidden;
+        height: 120px;
     }
 
     skin:hover {
@@ -23,6 +26,8 @@
 
     skin name {
         display: block;
+        height: 30px;
+        line-height: 30px;
         text-transform: capitalize;
     }
 
@@ -30,6 +35,33 @@
         width: 160px;
         height: 90px;
         border: solid 1px #999;
+    }
+
+    skin.curr name:before {
+        content: '* ';
+        color: red;
+    }
+    skin.curr name{
+        color: green;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px #999;
+    }
+    skin.curr:before{
+        content: '当 前';
+        display: block;
+        width: auto;
+        height: 25px;
+        line-height: 25px;
+        position: absolute;
+        text-align: center;
+        background-color: rgba(255,255,255,.6);
+        padding: 0px 40px 0px 40px;
+        border: solid 1px #666;
+        font-size: 12px;
+        bottom: 10px;
+        right: -30px;
+        transform: rotate(-45deg);
+        box-shadow: 1px 1px 2px #999;
     }
     </style>
 </head>
