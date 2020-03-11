@@ -6,7 +6,7 @@
 	var skins = function() {
 		this.night = false;
 		this.list = [];
-		this._list = ['win7', 'win10', 'chinese'];
+		this._list = ['win10', 'win7', 'chinese'];
 		this._night = '_Night'; //夜间模式
 		this._cookies = {
 			curr: 'WebdeskUI-admin-skin',

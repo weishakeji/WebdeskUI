@@ -1,8 +1,13 @@
 ﻿@charset "utf-8";
 
 .verticalbar {
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(218, 218, 218, .8);
     border-radius: 2px;
+    box-shadow: -1px 0 #fff,
+        0 -1px #fff,
+        1px 0 #333,
+        0 1px #333;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .3) 100%);
 }
 
 .verticalbar a {

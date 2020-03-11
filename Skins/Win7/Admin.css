@@ -14,14 +14,16 @@ body {
     background: url('bg.jpg');
     background-size: 100% 100%;
 }
-timer{
+
+timer {
     display: block;
     position: absolute;
     top: 56px;
     right: 70px;
     font-size: 10px;
-    color: rgba(255,255,255,.8);
+    color: rgba(255, 255, 255, .8);
 }
+
 #header-box {
     height: 35px;
     width: 100%;
@@ -33,9 +35,7 @@ timer{
     height: calc(100% - 10px - 35px);
     margin: 5px;
 }
-#body>div:first-child{
-	box-shadow: 1px 1px 1px 1px rgba(232,232,232,.3);
-}
+
 #dropmenu-area {
     position: absolute;
     top: 5px;
@@ -115,12 +115,17 @@ timer{
 
 /*样式*/
 #dropmenu-area.dropmenu {
-    background-color: rgba(150, 150, 150, .3) !important;
-
+    --background-color: rgba(255, 255, 255, .9) !important;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.5) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .3) 100%);
+    box-shadow: -1px 0 #fff,
+        0 -1px #fff,
+        1px 0 #333,
+        0 1px #333;
+        border-radius: 4px;
 }
 
 #dropmenu-area drop_roots * {
-    color: #ccc !important;
+    --color: #ccc !important;
 }
 
 #dropmenu-area drop_roots drop-node:hover,

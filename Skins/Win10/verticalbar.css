@@ -1,7 +1,7 @@
 ﻿@charset "utf-8";
 
 .verticalbar {
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(255, 255, 255, .8);
     border-radius: 2px;
 }
 
@@ -32,7 +32,7 @@
 .verticalbar vbar-item.hover {
     color: #eee;
     text-shadow: 1px 1px 2px #666;
-    background-color: rgba(255, 255, 255, .4);
+    background-color: rgba(160, 160, 160, .4);
 }
 
 vbar-panel {

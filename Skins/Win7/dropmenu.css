@@ -101,7 +101,7 @@
 /*子菜单面板*/
 .dropmenu drop-panel {
     position: absolute;
-    background-color: rgba(238,238,238,.96);
+    background-color: rgba(238,238,238,.99);
     min-width: 120px;
     border-radius: 2px;
     border: 1px solid #bbb;

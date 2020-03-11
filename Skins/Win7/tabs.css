@@ -63,7 +63,8 @@ tabs_tagbox tab_tag::before {
     /*当禁用父元素事件时，启用伪类事件*/
     --pointer-events: auto;
     border-radius: 4px 4px 0 0;
-    background: #efefef;
+
+    background: linear-gradient(to bottom, rgb(212, 212, 212) 0%, rgba(212, 212, 212,1) 5%, rgba(255, 255, 255, 1) 90%, rgba(255, 255, 255, 1) 100%);
 }
 
 tabs_tagbox tab_tag:first-child:before {
@@ -92,15 +93,17 @@ tabs_tagbox tab_tag>* {
 
 tabs_tagbox tab_tag.tagcurr {
     height: 36px;
+
 }
 tabs_tagbox tab_tag:first-child.tagcurr:before{
    transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(1.05)  !important;
 }
 tabs_tagbox tab_tag.tagcurr:before {
-    background: #fff !important;
+    
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
+    background: linear-gradient(to bottom, rgb(160, 207, 255) 0%, rgba(160, 207, 255,1) 5%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 100%);
 }
 
 tabs_tagbox tab_tag ico {
