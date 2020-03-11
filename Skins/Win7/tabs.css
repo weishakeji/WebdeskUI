@@ -93,7 +93,6 @@ tabs_tagbox tab_tag>* {
 
 tabs_tagbox tab_tag.tagcurr {
     height: 36px;
-
 }
 tabs_tagbox tab_tag:first-child.tagcurr:before{
    transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(1.05)  !important;
@@ -103,7 +102,7 @@ tabs_tagbox tab_tag.tagcurr:before {
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
-    background: linear-gradient(to bottom, rgb(160, 207, 255) 0%, rgba(160, 207, 255,1) 5%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(to bottom, rgb(160, 207, 255) 0%, rgba(160, 207, 255,1) 5%, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 1) 100%);
 }
 
 tabs_tagbox tab_tag ico {
@@ -198,12 +197,13 @@ tabs_tagbox tab_tag close:hover {
 /*内容区*/
 
 .tabsbox tabs_body {   
-    width: calc(100% - 2px);
-    height: calc(100% - 36px);
+    width: calc(100% - 3px);
+    height: calc(100% - 37px);
     --background-color: #fff;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
     border: 1px solid #aaa;
     border-top: none;
+    box-shadow: 1px 0 #333, 0 1px #333,-1px 0 #fff;
 }
 
 .tabsbox tabs_body tabpace {

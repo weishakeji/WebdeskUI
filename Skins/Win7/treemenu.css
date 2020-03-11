@@ -1,12 +1,12 @@
 ﻿@charset "utf-8";
 
 .treemenu {
-    border-radius: 4px 0px 0px 4px;
+  
     width: 100%;
     height: 100%;
     overflow: hidden;
     transition: width 0.3s, height 0.3s;
-    box-shadow: -1px 0 #fff,
+    box-shadow: 
         0 -1px #fff,
         1px 0 #333,
         0 1px #333;
@@ -29,10 +29,8 @@
 .treemenu tree_tags {
     width: 40px;
     height: 100%;
-
     float: left;
-    position: relative;
-    overflow: hidden;
+    position: relative;   
 }
 
 .treemenu tree_tags tree_tag {
@@ -120,8 +118,7 @@
 .treemenu tree_tags tree_tag.curr {
    background-color: rgba(255, 255, 255, .8);
    color: #1b1b1b;
-   margin-left: -1px;
-   box-shadow: inset 4px 0px 4px 0px rgba(47, 149, 253, 0.8);
+   box-shadow: inset 4px 0px 1px 0px rgb(14, 139, 221);
 }
 
 /*折叠按钮*/
