@@ -10,30 +10,19 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-window.onload = function() {
-	/*
-	var skin = $api.cookie('WebdeskUI-skin');
-	skin = skin != null ? skin : 'win7'
-	console.log(skin);
-	//加载控件资源
-	var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
-	for (var i = 0; i < resources.length; i++) {
-		window.$dom.load.css('skins/' + skin + '/' + resources[i] + '.css');
-		//window.$dom.load.js('Scripts/' + resources[i] + '.js');
-	}
-*/
+window.onload = function () {
 	window.$skins.loadCss();
 };
 
 
-$dom.ready(function() {
+$dom.ready(function () {
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
 		//width: 280,
 		id: 'main_menu'
 	}).onclick(nodeClick);
-	$dom.get('datas/dropmenu.json', function(d) {
+	$dom.get('datas/dropmenu.json', function (d) {
 		drop.add(eval(d));
 	});
 
@@ -44,7 +33,7 @@ $dom.ready(function() {
 		plwidth: 120,
 		level: 2000
 	}).onclick(nodeClick);
-	$dom.get('datas/userinfo.json', function(req) {
+	$dom.get('datas/userinfo.json', function (req) {
 		usermenu.add(eval('(' + req + ')'));
 	});
 
@@ -52,13 +41,13 @@ $dom.ready(function() {
 	var tree = $treemenu.create({
 		target: '#treemenu-area',
 		width: 200
-	}).onresize(function(s, e) { //当宽高变更时
+	}).onresize(function (s, e) { //当宽高变更时
 		$dom('#tabs-area').width('calc(100% - ' + (e.width + vbar.width + 10) + 'px )');
-	}).onfold(function(s, e) { //当右侧树形折叠时
+	}).onfold(function (s, e) { //当右侧树形折叠时
 		var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
 		$dom('#tabs-area').width('calc(100% - ' + width + 'px )');
 	}).onclick(nodeClick);
-	$dom.get('datas/treemenu.json', function(req) {
+	$dom.get('datas/treemenu.json', function (req) {
 		tree.add(eval(req));
 	});
 	//竖形工具条
@@ -68,7 +57,7 @@ $dom.ready(function() {
 		width: 30,
 		height: 'calc(100% - 35px)'
 	}).onclick(nodeClick);
-	$dom.get('datas/vbar.json', function(req) {
+	$dom.get('datas/vbar.json', function (req) {
 		vbar.add(eval('(' + req + ')'));
 	});
 	//选项卡
@@ -82,7 +71,7 @@ $dom.ready(function() {
 		}
 	});
 	tabs.onshut(tabsShut).onchange(tabsChange);
-	tabs.onhelp(function(s, e) {
+	tabs.onhelp(function (s, e) {
 		$pagebox.create({
 			pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
 			width: 600,
@@ -94,15 +83,17 @@ $dom.ready(function() {
 	window.tabsContent = tabs;
 
 	//风格切换事件
-	window.$skins.onchange(function(s, e) {
+	window.$skins.onchange(function (s, e) {
+		$dom('body').css('opacity', 0);
 		//设置页面顶部的文本（系统名称）
-		window.setTimeout(function() {
+		window.setTimeout(function () {
 			var left = $dom('#dropmenu-area').width() + 10;
 			$dom('#headbar').css('opacity', 1).left(left);
 			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
+			$dom('body').css('opacity', 1);
 		}, 300);
 	});
-	window.setTimeout(function() {
+	window.setTimeout(function () {
 		window.$skins.onchange();
 	}, 1000)
 
