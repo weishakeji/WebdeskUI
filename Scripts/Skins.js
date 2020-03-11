@@ -19,7 +19,7 @@
 		};
 		//设置当前皮肤
 		this.setup = function(name) {
-			$api.cookie(this._cookies.curr, name);
+			$api.cookie(this._cookies.curr, name, {expires:999});
 			if (this.isnight()) this.switch();
 			this.loadCss();
 			this.trigger('setup', {
