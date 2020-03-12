@@ -156,7 +156,9 @@ function tabsShut(sender, eventArgs) {
 function tabsChange(sender, eventArgs) {
 	//获取当前标签生成的窗体，全部还原
 	var selfbox = getSelfbox(eventArgs.data.id);
-	for (var i = 0; i < selfbox.length; i++) selfbox[i].toWindow();
+	for (var i = 0; i < selfbox.length; i++) {
+		selfbox[i].toWindow().focus();
+	}
 	//非当前标签的窗体，全部最小化
 	var elsebox = getElsebox(sender, eventArgs.data.id);
 	for (var i = 0; i < elsebox.length; i++) elsebox[i].mini = true;
@@ -172,6 +174,16 @@ function tabsChange(sender, eventArgs) {
 				var childs = boxs[i].obj.getChilds();
 				for (var j = 0; j < childs.length; j++)
 					arr.push(childs[j]);
+			}
+		}
+		//按层深排序，以保证在还原时保持窗体原有层叠效果
+		for (var i = 0; i < arr.length - 1; i++) {			
+			for (var j = 0; j < arr.length - 1 - i; j++) {				
+				if (arr[j].level > arr[j + 1].level) {
+					var temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
 			}
 		}
 		return arr;
