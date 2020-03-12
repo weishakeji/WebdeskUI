@@ -40,7 +40,7 @@ timer {
     position: absolute;
     top: 5px;
     left: 5px;
-    width: 300px;
+    width: 250px;
 }
 
 #headbar {
@@ -128,7 +128,15 @@ timer {
 #dropmenu-area drop_roots * {
     --color: #ccc !important;
 }
-
+#dropmenu-area.dropmenu drop_roots drop-node:first-child{
+    flex-grow: 3;
+}
+#dropmenu-area.dropmenu drop_roots drop-node{
+    flex-grow: 4;
+}
+#dropmenu-area.dropmenu drop_roots drop-node:last-child{
+    flex-grow: 3;
+}
 #dropmenu-area drop_roots drop-node:hover,
 #dropmenu-area drop_roots drop-node.hover {
     color: #eee !important;

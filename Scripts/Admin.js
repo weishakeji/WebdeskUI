@@ -10,19 +10,19 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-window.onload = function () {
+window.onload = function() {
 	window.$skins.loadCss();
 };
 
 
-$dom.ready(function () {
+$dom.ready(function() {
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',
 		//width: 280,
 		id: 'main_menu'
 	}).onclick(nodeClick);
-	$dom.get('datas/dropmenu.json', function (d) {
+	$dom.get('datas/dropmenu.json', function(d) {
 		drop.add(eval(d));
 	});
 
@@ -33,7 +33,7 @@ $dom.ready(function () {
 		plwidth: 120,
 		level: 2000
 	}).onclick(nodeClick);
-	$dom.get('datas/userinfo.json', function (req) {
+	$dom.get('datas/userinfo.json', function(req) {
 		usermenu.add(eval('(' + req + ')'));
 	});
 
@@ -41,13 +41,13 @@ $dom.ready(function () {
 	var tree = $treemenu.create({
 		target: '#treemenu-area',
 		width: 200
-	}).onresize(function (s, e) { //当宽高变更时
+	}).onresize(function(s, e) { //当宽高变更时
 		$dom('#tabs-area').width('calc(100% - ' + (e.width + vbar.width + 10) + 'px )');
-	}).onfold(function (s, e) { //当右侧树形折叠时
+	}).onfold(function(s, e) { //当右侧树形折叠时
 		var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
 		$dom('#tabs-area').width('calc(100% - ' + width + 'px )');
 	}).onclick(nodeClick);
-	$dom.get('datas/treemenu.json', function (req) {
+	$dom.get('datas/treemenu.json', function(req) {
 		tree.add(eval(req));
 	});
 	//竖形工具条
@@ -57,7 +57,7 @@ $dom.ready(function () {
 		width: 30,
 		height: 'calc(100% - 35px)'
 	}).onclick(nodeClick);
-	$dom.get('datas/vbar.json', function (req) {
+	$dom.get('datas/vbar.json', function(req) {
 		vbar.add(eval('(' + req + ')'));
 	});
 	//选项卡
@@ -71,7 +71,7 @@ $dom.ready(function () {
 		}
 	});
 	tabs.onshut(tabsShut).onchange(tabsChange);
-	tabs.onhelp(function (s, e) {
+	tabs.onhelp(function(s, e) {
 		$pagebox.create({
 			pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
 			width: 600,
@@ -83,17 +83,17 @@ $dom.ready(function () {
 	window.tabsContent = tabs;
 
 	//风格切换事件
-	window.$skins.onchange(function (s, e) {
+	window.$skins.onchange(function(s, e) {
 		$dom('body').css('opacity', 0);
 		//设置页面顶部的文本（系统名称）
-		window.setTimeout(function () {
+		window.setTimeout(function() {
 			var left = $dom('#dropmenu-area').width() + 10;
 			$dom('#headbar').css('opacity', 1).left(left);
 			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
 			$dom('body').css('opacity', 1);
 		}, 300);
 	});
-	window.setTimeout(function () {
+	window.setTimeout(function() {
 		window.$skins.onchange();
 	}, 1000)
 
@@ -154,31 +154,45 @@ function tabsShut(sender, eventArgs) {
 }
 //选项卡切换事件
 function tabsChange(sender, eventArgs) {
-	var data = eventArgs.data;
-	//所有窗体
-	var boxs = $ctrls.all('pagebox');
 	//获取当前标签生成的窗体，全部还原
-	var arr = new Array();
-	for (var i = 0; i < boxs.length; i++) {
-		if (boxs[i].obj.pid == data.id) {
-			arr.push(boxs[i].obj);
-			var childs = boxs[i].obj.getChilds();
-			for (var j = 0; j < childs.length; j++) {
-				arr.push(childs[j]);
+	var selfbox = getSelfbox(eventArgs.data.id);
+	for (var i = 0; i < selfbox.length; i++) selfbox[i].toWindow();
+	//非当前标签的窗体，全部最小化
+	var elsebox = getElsebox(sender, eventArgs.data.id);
+	for (var i = 0; i < elsebox.length; i++) elsebox[i].mini = true;
+
+	//当前标签生成的窗体
+	function getSelfbox(tabid) {
+		var boxs = $ctrls.all('pagebox');
+		//获取当前标签生成的窗体，全部还原
+		var arr = new Array();
+		for (var i = 0; i < boxs.length; i++) {
+			if (boxs[i].obj.pid == tabid) {
+				arr.push(boxs[i].obj);
+				var childs = boxs[i].obj.getChilds();
+				for (var j = 0; j < childs.length; j++)
+					arr.push(childs[j]);
 			}
 		}
+		return arr;
 	}
-	for (var i = 0; i < arr.length; i++) arr[i].toWindow();
-	//
-	//非当前标签的窗体，全部最小化
-	var other = new Array();
-	for (var i = 0; i < boxs.length; i++) {
-		var exist = false;
-		for (var j = 0; j < arr.length; j++) {
-			if (boxs[i].obj.id == arr[j].id) exist = true;
+	//非当前标签的窗体(不包括其它控件生成的窗体)
+	function getElsebox(sender, tabid) {
+		var boxs = $ctrls.all('pagebox');
+		var tabs = sender.childs;
+		var arr = [];
+		for (var i = 0; i < tabs.length; i++) {
+			if (tabs[i].id == tabid) continue;
+			for (var j = 0; j < boxs.length; j++) {
+				if (boxs[j].obj.pid == tabs[i].id) {
+					arr.push(boxs[j].obj);
+					var childs = boxs[j].obj.getChilds();
+					for (var n = 0; n < childs.length; n++)
+						arr.push(childs[n]);
+				}
+			}
 		}
-		if (!exist) other.push(boxs[i].obj);
+		return arr;
 	}
-	//最小化
-	for (var i = 0; i < other.length; i++) other[i].mini = true;
+
 }
