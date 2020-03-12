@@ -58,7 +58,8 @@
         this.childs = new Array(); //子级窗体
         this.dom = null; //html对象  
         this._watchlist = new Array(); //自定义监听  
-        this._isinit = false; //是否初始化      
+        this._isinit = false; //是否初始化  
+        this._changing = false; //变化中，最大化或最小化变化过程中
     };
     var fn = box.prototype;
     //初始化相关参数
@@ -135,6 +136,7 @@
         },
         'mini': function(box, val, old) {
             if (val == old) return;
+            box._changing = true;
             if (val) box.toMinimize();
             if (!val) box.toWindow();
         },
@@ -688,7 +690,7 @@
         if (!ctrl.obj.min) return ctrl.obj;
         if (!ctrl.obj.trigger('mini')) return ctrl.obj;
         //记录之前的数据，用于还原
-        if (!ctrl.obj.full) {
+        if (!ctrl.obj.full && (!ctrl.obj._changing || ctrl.win_size==null)) {
             ctrl.win_offset = ctrl.dom.offset();
             ctrl.win_size = {
                 width: ctrl.obj.width,
@@ -718,6 +720,7 @@
             window.setTimeout(function() {
                 collect.removeClass('pagebox-collect-action');
             }, 150);
+            obj._changing = false;
         }, 300);
         return ctrl.obj;
     };
@@ -752,6 +755,7 @@
         ctrl.obj.resize = ctrl.win_state.resize;
         window.setTimeout(function() {
             ctrl.dom.css('transition', '');
+            ctrl.obj._changing = false;
         }, 300);
         return ctrl.obj;
     };
