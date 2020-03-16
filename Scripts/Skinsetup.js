@@ -5,8 +5,7 @@
 		return a.tag > b.tag;
 	});
 	//当前风格
-	var curr=top.window.$skins.current();
-	console.log(curr);
+	var curr=top.window.$skins.current();	
 	//生成页面效果
 	for (var i = 0; i < list.length; i++) {
 		var skin = list[i];
@@ -21,10 +20,15 @@
 		box.click(function(event) {
 			var n = event.target ? event.target : event.srcElement;
 			while (n.tagName.toLowerCase() != 'skin') n = n.parentNode;
-			$dom('skin').removeClass('curr');
 			var box=$dom(n);
-			box.addClass('curr');
+			//当前点击的风格名称
 			var tag=box.attr('tag');
+			//当前使用的风格
+			var curr=top.window.$skins.current();
+			if(curr==tag)return;
+			//切换风格
+			$dom('skin').removeClass('curr');			
+			box.addClass('curr');			
 			top.window.$skins.setup(tag);
 		});
 	}

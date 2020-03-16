@@ -67,7 +67,8 @@ $dom.ready(function() {
 		default: {
 			title: '启始页',
 			path: '树形菜单,启始页',
-			url: 'other/treemenu-1.html'
+			url: 'startpage.html',
+			ico:'a020'
 		}
 	});
 	tabs.onshut(tabsShut).onchange(tabsChange);
