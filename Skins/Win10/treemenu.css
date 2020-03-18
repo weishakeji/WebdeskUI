@@ -1,5 +1,4 @@
 ﻿@charset "utf-8";
-
 .treemenu {
     border-radius: 2px 0px 0px 2px;
     width: 100%;
@@ -26,7 +25,6 @@
 .treemenu tree_tags {
     width: 40px;
     height: 100%;
-
     float: left;
     position: relative;
     overflow: hidden;
@@ -54,7 +52,6 @@
 }
 
 .treemenu tree_tags tree_tag.loading ico {
-
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 1s;
     -moz-transition-property: -moz-transform;
@@ -69,7 +66,6 @@
     from {
         -webkit-transform: rotate(0deg)
     }
-
     to {
         -webkit-transform: rotate(360deg)
     }
@@ -79,7 +75,6 @@
     from {
         -moz-transform: rotate(0deg)
     }
-
     to {
         -moz-transform: rotate(359deg)
     }
@@ -89,7 +84,6 @@
     from {
         -o-transform: rotate(0deg)
     }
-
     to {
         -o-transform: rotate(359deg)
     }
@@ -99,7 +93,6 @@
     from {
         transform: rotate(0deg)
     }
-
     to {
         transform: rotate(359deg)
     }
@@ -120,7 +113,9 @@
     text-shadow: 1px 1px 1px #000;
 }
 
+
 /*折叠按钮*/
+
 .treemenu tree_tags tree-foldbtn {
     position: absolute;
     bottom: 0px;
@@ -149,7 +144,9 @@
     color: #eee;
 }
 
+
 /*左侧标签区，用于填充空白的*/
+
 .treemenu tree_tags tree-tagspace {
     width: 100%;
     display: block;
@@ -158,10 +155,11 @@
     background-color: rgba(66, 89, 113, 0.6);
     bottom: 0px;
     z-index: 1;
-
 }
 
+
 /*树形菜单区域*/
+
 .treemenu tree_body {
     background-color: rgba(2, 48, 82, .9);
     height: 100%;
@@ -210,14 +208,14 @@
     border-radius: 3px;
     text-align: center;
     --border: solid 1px #aaa;
-    background-color: rgba(121, 121, 121, 0.2);
+    background-color: rgba(121, 121, 121, 0.3);
     color: #97c8ea;
     text-shadow: 1px 1px 2px #333;
-    background-image: linear-gradient(rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
-   
 }
 
+
 /*树形节点*/
+
 .treemenu tree-node {
     position: relative;
     font-size: 14px;
@@ -230,11 +228,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.treemenu tree_box{
+
+.treemenu tree_box {
     display: block;
     overflow: hidden;
     transition: all 0.3s;
 }
+
 .treemenu tree-node span {
     width: auto;
     display: inline-block;
@@ -280,11 +280,10 @@
 .treemenu tree-node:hover {
     --background-color: rgba(200, 200, 200, 1);
     text-shadow: 1px 1px 2px #000;
-
 }
-.treemenu tree-node:hover *{
-    color: #62bbf3;
 
+.treemenu tree-node:hover * {
+    color: #62bbf3;
 }
 
 .treemenu tree-node:hover:after {
@@ -306,7 +305,9 @@
     --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
 
+
 /*子节点右侧的三角号*/
+
 .treemenu tree-node.folder:after {
     content: '\a006';
     transform: rotate(90deg);
@@ -314,5 +315,4 @@
 
 .treemenu tree-node.folderclose:after {
     content: '\a006';
-
 }
