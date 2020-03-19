@@ -271,8 +271,8 @@
 		space.attr('tabid', tab.id);
 		var iframe = $dom(document.createElement('iframe'));
 		iframe.attr({
-			'name': 'iframe_' + tab.id,
-			'id': 'iframe_' + tab.id,
+			'name': tab.id,
+			'id': tab.id,
 			'frameborder': 0,
 			'border': 0,
 			'marginwidth': 0,
@@ -495,13 +495,12 @@
 	};
 	//打印选项卡的iframe中的内容页
 	fn.print = function(tabid) {
-		var iframe = 'iframe_' + tabid;
-		if (window.frames[iframe] == null) {
-			var doc = $dom('iframe#\'' + iframe + '\'');
-			doc[0].contentWindow.print();
+		if (window.frames[tabid] == null) {
+			var doc = $dom('iframe[name=\'' + tabid + '\']');
+			if (doc.length > 0) doc[0].contentWindow.print();
 		} else {
-			window.frames[iframe].focus();
-			window.frames[iframe].print();
+			window.frames[tabid].focus();
+			window.frames[tabid].print();
 		}
 	};
 	//移除某个选项卡

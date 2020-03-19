@@ -204,7 +204,7 @@
 				var box = area.add('tree_box');
 				box.attr('treeid', item.id);
 				obj._createNode(item, box);
-				if (item.childs && item.childs.length > 0) {					
+				if (item.childs && item.childs.length > 0) {
 					for (var i = 0; i < item.childs.length; i++) {
 						_addchild(box, item.childs[i], obj);
 					}
@@ -269,7 +269,7 @@
 	//创建树形节点
 	fn._createNode = function(item, box) {
 		var node = box.add('tree-node');
-		node.css('padding-left', ((item.level-1) * 15) + 'px');
+		node.css('padding-left', ((item.level - 1) * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
 		//节点类型
 		node.attr('type', item.type ? item.type : 'node');
@@ -289,8 +289,8 @@
 			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
 		}
 		span.html(item.title);
-		span.width('calc(100% - '+((item.level-1) * 15 + 40)+'px)');
-		
+		span.width('calc(100% - ' + ((item.level - 1) * 15 + 40) + 'px)');
+
 		//如果有下级节点
 		if (item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function(e) {
@@ -298,11 +298,11 @@
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
 				if (tnode.hasClass('folder')) {
-					tnode.attr('class', 'folderclose');					
-					tnode.siblings('tree_box').hide();					
+					tnode.attr('class', 'folderclose');
+					tnode.siblings('tree_box').hide();
 				} else {
 					tnode.attr('class', 'folder');
-					tnode.siblings('tree_box').show();					
+					tnode.siblings('tree_box').show();
 				}
 
 			});
@@ -333,7 +333,7 @@
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 			//补全一些信息
-			if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
+			if (!item.id || item.id < 0) item.id = 'node_' + (i + Math.floor(Math.random() * 100000));
 			if (!item.pid || item.pid < 0) item.pid = 0;
 			if (!item.level || item.level <= 0) item.level = level;
 			if (!item.path) item.path = item.title;
