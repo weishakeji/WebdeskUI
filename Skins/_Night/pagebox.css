@@ -174,13 +174,14 @@
     font-family: "webdesk_icon" !important;
     display: block;
     height: 25px;
+    line-height: 28px;
     width: 30px;
     border-right: 1px solid #ddd;
     float: left;
     color: #666;
-
     text-align: center;
     margin-right: 6px;
+    font-size: 14px;
 }
 
 .ui_menu>*.disable,
@@ -219,7 +220,9 @@
 .pagebox .ui_menu>menu_fresh:before {
     content: '\e695';
 }
-
+.pagebox .ui_menu>menu_print:before {
+    content: '\a046';
+}
 /*关闭*/
 
 .pagebox .ui_menu>menu_close:before {
@@ -338,7 +341,7 @@
 
 .pagebox btnbox btn_max::before {
     content: "\e693";
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 800;
     padding-top: 2px;
     transform: scale(1.2, 1);

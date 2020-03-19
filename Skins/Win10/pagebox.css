@@ -171,12 +171,14 @@
     font-family: "webdesk_icon" !important;
     display: block;
     height: 25px;
+    line-height: 28px;
     width: 30px;
     border-right: 1px solid #ddd;
     float: left;
     color: #666;
     text-align: center;
     margin-right: 6px;
+    font-size: 14px;
 }
 
 .ui_menu>*.disable,
@@ -323,6 +325,7 @@
 .pagebox_full btnbox btn_max::before {
     content: "\e6c4";
     padding-top: 1px;
+    font-size: 15px;
 }
 
 .pagebox btnbox btn_close {
