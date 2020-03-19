@@ -124,6 +124,7 @@
 			var menu = obj.dom.add('tabs_contextmenu');
 			menu.add('menu_fresh').html('刷新');
 			//menu.add('menu_freshtime').attr('num', 10).html('定时刷新(10秒)');
+			menu.add('menu_print').html('打印');
 			menu.add('hr');
 			menu.add('menu_full').html('最大化');
 			menu.add('menu_restore').html('还原').addClass('disable');
@@ -200,6 +201,8 @@
 					var iframe = obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] iframe');
 					iframe.attr('src', iframe.attr('src'));
 				}
+				//打印
+				if (action == 'print') obj.print(tabid);
 				//关闭
 				if (action.indexOf('close') > -1) {
 					var tabids = new Array();
@@ -414,15 +417,8 @@
 				var node = event.target ? event.target : event.srcElement;
 				while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
 				var tabid = $dom(node).attr('tabid');
-				var iframe = 'iframe_' + tabid;
-
-				if (window.frames[iframe] == null) {
-					var doc = $dom('iframe#\'' + iframe + '\'');
-					doc[0].contentWindow.print();
-				} else {
-					window.frames[iframe].focus();
-					window.frames[iframe].print();
-				}
+				var obj = tabs._getObj(node);
+				obj.print(tabid);
 			});
 		}
 	};
@@ -496,6 +492,17 @@
 		if (tagleft - visiLeft <= 0)
 			area[0].scrollLeft = tagleft - visiLeft;
 		return true;
+	};
+	//打印选项卡的iframe中的内容页
+	fn.print = function(tabid) {
+		var iframe = 'iframe_' + tabid;
+		if (window.frames[iframe] == null) {
+			var doc = $dom('iframe#\'' + iframe + '\'');
+			doc[0].contentWindow.print();
+		} else {
+			window.frames[iframe].focus();
+			window.frames[iframe].print();
+		}
 	};
 	//移除某个选项卡
 	//istrigger：是否触发事件

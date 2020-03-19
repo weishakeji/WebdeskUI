@@ -444,6 +444,10 @@ tabs_morebox tab_tag close:before {
 .tabsbox tabs_contextmenu>menu_fresh:before {
     content: '\e695';
 }
+.tabsbox tabs_contextmenu>menu_print:before {
+    content: '\a046';
+    font-size: 14px;
+}
 
 .tabsbox tabs_contextmenu>menu_full:before {
     content: '\697';

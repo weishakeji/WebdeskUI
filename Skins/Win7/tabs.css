@@ -276,7 +276,7 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon";
     display: inline-block;
     width: 30px;
-    text-align: left;
+    text-align: center;
     color: #999;
     font-size: 18px;
     cursor: pointer;
@@ -452,6 +452,10 @@ tabs_morebox tab_tag close:before {
 /*刷新的菜单项*/
 .tabsbox tabs_contextmenu>menu_fresh:before {
     content: '\e695';
+}
+.tabsbox tabs_contextmenu>menu_print:before {
+    content: '\a046';
+    font-size: 14px;
 }
 
 .tabsbox tabs_contextmenu>menu_full:before {
