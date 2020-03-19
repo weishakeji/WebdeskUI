@@ -445,7 +445,7 @@
                 //刷新
                 if (action == 'fresh') obj.url = obj._url;
                 //打印
-                if (action == 'print') obj.document().print();
+                if (action == 'print') obj.doPrint();
                 //关闭
                 if (action == 'close' && obj.close) obj.shut();
             });
@@ -527,9 +527,20 @@
     fn.focus = function() {
         return box.focus(this.id);
     };
+    //关闭窗体
     fn.shut = function() {
         box.shut(this.id);
         return this;
+    };
+    //打印窗体内容
+    fn.doPrint = function() {
+        var doc = this.document();
+        if (window.frames[this.id] == null) {
+            this.document().print();
+        } else {
+            window.frames[this.id].focus();
+            window.frames[this.id].print();
+        }
     };
     fn.toFull = function() {
         return box.toFull(this.id);
