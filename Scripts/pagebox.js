@@ -35,7 +35,8 @@
             resize: true, //是否允许缩放大小
             move: true, //是否允许移动
             min: true, //是否允许最小化按钮
-            max: true, //是否允许最大化按钮            
+            max: true, //是否允许最大化按钮    
+            print: true, //是否允许打印        
             close: true, //是否允许关闭按钮
             fresh: true, //是否允许刷新
             full: false, //打开后是否全屏，默认是false
@@ -150,6 +151,10 @@
             var menubtn = box.dom.find('dropmenu menu_max');
             menubtn.attr('class', val ? 'enable' : 'disable');
         },
+        'print': function(box, val, old) {
+            var menubtn = box.dom.find('dropmenu menu_print');
+            menubtn.attr('class', val ? 'enable' : 'disable');
+        },
         'close': function(box, val, old) {
             box._builder.buttonbox(box);
             //左上角菜单的关闭按钮
@@ -209,6 +214,7 @@
         //设置一些初始值
         this.min = this._min;
         this.max = this._max;
+        this.print = this._print;
         this.close = this._close;
         this.resize = this._resize;
         this.left = this._left;
@@ -285,6 +291,7 @@
             var menu = obj.dom.add('dropmenu');
             menu.addClass('ui_menu');
             menu.add('menu_fresh').html('刷新');
+            menu.add('menu_print').html('打印');
             menu.append('hr');
             menu.add('menu_min').html('最小化');
             menu.add('menu_max').html('最大化');
@@ -437,6 +444,8 @@
                 if (action == 'win') obj.full = false;
                 //刷新
                 if (action == 'fresh') obj.url = obj._url;
+                //打印
+                if (action == 'print') obj.document().print();
                 //关闭
                 if (action == 'close' && obj.close) obj.shut();
             });
@@ -690,7 +699,7 @@
         if (!ctrl.obj.min) return ctrl.obj;
         if (!ctrl.obj.trigger('mini')) return ctrl.obj;
         //记录之前的数据，用于还原
-        if (!ctrl.obj.full && (!ctrl.obj._changing || ctrl.win_size==null)) {
+        if (!ctrl.obj.full && (!ctrl.obj._changing || ctrl.win_size == null)) {
             ctrl.win_offset = ctrl.dom.offset();
             ctrl.win_size = {
                 width: ctrl.obj.width,
