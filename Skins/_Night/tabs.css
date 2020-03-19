@@ -255,23 +255,31 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon" !important;
 }
 
-.tabsbox tabs_body tabpace tabpath help:before{
-   display: block;
-    width: 30px;
-    height:30px;
+/*右侧按钮组*/
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox {
+    display: block;
     position: absolute;
-    right: 14px;
-    top:0px;
-    content: '\a026';
-    text-align: left;
-    color: #444;
-    font-size: 18px;
-     font-family: "webdesk_icon" !important;
+    top: 0px;
+    right: 0px;
+    height: 30px;
+    width: auto;
 }
-.tabsbox tabs_body tabpace tabpath help:hover{
+
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>* {
+    font-family: "webdesk_icon";
+    display: inline-block;
+    width: 30px;
+    text-align: left;
+    color: #333;
+    font-size: 18px;
     cursor: pointer;
+    text-indent: 0px;
+}
+
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>*:hover {
     text-shadow: 1px 1px 2px #666;
 }
+
 .tabsbox tabs_body tabpace iframe {
     
     bottom: 0px;

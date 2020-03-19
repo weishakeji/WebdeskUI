@@ -3,7 +3,7 @@
 
 .tabsbox {
     position: relative;
-    overflow: hidden;  
+    overflow: hidden;
     transition: width 0.3s, height 0.3s;
 }
 
@@ -64,7 +64,7 @@ tabs_tagbox tab_tag::before {
     --pointer-events: auto;
     border-radius: 4px 4px 0 0;
 
-    background: linear-gradient(to bottom, rgb(212, 212, 212) 0%, rgba(212, 212, 212,1) 5%, rgba(255, 255, 255, 1) 90%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(to bottom, rgb(212, 212, 212) 0%, rgba(212, 212, 212, 1) 5%, rgba(255, 255, 255, 1) 90%, rgba(255, 255, 255, 1) 100%);
 }
 
 tabs_tagbox tab_tag:first-child:before {
@@ -94,15 +94,17 @@ tabs_tagbox tab_tag>* {
 tabs_tagbox tab_tag.tagcurr {
     height: 36px;
 }
-tabs_tagbox tab_tag:first-child.tagcurr:before{
-   transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(1.05)  !important;
+
+tabs_tagbox tab_tag:first-child.tagcurr:before {
+    transform: perspective(.5em) rotateX(1.6deg) rotateY(0deg) scale(1.05) !important;
 }
+
 tabs_tagbox tab_tag.tagcurr:before {
-    
+
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
-    background: linear-gradient(to bottom, rgb(160, 207, 255) 0%, rgba(160, 207, 255,1) 5%, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 1) 100%);
+    background: linear-gradient(to bottom, rgb(160, 207, 255) 0%, rgba(160, 207, 255, 1) 5%, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 1) 100%);
 }
 
 tabs_tagbox tab_tag ico {
@@ -196,19 +198,19 @@ tabs_tagbox tab_tag close:hover {
 
 /*内容区*/
 
-.tabsbox tabs_body {   
+.tabsbox tabs_body {
     width: calc(100% - 3px);
     height: calc(100% - 37px);
     --background-color: #fff;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
     border: 1px solid #aaa;
     border-top: none;
-    box-shadow: 1px 0 #333, 0 1px #333,-1px 0 #fff;
+    box-shadow: 1px 0 #333, 0 1px #333, -1px 0 #fff;
 }
 
 .tabsbox tabs_body tabpace {
     display: block;
-   
+
     width: 100%;
     height: 100%;
 }
@@ -225,24 +227,26 @@ tabs_tagbox tab_tag close:hover {
     color: #666;
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
     cursor: default;
-     overflow: hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
 }
-.tabsbox tabs_body tabpace tabpath i{
+
+.tabsbox tabs_body tabpace tabpath i {
     margin: 0px 4px 0px -8px;
     font-style: normal;
     width: 20px;
     text-align: left;
     font-size: 8px;
     display: inline-block;
-    font-family: iconfont,sans-serif;
+    font-family: iconfont, sans-serif;
     font-weight: 800;
     transform: scaleX(.5);
 
 }
-.tabsbox tabs_body tabpace tabpath:before{
+
+.tabsbox tabs_body tabpace tabpath:before {
     content: '\a011';
     line-height: 30px;
     font-size: 10px;
@@ -258,25 +262,33 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon" !important;
 }
 
-.tabsbox tabs_body tabpace tabpath help:before{
-   display: block;
-    width: 30px;
-    height:30px;
+/*右侧按钮组*/
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox {
+    display: block;
     position: absolute;
-    right: 14px;
-    top:0px;
-    content: '\a026';
+    top: 0px;
+    right: 0px;
+    height: 30px;
+    width: auto;
+}
+
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>* {
+    font-family: "webdesk_icon";
+    display: inline-block;
+    width: 30px;
     text-align: left;
     color: #999;
     font-size: 18px;
-     font-family: "webdesk_icon" !important;
-}
-.tabsbox tabs_body tabpace tabpath help:hover{
     cursor: pointer;
+    text-indent: 0px;
+}
+
+.tabsbox tabs_body tabpace tabpath tabbar-btnbox>*:hover {
     text-shadow: 1px 1px 2px #666;
 }
+
 .tabsbox tabs_body tabpace iframe {
-    
+
     bottom: 0px;
     left: 0px;
     width: 100%;

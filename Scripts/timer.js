@@ -32,7 +32,7 @@
 		this._datas = ''; //数据源的序列化字符串
 		this._initialization();
 		for (var t in this._baseEvents) this._baseEvents[t](this);
-			$ctrls.add({
+		$ctrls.add({
 			id: this.id,
 			obj: this,
 			dom: $dom('timer'),
@@ -170,14 +170,20 @@
 	timer.format = function(fmt, date) {
 		fmt = fmt.replace(/\Y/g, "y");
 		//24小时制
-		var h24 = date.toLocaleString('chinese', {
-			hour12: false
-		});
+		var h24 = date.toLocaleString();
+		try {
+			h24 = date.toLocaleString('chinese', {
+				hour12: false
+			});
+		} catch (e) {}
 		h24 = h24.substring(h24.indexOf(' ') + 1, h24.indexOf(':'));
 		//12小时制
-		var h12 = date.toLocaleString('chinese', {
-			hour12: true
-		});
+		var h12 = date.toLocaleString();
+		try {
+			h12 = date.toLocaleString('chinese', {
+				hour12: true
+			});
+		} catch (e) {}
 		h12 = h12.substring(h12.indexOf(' ') + 1, h12.indexOf(':'));
 		//星期
 		var week = ['天', '一', '二', '三', '四', '五', '六'];

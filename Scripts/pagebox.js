@@ -534,7 +534,6 @@
     };
     //打印窗体内容
     fn.doPrint = function() {
-        var doc = this.document();
         if (window.frames[this.id] == null) {
             this.document().print();
         } else {

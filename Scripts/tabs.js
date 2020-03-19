@@ -29,7 +29,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
-		eval($ctrl.event_generate(['shut', 'add', 'change', 'full','help']));
+		eval($ctrl.event_generate(['shut', 'add', 'change', 'full', 'help']));
 		//以下不支持双向绑定
 		this.childs = new Array(); //子级		
 		this.dom = null; //控件的html对象
@@ -220,7 +220,7 @@
 				}
 				//最大化
 				if (action == 'full') {
-					obj.focus(String(tabid),true);
+					obj.focus(String(tabid), true);
 					tabs.full(obj, tabid);
 				}
 				//还原
@@ -268,8 +268,8 @@
 		space.attr('tabid', tab.id);
 		var iframe = $dom(document.createElement('iframe'));
 		iframe.attr({
-			'name': tab.id,
-			'id': tab.id,
+			'name': 'iframe_' + tab.id,
+			'id': 'iframe_' + tab.id,
 			'frameborder': 0,
 			'border': 0,
 			'marginwidth': 0,
@@ -286,7 +286,10 @@
 				path.html(path.html() + paths[i]);
 				if (i < paths.length - 1) path.html(path.html() + '<i>></i>');
 			}
-			if (!!tab.help) path.add('help');
+			//右侧按钮
+			var btn = path.add('tabbar-btnbox');
+			btn.add('print').html('&#xa046').attr('title', '打印');
+			if (!!tab.help) btn.add('help').html('&#xa026').attr('title', '帮助');
 			path.width('100%').height(30);
 			iframe.height('calc(100% - 30px)');
 		} else {
@@ -403,6 +406,23 @@
 					tabid: tabid,
 					data: data
 				})
+			});
+		},
+		//打印按钮的事件
+		print: function(obj, tabid) {
+			obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] print').click(function(e) {
+				var node = event.target ? event.target : event.srcElement;
+				while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
+				var tabid = $dom(node).attr('tabid');
+				var iframe = 'iframe_' + tabid;
+
+				if (window.frames[iframe] == null) {
+					var doc = $dom('iframe#\'' + iframe + '\'');
+					doc[0].contentWindow.print();
+				} else {
+					window.frames[iframe].focus();
+					window.frames[iframe].print();
+				}
 			});
 		}
 	};

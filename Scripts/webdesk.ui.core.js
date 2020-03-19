@@ -524,7 +524,8 @@
 			error: empty, //错误信息回调
 			timeout: 10000 //请求超时ms
 		};
-		Object.assign(opt, options); //直接合并对象,opt已有属性将会被options替换
+		for (var t in options) opt[t] = options[t];
+		//Object.assign(opt, options); //直接合并对象,opt已有属性将会被options替换
 		var abortTimeout = null;
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function() {
