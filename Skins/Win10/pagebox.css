@@ -251,11 +251,7 @@
     right: 0px;
     position: absolute;
     display: block;
-    border-top: 1px solid rgba(62, 63, 63, 0.6);
-    border-top: none;
     z-index: 3;
-    border-radius: 0px 0px 4px 4px;
-    box-shadow: -2px 0px 2px rgba(255, 255, 255, 0.6), 2px 0px 2px rgba(255, 255, 255, 0.6), 0px 2px 2px rgba(255, 255, 255, 0.6);
 }
 
 .pagebox btnbox>* {
@@ -334,6 +330,7 @@
 
 .pagebox btnbox btn_close:hover {
     background-color: rgb(228, 32, 32);
+    color: rgba(255,255,255,1);
 }
 
 .pagebox btnbox btn_close::before {
@@ -344,7 +341,9 @@
     font-size: 12px;
     line-height: 22px;
 }
-
+.pagebox btnbox btn_close:hover::before {
+    color: rgba(255,255,255,1);
+}
 .pagebox btnbox btn_close:hover::after {
     display: none;
 }
