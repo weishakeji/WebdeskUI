@@ -20,22 +20,40 @@
     <script type="text/javascript" src="Scripts/api.js"></script>
     <script type="text/javascript" src="Scripts/admin.js" async></script>
     <style type="text/css">
-    body {
+    panel {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    panel#loading {
+        z-index: 1;
+    }
+
+    panel#login {
+        z-index: 2;
+        --opacity: 0;
+    }
+
+    panel#admin {
+        z-index: 3;        
+        background-size: 100% 100%;
         transition: all .3s;
+        display: none;
         opacity: 0;
     }
     </style>
 </head>
 
 <body oncontextmenu='return false'>
-    <region id="loading" remark="预载效果">
+    <panel id="loading" remark="预载效果">
         555
-    </region>
-    <region id="login" remark="登录区域">
-       <iframe src="Effects/2Dcloud/index.html" id="iframe" width="100%" height="100%" frameborder="no" border="0"
-        marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
-    </region>
-    <region id="admin" remark="管理面板">
+    </panel>
+    <panel id="login" remark="登录区域">
+        <iframe src="Effects/Line/index.html" id="iframe" width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+    </panel>
+    <panel id="admin" remark="管理面板">
         <div id="header-box">
             <div id="dropmenu-area" remark="下拉菜单"></div>
             <div id="headbar">『 微厦在线学习系统 』 <span>学练考一体，点播、直播、在线支付，电脑、手机、微信全支持</span></div>
@@ -48,7 +66,7 @@
             <timer format='yyyy年M月d日 星期w hh:mm:ss'></timer>
             <div id="pageboxcollect"></div>
         </div>
-    </region>
+    </panel>
 </body>
 
 </html>

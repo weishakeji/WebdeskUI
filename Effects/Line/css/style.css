@@ -1,4 +1,13 @@
-body{width: 100wh; height: 90vh; color: #fff;background: linear-gradient(-45deg, rgba(9,69,138,0.2), rgba(68,155,255,0.7), rgba(117,113,251,0.7), rgba(68,155,255,0.7), rgba(9,69,138,0.2));background-size: 400% 400%;-webkit-animation: Gradient 15s ease infinite;-moz-animation: Gradient 15s ease infinite;animation: Gradient 15s ease infinite;}
+html,body{
+	width: 100%; height: 100%;
+}
+body{ color: #fff;background: linear-gradient(-45deg, rgba(9,69,138,0.2), rgba(68,155,255,0.7), rgba(117,113,251,0.7), rgba(68,155,255,0.7), rgba(9,69,138,0.2));background-size: 400% 400%;-webkit-animation: Gradient 15s ease infinite;-moz-animation: Gradient 15s ease infinite;animation: Gradient 15s ease infinite;}
+.container{
+	width: 100%; height: 100%;
+}
+.container canvas{
+	width: 100% !important; height: 100% !important;
+}
 @-webkit-keyframes Gradient {
 	0% {
 		background-position: 0% 50%
@@ -34,4 +43,3 @@ body{width: 100wh; height: 90vh; color: #fff;background: linear-gradient(-45deg,
 		background-position: 0% 50%
 	}
 }
-.container{width: 100%; height: 100%;}

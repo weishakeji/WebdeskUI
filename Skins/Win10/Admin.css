@@ -10,25 +10,8 @@ body {
     background-color: rgb(27, 87, 148);
 }
 
-region {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-region#loading {
-    z-index: 1;
-}
-
-region#login {
-    z-index: 2;
-}
-
-region#admin {
-    z-index: 3;
+panel#admin {
     background: url('bg.jpg');
-    background-size: 100% 100%;
 }
 
 #header-box {

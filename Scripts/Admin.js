@@ -95,7 +95,7 @@ $dom.ready(function() {
 		}, 300);
 	});
 	window.setTimeout(function() {
-		window.$skins.onchange();
+		//window.$skins.onchange();
 	}, 1000)
 
 });
