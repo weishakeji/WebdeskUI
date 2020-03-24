@@ -14,28 +14,28 @@ body {
     background-size: 100% 100%;
 }
 
-timer {
+timer{
     display: block;
     position: absolute;
-    top: 56px;
+    top: 15px;
     right: 70px;
     font-size: 10px;
-    color: rgba(255, 255, 255, .4);
+    color: rgba(255,255,255,.8);
 }
-
 #header-box {
     height: 35px;
     width: 100%;
     position: relative;
 }
 
-#body {
+#mainbody {
     width: calc(100% - 10px);
     height: calc(100% - 10px - 35px);
     margin: 5px;
+    position: relative;
 }
 
-#body>div:first-child {
+#mainbody>div:first-child {
     box-shadow: 1px 1px 1px 1px rgba(232, 232, 232, .3);
 }
 
@@ -103,11 +103,11 @@ timer {
 
 #pageboxcollect {
     position: absolute;
-    right: 5px;
+    right: 0px;
     bottom: 0px;
     z-index: 99999;
     width: 30px;
-    height: 30px;
+    height: 25px;
     line-height: 30px;
     font-size: 16px !important;
 }

@@ -9,18 +9,22 @@ body {
     overflow: hidden;
     background-color: rgb(27, 87, 148);
 }
-
-body {
+panel {
+    display: block;
+     width: 100%;
+    height: 100%;
+    position: absolute;
+}
+panel#loading{
+    z-index: 1;
+}
+panel#login{
+    z-index: 2;
+}
+panel#admin{
+    z-index: 3;
     background: url('bg.jpg');
     background-size: 100% 100%;
-}
-timer{
-    display: block;
-    position: absolute;
-    top: 56px;
-    right: 70px;
-    font-size: 10px;
-    color: rgba(146, 79, 79, 0.8);
 }
 #header-box {
     height: 35px;
@@ -28,12 +32,14 @@ timer{
     position: relative;
 }
 
-#body {
+#mainbody {
     width: calc(100% - 10px);
     height: calc(100% - 10px - 35px);
     margin: 5px;
+    position: relative;
 }
-#body>div:first-child{
+
+#mainbody>div:first-child{
 	box-shadow: 1px 1px 1px 1px rgba(232,232,232,.3);
 }
 #dropmenu-area {
@@ -100,11 +106,11 @@ timer{
 
 #pageboxcollect {
     position: absolute;
-    right: 5px;
+    right: 0px;
     bottom: 0px;
     z-index: 99999;
     width: 30px;
-    height: 30px;
+    height: 25px;
     line-height: 30px;
     font-size: 16px !important;
 }

@@ -85,13 +85,13 @@ $dom.ready(function() {
 
 	//风格切换事件
 	window.$skins.onchange(function(s, e) {
-		$dom('body').css('opacity', 0);
+		$dom('panel#admin').css('opacity', 0);
 		//设置页面顶部的文本（系统名称）
 		window.setTimeout(function() {
 			var left = $dom('#dropmenu-area').width() + 10;
 			$dom('#headbar').css('opacity', 1).left(left);
 			$dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
-			$dom('body').css('opacity', 1);
+			$dom('panel#admin').css('opacity', 1);
 		}, 300);
 	});
 	window.setTimeout(function() {
