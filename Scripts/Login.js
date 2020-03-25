@@ -15,10 +15,10 @@
         if (param == null || typeof(param) != 'object') param = {};
         this.attrs = {
             target: '', //所在Html区域			
-            width: '100%',
-            height: '100%',
+            width: '',
+            height: '',
             title: '', //标题
-            ico: '', //图标的字体符号
+            ico: 'a028', //图标的字体符号
             icoimg: '', //图标的图片样式
             company: '', //公司名称
             website: '', //公司的网址
@@ -84,8 +84,8 @@
         //创建登录窗体
         for (var t in this._builder) this._builder[t](this);
         //
-        this.width = this._width;
-        this.height = this._height
+        if (this._width != '') this.width = this._width;
+        if (this._height != '') this.height = this._height
         return this;
     };
     fn._builder = {
@@ -108,6 +108,7 @@
         },
         body: function(obj) {
             obj.dombody = obj.dom.add('login_body');
+
         },
         footer: function(obj) {
             obj.domfoot = obj.dom.add('login_footbar');

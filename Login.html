@@ -69,13 +69,15 @@
         <h1><b class="webdesk_icon"></b>Login.js 登录框 <span>（手式滑块，验证码加载）</span><a class='home' href="index.html">返回首页</a></h1>
     </div>
     <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
-        <div id="login-area"></div>
+        <div id="login-area" style="background-color:aqua; width: 300px; height: 310px;"></div>
     </div>
 
 </body>
 <script type="text/javascript">
     var login = $login.create({
         target: '#login-area',
+        //width: '500px',
+        title: '管理系统登录',
         company: '微厦科技',
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
