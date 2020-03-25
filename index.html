@@ -9,259 +9,254 @@
     <link rel="stylesheet" type="text/css" href="styles/webdesk.ui.core.css" />
     <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
     <style type="text/css">
-    html,
-    body {
-        text-align: center;
-        color: #333;
-        margin: 0px;
-        padding: 0px;
-        background-image: linear-gradient(#b1deff, #10a0ea);
-    }
-
-    body>*:not(:first-child) {
-        width: 1000px;
-        margin: 0px auto 0px auto;
-
-    }
-
-    h1 {
-        font-size: 60px;
-        color: #fff;
-        text-shadow: .2rem 0rem 1.2rem rgba(150, 150, 150, 1), -.2rem 0rem 1.2rem rgba(150, 150, 150, 1), 0rem .2rem 1.2rem rgba(150, 150, 150, 1), 0rem -.2rem 1.2rem rgba(150, 150, 150, 1);
-    }
-
-    a {
-        text-decoration: none;
-        color: #333;
-        transition: all .5s;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    p {
-        text-align: left;
-        text-indent: 2em;
-    }
-
-    header {
-        background-color: #1B9AF7;
-        height: 40px;
-        line-height: 40px;
-        box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
-        text-shadow: 1px 1px 2px #666;
-        color: #fff;
-    }
-
-    header>div {
-        width: 1000px;
-        margin: 0px auto 0px auto;
-
-    }
-
-    header i {
-        font-family: "webdesk_icon" !important;
-        font-style: normal;
-        color: #fff;
-        font-size: 20px;
-        margin-right: 10px;
-    }
-
-    header a {
-        display: block;
-        float: right;
-        transition: all .5s;
-        margin-left: 20px;
-    }
-
-    header a:hover,
-    header a:hover * {
-        text-decoration: none;
-        --color: rgba(200, 0, 0, .9);
-        transform: scale(1.1);
-    }
-
-    header .title {
-        display: block;
-        width: auto;
-        float: left;
-        font-size: 25px;
-        line-height: 40px;
-
-        color: #eee !important;
-
-    }
-
-    header .title i {
-        font-size: 40px;
-        font-weight: normal;
-        line-height: 40px;
-        float: left;
-    }
-
-    .intro p {
-        font-size: 20px;
-        line-height: 35px;
-    }
-
-    .items {
-        width: 900px !important;
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 20px !important;
-    }
-
-    .items dl {
-        margin: 0px 2% 0px 0px;
-        float: left;
-        border: solid 1px #ccc;
-        padding: 0px;
-        min-height: 300px;
-        position: relative;
-        transform: all .5s;
-        box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
-        cursor: default;
-        flex: 1;
-    }
-
-    .items dl:last-child {
-        margin-right: 0px;
-    }
-
-    dl:hover {
-        background-color: #eee;
-        background-image: linear-gradient(#b1dcfb, #1B9AF7);
-        box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
-    }
-
-    .items dl:child-last {
-        margin: 0px;
-    }
-
-    dt,
-    dd {
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .items dl dt {
-        font-size: 20px;
-        line-height: 35px;
-    }
-
-    dt {
-        border-bottom: solid 1px #ccc;
-        box-shadow: 0 3px 0 #81c5f7;
-        box-shadow: rgb(255, 255, 255) 0px 0px 18px inset;
-        background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
-    }
-
-    dt i {
-        font-family: "webdesk_icon" !important;
-        font-style: normal;
-        color: #666;
-        font-size: 25px;
-    }
-
-    dd {
-        text-align: left;
-        padding: 5px;
-        margin: 0px 20px 0px 40px;
-        font-size: 14px;
-        counter-increment: item;
-    }
-
-    dd:before {
-        content: counter(item)".";
-        display: block;
-        float: left;
-        margin-right: 10px;
-        margin-left: -25px;
-    }
-
-    dl a.btn {
-        display: block;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
-        height: 35px;
-        line-height: 35px;
-        background-color: rgba(200, 200, 200, 0.3);
-        text-decoration: none;
-        color: #333;
-        box-shadow: rgb(255, 255, 255) 0px 0px 5px inset;
-        --background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
-    }
-
-    dl a:hover {
-        text-decoration: underline;
-    }
-
-    .footer {
-        width: 100% !important;
-        margin-bottom: 50px;
-        background-color: #0880d7;
-        padding: 20px 0px 20px 0px;
-        color: #fff !important;
-        box-shadow: 0px -3px 0 #1B9AF7, 0px -3px 3px rgba(0, 0, 0, 0.3);
-    }
-
-    .footer .company {
-        font-size: 20px;
-    }
-
-    .footer * {
-        text-align: center;
-        color: #fff !important;
-    }
-
-    svg {
-        margin-right: 5px;
-    }
-
-    #adminbtn {
-        display: block;
-        width: 200px;
-        height: 40px;
-        line-height: 40px;
-        font-size: 20px;
-        border: solid 1px #999;
-        color: #FFF;
-        border-radius: 4px;
-        background-color: #1B9AF7;
-        border-color: #1B9AF7;
-        font-style: normal;
-        text-align: left;
-        text-decoration: none;
-        box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
-        text-shadow: 1px 1px 2px #666;
-        transform: background-color .2s;
-        margin: 20px auto 30px auto;
-    }
-
-    #adminbtn:before {
-        content: '\a010';
-        font-family: "webdesk_icon" !important;
-        font-style: normal;
-        color: #eee;
-        font-size: 30px;
-        margin-right: 10px;
-        width: 40px;
-        height: 40px;
-        display: block;
-        float: left;
-        margin-left: 10px;
-        border-right: solid 1px #ccc;
-        box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    #adminbtn:hover {
-        background-color: #3ea9f7;
-
-        box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
-    }
+        html,
+        body {
+            text-align: center;
+            color: #333;
+            margin: 0px;
+            padding: 0px;
+            background-image: linear-gradient(#b1deff, #10a0ea);
+        }
+        
+        body>*:not(:first-child) {
+            width: 1000px;
+            margin: 0px auto 0px auto;
+        }
+        
+        h1 {
+            font-size: 60px;
+            color: #fff;
+            text-shadow: .2rem 0rem 1.2rem rgba(150, 150, 150, 1), -.2rem 0rem 1.2rem rgba(150, 150, 150, 1), 0rem .2rem 1.2rem rgba(150, 150, 150, 1), 0rem -.2rem 1.2rem rgba(150, 150, 150, 1);
+        }
+        
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all .5s;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        p {
+            text-align: left;
+            text-indent: 2em;
+        }
+        
+        header {
+            background-color: #1B9AF7;
+            height: 40px;
+            line-height: 40px;
+            box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px #666;
+            color: #fff;
+        }
+        
+        header>div {
+            width: 1000px;
+            margin: 0px auto 0px auto;
+        }
+        
+        header i {
+            font-family: "webdesk_icon" !important;
+            font-style: normal;
+            color: #fff;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        header a {
+            display: block;
+            float: right;
+            transition: all .5s;
+            margin-left: 20px;
+        }
+        
+        header a:hover,
+        header a:hover * {
+            text-decoration: none;
+            --color: rgba(200, 0, 0, .9);
+            transform: scale(1.1);
+        }
+        
+        header .title {
+            display: block;
+            width: auto;
+            float: left;
+            font-size: 25px;
+            line-height: 40px;
+            color: #eee !important;
+        }
+        
+        header .title i {
+            font-size: 40px;
+            font-weight: normal;
+            line-height: 40px;
+            float: left;
+        }
+        
+        .intro p {
+            font-size: 20px;
+            line-height: 35px;
+        }
+        
+        .items {
+            width: 900px !important;
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 20px !important;
+        }
+        
+        .items dl {
+            margin: 0px 2% 0px 0px;
+            float: left;
+            border: solid 1px #ccc;
+            padding: 0px;
+            min-height: 300px;
+            position: relative;
+            transform: all .5s;
+            box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
+            cursor: default;
+            flex: 1;
+        }
+        
+        .items dl:last-child {
+            margin-right: 0px;
+        }
+        
+        dl:hover {
+            background-color: #eee;
+            background-image: linear-gradient(#b1dcfb, #1B9AF7);
+            box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
+        }
+        
+        .items dl:child-last {
+            margin: 0px;
+        }
+        
+        dt,
+        dd {
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .items dl dt {
+            font-size: 20px;
+            line-height: 35px;
+        }
+        
+        dt {
+            border-bottom: solid 1px #ccc;
+            box-shadow: 0 3px 0 #81c5f7;
+            box-shadow: rgb(255, 255, 255) 0px 0px 18px inset;
+            background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
+        }
+        
+        dt i {
+            font-family: "webdesk_icon" !important;
+            font-style: normal;
+            color: #666;
+            font-size: 25px;
+        }
+        
+        dd {
+            text-align: left;
+            padding: 5px;
+            margin: 0px 20px 0px 40px;
+            font-size: 14px;
+            counter-increment: item;
+        }
+        
+        dd:before {
+            content: counter(item)".";
+            display: block;
+            float: left;
+            margin-right: 10px;
+            margin-left: -25px;
+        }
+        
+        dl a.btn {
+            display: block;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: 35px;
+            line-height: 35px;
+            background-color: rgba(200, 200, 200, 0.3);
+            text-decoration: none;
+            color: #333;
+            box-shadow: rgb(255, 255, 255) 0px 0px 5px inset;
+            --background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
+        }
+        
+        dl a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            width: 100% !important;
+            margin-bottom: 50px;
+            background-color: #0880d7;
+            padding: 20px 0px 20px 0px;
+            color: #fff !important;
+            box-shadow: 0px -3px 0 #1B9AF7, 0px -3px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer .company {
+            font-size: 20px;
+        }
+        
+        .footer * {
+            text-align: center;
+            color: #fff !important;
+        }
+        
+        svg {
+            margin-right: 5px;
+        }
+        
+        #adminbtn {
+            display: block;
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 20px;
+            border: solid 1px #999;
+            color: #FFF;
+            border-radius: 4px;
+            background-color: #1B9AF7;
+            border-color: #1B9AF7;
+            font-style: normal;
+            text-align: left;
+            text-decoration: none;
+            box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px #666;
+            transform: background-color .2s;
+            margin: 20px auto 30px auto;
+        }
+        
+        #adminbtn:before {
+            content: '\a010';
+            font-family: "webdesk_icon" !important;
+            font-style: normal;
+            color: #eee;
+            font-size: 30px;
+            margin-right: 10px;
+            width: 40px;
+            height: 40px;
+            display: block;
+            float: left;
+            margin-left: 10px;
+            border-right: solid 1px #ccc;
+            box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        #adminbtn:hover {
+            background-color: #3ea9f7;
+            box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 
@@ -323,7 +318,7 @@
         </dl>
     </div>
     <div class="items" style="text-align: left;margin: 0px auto 0px auto;">
-        其它控件：<a href='verticalbar.html' target="_blank">竖形工具条</a>&nbsp;<a href='timer.html' target="_blank">时间显示</a>
+        其它控件：<a href='verticalbar.html' target="_blank">竖形工具条</a>&nbsp;<a href='timer.html' target="_blank">时间显示</a>&nbsp;<a href='login.html' target="_blank">登录</a>
     </div>
     <div class="footer">
         <p class="company"> <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">郑州微厦计算机科技有限公司 </a></p>
