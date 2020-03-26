@@ -387,7 +387,13 @@
 	//添加了一个子节点，返回子节点对象
 	fn.add = function(ele) {
 		if (typeof(ele) == 'string') {
-			return this.add(document.createElement(ele));
+			if (this.length == 1) return this.add(document.createElement(ele));
+			if (this.length > 1) {
+				var res = this.each(function() {
+					return this.append(document.createElement(ele));
+				}, 1);
+				return webdom(res)
+			}
 		}
 		if (webdom.isdom(ele)) {
 			var nodes = this.each(function() {
