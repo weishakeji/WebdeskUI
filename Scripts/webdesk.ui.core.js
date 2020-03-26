@@ -390,7 +390,7 @@
 			if (this.length == 1) return this.add(document.createElement(ele));
 			if (this.length > 1) {
 				var res = this.each(function() {
-					return this.append(document.createElement(ele));
+					return this.appendChild(document.createElement(ele));
 				}, 1);
 				return webdom(res)
 			}
