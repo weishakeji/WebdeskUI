@@ -130,8 +130,10 @@
                 'name': 'code',
                 'placeholder': '验证码'
             });
+            code.add('img').addClass('vcode_img');
             //拖动滑块
-            var drag = obj.dombody.add('login_drag');
+            //var drag = obj.dombody.add('login_drag');
+            //drag.html('向右拖动滑块').add('login_dragbox');
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
             btnarea.add('button').attr('type', 'submit').attr('autofocus', 'autofocus').html('登录');
@@ -150,12 +152,19 @@
     fn._baseEvents = {
         submit: function(obj) {
             var form = obj.dom.find('form');
-            form.bind('submit',function(e){
+            form.bind('submit', function(e) {
                 console.log(e);
-                 e.preventDefault();
+                e.preventDefault();
                 return false;
             });
-            
+        },
+        //登录按钮事件
+        login: function(obj) {
+            obj.dom.find('button').click(function(e) {
+                console.log('test');
+                e.preventDefault();
+                return false;
+            });
         }
     }
     /*** 

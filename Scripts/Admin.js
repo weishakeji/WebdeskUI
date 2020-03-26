@@ -18,8 +18,8 @@ window.onload = function() {
 $dom.ready(function() {
 	var login = $login.create({
         target: '#login-area',
-        //width: '500px',
-        title: '管理系统登录',
+        //width: '320px',
+        title: '微厦在线学习系统',
         company: '微厦科技',
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
