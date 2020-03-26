@@ -94,7 +94,7 @@
 }
 
 .loginbox login_footbar login_tel::before {
-    content: '\a029';
+    content: '\a047';
 }
 
 
@@ -112,7 +112,6 @@
 
 .loginbox .login_body>* {
     display: block;
-    overflow: hidden;
     margin: 5px 20px 10px 20px;
     height: 45px;
     width: calc(100% - 40px);
@@ -120,9 +119,10 @@
     border-radius: 2px;
 }
 
-.loginbox .login_body>*{
+.loginbox .login_body>* {
     border: solid 1px #999;
     width: calc(100% - 42px);
+    position: relative;
 }
 
 .loginbox .login_body>*:before {
@@ -147,7 +147,7 @@
 }
 
 .loginbox .login_body .login_code:before {
-    content: '\a037';
+    content: '\a050';
 }
 
 .loginbox .login_body>* input {
@@ -165,17 +165,23 @@
     font-size: 23px;
 }
 
+.loginbox .login_body login_row.login_code {
+    position: relative;
+}
+
 .loginbox .login_body login_row.login_code input {
     width: calc(100% - 90px - 45px);
     float: left;
 }
-.loginbox .login_body login_row.login_code img.vcode_img{
+
+.loginbox .login_body login_row.login_code img.vcode_img {
     height: 100%;
     width: 90px;
     background-color: #fff;
     float: right;
-    border:none;
+    border: none;
 }
+
 /*登录按钮*/
 .loginbox .login_body button {
     width: 100%;
@@ -195,42 +201,56 @@
 }
 
 .loginbox .login_body>*:last-child {
-    position: absolute;
     height: 40px;
-    bottom: 0px;
-    left: 0px;
     transition: all 0.2s;
 }
 
 .loginbox .login_body>*:last-child:hover {
-    box-shadow: 0px 0px 10px rgba(9, 114, 191,.81);    
+    box-shadow: 0px 0px 10px rgba(9, 114, 191, .81);
 }
 
 .loginbox .login_body button:before {
     font-family: "webdesk_icon" !important;
-    content: '\a029';
+    content: '\a035';
 }
-.loginbox .login_body button:hover{
+
+.loginbox .login_body button:hover {
     border: solid 1px #fff;
 }
+
 /*滑块*/
 .loginbox .login_body login_drag {
+    display: block;
     font-size: 12px;
-    height: 100%;
-    line-height: 300%;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
     color: #999;
-    position: relative;
+    position: absolute;
+    width: 100%;
+    background-color: #eee;
 }
-
+.loginbox .login_body login_drag>div{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    user-select: none;
+}
 .loginbox login_dragbox {
     display: block;
-    height: 100%;
-
-    background-color: #333;
+    font-family: "webdesk_icon" !important;
+    height: 35px;
+    line-height: 35px;
+    width: 40px;
+    font-size: 25px;
+    text-align: center;
+    background-color: #bbb;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    padding: 0px 0px 0px 5px;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    cursor: pointer;
 }
 
 .loginbox login_dragbox:before {
@@ -238,4 +258,21 @@
     padding-left: 100%;
     display: block;
     box-sizing: border-box;
+}
+
+/*提示信息*/
+.loginbox .login_body>* login_tips {
+    display: block;
+    background-color: rgba(255, 0, 0, .8);
+    position: absolute;
+    height: 20px;
+    line-height: 20px;
+    font-size: 10px;
+    width: auto;
+    padding: 0px 10px 0px 10px;
+    left: 50px;
+    bottom: -8px;
+    color: #fff;
+    border-radius: 4px;
+    display: none;
 }

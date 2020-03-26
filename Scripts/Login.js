@@ -100,7 +100,7 @@
             area.addClass('loginbox').attr('ctrid', obj.id);
             obj.dom = area;
         },
-        title: function(obj) {
+        title: function(obj) {           
             obj.domtit = obj.dom.add('login_titlebar');
             var ico = obj.domtit.add('login_ico');
             if (obj.icoimg != '') ico.add('img').attr('src', obj.icoimg);
@@ -133,13 +133,14 @@
             });
             code.add('img').addClass('vcode_img');
             //拖动滑块
-            //var drag = obj.dombody.add('login_drag');
-            //drag.html('向右拖动滑块').add('login_dragbox');
+            var drag = code.add('login_drag');
+            drag.add('div').html('向右拖动滑块').add('login_dragbox').html('&#xa049');
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
             btnarea.add('button').attr('type', 'submit').html('登录');
             //各项提示框
-            obj.dombody.find('login_row').add('error');
+            obj.dombody.find('login_row').add('login_tips');
+            //.html('不得为空！');
         },
         footer: function(obj) {
             obj.domfoot = obj.dom.add('login_footbar');
@@ -166,9 +167,15 @@
             obj.dom.find('button').click(function(e) {
                 var obj = login._getObj(e);
                 obj.trigger('submit');
+                //非空验证
+
                 e.preventDefault();
                 return false;
             });
+        },
+        //滑块拖动
+        drag:function(obj){
+
         }
     }
     /*** 
