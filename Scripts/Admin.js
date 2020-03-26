@@ -16,6 +16,14 @@ window.onload = function() {
 
 
 $dom.ready(function() {
+	var login = $login.create({
+        target: '#login-area',
+        //width: '500px',
+        title: '管理系统登录',
+        company: '微厦科技',
+        website: 'http://www.weishakeji.net',
+        tel: '400 6015615'
+    });
 	//左上角下拉菜单
 	var drop = window.$dropmenu.create({
 		target: '#dropmenu-area',

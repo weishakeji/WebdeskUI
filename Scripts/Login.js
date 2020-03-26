@@ -18,7 +18,7 @@
             width: '',
             height: '',
             title: '', //标题
-            ico: 'a028', //图标的字体符号
+            ico: 'e77d', //图标的字体符号
             icoimg: '', //图标的图片样式
             company: '', //公司名称
             website: '', //公司的网址
@@ -81,8 +81,9 @@
     };
     fn.open = function() {
         this._initialization();
-        //创建登录窗体
+        //创建登录框，以及基础事件
         for (var t in this._builder) this._builder[t](this);
+        for (var t in this._baseEvents) this._baseEvents[t](this);
         //
         if (this._width != '') this.width = this._width;
         if (this._height != '') this.height = this._height
@@ -107,8 +108,33 @@
             obj.domtit.add('login_tit').html(obj.title);
         },
         body: function(obj) {
-            obj.dombody = obj.dom.add('login_body');
-
+            obj.dombody = obj.dom.add('form').addClass('login_body');
+            //账号
+            var user = obj.dombody.add('login_row');
+            user.addClass('login_user').add('input').attr({
+                'type': 'text',
+                'name': 'user',
+                'placeholder': '账号'
+            });
+            //密码
+            var pw = obj.dombody.add('login_row');
+            pw.addClass('login_pw').add('input').attr({
+                'type': 'password',
+                'name': 'pw',
+                'placeholder': '密码'
+            });
+            //验证码
+            var code = obj.dombody.add('login_row');
+            code.addClass('login_code').add('input').attr({
+                'type': 'text',
+                'name': 'code',
+                'placeholder': '验证码'
+            });
+            //拖动滑块
+            var drag = obj.dombody.add('login_drag');
+            //登录按钮
+            var btnarea = obj.dombody.add('login_row');
+            btnarea.add('button').attr('type', 'submit').attr('autofocus', 'autofocus').html('登录');
         },
         footer: function(obj) {
             obj.domfoot = obj.dom.add('login_footbar');
@@ -120,6 +146,18 @@
             obj.domfoot.add('login_tel').html(obj.tel);
         }
     };
+    //基础事件
+    fn._baseEvents = {
+        submit: function(obj) {
+            var form = obj.dom.find('form');
+            form.bind('submit',function(e){
+                console.log(e);
+                 e.preventDefault();
+                return false;
+            });
+            
+        }
+    }
     /*** 
     以下是静态方法
     *****/
