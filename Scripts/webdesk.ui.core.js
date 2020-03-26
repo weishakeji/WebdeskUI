@@ -441,6 +441,7 @@
 				}
 			}
 		});
+		return this;
 	};
 	//触发事件
 	fn.trigger = function(event) {
@@ -449,6 +450,7 @@
 			eObj.initEvent(event, true, false);
 			this.dispatchEvent(eObj);
 		});
+		return this;
 	};
 	//若含有参数就注册事件，无参数就触发事件
 	fn.click = function(f) {
@@ -464,6 +466,7 @@
 		} else {
 			this.trigger('dblclick');
 		}
+		return this;
 	};
 	fn.mousedown = function(f) {
 		if (typeof(f) == "function") {
@@ -471,6 +474,7 @@
 		} else {
 			this.trigger('mousedown');
 		}
+		return this;
 	};
 	/*
 	静态方法

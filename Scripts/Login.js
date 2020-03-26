@@ -14,7 +14,7 @@
     var login = function(param) {
         if (param == null || typeof(param) != 'object') param = {};
         this.attrs = {
-            target: '', //所在Html区域			
+            target: '', //所在Html区域          
             width: '',
             height: '',
             title: '', //标题
@@ -24,6 +24,7 @@
             website: '', //公司的网址
             tel: '', //联系电话
             id: '',
+            drag: false, //是否处于拖动状态
             success: false, //是否登录成功
             loading: false //加载中
         };
@@ -77,6 +78,24 @@
         },
         'tel': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_tel').html(val);
+        },
+        'drag': function(obj, val, old) {
+            if (!obj.dom) return;
+            var box = obj.dom.find('login_dragbox');
+            if (!val) {                
+                box.css('transition', 'left 0.3s').removeClass('drag');
+                var p = box.parent();
+                if (parseInt(box.css('left') + box.width() / 2) > p.width() / 3 * 2) {
+                    box.left(p.width() - box.width() - 5);
+                } else {
+                    box.left(5);
+                }                
+            }
+            if (val) { 
+                box.addClass('drag');
+                box.css('transition', '');
+            }
+
         }
     };
     fn.open = function() {
@@ -100,7 +119,7 @@
             area.addClass('loginbox').attr('ctrid', obj.id);
             obj.dom = area;
         },
-        title: function(obj) {           
+        title: function(obj) {
             obj.domtit = obj.dom.add('login_titlebar');
             var ico = obj.domtit.add('login_ico');
             if (obj.icoimg != '') ico.add('img').attr('src', obj.icoimg);
@@ -114,7 +133,6 @@
             user.addClass('login_user').add('input').attr({
                 'type': 'text',
                 'name': 'user',
-                //'autofocus': 'autofocus',
                 'placeholder': '账号'
             });
             //密码
@@ -174,10 +192,33 @@
             });
         },
         //滑块拖动
-        drag:function(obj){
-
+        drag: function(obj) {
+            obj.dom.find('login_dragbox').mousedown(function(e) {
+                var obj = login._getObj(e);
+                obj.drag = true;
+                obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
+            }).bind('mouseup', function(e) {
+                var obj = login._getObj(e);
+                obj.drag = false;
+            }).bind('mouseleave', function(e) {
+                var obj = login._getObj(e);
+                obj.drag = false;
+            });
+            obj.dom.find('login_drag>div').bind('mousemove', function(e) {
+                var obj = login._getObj(e);
+                //计算移动最大宽度范围
+                var node = event.target ? event.target : event.srcElement;
+                var parent = $dom(node).parent();
+                var min = 5;
+                var max = parent.width() - obj.dom.find('login_dragbox').width() - 5;
+                //
+                var mouse = $dom.mouse(e);
+                var left = mouse.x - obj._drag_init_x;
+                left = left <= min ? min : (left >= max ? max : left);           
+                if (obj.drag) obj.dom.find('login_dragbox').left(left);
+            });
         }
-    }
+    };
     /*** 
     以下是静态方法
     *****/
