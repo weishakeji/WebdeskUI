@@ -479,6 +479,10 @@
 	webdom.isdom = function(obj) {
 		return typeof(obj) == 'object' && obj.typeof == 'webui.element';
 	};
+	//去除两端空格
+	webdom.trim = function(str) {
+		return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
+	};
 	//克隆对象
 	webdom.clone = function(obj) {
 		if (typeof obj == "object") {
