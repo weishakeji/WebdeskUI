@@ -24,6 +24,7 @@
             website: '', //公司的网址
             tel: '', //联系电话
             id: '',
+            success: false, //是否登录成功
             loading: false //加载中
         };
         for (var t in param) this.attrs[t] = param[t];
@@ -32,7 +33,6 @@
         //shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
         eval($ctrl.event_generate(['loyout', 'drag', 'vefiry', 'submit', 'success', 'error']));
         //以下不支持双向绑定
-        this.childs = new Array(); //子级		
         this.dom = null; //控件的html对象
         this.domtit = null; //控件标签栏部分的html对象
         this.dombody = null;
@@ -114,6 +114,7 @@
             user.addClass('login_user').add('input').attr({
                 'type': 'text',
                 'name': 'user',
+                //'autofocus': 'autofocus',
                 'placeholder': '账号'
             });
             //密码
@@ -136,7 +137,9 @@
             //drag.html('向右拖动滑块').add('login_dragbox');
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
-            btnarea.add('button').attr('type', 'submit').attr('autofocus', 'autofocus').html('登录');
+            btnarea.add('button').attr('type', 'submit').html('登录');
+            //各项提示框
+            obj.dombody.find('login_row').add('error');
         },
         footer: function(obj) {
             obj.domfoot = obj.dom.add('login_footbar');
@@ -161,7 +164,8 @@
         //登录按钮事件
         login: function(obj) {
             obj.dom.find('button').click(function(e) {
-                console.log('test');
+                var obj = login._getObj(e);
+                obj.trigger('submit');
                 e.preventDefault();
                 return false;
             });
@@ -175,5 +179,11 @@
         var tobj = new login(param);
         return tobj.open();
     };
+    login._getObj = function(e) {
+        var node = event.target ? event.target : event.srcElement;
+        while (!node.getAttribute('ctrid')) node = node.parentNode;
+        var ctrl = $ctrls.get(node.getAttribute('ctrid'));
+        return ctrl.obj;
+    }
     win.$login = login;
 })(window);
