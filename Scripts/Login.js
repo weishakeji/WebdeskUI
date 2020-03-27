@@ -23,16 +23,21 @@
             company: '', //公司名称
             website: '', //公司的网址
             tel: '', //联系电话
+            user: '', //账号
+            pw: '', //密码
+            vcode: '', //验证码
+            vcodelen: 4, //验证码长度
             id: '',
             drag: false, //是否处于拖动状态
+            dragfinish: false, //拖动完成
             success: false, //是否登录成功
             loading: false //加载中
         };
         for (var t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
-        //shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
-        eval($ctrl.event_generate(['loyout', 'drag', 'vefiry', 'submit', 'success', 'error']));
+        //loyout:布局完成; drag:拖动滑块；dragfinish:拖动完成; full:标签项全屏
+        eval($ctrl.event_generate(['loyout', 'drag', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
         //以下不支持双向绑定
         this.dom = null; //控件的html对象
         this.domtit = null; //控件标签栏部分的html对象
@@ -79,23 +84,45 @@
         'tel': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_tel').html(val);
         },
+        //滑块拖动
         'drag': function(obj, val, old) {
             if (!obj.dom) return;
             var box = obj.dom.find('login_dragbox');
-            if (!val) {                
+            if (!val) {
                 box.css('transition', 'left 0.3s').removeClass('drag');
                 var p = box.parent();
                 if (parseInt(box.css('left') + box.width() / 2) > p.width() / 3 * 2) {
                     box.left(p.width() - box.width() - 5);
+                    if (!obj.dragfinish) obj.dragfinish = true;
                 } else {
                     box.left(5);
-                }                
+                }
             }
-            if (val) { 
+            if (val) {
                 box.addClass('drag');
                 box.css('transition', '');
             }
 
+        },
+        //滑块拖动完成
+        'dragfinish': function(obj, val, old) {
+            //滑块拖动区域
+            var box = obj.dom.find('login_drag');
+            if (val) {
+                box.addClass('complete');
+                box.css('transition', 'opacity 1s')
+                box.css('opacity', 0);
+                window.setTimeout(function() {
+                    if (obj.dragfinish) box.hide();
+                }, 1000);
+                obj.trigger('dragfinish');
+            } else {
+                box.removeClass('complete');
+                box.css('transition', '')
+                box.css('opacity', 1);
+                box.show();
+                obj.dom.find('login_dragbox').left(5);
+            }
         }
     };
     fn.open = function() {
@@ -144,15 +171,16 @@
             });
             //验证码
             var code = obj.dombody.add('login_row');
+            code.add('img').addClass('vcode_img');
             code.addClass('login_code').add('input').attr({
                 'type': 'text',
-                'name': 'code',
+                'name': 'vcode',
+                'maxlength': obj.vcodelen,
                 'placeholder': '验证码'
             });
-            code.add('img').addClass('vcode_img');
             //拖动滑块
             var drag = code.add('login_drag');
-            drag.add('div').html('向右拖动滑块').add('login_dragbox').html('&#xa049');
+            drag.add('div').html('<span>向右拖动滑块</span>').add('login_dragbox');
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
             btnarea.add('button').attr('type', 'submit').html('登录');
@@ -195,17 +223,20 @@
         drag: function(obj) {
             obj.dom.find('login_dragbox').mousedown(function(e) {
                 var obj = login._getObj(e);
+                if (obj.dragfinish) return;
                 obj.drag = true;
                 obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
             }).bind('mouseup', function(e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
-            }).bind('mouseleave', function(e) {
+            });
+            obj.dom.find('login_drag>div').bind('mouseleave', function(e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
             obj.dom.find('login_drag>div').bind('mousemove', function(e) {
                 var obj = login._getObj(e);
+                if (obj.dragfinish) return; //如果拖动完成，则不能拖动
                 //计算移动最大宽度范围
                 var node = event.target ? event.target : event.srcElement;
                 var parent = $dom(node).parent();
@@ -214,9 +245,40 @@
                 //
                 var mouse = $dom.mouse(e);
                 var left = mouse.x - obj._drag_init_x;
-                left = left <= min ? min : (left >= max ? max : left);           
+                left = left <= min ? min : (left >= max ? max : left);
                 if (obj.drag) obj.dom.find('login_dragbox').left(left);
             });
+        },
+        //输入更改时
+        change: function(obj) {
+            obj.dom.find('form input').bind('input', function(e) {
+                var input = event.target ? event.target : event.srcElement;
+                var word = e.data ? e.data : ''; //新输入的字符
+                var val = input.value; //当前输入框中的字符串
+                //触发事件
+                var obj = login._getObj(e);
+                obj.trigger('change', {
+                    'action': input.name,
+                    'word': word,
+                    'value': val
+                });
+            });
+        }
+    };
+    //登录验证
+    fn.vefiry = {
+        //滑块验证
+        drag: function(obj) {
+
+        },
+        //非空验证
+        notempty: function(obj) {
+            var input = obj.dom.find('login_row input');
+
+        },
+        //格式验证
+        format: function(obj) {
+
         }
     };
     /*** 
@@ -224,8 +286,14 @@
     *****/
     login.create = function(param) {
         if (param == null) param = {};
-        var tobj = new login(param);
-        return tobj.open();
+        var obj = new login(param);
+        //当输入更改时
+        obj.onchange(function(s, e) {
+            if (e.action == 'user') s.user = e.value;
+            if (e.action == 'pw') s.pw = e.value;
+            if (e.action == 'vcode') s.vcode = e.value;
+        });
+        return obj.open();
     };
     login._getObj = function(e) {
         var node = event.target ? event.target : event.srcElement;

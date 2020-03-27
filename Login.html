@@ -11,56 +11,56 @@
     <script type="text/javascript" src="Scripts/login.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/login.css" />
     <style type="text/css">
-        html,
-        body {
-            overflow: hidden;
-            margin: 0px;
-            padding: 0px;
-            width: 100%;
-            height: 100%;
-        }
-        
-        h1 {
-            font-size: 25px;
-            color: #333;
-            margin: 0px;
-            font-weight: 900;
-            white-space: nowrap;
-            text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
-        }
-        
-        h1 span {
-            font-size: 15px;
-            margin-left: 20px;
-        }
-        
-        h1 b:before {
-            content: "\a004";
-            font-size: 30px;
-            line-height: 40px;
-            margin-right: 10px;
-        }
-        
-        a.home {
-            display: block;
-            width: 120px;
-            height: 40px;
-            line-height: 40px;
-            float: right;
-            font-size: 14px;
-            text-align: center;
-            color: #333;
-            text-decoration: none;
-            font-weight: normal;
-        }
-        
-        a.home:before {
-            content: "\a020";
-            font-size: 18px;
-            line-height: 40px;
-            margin-right: 2px;
-            font-family: "webdesk_icon" !important;
-        }
+    html,
+    body {
+        overflow: hidden;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+    }
+
+    h1 {
+        font-size: 25px;
+        color: #333;
+        margin: 0px;
+        font-weight: 900;
+        white-space: nowrap;
+        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+    }
+
+    h1 span {
+        font-size: 15px;
+        margin-left: 20px;
+    }
+
+    h1 b:before {
+        content: "\a004";
+        font-size: 30px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
+
+    a.home {
+        display: block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+        font-family: "webdesk_icon" !important;
+    }
     </style>
 </head>
 
@@ -71,17 +71,27 @@
     <div style='margin: 50px;width: calc(100% - 100px);height: calc(100% - 100px)'>
         <div id="login-area" style="width: 280px; height: 320px;"></div>
     </div>
-
 </body>
 <script type="text/javascript">
-    var login = $login.create({
-        target: '#login-area',
-        //width: '500px',
-        title: '管理系统登录',
-        company: '微厦科技',
-        website: 'http://www.weishakeji.net',
-        tel: '400 6015615'
-    });
+var login = $login.create({
+    target: '#login-area',
+    //width: '500px',
+    title: '管理系统登录',
+    company: '微厦科技',
+    website: 'http://www.weishakeji.net',
+    tel: '400 6015615'
+});
+login.ondragfinish(function(s, e) {
+    // body...
+    console.log(e);
+});
+login.onsubmit(function(s, e) {
+    //s.dragfinish = false;
+});
+login.onchange(function(s,e){
+    console.log(e);
+    console.log('输入框：' + e.action + ',输入：' + e.word + ',当前值：' + e.value);
+});
 </script>
 
 </html>
