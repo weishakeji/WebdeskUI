@@ -96,7 +96,7 @@
 				var exist = false;
 				for (var i = 0; i < this._eventlist.length; i++) {
 					var item = this._eventlist[i]
-					if (item.name == eventName && JSON.stringify(item.event) == JSON.stringify(func)) {
+					if (item.name == eventName && String(item.event) == String(func)) {
 						exist = true;
 						break;
 					}
