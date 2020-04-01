@@ -386,11 +386,13 @@
                     //当前标签id和索引号，用于关闭右侧或左侧时使用
                     var tabid = $dom(node).attr('tabid');
                     var index = obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').attr('index');
-
+                    //菜单显示的位置
+                    obj.cntmenu = true; //显示右键菜单
+                    var maxwid = obj.dombody.width() + obj.dombody.offset().left; //右侧最大区域               
                     var off = obj.dom.offset();
                     var mouse = $dom.mouse(e);
-                    obj.cntmenu = true;
-                    obj.domenu.left(mouse.x - off.left - 5).top(mouse.y - off.top - 5);
+                    var left = (mouse.x + obj.domenu.width()) > maxwid ? mouse.x - off.left - obj.domenu.width() + 10 : mouse.x - off.left - 10;
+                    obj.domenu.left(left).top(mouse.y - off.top - 5);
                     obj.domenu.attr('tabid', tabid).attr('index', index);
                     event.preventDefault();
                     return false;

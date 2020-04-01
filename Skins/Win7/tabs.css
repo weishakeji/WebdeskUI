@@ -1,6 +1,4 @@
 ﻿@charset "utf-8";
-
-
 .tabsbox {
     position: relative;
     overflow: hidden;
@@ -12,12 +10,13 @@
     display: block;
 }
 
+
 /*标签栏*/
+
 .tabsbox tabs_tagarea {
     height: 35px;
     width: calc(100% - 30px);
     overflow: hidden;
-
 }
 
 .tabsbox tabs_tagbox {
@@ -29,7 +28,9 @@
     border-bottom: 1px solid #aaa;
 }
 
+
 /*选项卡标签*/
+
 tabs_tagbox tab_tag {
     width: 100px;
     float: left;
@@ -44,7 +45,6 @@ tabs_tagbox tab_tag {
     /*禁用事件*/
     --pointer-events: none;
     margin-right: -18px;
-
 }
 
 tabs_tagbox tab_tag::before {
@@ -63,7 +63,6 @@ tabs_tagbox tab_tag::before {
     /*当禁用父元素事件时，启用伪类事件*/
     --pointer-events: auto;
     border-radius: 4px 4px 0 0;
-
     background: linear-gradient(to bottom, rgb(212, 212, 212) 0%, rgba(212, 212, 212, 1) 5%, rgba(255, 255, 255, 1) 90%, rgba(255, 255, 255, 1) 100%);
 }
 
@@ -100,7 +99,6 @@ tabs_tagbox tab_tag:first-child.tagcurr:before {
 }
 
 tabs_tagbox tab_tag.tagcurr:before {
-
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
@@ -130,7 +128,9 @@ tabs_tagbox tab_tag tagtxt {
     white-space: nowrap;
 }
 
+
 /*关闭按钮*/
+
 tabs_tagbox tab_tag close {
     top: 15px;
     right: 12px;
@@ -177,7 +177,6 @@ tabs_tagbox tab_tag close:hover {
     border-bottom: solid 1px #aaa;
     border-radius: 3px;
     cursor: pointer;
-
 }
 
 .tabsbox tabs_more:hover:before {
@@ -196,6 +195,7 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon" !important;
 }
 
+
 /*内容区*/
 
 .tabsbox tabs_body {
@@ -210,7 +210,6 @@ tabs_tagbox tab_tag close:hover {
 
 .tabsbox tabs_body tabpace {
     display: block;
-
     width: 100%;
     height: 100%;
 }
@@ -243,7 +242,6 @@ tabs_tagbox tab_tag close:hover {
     font-family: iconfont, sans-serif;
     font-weight: 800;
     transform: scaleX(.5);
-
 }
 
 .tabsbox tabs_body tabpace tabpath:before {
@@ -262,7 +260,9 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon" !important;
 }
 
+
 /*右侧按钮组*/
+
 .tabsbox tabs_body tabpace tabpath tabbar-btnbox {
     display: block;
     position: absolute;
@@ -288,13 +288,14 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_body tabpace iframe {
-
     bottom: 0px;
     left: 0px;
     width: 100%;
 }
 
+
 /*更多选项卡的盒子*/
+
 tabs_morebox {
     width: 0px;
     height: calc(100% - 36px);
@@ -384,7 +385,9 @@ tabs_morebox tab_tag close:before {
     font-family: "webdesk_icon" !important;
 }
 
+
 /*右键菜单*/
+
 .tabsbox tabs_contextmenu {
     display: block;
     width: 150px;
@@ -395,6 +398,7 @@ tabs_morebox tab_tag close:before {
     left: 7px;
     display: none;
     border: 1px solid #999;
+    user-select: none;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr) {
@@ -449,10 +453,13 @@ tabs_morebox tab_tag close:before {
     background: #ddd;
 }
 
+
 /*刷新的菜单项*/
+
 .tabsbox tabs_contextmenu>menu_fresh:before {
     content: '\e695';
 }
+
 .tabsbox tabs_contextmenu>menu_print:before {
     content: '\a046';
     font-size: 14px;
@@ -474,7 +481,9 @@ tabs_morebox tab_tag close:before {
     content: '\e606';
 }
 
+
 /*最大化区域*/
+
 tabs_fullbox {
     position: absolute;
     z-index: 9999;
@@ -496,7 +505,6 @@ tabs_fullbox tabs_fullbox_back {
     line-height: 20px;
     text-align: center;
     top: 2px;
-
     color: #fff;
     cursor: pointer;
 }
@@ -517,7 +525,6 @@ tabs_fullbox tabs_fullbox_back:after {
 tabs_fullbox tabs_fullbox_back:hover {
     width: 80px;
     background-color: #fff;
-
 }
 
 tabs_fullbox tabs_fullbox_back:hover:before {
