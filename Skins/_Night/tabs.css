@@ -390,7 +390,7 @@ tabs_morebox tab_tag close:before {
     width: 150px;
     position: absolute;
     z-index: 999999;
-    background-color: #eee;
+    background-color: #333;
     top: 30px;
     left: 7px;
     display: none;
@@ -404,6 +404,7 @@ tabs_morebox tab_tag close:before {
     height: 25px;
     line-height: 25px;
     position: relative;
+    color: #ddd;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):before {
@@ -414,32 +415,20 @@ tabs_morebox tab_tag close:before {
     width: 30px;
     border-right: 1px solid #ddd;
     float: left;
-    color: #666;
+    color: #ddd;
     text-align: center;
     margin-right: 6px;
 }
 
 .tabsbox tabs_contextmenu>*.disable,
 .tabsbox tabs_contextmenu>*.disable::before {
-    color: #ccc;
+    color: #666;
     pointer-events: none;
 }
 
 .tabsbox tabs_contextmenu>*:hover {
     box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
-}
-
-.tabsbox tabs_contextmenu>*:not(hr):hover:after {
-    content: '';
-    width: calc(100% - 5px);
-    height: calc(100% - 5px);
-    border: solid 1px rgba(161, 197, 247, 0.8);
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    border-radius: 3px;
-    background: rgba(161, 197, 247, 0.2);
-    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+    background-color: rgb(31, 2, 110);
 }
 
 .tabsbox tabs_contextmenu>hr {
