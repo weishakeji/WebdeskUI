@@ -7,179 +7,187 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tabs.js</title>
     <style type="text/css">
-    body {
-        padding: 20px;
-        overflow: auto;
-    }
-
-    a {
-        color: #000;
-    }
-
-    p {
-        font-size: 15px;
-        margin: 0px;
-        padding: 0px;
-        line-height: 25px;
-    }
-
-    table {
-        background-color: #ccc;
-        width: calc(100% - 20px);
-    }
-
-    table td {
-        background-color: #fff;
-    }
-
-    th,
-    td {
-        height: 25px;
-        line-height: 25px;
-    }
-
-    td {
-        padding: 0px 10px 0px 10px;
-    }
-
-    table tr td:first-child {
-        text-align: center;
-        padding: 0px;
-    }
-
-    table#eventTable tr td:first-child:before {
-        content: 'on'
-    }
-
-    b {
-        font-size: 16px !important;
-        margin-top: 10px !important;
-        display: block;
-        margin: 10px 0px 10px 0px;
-    }
+        body {
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        a {
+            color: #000;
+        }
+        
+        p {
+            font-size: 15px;
+            margin: 0px;
+            padding: 0px;
+            line-height: 25px;
+        }
+        
+        table {
+            background-color: #ccc;
+            width: calc(100% - 20px);
+        }
+        
+        table td {
+            background-color: #fff;
+        }
+        
+        th,
+        td {
+            height: 25px;
+            line-height: 25px;
+        }
+        
+        td {
+            padding: 0px 10px 0px 10px;
+        }
+        
+        table tr td:first-child {
+            text-align: center;
+            padding: 0px;
+        }
+        
+        table#eventTable tr td:first-child:before {
+            content: 'on'
+        }
+        
+        b {
+            font-size: 16px !important;
+            margin-top: 10px !important;
+            display: block;
+            margin: 10px 0px 10px 0px;
+        }
     </style>
 </head>
 
 <body oncontextmenu='self.event.returnValue=false'>
 
-<b>属性:</b>
-<div>
-    <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
-</div>
-<table width="100%" border="0" cellspacing="1" cellpadding="1">
-    <tr>
-        <th scope="col" width="200px">属性</th>
-        <th scope="col">说明</th>
-        <th scope="col" width="60px">可监听</th>
-        <th scope="col" width="80px">双向绑定</th>
-    </tr>
-    <tr>
-        <td>target</td>
-        <td>对象所在的html位置</td>
-        <td>√ </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>width</td>
-        <td>宽度</td>
-        <td>√ </td>
-        <td>√ </td>
-    </tr>
-    <tr>
-        <td>height</td>
-        <td>高度</td>
-        <td>√ </td>
-        <td>√ </td>
-    </tr>
-    <tr>
-        <td>default</td>
-        <td>默认标签</td>
-        <td> </td>
-        <td> </td>
-    </tr>
-    <tr>
-        <td>morebox</td>
-        <td>右侧更多标签项的弹出区域</td>
-        <td>√ </td>
-        <td>√ </td>
-    </tr>
-</table>
-<div>
-    <b>方法：</b>
+    <b>属性:</b>
     <div>
-        <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+        <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
     </div>
     <table width="100%" border="0" cellspacing="1" cellpadding="1">
         <tr>
-            <th scope="col" width="100px">方法</th>
+            <th scope="col" width="200px">属性</th>
             <th scope="col">说明</th>
-            <th scope="col">参数</th>
+            <th scope="col" width="60px">可监听</th>
+            <th scope="col" width="80px">双向绑定</th>
         </tr>
         <tr>
-            <td>add()</td>
-            <td>添加树形数据</td>
-            <td>示例：{title:'',url:''}</td>
+            <td>target</td>
+            <td>对象所在的html位置</td>
+            <td>√ </td>
+            <td></td>
         </tr>
         <tr>
-            <td>getData()</td>
-            <td>通过id获取数据项</td>
-            <td>数据项的id
-            </td>
+            <td>width</td>
+            <td>宽度</td>
+            <td>√ </td>
+            <td>√ </td>
+        </tr>
+        <tr>
+            <td>height</td>
+            <td>高度</td>
+            <td>√ </td>
+            <td>√ </td>
+        </tr>
+        <tr>
+            <td>default</td>
+            <td>默认标签</td>
+            <td> </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>morebox</td>
+            <td>右侧更多标签项的弹出区域</td>
+            <td>√ </td>
+            <td>√ </td>
         </tr>
     </table>
-    <b>事件：</b>
     <div>
-        <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
-        <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+        <b>方法：</b>
+        <div>
+            <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="100px">方法</th>
+                <th scope="col">说明</th>
+                <th scope="col">参数</th>
+            </tr>
+            <tr>
+                <td>add()</td>
+                <td>添加树形数据</td>
+                <td>示例：{title:'',url:''}</td>
+            </tr>
+            <tr>
+                <td>getData()</td>
+                <td>通过id获取数据项</td>
+                <td>数据项的id
+                </td>
+            </tr>
+        </table>
+        <b>事件：</b>
+        <div>
+            <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+            <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+        </div>
+        <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="80px">事件</th>
+                <th scope="col" width="150px">说明</th>
+                <th scope="col" width="100px">参数sender</th>
+                <th scope="col">参数e</th>
+            </tr>
+            <tr>
+                <td>add</td>
+                <td>添加数据源</td>
+                <td>数据项</td>
+                <td>e.event：事件名称<br> e.action：动作，默认与e.event同值
+                    <br> e.target：响应事件的html元素，此处为窗体的html
+                    <br> e.data：数据源
+                </td>
+            </tr>
+            <tr>
+                <td>shut</td>
+                <td>关闭标签</td>
+                <td>同上</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>change</td>
+                <td>切换标签项</td>
+                <td>同上</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>load</td>
+                <td>加载iframe完成</td>
+                <td>同上</td>
+                <td>e.tabid,当前标签id<br/> e.data,数据源
+                    <br/> e.iframe,当前触发事件的iframe对象
+                </td>
+            </tr>
+            <tr>
+                <td>resize</td>
+                <td>控件宽高变化时</td>
+                <td>&nbsp;</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>full</td>
+                <td>选项卡最大化</td>
+                <td>&nbsp;</td>
+                <td>e.data，当前节点数据项</td>
+            </tr>
+            <tr>
+                <td>help</td>
+                <td>当前选项卡的帮助按钮事件</td>
+                <td>&nbsp;</td>
+                <td>e.data，当前节点数据项</td>
+            </tr>
+        </table>
     </div>
-    <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
-        <tr>
-            <th scope="col" width="80px">事件</th>
-            <th scope="col" width="150px">说明</th>
-            <th scope="col" width="100px">参数sender</th>
-            <th scope="col">参数e</th>
-        </tr>
-        <tr>
-            <td>add</td>
-            <td>添加数据源</td>
-            <td>数据项</td>
-            <td>e.event：事件名称<br>
-                e.action：动作，默认与e.event同值<br>
-                e.target：响应事件的html元素，此处为窗体的html<br>
-                e.data：数据源
-            </td>
-        </tr>
-        <tr>
-            <td>shut</td>
-            <td>关闭标签</td>
-            <td>同上</td>
-            <td>同上</td>
-        </tr>
-        <tr>
-            <td>change</td>
-            <td>切换标签项</td>
-            <td>同上</td>
-            <td>同上</td>
-        </tr>
-        <tr>
-            <td>resize</td>
-            <td>控件宽高变化时</td>
-            <td>&nbsp;</td>
-            <td>同上</td>
-        </tr>
-          <tr>
-            <td>full</td>
-            <td>选项卡最大化</td>
-            <td>&nbsp;</td>
-            <td>e.data，当前节点数据项</td>
-        </tr>
-         <tr>
-            <td>help</td>
-            <td>当前选项卡的帮助按钮事件</td>
-            <td>&nbsp;</td>
-            <td>e.data，当前节点数据项</td>
-        </tr>
-    </table>
-</div>
 </body>
+
 </html>

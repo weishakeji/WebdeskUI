@@ -28,8 +28,8 @@
         for (var t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
-        //shut:关闭标签; add:添加标签；change:切换标签; full:标签项全屏
-        eval($ctrl.event_generate(['shut', 'add', 'change', 'full', 'help']));
+        //shut:关闭标签; add:添加标签；change:切换标签;load:内页加载完成; full:标签项全屏
+        eval($ctrl.event_generate(['shut', 'add', 'change', 'load', 'full', 'help']));
         //以下不支持双向绑定
         this.childs = new Array(); //子级		
         this.dom = null; //控件的html对象
@@ -279,6 +279,15 @@
             'marginheight': 0,
             'src': tab.url ? tab.url : ''
         });
+        iframe.bind('load', function(e) {
+            var node = event.target ? event.target : event.srcElement;
+            var obj = tabs._getObj(e);
+            obj.trigger('load', {
+                tabid: $dom(node).attr('id'), //标签id
+                data: tab, //标签数据源
+                iframe: iframe[0] //内页iframe对象
+            });
+        })
         iframe.width('100%');
         //如果有帮助，但没有路径，那么路径等于标题
         if (!!tab.help && !tab.path) tab.path = tab.title;
