@@ -84,6 +84,15 @@
         'tel': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_tel').html(val);
         },
+        'user': function(obj, val, old) {
+            if (obj.dom) obj.dom.find('input[name=\'login_user\']').val(val);
+        },
+        'pw': function(obj, val, old) {
+            if (obj.dom) obj.dom.find('input[name=\'login_pw\']').val(val);
+        },
+        'vcode': function(obj, val, old) {
+            if (obj.dom) obj.dom.find('input[name=\'login_vcode\']').val(val);
+        },
         //滑块拖动
         'drag': function(obj, val, old) {
             if (!obj.dom) return;
@@ -133,6 +142,8 @@
         //
         if (this._width != '') this.width = this._width;
         if (this._height != '') this.height = this._height
+        this.user = this._user;
+        this.pw = this._pw;
         return this;
     };
     fn._builder = {
@@ -159,14 +170,14 @@
             var user = obj.dombody.add('login_row');
             user.addClass('login_user').add('input').attr({
                 'type': 'text',
-                'name': 'user',
+                'name': 'login_user',
                 'placeholder': '账号'
             });
             //密码
             var pw = obj.dombody.add('login_row');
             pw.addClass('login_pw').add('input').attr({
                 'type': 'password',
-                'name': 'pw',
+                'name': 'login_pw',
                 'placeholder': '密码'
             });
             //验证码
@@ -174,7 +185,7 @@
             code.add('img').addClass('vcode_img');
             code.addClass('login_code').add('input').attr({
                 'type': 'text',
-                'name': 'vcode',
+                'name': 'login_vcode',
                 'maxlength': obj.vcodelen,
                 'placeholder': '验证码'
             });
@@ -258,7 +269,7 @@
                 //触发事件
                 var obj = login._getObj(e);
                 obj.trigger('change', {
-                    'action': input.name,
+                    'action': input.name.substring(input.name.indexOf('_') + 1),
                     'word': word,
                     'value': val
                 });
@@ -289,9 +300,9 @@
         var obj = new login(param);
         //当输入更改时
         obj.onchange(function(s, e) {
-            if (e.action == 'user') s.user = e.value;
-            if (e.action == 'pw') s.pw = e.value;
-            if (e.action == 'vcode') s.vcode = e.value;
+            if (e.action == 'user') s._user = e.value;
+            if (e.action == 'pw') s._pw = e.value;
+            if (e.action == 'vcode') s._vcode = e.value;
         });
         return obj.open();
     };
