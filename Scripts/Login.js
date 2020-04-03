@@ -86,11 +86,14 @@
         },
         'user': function(obj, val, old) {
             if (obj.dom) obj.dom.find('input[name=\'login_user\']').val(val);
+            obj.dragfinish = false;
         },
         'pw': function(obj, val, old) {
             if (obj.dom) obj.dom.find('input[name=\'login_pw\']').val(val);
+            obj.dragfinish = false;
         },
         'vcode': function(obj, val, old) {
+            if (val == old) return;
             if (obj.dom) obj.dom.find('input[name=\'login_vcode\']').val(val);
         },
         //滑块拖动
@@ -223,7 +226,11 @@
         login: function(obj) {
             obj.dom.find('button').click(function(e) {
                 var obj = login._getObj(e);
-                obj.trigger('submit');
+                obj.trigger('submit', {
+                    user: obj.user,
+                    pw: obj.pw,
+                    vcode: obj.vcode
+                });
                 //非空验证
 
                 e.preventDefault();
@@ -279,16 +286,16 @@
     //登录验证
     fn.vefiry = {
         //滑块验证
-        drag: function(obj) {
+        drag: function(obj, ctrl) {
 
         },
         //非空验证
-        notempty: function(obj) {
+        notempty: function(obj, ctrl) {
             var input = obj.dom.find('login_row input');
 
         },
         //格式验证
-        format: function(obj) {
+        format: function(obj, ctrl) {
 
         }
     };
@@ -303,6 +310,16 @@
             if (e.action == 'user') s._user = e.value;
             if (e.action == 'pw') s._pw = e.value;
             if (e.action == 'vcode') s._vcode = e.value;
+            if (e.action == 'user' || e.action == 'pw') s.dragfinish = false;
+        });
+        //当提交表单时
+        obj.onsubmit(function(s, e) {
+            //验证表单
+            var input=s.dom.find('input');
+            for (var t in s.vefiry) {
+                var pass = s.vefiry[t](s);
+                if (!pass) return false;
+            }
         });
         return obj.open();
     };
