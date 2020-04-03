@@ -30,10 +30,10 @@ $dom.ready(function() {
         tel: '400 6015615'
     });
     login.onsubmit(function(s, e) {
-        //$dom('panel#login').hide();
-        //$dom('panel#admin').show().css('opacity',1);
-        //window.$skins.onchange();
-        s.dragcomplete = false;
+        $dom('panel#login').hide();
+        $dom('panel#admin').show().css('opacity', 1);
+        window.$skins.onchange();
+        //s.dragcomplete = false;
     });
     //左上角下拉菜单
     var drop = window.$dropmenu.create({

@@ -1,5 +1,4 @@
 ﻿@charset "utf-8";
-
 .loginbox {
     background: rgba(243, 240, 240, 0.6);
     border: 1px solid #fff;
@@ -137,6 +136,7 @@
     font-size: 22px;
     float: left;
     color: #999;
+    background-color: rgba(255, 255, 255, .5);
 }
 
 .loginbox .login_body .login_user:before {
@@ -251,7 +251,6 @@
 .loginbox login_dragbox {
     display: block;
     user-select: none;
-
     height: 35px;
     line-height: 35px;
     width: 40px;
@@ -300,17 +299,32 @@
 /*提示信息*/
 
 .loginbox .login_body>* login_tips {
-    display: block;
     background-color: rgba(255, 0, 0, .8);
+    box-shadow: 1px 1px 2px rgba(255, 0, 0, .8);
     position: absolute;
     height: 20px;
     line-height: 20px;
     font-size: 10px;
     width: auto;
     padding: 0px 10px 0px 10px;
-    left: 50px;
-    bottom: -8px;
     color: #fff;
     border-radius: 4px;
     display: none;
+    right: 800px;
+    bottom: -8px;
+    transition: left 0.6s;
+}
+
+
+/*错误提示*/
+
+.loginbox login_row.login_error {
+    border: solid 1px red;
+    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset;
+}
+
+.loginbox login_row.login_error login_tips {
+    display: block;
+    transition: left 0.6s;
+    right: -8px;
 }

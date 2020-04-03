@@ -80,8 +80,8 @@
         company: '微厦科技',
         website: 'http://www.weishakeji.net',
         tel: '400 6015615',
-        user: 'admin',
-        pw: '1'
+        //user: 'admin',
+        //pw: '1'
     });
     login.ondragfinish(function(s, e) {
         // body...
@@ -90,11 +90,12 @@
     //提交表单的事件
     login.onsubmit(function(s, e) {
         //s.dragfinish = false;
-         console.log('提交表单的事件');
+        console.log('表单提交成功');
+
     });
     login.onchange(function(s, e) {
-        console.log(e);
-        console.log('输入框：' + e.action + ',输入：' + e.word + ',当前值：' + e.value);
+        //console.log(e);
+        //console.log('输入框：' + e.action + ',输入：' + e.word + ',当前值：' + e.value);
     });
 </script>
 

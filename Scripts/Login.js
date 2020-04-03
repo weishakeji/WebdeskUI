@@ -128,6 +128,7 @@
                     if (obj.dragfinish) box.hide();
                 }, 1000);
                 obj.trigger('dragfinish');
+                obj.dom.find('input[name=\'login_vcode\']').parent().removeClass('login_error');
             } else {
                 box.removeClass('complete');
                 box.css('transition', '')
@@ -278,25 +279,47 @@
                 obj.trigger('change', {
                     'action': input.name.substring(input.name.indexOf('_') + 1),
                     'word': word,
-                    'value': val
+                    'value': val,
+                    'target': input
                 });
             });
         }
     };
     //登录验证
     fn.vefiry = {
-        //滑块验证
-        drag: function(obj, ctrl) {
-
-        },
         //非空验证
         notempty: function(obj, ctrl) {
-            var input = obj.dom.find('login_row input');
-
+            var val = $dom.trim(ctrl.val());
+            var placeholder = ctrl.attr('placeholder');
+            var parent = ctrl.parent(); //行
+            var tips = parent.find('login_tips'); //消息提示框
+            var name = ctrl.attr('name');
+            if (name == 'login_vcode' && !obj.dragfinish) return true;
+            if (val == '') {
+                parent.addClass('login_error');
+                tips.html('“' + placeholder + '”不得为空 ！');
+                ctrl[0].focus();
+                return false;
+            } else {
+                parent.removeClass('login_error');
+                return true;
+            }
+        },
+        //滑块验证
+        drag: function(obj, ctrl) {
+            var parent = ctrl.parent(); //行
+            var tips = parent.find('login_tips'); //消息提示框
+            var name = ctrl.attr('name');
+            if (name != 'login_vcode') return true;
+            if (!obj.dragfinish) {
+                parent.addClass('login_error');
+                tips.html('请将滑块滑向右侧！');
+            }
+            return obj.dragfinish;
         },
         //格式验证
         format: function(obj, ctrl) {
-
+            return true;
         }
     };
     /*** 
@@ -315,10 +338,27 @@
         //当提交表单时
         obj.onsubmit(function(s, e) {
             //验证表单
-            var input=s.dom.find('input');
+            var inputs = s.dom.find('input[type=text],input[type=password]');
+            var pass = false;
+            pass = inputs.each(function() {
+                for (var t in s.vefiry) {
+                    var res = s.vefiry[t](s, $dom(this));
+                    if (res == false || res == undefined) return false;
+                };
+                return true;
+            }, 1);
+            //只要有一个未通过，则禁止提交
+            if (pass instanceof Array) {
+                for (var i = 0; i < pass.length; i++) {
+                    if (pass[i] == false || pass[i] == undefined) return false;
+                }
+            }
+            return pass;
+        });
+        obj.onchange(function(s, e) {
             for (var t in s.vefiry) {
-                var pass = s.vefiry[t](s);
-                if (!pass) return false;
+                var res = s.vefiry[t](s, $dom(e.target));
+                if (res == false || res == undefined) return false;
             }
         });
         return obj.open();
