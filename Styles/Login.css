@@ -163,6 +163,8 @@
 
 .loginbox .login_body>* input:focus {
     font-size: 23px;
+    border: none !important;
+    outline: none;
 }
 
 .loginbox .login_body login_row.login_code {
