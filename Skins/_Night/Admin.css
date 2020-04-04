@@ -100,6 +100,14 @@ timer{
     float: right;
     margin-top: 35px;
 }
+timer {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 70px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, .8);
+}
 
 #pageboxcollect {
     position: absolute;
