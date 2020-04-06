@@ -5,6 +5,7 @@
     position: absolute;
     border: 1px solid rgba(62, 63, 63, 0.6);
     user-select: none;
+    overflow:hidden;
 }
 
 
