@@ -36,8 +36,8 @@
         for (var t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
-        //loyout:布局完成; drag:拖动滑块；dragfinish:拖动完成; full:标签项全屏
-        eval($ctrl.event_generate(['loyout', 'drag', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
+        //loyout:布局完成; resize:改变大小；dragfinish:拖动完成; full:标签项全屏
+        eval($ctrl.event_generate(['loyout', 'resize', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
         //以下不支持双向绑定
         this.dom = null; //控件的html对象
         this.domtit = null; //控件标签栏部分的html对象
