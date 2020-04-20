@@ -43,6 +43,7 @@
         this.domtit = null; //控件标签栏部分的html对象
         this.dombody = null;
         this.domfoot = null;
+        this.customVerify = []; //自定义验证方法
         //
         if (!this._id) this._id = 'login_' + new Date().getTime();
         $ctrls.add({
@@ -285,35 +286,26 @@
             });
         }
     };
-    //登录验证
-    fn.vefiry = {
+    //登录时的基础验证
+    fn._baseVefiry = {
         //非空验证
         notempty: function(obj, ctrl) {
             var val = $dom.trim(ctrl.val());
             var placeholder = ctrl.attr('placeholder');
-            var parent = ctrl.parent(); //行
-            var tips = parent.find('login_tips'); //消息提示框
             var name = ctrl.attr('name');
             if (name == 'login_vcode' && !obj.dragfinish) return true;
             if (val == '') {
-                parent.addClass('login_error');
-                tips.html('“' + placeholder + '”不得为空 ！');
-                ctrl[0].focus();
-                return false;
+                return obj.tips(ctrl, false, '“' + placeholder + '”不得为空 ！');
             } else {
-                parent.removeClass('login_error');
-                return true;
+                return obj.tips(ctrl, true);
             }
         },
         //滑块验证
         drag: function(obj, ctrl) {
-            var parent = ctrl.parent(); //行
-            var tips = parent.find('login_tips'); //消息提示框
             var name = ctrl.attr('name');
             if (name != 'login_vcode') return true;
             if (!obj.dragfinish) {
-                parent.addClass('login_error');
-                tips.html('请将滑块滑向右侧！');
+                return obj.tips(ctrl, false, '请将滑块滑向右侧！');
             }
             return obj.dragfinish;
         },
@@ -321,6 +313,41 @@
         format: function(obj, ctrl) {
             return true;
         }
+    };
+    //添加自定义验证方法
+    fn.verify = function(ctrl, regex, tips) {
+        if (arguments.length == 1) {
+            //如果为对象
+            if (Object.prototype.toString.call(ctrl) === '[object Object]') {
+                return this.verify(ctrl.ctrl, ctrl.regex, ctrl.tips);
+            }
+            if (ctrl instanceof Array) {
+                for (var t in ctrl) this.verify(ctrl[t]);
+                return;
+            }
+        }
+        var input = null;
+        if (ctrl == 'user') input = this.dom.find('input[type=text][name=login_user]');
+        if (ctrl == 'pw') input = this.dom.find('input[type=password][name=login_pw]');
+        if (ctrl == 'vcode') input = this.dom.find('input[type=text][name=login_vcode]');
+        this.customVerify.push({
+            ctrl: input,
+            regex: regex,
+            tips: tips
+        });
+    };
+    //显示提示框
+    fn.tips = function(ctrl, success, msg) {
+        var parent = ctrl.parent(); //行
+        var tips = parent.find('login_tips');
+        if (success) {
+            parent.removeClass('login_error');
+        } else {
+            parent.addClass('login_error');
+            tips.html(msg);
+            ctrl[0].focus();
+        }
+        return success;
     };
     /*** 
     以下是静态方法
@@ -341,10 +368,22 @@
             var inputs = s.dom.find('input[type=text],input[type=password]');
             var pass = false;
             pass = inputs.each(function() {
-                for (var t in s.vefiry) {
-                    var res = s.vefiry[t](s, $dom(this));
+                for (var t in s._baseVefiry) {
+                    var res = s._baseVefiry[t](s, $dom(this));
                     if (res == false || res == undefined) return false;
                 };
+                //自定义验证方法
+                for (var t in s.customVerify) {
+                    if (s.customVerify[t].ctrl.attr('name') == this.getAttribute('name')) {
+                        var val = $dom.trim(s.customVerify[t].ctrl.val());
+                        var regex = new RegExp(s.customVerify[t].regex);
+                        if (!regex.test(val)) {
+                            return s.tips(s.customVerify[t].ctrl, false, s.customVerify[t].tips);
+                        } else {
+                            s.tips(s.customVerify[t].ctrl, true);
+                        }
+                    }
+                }
                 return true;
             }, 1);
             //只要有一个未通过，则禁止提交

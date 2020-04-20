@@ -12,9 +12,10 @@
 
 .loginbox login_titlebar {
     display: block;
-    height: 60px;
+    height: 50px;
     width: 100%;
     line-height: 60px;
+    margin-bottom: 10px;
     font-size: 18px;
     cursor: default;
     user-select: none;
@@ -31,6 +32,12 @@
     width: 60px;
     height: 60px;
     text-align: center;
+}
+
+.loginbox login_ico img {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
 }
 
 .loginbox login_ico i {
@@ -112,7 +119,7 @@
 
 .loginbox .login_body>* {
     display: block;
-    margin: 5px 20px 10px 20px;
+    margin: 10px 20px 10px 20px;
     height: 45px;
     width: calc(100% - 40px);
     --flex: 1;
