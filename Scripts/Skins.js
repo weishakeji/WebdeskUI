@@ -65,11 +65,11 @@
 		}
 	};
 	fn.loadskin = function(skin) {
-		$dom.get('/skins/' + skin + '/intro.json', function(d) {
+		$dom.get('skins/' + skin + '/intro.json', function(d) {
 			if (d == null || d == '') return;
 			var obj = eval('(' + d + ')');
 			obj.tag = skin;
-			obj.path = '/skins/' + skin;
+			obj.path = 'skins/' + skin;
 			window.$skins.list.push(obj);
 		});
 	}
