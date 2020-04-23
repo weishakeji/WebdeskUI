@@ -144,6 +144,18 @@
                 box.show();
                 obj.dom.find('login_dragbox').left(5);
             }
+        },
+        //加载状态变化时
+        loading: function (obj, val, old) {
+            if (obj.dom) {
+                if (val) {
+                    obj.dom.find('form.login_body').hide();
+                    obj.dom.find('div.login_loding').show();
+                } else {
+                    obj.dom.find('form.login_body').show();
+                    obj.dom.find('div.login_loding').hide();
+                }
+            }
         }
     };
     fn.open = function () {
@@ -156,6 +168,7 @@
         if (this._height != '') this.height = this._height
         this.user = this._user;
         this.pw = this._pw;
+        this.loading = this._loading;
         this.inputs = {
             user: this.dom.find('input[type=text][name=login_user]'),
             pw: this.dom.find('input[type=password][name=login_pw]'),
@@ -215,6 +228,13 @@
             //各项提示框
             obj.dombody.find('login_row').add('login_tips');
             //.html('不得为空！');
+        },
+        loading: function (obj) {
+            var loadbox = obj.dom.add('div').addClass('login_loding');
+            //var effect = loadbox.add('div').addClass('loading_effect');
+            loadbox.add('span');
+            loadbox.add('span');
+            loadbox.add('b').text('loading......');
         },
         footer: function (obj) {
             obj.domfoot = obj.dom.add('login_footbar');
