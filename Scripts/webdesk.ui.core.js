@@ -10,15 +10,15 @@
  * 最后修订：2020年2月4日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function() {
+(function () {
     //html节点查询，类似jquery
-    var webdom = function(query, context) {
+    var webdom = function (query, context) {
         return new webdom.init(query, context);
     };
 
-    webdom.init = function(query, context) {
+    webdom.init = function (query, context) {
         var nodes = [];
-        if (typeof(query) == 'string') nodes = (context || document).querySelectorAll(query);
+        if (typeof (query) == 'string') nodes = (context || document).querySelectorAll(query);
         if (query instanceof Node) nodes[0] = query;
         if (query instanceof NodeList || query instanceof Array) nodes = query;
         //查询结果附加到对象自身
@@ -30,13 +30,13 @@
     var fn = webdom.init.prototype;
     //遍历节点元素，并执行fun函数
     //ret:默认返回自身对象，如果ret有值，则返回fun函的执行结果
-    fn.each = function(fun, ret) {
+    fn.each = function (fun, ret) {
         var results = [],
             res;
         for (var i = 0; i < this.length; i++) {
             res = fun.call(this[i], i);
             //实现continue和break方法
-            if (typeof(res) == 'boolean') {
+            if (typeof (res) == 'boolean') {
                 results.push(res);
                 if (res) continue;
                 if (!res) break;
@@ -50,7 +50,7 @@
                     }
                 }
             } else {
-                switch (typeof(res)) {
+                switch (typeof (res)) {
                     case 'string':
                         results.push(res.replace(/^\s*|\s*$/g, ""));
                         break;
@@ -75,9 +75,9 @@
         }
         return this;
     };
-    fn.find = function(query) {
+    fn.find = function (query) {
         var nodes = [];
-        var res = this.each(function() {
+        var res = this.each(function () {
             return this.querySelectorAll(query);
         }, 1);
         if (res instanceof Array) {
@@ -90,28 +90,28 @@
         return new webdom(nodes);
     };
     //获取第n个元素,如果为负，则倒序取，例如-1为最后一个
-    fn.get = function(index) {
+    fn.get = function (index) {
         if (arguments.length < 1 || index == 0 || typeof index !== 'number') return this;
         //if (this.length < Math.abs(index)) throw 'webdom.get error : index greater than length';
         if (this.length < Math.abs(index)) return null;
         return index > 0 ? new webdom(this[index - 1]) : new webdom(this[this.length - Math.abs(index)]);
     };
-    fn.first = function() {
+    fn.first = function () {
         return this.length > 0 ? this.get(1) : null;
     };
-    fn.last = function() {
+    fn.last = function () {
         return this.length > 0 ? this.get(-1) : null;
     };
-    fn.parent = function() {
-        var nodes = this.each(function() {
+    fn.parent = function () {
+        var nodes = this.each(function () {
             var p = this.parentNode;
             while (p.nodeType != 1) p = p.previousSibling;
             return p;
         }, 1);
         return new webdom(nodes);
     };
-    fn.next = function() {
-        var nodes = this.each(function() {
+    fn.next = function () {
+        var nodes = this.each(function () {
             var cur = this.nextSibling;
             if (cur == null) return cur;
             while (cur.nodeType != 1) cur = cur.nextSibling;
@@ -119,8 +119,8 @@
         }, 1);
         return new webdom(nodes);
     };
-    fn.prev = function() {
-        var nodes = this.each(function() {
+    fn.prev = function () {
+        var nodes = this.each(function () {
             var p = this.previousSibling;
             if (p == null) return p;
             while (p.nodeType != 1) p = p.previousSibling;
@@ -128,11 +128,11 @@
         }, 1);
         return new webdom(nodes);
     };
-    fn.siblings = function(query) {
+    fn.siblings = function (query) {
         return this.parent().childs(query);
     };
-    fn.childs = function(query) {
-        var nodes = this.each(function() {
+    fn.childs = function (query) {
+        var nodes = this.each(function () {
             if (query == null) return this.childNodes;
             var chs = this.childNodes
             var tm = new Array();
@@ -144,64 +144,64 @@
         }, 1);
         return new webdom(nodes);
     }
-    fn.hide = function() {
-        return this.each(function() {
+    fn.hide = function () {
+        return this.each(function () {
             this.style.display = "none";
         });
     };
-    fn.show = function() {
-        return this.each(function() {
+    fn.show = function () {
+        return this.each(function () {
             this.style.display = "block";
         });
     };
-    fn.toggle = function() {
-        this.each(function() {
+    fn.toggle = function () {
+        this.each(function () {
             var styles = document.defaultView.getComputedStyle(this, null);
             var display = styles.getPropertyValue('display');
             this.style.setProperty('display', display == 'none' ? 'block' : 'none', 'important');
             //this.css('display',display=='' ? 'none' : '','important');
         });
     };
-    fn.text = function(str) {
+    fn.text = function (str) {
         if (str != undefined) {
-            return this.each(function() {
+            return this.each(function () {
                 this.innerText = str;
             });
         } else {
-            return this.each(function() {
+            return this.each(function () {
                 return this.innerText.replace(/(^\s*)|(\s*$)/g, "");
             }, 1);
         }
     };
-    fn.html = function(str) {
+    fn.html = function (str) {
         if (str != undefined) {
-            return this.each(function() {
+            return this.each(function () {
                 this.innerHTML = str;
             });
         } else {
-            return this.each(function() {
+            return this.each(function () {
                 return this.innerHTML;
             }, 1);
         }
     };
-    fn.outHtml = function(str) {
+    fn.outHtml = function (str) {
         if (str != undefined) {
-            return this.each(function() {
+            return this.each(function () {
                 this.outerHTML = str;
             });
         } else {
-            return this.each(function() {
+            return this.each(function () {
                 return this.outerHTML;
             }, 1);
         }
     };
-    fn.val = function(str) {
+    fn.val = function (str) {
         if (str != undefined) {
-            return this.each(function() {
+            return this.each(function () {
                 this.value = str;
             });
         } else {
-            return this.each(function() {
+            return this.each(function () {
                 if (this.getAttribute('type') == 'checkbox') return this.checked;
                 if (this.getAttribute('type') == 'radio') return this.checked;
                 return this.value;
@@ -210,83 +210,83 @@
     };
     //设置或获取属性
     //arguments:
-    fn.attr = function() {
-            var len = arguments.length;
-            if (len < 1) return this;
-            //如果只有一个参数
-            if (len == 1) {
-                var key = arguments[0];
-                if (typeof(key) == 'string') {
-                    return this.each(function(index) {
-                        return this.getAttribute(key);
-                    }, 1);
-                }
-                //批量设置属性
-                if (typeof(key) == 'object') {
-                    for (var k in key) this.attr(k, key[k]);
-                    return this;
-                }
+    fn.attr = function () {
+        var len = arguments.length;
+        if (len < 1) return this;
+        //如果只有一个参数
+        if (len == 1) {
+            var key = arguments[0];
+            if (typeof (key) == 'string') {
+                return this.each(function (index) {
+                    return this.getAttribute(key);
+                }, 1);
             }
-            //两个参数，则一个为key，一个为value
-            if (len >= 2) {
-                var key = arguments[0];
-                var val = arguments[1];
-                return this.each(function(index) {
-                    this.setAttribute(key, val);
-                });
+            //批量设置属性
+            if (typeof (key) == 'object') {
+                for (var k in key) this.attr(k, key[k]);
+                return this;
             }
         }
-        //移除属性
-    fn.removeAttr = function(key) {
-        return this.each(function() {
+        //两个参数，则一个为key，一个为value
+        if (len >= 2) {
+            var key = arguments[0];
+            var val = arguments[1];
+            return this.each(function (index) {
+                this.setAttribute(key, val);
+            });
+        }
+    }
+    //移除属性
+    fn.removeAttr = function (key) {
+        return this.each(function () {
             this.removeAttribute(key);
         });
     };
     //设置css样式
-    fn.css = function(key, value, important) {
-        if (typeof(key) == 'object') {
+    fn.css = function (key, value, important) {
+        if (typeof (key) == 'object') {
             for (var k in key) this.css(k, key[k]);
             return this;
         }
         if (value != undefined) {
-            return this.each(function() {
+            return this.each(function () {
                 this.style.setProperty(key, value, important ? 'important' : '');
             });
         } else {
-            return this.each(function() {
+            return this.each(function () {
                 var styles = document.defaultView.getComputedStyle(this, null);
                 return styles.getPropertyValue(key);
             }, 1);
         }
     };
-    fn.hasClass = function(str) {
-        return this.each(function() {
+    fn.hasClass = function (str) {
+        return this.each(function () {
             return this.classList.contains(str);
         }, 1);
     };
-    fn.addClass = function(str) {
-        return this.each(function() {
+    fn.addClass = function (str) {
+        return this.each(function () {
             return this.classList.add(str);
         });
     };
-    fn.removeClass = function(str) {
-        return this.each(function() {
+    fn.removeClass = function (str) {
+        return this.each(function () {
             return this.classList.remove(str);
         });
     };
-    fn.remove = function() {
-        return this.each(function() {
+    fn.remove = function () {
+        return this.each(function () {
             if (this.remove) this.remove();
             if (this.removeNode) this.removeNode(true);
         });
     };
     //设置或读取层深，即z-index的值
-    fn.level = function(num) {
+    fn.level = function (num) {
         if (arguments.length < 1) {
-            var res = this.each(function() {
+            var res = this.each(function () {
                 return this.style.getPropertyValue("z-Index");
             }, 1);
-            if (typeof(res) == 'string') return res == '' ? 0 : parseInt(res);
+            if (typeof (res) == 'string') return res == '' ? 0 : parseInt(res);
             var l = 0;
             for (var i = 0; i < res.length; i++) {
                 var n = parseInt(res[i]);
@@ -298,7 +298,7 @@
         }
         return this;
     };
-    fn.width = function(num) {
+    fn.width = function (num) {
         if (arguments.length < 1) {
             var ele = this[0] ? this[0] : null;
             if (ele == null) return 0;
@@ -315,7 +315,7 @@
         }
     };
 
-    fn.height = function(num) {
+    fn.height = function (num) {
         if (arguments.length < 1) {
             //return this[0] ? this[0].offsetHeight : 0;
 
@@ -333,7 +333,7 @@
                 return this.css('height', arguments[0]);
         }
     };
-    fn.left = function(num) {
+    fn.left = function (num) {
         if (arguments.length < 1) {
             var offset = this.offset();
             return offset.length ? offset[0].left : offset.left;
@@ -342,7 +342,7 @@
                 return this.css('left', arguments[0] + 'px');
         }
     };
-    fn.top = function(num) {
+    fn.top = function (num) {
         if (arguments.length < 1) {
             var offset = this.offset();
             return offset.length ? offset[0].top : offset.top;
@@ -352,7 +352,7 @@
         }
     };
     //获取元素的坐标
-    fn.offset = function() {
+    fn.offset = function () {
         var offset = {
             top: 0,
             left: 0
@@ -374,35 +374,35 @@
         };
     };
     //追加一个子节点，返回自身对象
-    fn.append = function(ele) {
-        if (typeof(ele) == 'string') {
+    fn.append = function (ele) {
+        if (typeof (ele) == 'string') {
             return this.append(document.createElement(ele));
         }
         if (webdom.isdom(ele)) {
-            return this.each(function() {
+            return this.each(function () {
                 for (var i = 0; i < ele.length; i++)
                     this.appendChild(webdom.clone(ele[i]));
             });
         }
         if (ele instanceof Node) {
-            return this.each(function() {
+            return this.each(function () {
                 this.appendChild(ele);
             });
         }
     };
     //添加了一个子节点，返回子节点对象
-    fn.add = function(ele) {
-        if (typeof(ele) == 'string') {
+    fn.add = function (ele) {
+        if (typeof (ele) == 'string') {
             if (this.length == 1) return this.add(document.createElement(ele));
             if (this.length > 1) {
-                var res = this.each(function() {
+                var res = this.each(function () {
                     return this.appendChild(document.createElement(ele));
                 }, 1);
                 return webdom(res)
             }
         }
         if (webdom.isdom(ele)) {
-            var nodes = this.each(function() {
+            var nodes = this.each(function () {
                 var chils = [];
                 for (var i = 0; i < ele.length; i++)
                     chils.push(this.appendChild(webdom.clone(ele[i])));
@@ -411,37 +411,37 @@
             return webdom(nodes);
         }
         if (ele instanceof Node) {
-            return webdom(this.each(function() {
+            return webdom(this.each(function () {
                 this.appendChild(ele);
                 return ele;
             }, 1));
         }
     };
     //合并两个对象，返回新对象
-    fn.merge = function(obj) {
-            var arr = new Array();
-            this.each(function() {
-                arr.push(this);
-            });
-            if (obj instanceof Node) {
-                arr.push(obj);
-            } else {
-                if (webdom.isdom(obj)) {
-                    obj.each(function(index) {
-                        arr.push(this);
-                    });
-                }
+    fn.merge = function (obj) {
+        var arr = new Array();
+        this.each(function () {
+            arr.push(this);
+        });
+        if (obj instanceof Node) {
+            arr.push(obj);
+        } else {
+            if (webdom.isdom(obj)) {
+                obj.each(function (index) {
+                    arr.push(this);
+                });
             }
-            return new webdom(arr);
         }
-        //绑定事件
-    fn.bind = function(event, func, useCapture) {
-        this.each(function() {
+        return new webdom(arr);
+    }
+    //绑定事件
+    fn.bind = function (event, func, useCapture) {
+        this.each(function () {
             this.addEventListener(event, func, useCapture);
             if (event == 'click') {
                 var iframe = this.querySelector('iframe');
                 if (iframe) {
-                    webdom.IframeOnClick.track(iframe, function(sender, boxid) {
+                    webdom.IframeOnClick.track(iframe, function (sender, boxid) {
                         sender.click();
                     });
                 }
@@ -450,8 +450,8 @@
         return this;
     };
     //触发事件
-    fn.trigger = function(event) {
-        this.each(function() {
+    fn.trigger = function (event) {
+        this.each(function () {
             var eObj = document.createEvent('HTMLEvents');
             eObj.initEvent(event, true, false);
             this.dispatchEvent(eObj);
@@ -459,23 +459,23 @@
         return this;
     };
     //若含有参数就注册事件，无参数就触发事件
-    fn.click = function(f) {
-        if (typeof(f) == "function") {
+    fn.click = function (f) {
+        if (typeof (f) == "function") {
             this.bind('click', f, true);
         } else {
             this.trigger('click');
         }
     };
-    fn.dblclick = function(f) {
-        if (typeof(f) == "function") {
+    fn.dblclick = function (f) {
+        if (typeof (f) == "function") {
             this.bind('dblclick', f, true);
         } else {
             this.trigger('dblclick');
         }
         return this;
     };
-    fn.mousedown = function(f) {
-        if (typeof(f) == "function") {
+    fn.mousedown = function (f) {
+        if (typeof (f) == "function") {
             this.bind('mousedown', f, true);
         } else {
             this.trigger('mousedown');
@@ -486,15 +486,15 @@
     静态方法
     */
     //是否是webdom对象
-    webdom.isdom = function(obj) {
-        return typeof(obj) == 'object' && obj.typeof == 'webui.element';
+    webdom.isdom = function (obj) {
+        return typeof (obj) == 'object' && obj.typeof == 'webui.element';
     };
     //去除两端空格
-    webdom.trim = function(str) {
+    webdom.trim = function (str) {
         return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
     };
     //克隆对象
-    webdom.clone = function(obj) {
+    webdom.clone = function (obj) {
         if (typeof obj == "object") {
             if (obj == null) return null;
             if (webdom.isdom(obj)) {
@@ -522,8 +522,8 @@
         }
         return obj;
     };
-    webdom.ajax = function(options) {
-        function empty() {}
+    webdom.ajax = function (options) {
+        function empty() { }
 
         function obj2Url(obj) {
             var arr = [];
@@ -548,7 +548,7 @@
         //Object.assign(opt, options); //直接合并对象,opt已有属性将会被options替换
         var abortTimeout = null;
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
                 xhr.onreadystatechange = empty;
                 clearTimeout(abortTimeout);
@@ -580,7 +580,7 @@
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         }
         if (opt.timeout > 0) {
-            abortTimeout = setTimeout(function() {
+            abortTimeout = setTimeout(function () {
                 xhr.onreadystatechange = empty;
                 xhr.abort();
                 opt.error('网络请求超时', xhr);
@@ -588,7 +588,7 @@
         }
         xhr.send(data);
     };
-    webdom.get = function(url, func) {
+    webdom.get = function (url, func) {
         var opt = {
             url: url,
             success: func
@@ -596,7 +596,7 @@
         this.ajax(opt);
     };
     //鼠标的坐标值
-    webdom.mouse = function(e) {
+    webdom.mouse = function (e) {
         var x = 0,
             y = 0;
         var e = e || window.event;
@@ -617,21 +617,21 @@
         resolution: 10,
         iframes: [],
         interval: null,
-        Iframe: function() {
+        Iframe: function () {
             this.element = arguments[0];
             this.cb = arguments[1];
             this.hasTracked = false;
         },
-        track: function(element, cb) {
+        track: function (element, cb) {
             this.iframes.push(new this.Iframe(element, cb));
             if (!this.interval) {
                 var _this = this;
-                this.interval = setInterval(function() {
+                this.interval = setInterval(function () {
                     _this.checkClick();
                 }, this.resolution);
             }
         },
-        checkClick: function() {
+        checkClick: function () {
             if (document.activeElement) {
                 var activeElement = document.activeElement;
                 for (var i in this.iframes) {
@@ -651,39 +651,17 @@
             }
         }
     };
-    //加载css或js文件
-    webdom.load = {
-        css: function(url, tagName) {
-            var head = document.getElementsByTagName('head')[0];
-            var link = document.createElement('link');
-            link.type = 'text/css';
-            link.rel = 'stylesheet';
-            link.href = url;
-            link.setAttribute('tag', tagName);
-            head.appendChild(link);
-        },
-        js: function(url) {
-            var body = document.getElementsByTagName('body').item(0);
-            var script = document.createElement("script");
-            //script.setAttribute('defer','defer');
-            script.type = "text/javascript";
-            script.src = url;
-            body.appendChild(script);
-        }
-    };
-    webdom.ready = (function() { //这个函数返回whenReady()函数
+    webdom.ready = (function () { //这个函数返回whenReady()函数
         var funcs = []; //当获得事件时，要运行的函数
         var ready = false; //当触发事件处理程序时,切换为true
 
         //当文档就绪时,调用事件处理程序
         function handler(e) {
             if (ready) return; //确保事件处理程序只完整运行一次
-
             //如果发生onreadystatechange事件，但其状态不是complete的话,那么文档尚未准备好
             if (e.type === 'onreadystatechange' && document.readyState !== 'complete') {
                 return;
             }
-
             //运行所有注册函数
             //注意每次都要计算funcs.length
             //以防这些函数的调用可能会导致注册更多的函数
@@ -712,7 +690,123 @@
             }
         }
     })();
+    //加载css或js文件，并加调
+    webdom.load = {
+        css: function (src, callback, tagName) {
+            /*
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.rel = 'stylesheet';
+            link.href = url;
+            link.setAttribute('tag', tagName);
+            head.appendChild(link);
+*/
+            webdom.load.arraySync(function (one, i, c) {                
+                var cur_script = document.createElement("link");
+                cur_script.type = 'text/css';
+                cur_script.charset = 'UTF-8';
+                cur_script.rel = "stylesheet";
+                cur_script.href = one;
+                cur_script.setAttribute('tag', tagName);
+                cur_script.addEventListener('load', function () {
+                    c(0, { i: i, v: {} });
+                }, false);
+                document.head.appendChild(cur_script)
+            }, src, function (err, r) {
+                //全部加载完成后执行的回调函数
+                if (err) {
+                    alert(err.message);
+                } else {
+                    if (callback != null) callback();
+                }
+            });
+        },
+        js: function (src, callback) {
+            webdom.load.arraySync(function (one, i, c) {
+                var cur_script = document.createElement("script");
+                cur_script.type = 'text/javascript';
+                cur_script.charset = 'UTF-8';
+                cur_script.src = one;
+                cur_script.addEventListener('load', function () {
+                    c(0, { i: i, v: {} });
+                }, false);
+                document.head.appendChild(cur_script)
+            }, src, function (err, r) {
+                //全部加载完成后执行的回调函数
+                if (err) {
+                    alert(err.message);
+                } else {
+                    if (callback != null) callback();
+                }
+            });
+        },
+        //处理异步，不用promise的方案
+        arraySync: function (bsFunc, arr) {
+            var callback = arguments[arguments.length - 1];
+            if (arr.length == 0) {
+                callback(0, []);
+                return;
+            }
+            var sendErr = false;
+            var finishNum = arr.length;
+            var result = [];
+            var args = [0, 0];
+            for (var index = 2; index < arguments.length - 1; ++index) {
+                args.push(arguments[index]);
+            }
+            args.push(function (err, r) {
+                if (err) {
+                    if (!sendErr) {
+                        sendErr = true;
+                        callback(err);
+                    }
+                    return;
+                }
+                --finishNum;
+                result[r.i] = r.v;
+                if (finishNum == 0) {
+                    callback(0, result);
+                }
+            });
+
+            for (var i = 0; i < arr.length; ++i) {
+                args[0] = arr[i];
+                args[1] = i;
+                bsFunc.apply(null, args);
+            }
+        }
+    };
+    //项目路径
+    webdom.path = '/';
+    //加载核心js
+    webdom.corejs = function (f) {
+        //要加载的js 
+        var arr = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
+        for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
+        window.$dom.load.js(arr, f);
+    };
+    //加载组件
+    webdom.ctrljs = function (f) {
+        //要加载的js 
+        var corejs = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
+        var ctrljs = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+        var arr = corejs.concat(ctrljs);
+        for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
+        window.$dom.load.js(arr, f);
+    };
     //创建全局对象，方便调用
     window.$dom = webdom;
-    window.$dom.load.css('/styles/webdesk.ui.core.css');
+    window.$dom.load.css([webdom.path + 'styles/webdesk.ui.core.css']);
+
+    //要加载的js 
+    var corejs = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
+    var ctrljs = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins'];
+    var arr = corejs.concat(ctrljs);
+    for (var t in arr) arr[t] = 'Scripts/' + arr[t] + '.js';
+
 })();
+
+
+
+//console.log(arr);

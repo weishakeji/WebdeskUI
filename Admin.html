@@ -6,19 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Panel</title>
-    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
-    <script type="text/javascript" src="Scripts/ctrls.js"></script>
-    <script type="text/javascript" src="Scripts/login.js"></script>
-    <script type="text/javascript" src="Scripts/pagebox.js"></script>
-    <script type="text/javascript" src="Scripts/treemenu.js"></script>
-    <script type="text/javascript" src="Scripts/dropmenu.js"></script>
-    <script type="text/javascript" src="Scripts/tabs.js"></script>
-    <script type="text/javascript" src="Scripts/verticalbar.js"></script>
-    <script type="text/javascript" src="Scripts/timer.js"></script>
-    <script type="text/javascript" src="Scripts/skins.js"></script>
-    <script type="text/javascript" src="Scripts/polyfill.min.js"></script>
-    <script type="text/javascript" src="Scripts/axios_min.js"></script>
-    <script type="text/javascript" src="Scripts/api.js"></script>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>   
     <script type="text/javascript" src="Scripts/admin.js" async></script>
     <link type="text/css" rel="stylesheet" href="styles/login.css">
     <style type="text/css">
@@ -31,10 +19,77 @@
             left: 0px;
         }
         
+        /*预载效*/
+
         panel#loading {
-            z-index: 1;
+            width: 100px;
+            height: 100px;
+            margin: 200px auto 0px auto;
+            position: relative;
         }
-        
+
+        panel#loading b {
+            display: block;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: 20px;
+            color: #fff;
+            text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513,
+                0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+        }
+
+        panel#loading span {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            background: rgb(178, 166, 248);
+            animation: bounce 1s infinite linear;
+        }
+
+        panel#loading span:nth-child(1) {
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        panel#loading span:nth-child(2) {
+            left: 20px;
+            animation-delay: 0.25s;
+        }
+
+        panel#loading span:nth-child(3) {
+            left: 40px;
+            animation-delay: 0.5s;
+        }
+
+        panel#loading span:nth-child(4) {
+            left: 60px;
+            animation-delay: 0.75s;
+        }
+
+        panel#loading span:nth-child(5) {
+            left: 80px;
+            animation-delay: 1.0s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0px);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-30px);
+                opacity: 1.0;
+            }
+
+            100% {
+                transform: translateY(0px);
+                opacity: 0.5;
+            }
+        }
+
         panel#login {
             z-index: 2;
             --opacity: 0;
@@ -94,8 +149,13 @@
 </head>
 
 <body oncontextmenu='return false'>
-    <panel id="loading" remark="预载效果">
-        555
+   <panel id="loading" remark="预载效果">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <b>界面加载中....</b>
     </panel>
     <panel id="login" remark="登录区域">
         <iframe src="Effects/2dcloud/index.html" id="iframe" width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
