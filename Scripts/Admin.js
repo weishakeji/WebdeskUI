@@ -44,7 +44,9 @@ $dom.ctrljs(function () {
         
     });
     window.login.onsubmit(function (s, e) {
-         ready(); 
+		s.loading=true;	
+         ready(s);		
+
     });
    
     //右上角菜单,用户信息
@@ -77,12 +79,12 @@ $dom.ctrljs(function () {
     });*/
 });
 
-function ready(result) {
+function ready(loginbox) {
     window.setTimeout(function () {
         $dom('panel#login').hide();
         $dom('panel#admin').show().css('opacity', 0);
         window.$skins.onchange();
-       
+       loginbox.loading=false;
     }, 1000);
     //树形菜单
     var tree = $treemenu.create({
