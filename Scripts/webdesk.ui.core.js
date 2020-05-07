@@ -693,16 +693,7 @@
     //加载css或js文件，并加调
     webdom.load = {
         css: function (src, callback, tagName) {
-            /*
-            var head = document.getElementsByTagName('head')[0];
-            var link = document.createElement('link');
-            link.type = 'text/css';
-            link.rel = 'stylesheet';
-            link.href = url;
-            link.setAttribute('tag', tagName);
-            head.appendChild(link);
-*/
-            webdom.load.arraySync(function (one, i, c) {                
+            webdom.load.arraySync(function (one, i, c) {
                 var cur_script = document.createElement("link");
                 cur_script.type = 'text/css';
                 cur_script.charset = 'UTF-8';
@@ -779,31 +770,30 @@
     };
     //项目路径
     webdom.path = '/';
-    //加载核心js
+    //加载核心javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
         var arr = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
         for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
         window.$dom.load.js(arr, f);
     };
-    //加载组件
+    //加载组件所需的javascript文件
     webdom.ctrljs = function (f) {
-        //要加载的js 
-        var corejs = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
-        var ctrljs = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
-        var arr = corejs.concat(ctrljs);
-        for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
-        window.$dom.load.js(arr, f);
+        webdom.corejs(function () {
+            var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
+            window.$dom.load.js(arr, f);
+        });
     };
+    //加载必要的资源完成
+    window.$ready = function (f) {
+        webdom.ready(function () {
+            webdom.corejs(f);
+        });
+    }
     //创建全局对象，方便调用
     window.$dom = webdom;
     window.$dom.load.css([webdom.path + 'styles/webdesk.ui.core.css']);
-
-    //要加载的js 
-    var corejs = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
-    var ctrljs = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins'];
-    var arr = corejs.concat(ctrljs);
-    for (var t in arr) arr[t] = 'Scripts/' + arr[t] + '.js';
 
 })();
 

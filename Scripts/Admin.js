@@ -21,6 +21,7 @@ window.onload = function () {
         doc.setAttribute('oncontextmenu', "javascript:return false;");
     });
 };
+//加载组件所需javascript文件完成后
 $dom.ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
