@@ -208,6 +208,12 @@
             }, 1);
         }
     };
+    fn.focus = function () {
+        this.each(function () {
+            return this.focus();
+        });
+        return this;
+    };
     //设置或获取属性
     //arguments:
     fn.attr = function () {

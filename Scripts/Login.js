@@ -136,7 +136,7 @@
                     if (obj.dragfinish) box.hide();
                 }, 1000);
                 obj.trigger('dragfinish');
-                obj.dom.find('input[name=\'login_vcode\']').parent().removeClass('login_error');
+                obj.dom.find('input[name=\'login_vcode\']').focus().parent().removeClass('login_error');
             } else {
                 box.removeClass('complete');
                 box.css('transition', '')
