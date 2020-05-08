@@ -95,9 +95,10 @@
 			if (val) {
 				//折叠
 				obj.dom.width(40);
-				var offset = obj.dom.offset();
+				//var offset = obj.dom.offset();
 				obj.dombody.css('position', 'absolute');
-				obj.dombody.left(offset.left + obj.domtit.width()).height(obj.dom.height()).width(0);
+				obj.dombody.left(obj.domtit.width());
+				obj.dombody.height(obj.dom.height()).width(0);
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
