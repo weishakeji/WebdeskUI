@@ -10,9 +10,9 @@
  * 最后修订：2020年3月31日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function (win) {
-    var login = function (param) {
-        if (param == null || typeof (param) != 'object') param = {};
+(function(win) {
+    var login = function(param) {
+        if (param == null || typeof(param) != 'object') param = {};
         this.attrs = {
             target: '', //所在Html区域          
             width: '',
@@ -28,7 +28,7 @@
             vcode: '', //验证码,输入的验证码
             vcodelen: 4, //验证码长度
             vcodebase64: '', //验证的图片base64编码
-            vcodemd5: '',        //验证码的md5编码
+            vcodemd5: '', //验证码的md5编码
             id: '',
             drag: false, //是否处于拖动状态
             dragfinish: false, //拖动完成
@@ -56,62 +56,63 @@
         });
     };
     var fn = login.prototype;
-    fn._initialization = function () {
+    fn._initialization = function() {
         if (!this._id) this._id = 'login_' + new Date().getTime();
     };
     //当属性更改时触发相应动作
     fn._watch = {
-        'width': function (obj, val, old) {
+        'width': function(obj, val, old) {
             if (obj.dom) obj.dom.width(val);
             obj.trigger('resize', {
                 width: val,
                 height: obj._height
             });
         },
-        'height': function (obj, val, old) {
+        'height': function(obj, val, old) {
             if (obj.dom) obj.dom.height(val);
             obj.trigger('resize', {
                 width: obj._width,
                 height: val
             });
         },
-        'title': function (obj, val, old) {
+        'title': function(obj, val, old) {
             if (obj.domtit) obj.domtit.find('login_tit').html(val);
         },
-        'company': function (obj, val, old) {
+        'company': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_company a').html(val);
         },
-        'website': function (obj, val, old) {
+        'website': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_company a').attr('href', val);
         },
-        'tel': function (obj, val, old) {
+        'tel': function(obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_tel').html(val);
         },
-        'user': function (obj, val, old) {
+        'user': function(obj, val, old) {
             if (obj.dom) obj.dom.find('input[name=\'login_user\']').val(val);
             obj.dragfinish = false;
         },
-        'pw': function (obj, val, old) {
+        'pw': function(obj, val, old) {
             if (obj.dom) obj.dom.find('input[name=\'login_pw\']').val(val);
             obj.dragfinish = false;
         },
-        'vcode': function (obj, val, old) {
+        'vcode': function(obj, val, old) {
             if (val == old) return;
             if (obj.dom) obj.dom.find('input[name=\'login_vcode\']').val(val);
         },
         //验证码的base64编码
-        'vcodebase64': function (obj, val, old) {
+        'vcodebase64': function(obj, val, old) {
             if (val == old) return;
             if (obj.dom) obj.dom.find('img[class=\'vcode_img\']').attr('src', val);
         },
         //滑块拖动
-        'drag': function (obj, val, old) {
+        'drag': function(obj, val, old) {
             if (!obj.dom) return;
             var box = obj.dom.find('login_dragbox');
             if (!val) {
                 box.css('transition', 'left 0.3s').removeClass('drag');
                 var p = box.parent();
-                if (parseInt(box.css('left') + box.width() / 2) > p.width() / 3 * 2) {
+                var perecnt = 70; //拖动完成百分多少，算完成
+                if (parseInt(box.css('left') + box.width() / 2) > p.width() * perecnt / 100) {
                     box.left(p.width() - box.width() - 5);
                     if (!obj.dragfinish) obj.dragfinish = true;
                 } else {
@@ -121,18 +122,19 @@
             if (val) {
                 box.addClass('drag');
                 box.css('transition', '');
+                box.css("opacity", 1)
             }
 
         },
         //滑块拖动完成
-        'dragfinish': function (obj, val, old) {
+        'dragfinish': function(obj, val, old) {
             //滑块拖动区域
             var box = obj.dom.find('login_drag');
             if (val) {
                 box.addClass('complete');
                 box.css('transition', 'opacity 1s')
                 box.css('opacity', 0);
-                window.setTimeout(function () {
+                window.setTimeout(function() {
                     if (obj.dragfinish) box.hide();
                 }, 1000);
                 obj.trigger('dragfinish');
@@ -146,7 +148,7 @@
             }
         },
         //加载状态变化时
-        loading: function (obj, val, old) {
+        loading: function(obj, val, old) {
             if (obj.dom) {
                 if (val) {
                     obj.dom.find('form.login_body').hide();
@@ -158,7 +160,7 @@
             }
         }
     };
-    fn.open = function () {
+    fn.open = function() {
         this._initialization();
         //创建登录框，以及基础事件
         for (var t in this._builder) this._builder[t](this);
@@ -178,7 +180,7 @@
     };
     fn._builder = {
         //生成外壳
-        shell: function (obj) {
+        shell: function(obj) {
             var area = $dom(obj.target);
             if (area.length < 1) {
                 console.log('Login所在区域不存在');
@@ -187,14 +189,14 @@
             area.addClass('loginbox').attr('ctrid', obj.id);
             obj.dom = area;
         },
-        title: function (obj) {
+        title: function(obj) {
             obj.domtit = obj.dom.add('login_titlebar');
             var ico = obj.domtit.add('login_ico');
             if (obj.icoimg != '') ico.add('img').attr('src', obj.icoimg);
             if (obj.icoimg == '') ico.add('i').html('&#x' + obj.ico);
             obj.domtit.add('login_tit').html(obj.title);
         },
-        body: function (obj) {
+        body: function(obj) {
             obj.dombody = obj.dom.add('form').addClass('login_body');
             //账号
             var user = obj.dombody.add('login_row');
@@ -229,14 +231,14 @@
             obj.dombody.find('login_row').add('login_tips');
             //.html('不得为空！');
         },
-        loading: function (obj) {
+        loading: function(obj) {
             var loadbox = obj.dom.add('div').addClass('login_loding');
             //var effect = loadbox.add('div').addClass('loading_effect');
             loadbox.add('span');
             loadbox.add('span');
             loadbox.add('b').text('loading......');
         },
-        footer: function (obj) {
+        footer: function(obj) {
             obj.domfoot = obj.dom.add('login_footbar');
             var company = obj.domfoot.add('login_company');
             company.add('a').html(obj.company).attr({
@@ -248,17 +250,17 @@
     };
     //基础事件
     fn._baseEvents = {
-        submit: function (obj) {
+        submit: function(obj) {
             var form = obj.dom.find('form');
-            form.bind('submit', function (e) {
+            form.bind('submit', function(e) {
                 console.log(e);
                 e.preventDefault();
                 return false;
             });
         },
         //登录按钮事件
-        login: function (obj) {
-            obj.dom.find('button').click(function (e) {
+        login: function(obj) {
+            obj.dom.find('button').click(function(e) {
                 var obj = login._getObj(e);
                 obj.trigger('submit', {
                     user: obj.user,
@@ -270,38 +272,49 @@
             });
         },
         //滑块拖动
-        drag: function (obj) {
-            obj.dom.find('login_dragbox').mousedown(function (e) {
+        drag: function(obj) {
+            obj.dom.find('login_dragbox').mousedown(function(e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return;
                 obj.drag = true;
                 obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
-            }).bind('mouseup', function (e) {
+
+            }).bind('mouseup', function(e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mouseleave', function (e) {
+            obj.dom.find('login_drag>div').bind('mouseleave', function(e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mousemove', function (e) {
+            obj.dom.find('login_drag>div').bind('mousemove', function(e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return; //如果拖动完成，则不能拖动
                 //计算移动最大宽度范围
                 var node = event.target ? event.target : event.srcElement;
                 var parent = $dom(node).parent();
                 var min = 5;
-                var max = parent.width() - obj.dom.find('login_dragbox').width() - 5;
+                var dragbox = obj.dom.find('login_dragbox');
+                var max = parent.width() - dragbox.width() - 5;
                 //
                 var mouse = $dom.mouse(e);
                 var left = mouse.x - obj._drag_init_x;
                 left = left <= min ? min : (left >= max ? max : left);
-                if (obj.drag) obj.dom.find('login_dragbox').left(left);
+                if (obj.drag) {
+                    dragbox.left(left);
+                    var perecnt = 70;
+                    var per = parseInt(dragbox.css('left') + dragbox.width() / 2) / parent.width() * 100;
+                    if (per > perecnt) {
+                        obj.dom.find("login_drag").addClass('complete').css("opacity", 0.8);
+                    } else {
+                        obj.dom.find("login_drag").removeClass('complete').css("opacity", 1);
+                    }
+                }
             });
         },
         //输入更改时
-        change: function (obj) {
-            obj.dom.find('form input').bind('input', function (e) {
+        change: function(obj) {
+            obj.dom.find('form input').bind('input', function(e) {
                 var input = event.target ? event.target : event.srcElement;
                 var word = e.data ? e.data : ''; //新输入的字符
                 var val = input.value; //当前输入框中的字符串
@@ -316,8 +329,8 @@
             });
         },
         //验证码点击
-        vcodeclick: function (obj) {
-            obj.dom.find('img[class=\'vcode_img\']').click(function (e) {
+        vcodeclick: function(obj) {
+            obj.dom.find('img[class=\'vcode_img\']').click(function(e) {
                 obj.trigger('dragfinish');
             });
         }
@@ -325,7 +338,7 @@
     //登录时的基础验证
     fn._baseVefiry = {
         //非空验证
-        notempty: function (obj, ctrl) {
+        notempty: function(obj, ctrl) {
             var val = $dom.trim(ctrl.val());
             var placeholder = ctrl.attr('placeholder');
             var name = ctrl.attr('name');
@@ -337,7 +350,7 @@
             }
         },
         //滑块验证
-        drag: function (obj, ctrl) {
+        drag: function(obj, ctrl) {
             var name = ctrl.attr('name');
             if (name != 'login_vcode') return true;
             if (!obj.dragfinish) {
@@ -346,12 +359,12 @@
             return obj.dragfinish;
         },
         //格式验证
-        format: function (obj, ctrl) {
+        format: function(obj, ctrl) {
             return true;
         }
     };
     //添加自定义验证方法
-    fn.verify = function (ctrl, regex, tips) {
+    fn.verify = function(ctrl, regex, tips) {
         if (arguments.length == 1) {
             //如果为对象
             if (Object.prototype.toString.call(ctrl) === '[object Object]') {
@@ -373,7 +386,7 @@
         });
     };
     //显示提示框
-    fn.tips = function (ctrl, success, msg) {
+    fn.tips = function(ctrl, success, msg) {
         var parent = ctrl.parent(); //行
         var tips = parent.find('login_tips');
         if (success) {
@@ -388,16 +401,16 @@
     /*** 
     以下是静态方法
     *****/
-    login.create = function (param) {
+    login.create = function(param) {
         if (param == null) param = {};
         var obj = new login(param);
         //当输入更改时
-        obj.onchange(function (s, e) {
+        obj.onchange(function(s, e) {
             if (e.action == 'user') s._user = e.value;
             if (e.action == 'pw') s._pw = e.value;
             if (e.action == 'vcode') s._vcode = e.value;
             if (e.action == 'user' || e.action == 'pw') s.dragfinish = false;
-            if (e.action != 'vcode') s.vcodemd5 = '';  //图片验证码的加密信息，清空
+            if (e.action != 'vcode') s.vcodemd5 = ''; //图片验证码的加密信息，清空
             //验证当前输入框
             var pass = true;
             for (var t in s._baseVefiry) {
@@ -419,11 +432,11 @@
             if (pass) s.tips($dom(e.target), true);
         });
         //当提交表单时
-        obj.onsubmit(function (s, e) {
+        obj.onsubmit(function(s, e) {
             //验证表单
             var inputs = s.dom.find('input[type=text],input[type=password]');
             var pass = false;
-            pass = inputs.each(function () {
+            pass = inputs.each(function() {
                 for (var t in s._baseVefiry) {
                     var res = s._baseVefiry[t](s, $dom(this));
                     if (res == false || res == undefined) return false;
@@ -450,7 +463,7 @@
             }
             return pass;
         });
-        obj.onchange(function (s, e) {
+        obj.onchange(function(s, e) {
             for (var t in s.vefiry) {
                 var res = s.vefiry[t](s, $dom(e.target));
                 if (res == false || res == undefined) return false;
@@ -458,7 +471,7 @@
         });
         return obj.open();
     };
-    login._getObj = function (e) {
+    login._getObj = function(e) {
         var node = event.target ? event.target : event.srcElement;
         while (!node.getAttribute('ctrid')) node = node.parentNode;
         var ctrl = $ctrls.get(node.getAttribute('ctrid'));
