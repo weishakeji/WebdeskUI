@@ -42,7 +42,12 @@
         this.width = this._width;
         this.height = this._height;
         this.morebox = this._morebox;
-        if (this.childs.length < 1 && this.default) this.add(this.default);
+        if (this.childs.length < 1 && this.default) {
+            var th = this;
+            window.setTimeout(function () {
+                th.add(th.default);
+            }, 1000);
+        };
         //
         $ctrls.add({
             id: this.id,
