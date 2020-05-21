@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：下拉菜单
  * 说 明：
  * 1、支持无限级菜单分类;
@@ -10,9 +10,9 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function(win) {
-	var dropmenu = function(param) {
-		if (param == null || typeof(param) != 'object') param = {};
+(function (win) {
+	var dropmenu = function (param) {
+		if (param == null || typeof (param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
 			width: 0,
@@ -54,11 +54,11 @@
 		});
 	};
 	var fn = dropmenu.prototype;
-	fn._initialization = function() {
+	fn._initialization = function () {
 		if (!this._id) this._id = 'dropmenu_' + Math.random();
 	};
 	//添加数据源
-	fn.add = function(item) {
+	fn.add = function (item) {
 		if (item instanceof Array) {
 			for (var i = 0; i < item.length; i++)
 				this.add(item[i]);
@@ -68,7 +68,7 @@
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
-		'target': function(obj, val, old) {
+		'target': function (obj, val, old) {
 			var area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('dropmenu的target不正确');
@@ -78,8 +78,8 @@
 			//obj.width=area.width();
 			//console.log(area.width());
 		},
-		'width': function(obj, val, old) {
-			if (obj.dom) {				
+		'width': function (obj, val, old) {
+			if (obj.dom) {
 				obj.dom.width(val);
 				//第一次下拉菜单的宽度，不受plwidth属性限制
 				if (obj.datas && obj.datas.length > 0) {
@@ -90,17 +90,17 @@
 
 			};
 		},
-		'height': function(obj, val, old) {
+		'height': function (obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
 		},
 		//子菜面板宽度
-		'plwidth': function(obj, val, old) {
+		'plwidth': function (obj, val, old) {
 			if (obj.dombody) obj.dombody.find('drop-panel:not(.level1)').width(val);
 		},
 		//设定深度
-		'level': function(obj, val, old) {
+		'level': function (obj, val, old) {
 			if (obj.dom) obj.dom.level(val);
-			obj.dombody.find('drop-panel').each(function() {
+			obj.dombody.find('drop-panel').each(function () {
 				var id = $dom(this).attr('pid');
 				var data = obj.getData(id);
 				if (data == null) return;
@@ -108,9 +108,9 @@
 			});
 		},
 		//是否启动实时数据绑定
-		'bind': function(obj, val, old) {
+		'bind': function (obj, val, old) {
 			if (val) {
-				obj._setinterval = window.setInterval(function() {
+				obj._setinterval = window.setInterval(function () {
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//去除loading信息
@@ -133,7 +133,7 @@
 		}
 	};
 	//重构
-	fn._restructure = function() {
+	fn._restructure = function () {
 		var area = $dom(this.target);
 		if (area.length < 1) {
 			console.log('dropmenu所在区域不存在');
@@ -145,7 +145,7 @@
 			for (var t in this._baseEvents) this._baseEvents[t](this);
 			this.target = this._target;
 			if (this._width > 0)
-				this.width = this._width;			
+				this.width = this._width;
 			this.height = this._height;
 			this.plwidth = this._plwidth;
 			this.level = this._level;
@@ -153,7 +153,7 @@
 	};
 	//生成结构
 	fn._builder = {
-		shell: function(obj) {
+		shell: function (obj) {
 			var area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('dropmenu所在区域不存在');
@@ -163,7 +163,7 @@
 			obj.dom = area;
 		},
 		//主菜单栏
-		title: function(obj) {
+		title: function (obj) {
 			obj.domtit = obj.dom.add('drop_roots');
 			if (obj.datas == null || obj.datas.length < 1) return;
 			//如果数据源不是数组，转为数组
@@ -179,7 +179,7 @@
 			}
 		},
 		//子菜单内容区
-		body: function(obj) {
+		body: function (obj) {
 			obj.dombody = $dom(document.body).add('drop-body');
 			obj.dombody.addClass('dropmenu').attr('ctrid', obj.id);
 			for (var i = 0; i < obj.datas.length; i++) {
@@ -214,12 +214,12 @@
 	};
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
-		interval: function(obj) {
-			obj.dombody.find('drop-panel').bind('mouseover', function(e) {
+		interval: function (obj) {
+			obj.dombody.find('drop-panel').bind('mouseover', function (e) {
 				obj.leavetime = 3;
 				obj.leave = false;
 			});
-			obj.leaveInterval = window.setInterval(function() {
+			obj.leaveInterval = window.setInterval(function () {
 				if (!obj.leave) return;
 				if (--obj.leavetime <= 0) {
 					obj.dombody.find('drop-panel').hide();
@@ -228,8 +228,8 @@
 			}, 1000);
 		},
 		//根菜单滑过事件
-		root_hover: function(obj) {
-			obj.domtit.find('drop-node').bind('mouseover', function(e) {
+		root_hover: function (obj) {
+			obj.domtit.find('drop-node').bind('mouseover', function (e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				var node = $dom(n);
@@ -263,8 +263,8 @@
 			});
 		},
 		//子菜单滑过事件
-		node_hover: function(obj) {
-			obj.dombody.find('drop-panel drop-node').bind('mouseover', function(e) {
+		node_hover: function (obj) {
+			obj.dombody.find('drop-panel drop-node').bind('mouseover', function (e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				var node = $dom(n);
@@ -297,33 +297,35 @@
 			});
 			//当鼠标离开面板时，才允许计算消失时间
 			obj.dombody.find('drop-panel').merge(obj.domtit.find('drop-node'))
-				.bind('mouseleave', function(e) {
+				.bind('mouseleave', function (e) {
 					obj.leavetime = 3;
 					obj.leave = true;
 				});
 		},
 		//节点鼠标点击事件
-		node_click: function(obj) {
-			obj.dombody.find('drop-node:not([type=link])').click(function(e) {
-				var n = event.target ? event.target : event.srcElement;
-				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				//节点id
-				var nid = $dom(n).attr('nid');
-				var obj = dropmenu._getObj(n);
-				var data = obj.getData(nid);
-				//
-				obj.trigger('click', {
-					data: data
+		node_click: function (obj) {
+			obj.dombody.find('drop-node:not([type=link])')
+				.merge(obj.dom.find('drop-node:not([type=link])'))
+				.click(function (e) {
+					var n = event.target ? event.target : event.srcElement;
+					while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
+					//节点id
+					var nid = $dom(n).attr('nid');
+					var obj = dropmenu._getObj(n);
+					var data = obj.getData(nid);
+					//
+					obj.trigger('click', {
+						data: data
+					});
+					obj.leave = true;
+					obj.dombody.find('drop-panel').hide();
+					obj.domtit.find('drop-node').removeClass('hover');
 				});
-				obj.leave = true;
-				obj.dombody.find('drop-panel').hide();
-				obj.domtit.find('drop-node').removeClass('hover');
-			});
 		}
 	};
 
 	//创建节点
-	fn._createNode = function(item) {
+	fn._createNode = function (item) {
 		if (item == null) return null;
 		var node = $dom(document.createElement('drop-node'));
 		node.attr('nid', item.id).css({
@@ -364,7 +366,7 @@
 		return node;
 	};
 	//计算层深
-	fn._calcLevel = function(items, level) {
+	fn._calcLevel = function (items, level) {
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 			//补全一些信息
@@ -386,7 +388,7 @@
 		return items;
 	};
 	//获取数据源的节点
-	fn.getData = function(treeid) {
+	fn.getData = function (treeid) {
 		if (this.datas.length < 1) return null;
 		return $dom.clone(getdata(treeid, this.datas));
 		//
@@ -402,7 +404,7 @@
 		}
 	};
 	//获取当前节点的兄弟节点（数据源）
-	fn.getBrother = function(treeid) {
+	fn.getBrother = function (treeid) {
 		var d = this.getData(treeid);
 		if (d == null) return null;
 		var brt = [];
@@ -413,7 +415,7 @@
 		return brt;
 	};
 	//当前节点的所有子级（递归）
-	fn.getChilds = function(treeid) {
+	fn.getChilds = function (treeid) {
 		var childs = [];
 		var d = this.getData(treeid);
 		if (d == null) return childs;
@@ -423,7 +425,7 @@
 			if (!datas) return;
 			for (var i = 0; i < datas.length; i++) {
 				childs.push(datas[i]);
-				if (datas[i].childs && 　datas[i].childs.length > 0)
+				if (datas[i].childs && datas[i].childs.length > 0)
 					getdata(datas[i].childs, childs);
 			}
 		}
@@ -432,13 +434,13 @@
 	/*
 	dropmenu的静态方法
 	*/
-	dropmenu.create = function(param) {
+	dropmenu.create = function (param) {
 		if (param == null) param = {};
 		var tobj = new dropmenu(param);
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
-	dropmenu._getObj = function(e) {
+	dropmenu._getObj = function (e) {
 		var node = event.target ? event.target : event.srcElement;
 		while (!node.classList.contains('dropmenu')) node = node.parentNode;
 		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
