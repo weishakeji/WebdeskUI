@@ -42,14 +42,14 @@ $dom.ctrljs(function () {
         tips: '请输入4位数字'
     }]);
     window.login.ondragfinish(function (s, e) {
-        
-    });
-    window.login.onsubmit(function (s, e) {
-		s.loading=true;	
-         ready(s);		
 
     });
-   
+    window.login.onsubmit(function (s, e) {
+        s.loading = true;
+        ready(s);
+
+    });
+
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
@@ -85,7 +85,7 @@ function ready(loginbox) {
         $dom('panel#login').hide();
         $dom('panel#admin').show().css('opacity', 0);
         window.$skins.onchange();
-       loginbox.loading=false;
+        loginbox.loading = false;
     }, 1000);
     //树形菜单
     var tree = $treemenu.create({
@@ -114,6 +114,7 @@ function ready(loginbox) {
     var tabs = $tabs.create({
         target: '#tabs-area',
         width: 1,
+        //nowheel: true,
         default: {
             title: '启始页',
             path: '树形菜单,启始页',
@@ -138,15 +139,15 @@ function ready(loginbox) {
         $dom('body>*:not(#loading)').css('opacity', 0);
         $dom('#loading').show();
     });
-    window.$skins.onloadcss(function(s,e){
-        window.setTimeout(function(){
+    window.$skins.onloadcss(function (s, e) {
+        window.setTimeout(function () {
             var left = $dom('#dropmenu-area').width() + 10;
             $dom('#headbar').css('opacity', 1).left(left);
-            $dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');      
+            $dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
             $dom('body>*:not(#loading)').css('opacity', 1);
             $dom('#loading').hide();
-        },500);
-       
+        }, 500);
+
     });
 };
 /*
@@ -208,11 +209,11 @@ function tabsChange(sender, eventArgs) {
     //获取当前标签生成的窗体，全部还原
     var selfbox = getSelfbox(eventArgs.data.id);
     for (var i = 0; i < selfbox.length; i++) {
-        selfbox[i].toWindow().focus();
+        selfbox[i].toWindow().focus(false);
     }
     //非当前标签的窗体，全部最小化
     var elsebox = getElsebox(sender, eventArgs.data.id);
-    for (var i = 0; i < elsebox.length; i++) elsebox[i].mini = true;
+    for (var i = 0; i < elsebox.length; i++) elsebox[i].toMinimize(false);
 
     //当前标签生成的窗体
     function getSelfbox(tabid) {
