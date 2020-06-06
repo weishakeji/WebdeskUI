@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * 主 题：下拉菜单
  * 说 明：
  * 1、支持无限级菜单分类;
@@ -87,7 +87,6 @@
 					wd = wd > obj.plwidth ? wd : obj.plwidth;
 					obj.dombody.find('drop-panel.level1').width(wd);
 				}
-
 			};
 		},
 		'height': function (obj, val, old) {
@@ -370,7 +369,7 @@
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 			//补全一些信息
-			if (!item.id || item.id < 0) item.id = Math.floor(Math.random() * 100000);
+            if (!item.id || item.id < 0) item.id = 'nid_' + Math.floor(Math.random() * 100000);
 			if (!item.pid || item.pid < 0) item.pid = 0;
 			if (!item.level || item.level <= 0) item.level = level;
 			if (!item.path) item.path = item.title;
