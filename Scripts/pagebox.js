@@ -131,13 +131,13 @@
         },
         'full': function (box, val, old) {
             if (val == old) return;
-            if (val) box.toFull();
-            if (!val) box.toWindow();
+            if (val) box.toFull(true);
+            if (!val) box.toWindow(true);
         },
         'mini': function (box, val, old) {
             if (val == old) return;
-            if (val) box.toMinimize();
-            if (!val) box.toWindow();
+            if (val) box.toMinimize(true);
+            if (!val) box.toWindow(true);
         },
         'min': function (box, val, old) {
             box._builder.buttonbox(box);
