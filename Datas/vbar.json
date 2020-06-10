@@ -12,7 +12,13 @@
     type:'event',
     url:'window.$skins.switch()'
 
-}, {
+},{
+    title: '夜间模式/日间模式',
+    ico: 'a032',
+    type:'hr',
+    url:'window.$skins.switch()'
+
+} , {
     title: '开源协议',
     ico: 'a034',
     type: 'open',
@@ -44,6 +50,15 @@
     }, {
         title: '代理'
     }]
+},
+ {
+    title: '微厦科技',
+    ico: 'e77d',
+    url: 'http://www.weishakeji.net',
+    type: 'link'
+}, {
+    type: 'hr',
+
 }, {
     title: '关于',
     ico: 'a031',

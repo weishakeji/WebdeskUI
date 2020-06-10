@@ -28,6 +28,7 @@ $dom.ctrljs(function () {
         //width: '320px',
         title: '微厦在线学习系统',
         company: '微厦科技',
+        success: true,   //登录验证成功
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
     });
@@ -49,7 +50,10 @@ $dom.ctrljs(function () {
         ready(s);
 
     });
-
+    if (window.login.success) {
+        window.login.loading = true;
+        ready(window.login);
+    }
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',

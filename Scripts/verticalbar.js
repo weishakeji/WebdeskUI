@@ -8,9 +8,9 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function(win) {
-	var verticalbar = function(param) {
-		if (param == null || typeof(param) != 'object') param = {};
+(function (win) {
+	var verticalbar = function (param) {
+		if (param == null || typeof (param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
 			width: 100,
@@ -42,11 +42,11 @@
 		});
 	};
 	var fn = verticalbar.prototype;
-	fn._initialization = function() {
+	fn._initialization = function () {
 		if (!this._id) this._id = 'vbar_' + new Date().getTime();
 	};
 	//添加数据源
-	fn.add = function(item) {
+	fn.add = function (item) {
 		if (item instanceof Array) {
 			for (var i = 0; i < item.length; i++)
 				this.add(item[i]);
@@ -56,16 +56,16 @@
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
-		'width': function(obj, val, old) {
+		'width': function (obj, val, old) {
 			if (obj.dom) obj.dom.width(val);
 		},
-		'height': function(obj, val, old) {
+		'height': function (obj, val, old) {
 			if (obj.dom) obj.dom.height(val);
 		},
 		//设定深度
-		'level': function(obj, val, old) {
+		'level': function (obj, val, old) {
 			if (obj.dom) obj.dom.level(val);
-			obj.dombody.find('vbar-panel').each(function() {
+			obj.dombody.find('vbar-panel').each(function () {
 				var id = $dom(this).attr('pid');
 				var data = obj.getData(id);
 				if (data == null) return;
@@ -73,9 +73,9 @@
 			});
 		},
 		//是否启动实时数据绑定
-		'bind': function(obj, val, old) {
+		'bind': function (obj, val, old) {
 			if (val) {
-				obj._setinterval = window.setInterval(function() {
+				obj._setinterval = window.setInterval(function () {
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						obj._restructure();
@@ -91,7 +91,7 @@
 		}
 	};
 	//重构
-	fn._restructure = function() {
+	fn._restructure = function () {
 		var area = $dom(this.target);
 		if (area.length < 1) {
 			console.log('verticalbar所在区域不存在');
@@ -111,7 +111,7 @@
 	};
 	//生成结构
 	fn._builder = {
-		shell: function(obj) {
+		shell: function (obj) {
 			var area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('verticalbar所在区域不存在');
@@ -121,7 +121,7 @@
 			obj.dom = area;
 		},
 		//主菜单栏
-		title: function(obj) {
+		title: function (obj) {
 			//obj.domtit = obj.dom.add('vbar_roots');
 			if (obj.datas == null || obj.datas.length < 1) return;
 			for (var i = 0; i < obj.datas.length; i++) {
@@ -131,17 +131,28 @@
 			//生成根菜单项
 			function _rootnode(item, obj) {
 				if (item == null) return null;
+				if (item.type == 'hr') return 'hr';
+				//生成根节点
 				var node = $dom(document.createElement('vbar-item'));
+				node.attr('type', item.type ? item.type : 'node');
 				node.attr('nid', item.id).css({
 					'line-height': obj._width + 'px',
 					'height': obj._width + 'px'
 				});
-				node.html('&#x' + (item.ico ? item.ico : 'a022'));
+				var span = null;
+				if (item.type == 'link') {
+					var link = node.add('a');
+					link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
+					link.html('&#x' + (item.ico ? item.ico : 'a022'));
+				} else {
+					node.html('&#x' + (item.ico ? item.ico : 'a022'));
+				}
+				
 				return node;
 			}
 		},
 		//子菜单内容区
-		body: function(obj) {
+		body: function (obj) {
 			obj.dombody = $dom(document.body).add('verticalbar-body');
 			obj.dombody.addClass('verticalbar').attr('ctrid', obj.id);
 			for (var i = 0; i < obj.datas.length; i++) {
@@ -198,12 +209,12 @@
 	};
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
-		interval: function(obj) {
-			obj.dombody.find('vbar-panel').bind('mouseover', function(e) {
+		interval: function (obj) {
+			obj.dombody.find('vbar-panel').bind('mouseover', function (e) {
 				obj.leavetime = 3;
 				obj.leave = false;
 			});
-			obj.leaveInterval = window.setInterval(function() {
+			obj.leaveInterval = window.setInterval(function () {
 				if (!obj.leave) return;
 				if (--obj.leavetime <= 0) {
 					obj.dombody.find('vbar-panel').hide();
@@ -212,8 +223,8 @@
 			}, 1000);
 		},
 		//根菜单滑过事件
-		root_hover: function(obj) {
-			obj.dom.find('vbar-item').bind('mouseover', function(e) {
+		root_hover: function (obj) {
+			obj.dom.find('vbar-item').bind('mouseover', function (e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'vbar-item') n = n.parentNode;
 				var node = $dom(n);
@@ -248,15 +259,15 @@
 			});
 			//当鼠标离开面板时，才允许计算消失时间
 			obj.dombody.find('vbar-panel').merge(obj.dom.find('vbar-item'))
-				.bind('mouseleave', function(e) {
+				.bind('mouseleave', function (e) {
 					obj.leavetime = 3;
 					obj.leave = true;
 				});
 		},
 		//节点鼠标点击事件
-		node_click: function(obj) {
-			obj.dom.find('vbar-item').merge(obj.dombody.find('vbar-node:not([type=link])'))
-				.click(function(e) {
+		node_click: function (obj) {
+			obj.dom.find('vbar-item:not([type=link])').merge(obj.dombody.find('vbar-node:not([type=link])'))
+				.click(function (e) {
 					var n = event.target ? event.target : event.srcElement;
 					while ($dom(n).attr('nid') == null) n = n.parentNode;
 					//节点id
@@ -276,7 +287,7 @@
 	};
 
 	//计算层深
-	fn._calcLevel = function(item, level) {
+	fn._calcLevel = function (item, level) {
 		if (item == null) return;
 		//补全一些信息
 		if (!item.id || item.id <= 0) item.id = Math.floor(Math.random() * 100000);
@@ -294,7 +305,7 @@
 		return item;
 	};
 	//获取数据源的节点
-	fn.getData = function(treeid) {
+	fn.getData = function (treeid) {
 		if (this.datas.length < 1) return null;
 		return getdata(treeid, this.datas);
 		//
@@ -310,7 +321,7 @@
 		}
 	};
 	//获取当前节点的兄弟节点（数据源）
-	fn.getBrother = function(treeid) {
+	fn.getBrother = function (treeid) {
 		var d = this.getData(treeid);
 		if (d == null) return null;
 		var brt = [];
@@ -321,7 +332,7 @@
 		return brt;
 	};
 	//当前节点的所有子级（递归）
-	fn.getChilds = function(treeid) {
+	fn.getChilds = function (treeid) {
 		var childs = [];
 		var d = this.getData(treeid);
 		if (d == null) return childs;
@@ -331,7 +342,7 @@
 			if (!datas) return;
 			for (var i = 0; i < datas.length; i++) {
 				childs.push(datas[i]);
-				if (datas[i].childs && 　datas[i].childs.length > 0)
+				if (datas[i].childs && datas[i].childs.length > 0)
 					getdata(datas[i].childs, childs);
 			}
 		}
@@ -340,13 +351,13 @@
 	/*
 	静态方法
 	*/
-	verticalbar.create = function(param) {
+	verticalbar.create = function (param) {
 		if (param == null) param = {};
 		var tobj = new verticalbar(param);
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
-	verticalbar._getObj = function(e) {
+	verticalbar._getObj = function (e) {
 		var node = event.target ? event.target : event.srcElement;
 		while (!node.classList.contains('verticalbar')) node = node.parentNode;
 		var ctrl = $ctrls.get(node.getAttribute('ctrid'));

@@ -18,7 +18,12 @@
 .verticalbar span {
     color: #444;
 }
-
+.verticalbar>hr{
+    height: 1px;
+    border: 0px;
+    margin: 8px 3px 8px 3px;
+    background: #ddd;
+}
 .verticalbar vbar-item {
     font-family: "webdesk_icon" !important;
     display: block;
