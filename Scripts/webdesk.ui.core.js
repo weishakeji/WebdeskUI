@@ -15,7 +15,7 @@
     var webdom = function (query, context) {
         return new webdom.init(query, context);
     };
-
+    webdom.version = '0.11';
     webdom.init = function (query, context) {
         var nodes = [];
         if (typeof (query) == 'string') nodes = (context || document).querySelectorAll(query);
@@ -704,7 +704,7 @@
                 cur_script.type = 'text/css';
                 cur_script.charset = 'UTF-8';
                 cur_script.rel = "stylesheet";
-                cur_script.href = one;
+                cur_script.href = one + '?ver=' + webdom.version;
                 cur_script.setAttribute('tag', tagName);
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
@@ -724,7 +724,7 @@
                 var cur_script = document.createElement("script");
                 cur_script.type = 'text/javascript';
                 cur_script.charset = 'UTF-8';
-                cur_script.src = one;
+                cur_script.src = one + '?ver=' + webdom.version;
                 cur_script.addEventListener('load', function () {
                     c(0, { i: i, v: {} });
                 }, false);
