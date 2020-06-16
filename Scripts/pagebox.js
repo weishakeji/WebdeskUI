@@ -315,7 +315,12 @@
         },
         load: function (elem) {
             var src = $dom(elem).find('iframe').attr('src');
-            if (src == '') return;
+            if (src == '') {
+                var boxid = elem.getAttribute('boxid');
+                var ctrl = $ctrls.get(boxid);
+                ctrl.obj.trigger('load', { url: '', target: null });
+                return;
+            }
             $dom(elem).find('iframe').bind('load', function (e) {
                 var obj = box._getObj(e);
                 var eventArgs = {
@@ -341,6 +346,7 @@
                 obj.dom.find('pb-ico').last().hide();
                 obj.dom.find('pb-ico').first().show();
             });
+
         },
         //拖动事件的起始，当鼠标点下时
         drag: function (elem) {
@@ -577,7 +583,7 @@
             var doc = s.document();
             doc.document.oncontextmenu = function () {
                 return false
-            }
+            };
         });
         return pbox;
     };
@@ -604,14 +610,14 @@
     box.get = function (id) {
         var ctrl = $ctrls.get(id);
         return ctrl.obj;
-    },
-        //用于事件中，取点击的pagebox的对象
-        box._getObj = function (e) {
-            var node = event.target ? event.target : event.srcElement;
-            while (!node.getAttribute('boxid')) node = node.parentNode;
-            var ctrl = $ctrls.get(node.getAttribute('boxid'));
-            return ctrl.obj;
-        };
+    };
+    //用于事件中，取点击的pagebox的对象
+    box._getObj = function (e) {
+        var node = event.target ? event.target : event.srcElement;
+        while (!node.getAttribute('boxid')) node = node.parentNode;
+        var ctrl = $ctrls.get(node.getAttribute('boxid'));
+        return ctrl.obj;
+    };
     //设置某个窗体为焦点
     box.focus = function (boxid) {
         var ctrl = $ctrls.get(boxid);
@@ -712,7 +718,7 @@
     box.toMinimize = function (boxid, smooth) {
         var ctrl = $ctrls.get(boxid);
         if (!ctrl.obj.min) return ctrl.obj;
-        ctrl.obj._mini=true;
+        ctrl.obj._mini = true;
         if (!ctrl.obj.trigger('mini')) return ctrl.obj;
         //记录之前的数据，用于还原
         if (!ctrl.obj.full && ctrl.win_size == null) {
@@ -747,7 +753,7 @@
             window.setTimeout(function () {
                 collect.removeClass('pagebox-collect-action');
             }, 150);
-           
+
         }, 300);
         return ctrl.obj;
     };
@@ -785,7 +791,7 @@
             ctrl.obj.resize = ctrl.win_state.resize;
             window.setTimeout(function () {
                 ctrl.dom.css('transition', '');
-                
+
             }, 300);
         }, 10);
         return ctrl.obj;
