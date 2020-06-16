@@ -7,37 +7,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tabs.js</title>
     <style type="text/css">
-    body {
-        padding: 20px;
-        overflow: auto;
-    }
-    a{
-        color: #000;
-    }
+        body {
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        a {
+            color: #000;
+        }
     </style>
 </head>
 
-<body oncontextmenu='self.event.returnValue=false'>
+<body>
 
-  <b>简述：</b>
-<div>
-    <ul>
-        <li>选项卡无限增加</li>
-        <li>鼠标滚轴切换选项卡</li>
-        <li>支持鼠标右键关闭，关闭左侧、关闭右侧</li>
-        <li>可全屏操作</li>
-      <li>当切换时，关联的pagebox同步最小化或还原（通过onchange触发）</li>
-    </ul>
-</div>
-<div>
-    <b>演示：</b>
+    <b>简述：</b>
     <div>
-        <p>演示地址：<a href='http://webdesk.weisha100.cn/tabs.html' target="_blank">http://webdesk.weisha100.cn/tabs.html</a></p>
-        <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+        <ul>
+            <li>选项卡无限增加</li>
+            <li>鼠标滚轴切换选项卡</li>
+            <li>支持鼠标右键关闭，关闭左侧、关闭右侧</li>
+            <li>可全屏操作</li>
+            <li>当切换时，关联的pagebox同步最小化或还原（通过onchange触发）</li>
+        </ul>
     </div>
+    <div>
+        <b>演示：</b>
+        <div>
+            <p>演示地址：<a href='http://webdesk.weisha100.cn/tabs.html' target="_blank">http://webdesk.weisha100.cn/tabs.html</a></p>
+            <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+        </div>
 
-    <b>示例：</b>
-    <pre>
+        <b>示例：</b>
+        <pre>
     var tabs = $tabs.create({
         target: '#tabs-area',
         width: '100%',
@@ -80,6 +81,7 @@
     tabs.add(pages);
     tabs.focus(1);
 </pre>
-</div>
+    </div>
 </body>
+
 </html>

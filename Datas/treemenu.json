@@ -87,7 +87,8 @@
         childs: [{
             title: '树形工具条'
         }, {
-            title: '时间显示'
+            title: '时间显示',
+            url:''
         }]
     }]
 
