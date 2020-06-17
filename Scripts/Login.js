@@ -318,6 +318,7 @@
                 var input = event.target ? event.target : event.srcElement;
                 var word = e.data ? e.data : ''; //新输入的字符
                 var val = input.value; //当前输入框中的字符串
+                if (val == '') return;
                 //触发事件
                 var obj = login._getObj(e);
                 obj.trigger('change', {
