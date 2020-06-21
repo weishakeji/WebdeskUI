@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 .tabsbox {
     position: relative;
     overflow: hidden;
@@ -224,7 +224,7 @@ tabs_tagbox tab_tag close:hover {
     line-height: 30px;
     text-indent: 20px;
     color: #666;
-    box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
+    box-shadow: 1px 2px 2px rgba(41, 41, 41, 0.17);
     cursor: default;
     overflow: hidden;
     text-overflow: ellipsis;
