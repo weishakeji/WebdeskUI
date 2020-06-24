@@ -615,6 +615,7 @@
         var close = fbox.add('tabs_fullbox_back');
         close.click(function(e) {
             var fbox = $dom('tabs_fullbox');
+            fbox.find('tabs_fullbox_back').hide();
             var crt = $ctrls.get(fbox.attr('crtid'));
             var tbody = crt.obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');
             tbody.append(fbox.find('iframe'));
@@ -626,8 +627,10 @@
             window.setTimeout(function() {
                 $dom('tabs_fullbox').remove();
             }, 300);
-
         });
+        window.setTimeout(function() {
+            $dom('tabs_fullbox_back').show();
+        }, 500);
         //触发事件
         var data = obj.getData(tabid);
         obj.trigger('full', {

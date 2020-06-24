@@ -5,11 +5,9 @@
     transition: width 0.3s, height 0.3s;
 }
 
-.tabsbox>*,
-.tabsbox tabs_tagbox>* {
+.tabsbox>*, .tabsbox tabs_tagbox>* {
     display: block;
 }
-
 
 /*标签栏*/
 
@@ -27,7 +25,6 @@
     z-index: 1;
     border-bottom: 1px solid #aaa;
 }
-
 
 /*选项卡标签*/
 
@@ -128,7 +125,6 @@ tabs_tagbox tab_tag tagtxt {
     white-space: nowrap;
 }
 
-
 /*关闭按钮*/
 
 tabs_tagbox tab_tag close {
@@ -154,8 +150,7 @@ tabs_tagbox tab_tag close:before {
     content: "×";
 }
 
-tabs_tagbox tab_tag:hover close,
-tabs_tagboxtab_tag.tagcurr close {
+tabs_tagbox tab_tag:hover close, tabs_tagboxtab_tag.tagcurr close {
     display: block;
 }
 
@@ -194,7 +189,6 @@ tabs_tagbox tab_tag close:hover {
     transform: rotate(90deg);
     font-family: "webdesk_icon" !important;
 }
-
 
 /*内容区*/
 
@@ -259,7 +253,6 @@ tabs_tagbox tab_tag close:hover {
     font-family: "webdesk_icon" !important;
 }
 
-
 /*右侧按钮组*/
 
 .tabsbox tabs_body tabpace tabpath tabbar-btnbox {
@@ -291,7 +284,6 @@ tabs_tagbox tab_tag close:hover {
     left: 0px;
     width: 100%;
 }
-
 
 /*更多选项卡的盒子*/
 
@@ -384,7 +376,6 @@ tabs_morebox tab_tag close:before {
     font-family: "webdesk_icon" !important;
 }
 
-
 /*右键菜单*/
 
 .tabsbox tabs_contextmenu {
@@ -422,8 +413,7 @@ tabs_morebox tab_tag close:before {
     margin-right: 6px;
 }
 
-.tabsbox tabs_contextmenu>*.disable,
-.tabsbox tabs_contextmenu>*.disable::before {
+.tabsbox tabs_contextmenu>*.disable, .tabsbox tabs_contextmenu>*.disable::before {
     color: #ccc;
     pointer-events: none;
 }
@@ -453,7 +443,6 @@ tabs_morebox tab_tag close:before {
     background: #ddd;
 }
 
-
 /*刷新的菜单项*/
 
 .tabsbox tabs_contextmenu>menu_fresh:before {
@@ -481,13 +470,12 @@ tabs_morebox tab_tag close:before {
     content: '\e606';
 }
 
-
 /*最大化区域*/
 
 tabs_fullbox {
     position: absolute;
     z-index: 9999;
-    //background-color: rgba(255,0,0,.6);
+    --background-color: rgba(255, 0, 0, .6);
     background-color: #fff;
     display: none;
 }
@@ -497,16 +485,23 @@ tabs_fullbox iframe {
     height: 100%;
 }
 
+/*最大化返回按钮*/
+
 tabs_fullbox tabs_fullbox_back {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    right: 2px;
+    width: 100px;
+    height: 22px;
+    left: calc(100vw/2 - 50px);
     line-height: 20px;
     text-align: center;
-    top: 2px;
+    top: -19px;
     color: #fff;
+    background-color: rgb(139, 139, 139);
     cursor: pointer;
+    transform: perspective(.5em) rotateX(-5deg);
+    transform-origin: bottom;
+    transition: all .5s;
+    display: none;
 }
 
 tabs_fullbox tabs_fullbox_back:after {
@@ -515,25 +510,19 @@ tabs_fullbox tabs_fullbox_back:after {
     float: right;
     width: 20px;
     height: 20px;
+    font-size: 12px;
     border-radius: 2px;
     transition: all 0.5s;
-    background-color: rgba(255, 0, 0, 0.6);
     font-family: "webdesk_icon" !important;
-    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
 tabs_fullbox tabs_fullbox_back:hover {
-    width: 80px;
-    background-color: #fff;
+    background-color: rgb(19, 19, 19);
+    top: 0px;
 }
 
-tabs_fullbox tabs_fullbox_back:hover:before {
-    content: '还原';
-    font-size: 13px;
-    line-height: 20px;
-    color: red;
-}
-
-tabs_fullbox tabs_fullbox_back:hover:after {
-    transform: scale(1.1, 1.1)
+tabs_fullbox tabs_fullbox_back:before {
+    content: '退出满屏';
+    font-size: 10px;
+    line-height: 16px;
 }
