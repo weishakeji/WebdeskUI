@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Treemenu</title>
+    <script type="text/javascript" src="../admin/Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="../admin/Scripts/ctrls.js"></script>
+    <script type="text/javascript" src="../admin/Scripts/treemenu.js"></script>
+    <script type="text/javascript" src="../admin/Scripts/tabs.js"></script>
+    <link rel="stylesheet" type="text/css" href="../admin/Skins/win7/treemenu.css" />
+    <link rel="stylesheet" type="text/css" href="../admin/Skins/win7/tabs.css" />
+    <style type="text/css">
+    html,
+    body {
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background: url('Skins/win7/bg.jpg');
+        background-size: 100% 100%;
+        background-color: #444;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    h1 {
+        font-size: 25px;
+        color: #333;
+        margin: 0px;
+        display: block;
+        overflow: hidden;
+        height: 40px;
+        font-weight: 900;
+        white-space: nowrap;
+        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+    }
+
+    h1 span {
+
+        font-size: 15px;
+        margin-left: 20px;
+    }
+
+    h1 b:before {
+        content: "\a009";
+        font-size: 30px;
+        line-height: 40px;
+        margin-right: 10px;
+    }
+
+    a.home {
+        display: block;
+        width: 120px;
+        height: 40px;
+        line-height: 40px;
+        float: right;
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+    a.home:before {
+        content: "\a020";
+        font-size: 18px;
+        line-height: 40px;
+        margin-right: 2px;
+
+        font-family: "webdesk_icon" !important;
+    }
+
+    #space {
+        float: left;
+        background-color: yellow;
+        height: 200px;
+        width: 200px;
+        transition: width 0.3s, height 0.3s;
+    }
+
+    #treemenu-area {
+        z-index: 999;
+    }
+    </style>
+</head>
+
+<body oncontextmenu='self.event.returnValue=false'>
+    <div style="height: 40px; padding-left: 20px;">
+        <h1><b class="webdesk_icon"></b>Treemenu.js 树形菜单 <span>（无限树形分级，可折叠，可自定义节点样式）</span><a class='home' href="/">返回首页</a></h1>
+    </div>
+    <div style='margin: 10px;width: calc(100% - 20px);height: calc(100% - 20px - 40px);position: relative;'>
+        <div id="treemenu-area" style="float: left;"></div>
+        <div id="tabsbox" style="float: right;"></div>
+    </div>
+</body>
+<script type="text/javascript">
+var tree = $treemenu.create({
+    target: '#treemenu-area',
+    width: 100
+});
+var tabs = $tabs.create({
+    target: '#tabsbox',
+    width: 1,
+    default: { title: '启始页', path: '树形菜单,启始页', url: '../other/treemenu-1.html' }
+});
+//tabs.add({ title: '试用', url: '' });
+//tabs.add({title:'说明'});
+var data = {
+    title: '控件说明',
+    tit: '说明',
+    ico: 'e72f',
+    url: '',
+    type: '',
+    marker: '',
+    intro: '',
+    childs: [{
+        title: '功能简介',
+        url: 'other/treemenu-1.html',
+        intro: '基本功能简介'
+    }, {
+        title: '成员说明',
+        ico: 'a010',
+        childs: [{
+            title: '属性（超链接）',
+            ico: 'a025',
+            type:'link',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }]
+    },{
+        title:'数据源',
+        url: 'other/treemenu-3.html'
+    }],
+    id: 0,
+    pid: 0
+
+};
+tree.add(data);
+tree.add(data);
+
+tree.add({
+    title: '演示数据',
+    childs: [{
+        title: '二级菜单',
+        childs: [{
+            title: '三级菜单1'
+        }, {
+            title: '三级菜单2',
+            childs: [{
+                    title: '四级菜单1'
+                },
+                {
+                    title: '四级菜单2'
+                }
+            ]
+        }, {
+            title: '三级菜单3'
+        }]
+    }]
+});
+tree.watch({
+    'width': function(obj, val, old) {
+        console.log('宽度由：' + old + ' 变更为:' + val);
+    }
+});
+var size = function(s, e) {
+    console.log('treemenu的宽:' + e.width + '，高：' + e.height);
+    $dom('#tabsbox').width('calc(100% - ' + (e.width + 10) + 'px )');
+};
+tree.onresize(size);
+tree.width = 280;
+//折叠
+tree.onfold(function(s, e) {
+    if (e.action == 'fold') {
+        $dom('#tabsbox').width('calc(100% - ' + 50 + 'px )');
+    } else {
+        $dom('#tabsbox').width('calc(100% - ' + (s.width + 10) + 'px )');
+    }
+});
+tree.ondata(function(s,e){
+    //console.log('数据源变更：'+JSON.stringify(e.data));
+});
+//树形菜单，根节点切换事件
+tree.onchange(function(s, e) {
+    console.log(e.data.title);
+});
+//树形菜单节点点击事件
+tree.onclick(function(s, e) {
+    //var url = e.data.url ? e.data.url : '';
+    tabs.add(e.data);
+});
+//
+</script>
+
+</html>

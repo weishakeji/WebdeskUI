@@ -1,0 +1,73 @@
+[{
+    title: '主题皮肤',
+    ico: 'a044',
+    url: 'Skinsetup.html',
+    type: 'open',
+    width: 565,
+    height: 210,
+    id: 'Skinsetup'
+}, {
+    title: '夜间模式/日间模式',
+    ico: 'a032',
+    type:'event',
+    url:'window.$skins.switch()'
+
+},{
+    title: '夜间模式/日间模式',
+    ico: 'a032',
+    type:'hr',
+    url:'window.$skins.switch()'
+
+} , {
+    title: '开源协议',
+    ico: 'a034',
+    type: 'open',
+    url: 'pages//mit.html',
+    width: 620,
+    height: 350,
+    min: false,
+    max: false,
+    resize: false,
+    id: 'license_mit'
+}, {
+    title: '在线帮助',
+    ico: 'e72f',
+    childs: [{
+        title: '在线学习',
+        ico: 'a025',
+        intro: '成员属性的说明',
+        url: '../other/treemenu-2.html'
+    }, {
+        title: '问题反馈',
+        ico: 'a023',
+        url: 'other/treemenu-2.html'
+    }, {
+        title: '技术咨询',
+        ico: 'a024',
+        url: 'other/treemenu-2.html'
+    }, {
+        type: 'hr'
+    }, {
+        title: '代理'
+    }]
+},
+ {
+    title: '微厦科技',
+    ico: 'e77d',
+    url: 'http://www.weishakeji.net',
+    type: 'link'
+}, {
+    type: 'hr',
+
+}, {
+    title: '关于',
+    ico: 'a031',
+    url: 'pages/about.html',
+    type: 'open',
+    width: 600,
+    height: 400,
+    min: false,
+    max: false,
+    resize: false,
+    id: 'about'
+}]
