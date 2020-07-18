@@ -26,11 +26,11 @@
  		title: '功能特点',
  		ico: 'a023',
  		img: 'images/head1.jpg',
- 		url: 'other/treemenu-2.html'
+ 		url: '../other/treemenu-2.html'
  	}, {
  		title: '应用场景',
  		ico: 'a024',
- 		url: 'other/treemenu-2.html',
+ 		url: '../other/treemenu-2.html',
  		childs: [{
  			title: '大中专院校'
  		}, {
@@ -46,7 +46,7 @@
  }, {
  	title: '帮助',
  	ico:'a026',
- 	url: 'other/treemenu-3.html',
+ 	url: '../other/treemenu-3.html',
  	childs: [{
  		title: '查看帮助',
  		ico:'a026'

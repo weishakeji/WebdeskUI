@@ -15,23 +15,23 @@
                     {
             title: '功能介绍',
             ico: 'a023',
-            url: 'other/tabs-1.html'
+            url: '../other/tabs-1.html'
                     },
                     {
             title: '与弹窗互动',
             ico: 'e77c',
-            url: 'other/pagebox-2.html'
+            url: '../other/pagebox-2.html'
                     },
                     {
             title: '带帮助按钮',
             ico: 'e77c',
-            url: 'other/pagebox-2.html',
-            help:'other/pagebox-2.html'
+            url: '../other/pagebox-2.html',
+            help:'../other/pagebox-2.html'
                     },
                     {
             title: '成员说明',
             ico: 'a025',
-            url: 'other/tabs-2.html'
+            url: '../other/tabs-2.html'
                     }
                 ]
             },
@@ -70,7 +70,7 @@
                     {
             title: '成员说明',
             ico: 'e77c',
-            url: 'other/pagebox.html'
+            url: '../other/pagebox.html'
                     }
                 ]
             },
@@ -80,7 +80,7 @@
                     {
             title: '默认打开方式',
             intro: '默认在右侧tabs中打开',
-            url: 'other/treemenu-1.html'
+            url: '../other/treemenu-1.html'
                     },
                     {
             title: '超链接测试',
@@ -101,7 +101,7 @@
                     {
             title: '功能介绍',
             ico: 'a003',
-            url: 'dropmenu.html'
+            url: '../Ctrls/dropmenu.html'
                     }
                 ]
             },
@@ -131,7 +131,7 @@
     childs: [
             {
         title: '功能简介',
-        url: 'other/treemenu-1.html',
+        url: '../other/treemenu-1.html',
         intro: '基本功能简介'
             },
             {
@@ -141,23 +141,23 @@
                     {
             title: '属性',
             ico: 'a025',
-            url: 'other/treemenu-2.html'
+            url: '../other/treemenu-2.html'
                     },
                     {
             title: '方法',
             ico: 'a023',
-            url: 'other/treemenu-2.html'
+            url: '../other/treemenu-2.html'
                     },
                     {
             title: '事件',
             ico: 'a024',
-            url: 'other/treemenu-2.html'
+            url: '../other/treemenu-2.html'
                     }
                 ]
             },
             {
         title: '数据源',
-        url: 'other/treemenu-3.html'
+        url: '../other/treemenu-3.html'
             }
         ]
     }
