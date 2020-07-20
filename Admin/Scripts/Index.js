@@ -61,7 +61,7 @@ $dom.ctrljs(function () {
         plwidth: 120,
         level: 2000
     }).onclick(nodeClick);
-    $dom.get('datas/userinfo.json', function (req) {
+    $dom.get('panel/datas/userinfo.json', function (req) {
         usermenu.add(eval('(' + req + ')'));
     });
     //左上角下拉菜单
@@ -70,7 +70,7 @@ $dom.ctrljs(function () {
         //width: 280,
         id: 'main_menu'
     }).onclick(nodeClick);
-    $dom.get('datas/dropmenu.json', function (d) {
+    $dom.get('panel/datas/dropmenu.json', function (d) {
         drop.add(eval(d));
     });
     /*
@@ -101,7 +101,7 @@ function ready(loginbox) {
         var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
-    $dom.get('datas/treemenu.json', function (req) {
+    $dom.get('panel/datas/treemenu.json', function (req) {
         tree.add(eval(req));
     });
     //竖形工具条
@@ -111,7 +111,7 @@ function ready(loginbox) {
         width: 30,
         height: 'calc(100% - 35px)'
     }).onclick(nodeClick);
-    $dom.get('datas/vbar.json', function (req) {
+    $dom.get('panel/datas/vbar.json', function (req) {
         vbar.add(eval('(' + req + ')'));
     });
     //选项卡

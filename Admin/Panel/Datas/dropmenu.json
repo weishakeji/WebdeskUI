@@ -25,7 +25,7 @@
  	}, {
  		title: '功能特点',
  		ico: 'a023',
- 		img: 'images/head1.jpg',
+ 		img: 'panel/images/head1.jpg',
  		url: '../other/treemenu-2.html'
  	}, {
  		title: '应用场景',

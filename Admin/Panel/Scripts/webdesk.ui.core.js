@@ -783,7 +783,7 @@
         }
     };
     //项目路径
-    webdom.path = '/admin/';
+    webdom.path = '/admin/panel/';
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 

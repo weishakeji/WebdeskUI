@@ -3,7 +3,7 @@
 	url: 'other/treemenu-1.html',
 	intro: '当前登录的管理员',
 	ico: 'a020',
-	img: 'images/head1.jpg',
+	img: 'panel/images/head1.jpg',
 	font: {
 		bold: true
 	},
