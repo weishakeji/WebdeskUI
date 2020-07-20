@@ -828,9 +828,11 @@
     window.$dom.load.css([webdom.path + 'styles/public.css']);
     window.$dom.load.css(['/Utilities/ElementUi/index.css']);
     //加载自身相关的js或css  
-    var file = webdom.file();
-    window.$dom.load.css(['styles/' + file + '.css']);
-    window.$dom.load.js(['Scripts/' + file + '.js']);
+    if (webdom('head[resource]').length > 0) {
+        var file = webdom.file();
+        window.$dom.load.css(['styles/' + file + '.css']);
+        window.$dom.load.js(['Scripts/' + file + '.js']);
+    }
 })();
 
 
