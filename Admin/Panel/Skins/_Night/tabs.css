@@ -388,14 +388,14 @@ tabs_morebox tab_tag close:before {
     border: 1px solid #999;
     user-select: none;
 }
-
-.tabsbox tabs_contextmenu>*:not(hr) {
+.tabsbox tabs_contextmenu>*:not(hr), .tabsbox tabs_contextmenu a {
     display: block;
     font-size: 14px;
     height: 25px;
     line-height: 25px;
-    position: relative;
     color: #ddd;
+    position: relative;
+    text-decoration:none;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):before {
