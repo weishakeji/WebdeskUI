@@ -57,7 +57,7 @@
  		title: '开源协议',
  		ico:'a034',
  		type:'open',
- 		url:'pages/mit.html',
+ 		url:'help/mit.html',
  		width:620,
  		height:350,
  		min:false,
@@ -75,7 +75,7 @@
  	}, {
  		title: '关于',
  		ico: 'a031',
- 		url:'pages/about.html',
+ 		url:'help/about.html',
  		type:'open',
  		width:600,
  		height:400,

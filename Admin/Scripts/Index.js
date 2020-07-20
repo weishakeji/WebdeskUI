@@ -122,7 +122,7 @@ function ready(loginbox) {
         default: {
             title: '启始页',
             path: '树形菜单,启始页',
-            url: 'Pages/startpage.html',
+            url: 'Help/startpage.html',
             ico: 'a020'
         }
     });
