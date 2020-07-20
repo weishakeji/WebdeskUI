@@ -1,0 +1,87 @@
+﻿@charset "utf-8";
+/*特殊字体*/
+red{
+    color: red;
+    font-weight:bold;
+}
+/*表单行距*/
+
+.el-form-item {
+    margin-bottom: 10px !important;
+}
+
+/*表单*/
+
+.el-form {
+    margin: 20px;
+}
+
+.el-form-item__error {
+    right: 5px !important;
+    top: auto;
+    border-radius: 5px;
+    left: auto;
+    bottom: -8px !important;
+    width: auto !important;
+    background-color: #F56C6C;
+    color: yellow;
+    padding: 2px 5px 2px 5px !important;
+}
+
+/*消息框*/
+
+.el-message-box {
+    width: auto !important;
+    min-width: 200px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    right: 20px;
+}
+/*分页控件条的区域*/
+
+#pager-box {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .8);
+}
+/*顶部按钮条*/
+
+.toolsbar {
+    width: 100%;
+    background-color: rgba(255, 255, 255, .8);
+    border-bottom: 1px solid #DCDFE6;
+    height: 34px;
+    overflow: hidden;
+}
+
+.toolsbar .el-button {
+    border: none !important;
+}
+
+.btngroup{
+    display: table;
+    float: left;
+}
+.search-box{
+    float: right;   
+}
+.search-box form{
+    margin: 0px;
+    padding: 0px;
+}
+.search-box .el-input{  
+    margin: 0px !important;
+}
+.search-box input[type=text]{
+    height: 25px;
+    margin-top: 1px;  
+}
+.search-box button{
+    height: 25px;
+    margin-top: 1px;
+    padding: 5px 10px 5px 10px;
+}

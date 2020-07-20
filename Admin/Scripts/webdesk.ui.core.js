@@ -499,6 +499,14 @@
     webdom.trim = function (str) {
         return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
     };
+    //当前页面的文件名，不包括路径和后缀名
+    webdom.file = function () {
+        var href = window.location.href;
+        if (href.substring(href.length - 1) == '/') href = href.substring(0, href.length - 1);
+        if (href.indexOf('/') > 0) href = href.substring(href.lastIndexOf('/') + 1);
+        if (href.indexOf('.') > 0) href = href.substring(0, href.lastIndexOf('.'));
+        return href;
+    };
     //克隆对象
     webdom.clone = function (obj) {
         if (typeof obj == "object") {
@@ -776,12 +784,18 @@
     };
     //项目路径
     webdom.path = '/admin/';
-    //加载核心javascript文件
+    //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
-        var arr = ['ctrls', 'polyfill.min', 'axios_min', 'api'];
-        for (var t in arr) arr[t] = webdom.path + 'Scripts/' + arr[t] + '.js';
-        window.$dom.load.js(arr, f);
+        var arr = ['vue', 'polyfill.min', 'axios_min', 'api'];
+        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        arr.push(webdom.path + 'Scripts/ctrls.js');
+        window.$dom.load.js(arr, function () {
+            var arr2 = new Array();
+            arr2.push('/Utilities/ElementUi/index.js');
+            arr2.push('/Utilities/Scripts/vuecomponent.js');
+            window.$dom.load.js(arr2, f);
+        });
     };
     //加载组件所需的javascript文件
     webdom.ctrljs = function (f) {
@@ -794,13 +808,29 @@
     //加载必要的资源完成
     window.$ready = function (f) {
         webdom.ready(function () {
-            webdom.corejs(f);
+            webdom.corejs(f, function () {
+                //设置ElementUI的一些参数
+                Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+                window.setTimeout(function () {
+                    //关闭按钮的事件
+                    $dom('button.el-button--close').click(function () {
+                        if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
+                    });
+                }, 300);
+                //执行自定义方法
+                if (f != null) f();
+            });
         });
-    }
+    };
     //创建全局对象，方便调用
     window.$dom = webdom;
     window.$dom.load.css([webdom.path + 'styles/webdesk.ui.core.css']);
-
+    window.$dom.load.css([webdom.path + 'styles/public.css']);
+    window.$dom.load.css(['/Utilities/ElementUi/index.css']);
+    //加载自身相关的js或css  
+    var file = webdom.file();
+    window.$dom.load.css(['styles/' + file + '.css']);
+    window.$dom.load.js(['Scripts/' + file + '.js']);
 })();
 
 
