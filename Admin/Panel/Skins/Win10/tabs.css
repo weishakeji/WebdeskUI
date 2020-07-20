@@ -391,12 +391,14 @@ tabs_morebox tab_tag close:before {
     user-select: none;
 }
 
-.tabsbox tabs_contextmenu>*:not(hr) {
+.tabsbox tabs_contextmenu>*:not(hr), .tabsbox tabs_contextmenu a {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     height: 25px;
     line-height: 25px;
+    color: #666;
     position: relative;
+    text-decoration:none;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):before {
@@ -430,6 +432,7 @@ tabs_morebox tab_tag close:before {
     position: absolute;
     left: 2px;
     top: 2px;
+    z-index: -1;
     border-radius: 3px;
     background: rgba(161, 197, 247, 0.2);
     background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
