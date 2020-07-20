@@ -808,7 +808,7 @@
     //加载必要的资源完成
     window.$ready = function (f) {
         webdom.ready(function () {
-            webdom.corejs(f, function () {
+            webdom.corejs(function () {
                 //设置ElementUI的一些参数
                 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
                 window.setTimeout(function () {

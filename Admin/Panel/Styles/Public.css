@@ -1,4 +1,7 @@
 ﻿@charset "utf-8";
+[v-cloak]{
+    display: none;
+}
 /*特殊字体*/
 red{
     color: red;

@@ -134,9 +134,7 @@
             menu.add('menu_print').html('打印');
             menu.add('hr');
             menu.add('menu_full').html('最大化');
-            menu.add('menu_restore').html('还原').addClass('disable');
-            console.log(obj);
-
+            //menu.add('menu_restore').html('还原').addClass('disable');
             menu.add('menu_link').html('<a target=\'_blank\'>新窗体打开</a>');
             menu.add('hr');
             menu.add('menu_closeleft').html('关闭左侧');

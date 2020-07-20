@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>退出登录</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row>
+            <img src="../panel/images/head1.jpg" class="photo" />
+            <span class="accname" v-html="account.Acc_Name">(未登录)</span>
+        </el-row>
+        <el-row>
+
+            <el-button type="primary" @click="btnLogout">退出登录</el-button>
+
+            <el-button type="info" @click="btnCancel">返回</el-button>
+
+        </el-row>
+    </div>
+</body>
+
+</html>
