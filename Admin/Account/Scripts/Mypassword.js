@@ -49,23 +49,10 @@ $ready(function () {
             btnEnter: function (formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        $api.post('Admin/ChangePw', { 'oldpw': vue.form.oldpw, 'newpw': vue.form.newpw }).then(function (req) {
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                vue.$message({
-                                    type: 'success',
-                                    message: '修改成功!'
-                                });
-                                window.setTimeout(function () {
-                                    var name = $dom.trim(window.name);
-                                    if (window.top.$pagebox)
-                                        window.top.$pagebox.shut(name);
-                                }, 3000);
-                            } else {
-                                throw req.data.message;
-                            }
-                        }).catch(function (err) {
-                            vue.$alert(err, '错误');
+                        vue.$message({
+                            type: 'success',
+                            message: '修改成功!',
+                            center: true
                         });
                     } else {
                         console.log('error submit!!');

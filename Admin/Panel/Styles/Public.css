@@ -20,14 +20,14 @@ red{
 }
 
 .el-form-item__error {
-    right: 5px !important;
-    top: auto;
+    --right: 5px !important;
+    top: auto  !important;
     border-radius: 5px;
-    left: auto;
+    left: 8px  !important;
     bottom: -8px !important;
     width: auto !important;
-    background-color: #F56C6C;
-    color: yellow;
+    background-color: #F56C6C  !important;
+    color: yellow !important;
     padding: 2px 5px 2px 5px !important;
 }
 

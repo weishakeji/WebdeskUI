@@ -52,27 +52,16 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName) {
-                $api.post('Admin/Modify', { 'acc': vue.account }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
                         vue.$message({
                             type: 'success',
                             message: '修改成功!',
                             center: true
                         });
-                        /*
-                         window.setTimeout(function () {
-                            var name = $dom.trim(window.name);
-                            if (window.top.$pagebox)
-                                window.top.$pagebox.shut(name);
-                        }, 3000);
-                        */
-                    } else {
-                        throw req.data.message;
                     }
-                }).catch(function (err) {
-                    vue.$alert(err, '错误');
                 });
+
             },
             //名称转拼音
             pingyin: function () {
