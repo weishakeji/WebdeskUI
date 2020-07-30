@@ -271,7 +271,7 @@
         var mtag = this.domore.add('tab_tag');
         mtag.add('ico').html('&#x' + tab.ico);
         mtag.attr('tabid', tab.id);
-        mtag.add('tagtxt').html(tab.title);
+        mtag.add('tagtxt').html(tab.title).attr('title',tab.path.replace(/\,/g,">"));
         mtag.add('close');
         //添加内容区
         var space = this.dombody.add('tabpace');
