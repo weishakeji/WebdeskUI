@@ -71,6 +71,8 @@
             this.parent = parent.obj;
             parent.obj.childs.push(this);
         }
+        this.width = this._method.calcSize(this._width, 'width');
+        this.height = this._method.calcSize(this._height, 'height');
         //如果位置没有设置
         if (!this.top && this.bottom) this.top = document.documentElement.clientHeight - this.height - this.bottom;
         if (!this.top && !this.bottom) {
@@ -109,22 +111,28 @@
             if (box.dom) box.dom.find('iframe').attr('src', val);
         },
         'width': function (box, val, old) {
-            if (box.dom) box.dom.width(val);
+            var newval = box._method.calcSize(val, 'width');
+            if (box.dom) box.dom.width(newval);
         },
         'height': function (box, val, old) {
-            if (box.dom) box.dom.height(val);
+            var newval = box._method.calcSize(val, 'height');
+            if (box.dom) box.dom.height(newval);
         },
         'left': function (box, val, old) {
-            if (box.dom) box.dom.left(val);
+            var newval = box._method.calcSize(val, 'width');
+            if (box.dom) box.dom.left(newval);
         },
         'top': function (box, val, old) {
-            if (box.dom) box.dom.top(val);
+            var newval = box._method.calcSize(val, 'height');
+            if (box.dom) box.dom.top(newval);
         },
         'right': function (box, val, old) {
-            box.left = document.documentElement.clientWidth - box._width - val;
+            var newval = box._method.calcSize(val, 'height');
+            box.left = document.documentElement.clientWidth - box._width - newval;
         },
         'bottom': function (box, val, old) {
-            box.top = document.documentElement.clientHeight - box._height - val;
+            var newval = box._method.calcSize(val, 'height');
+            box.top = document.documentElement.clientHeight - box._height - newval;
         },
         'level': function (box, val, old) {
             if (box.dom) box.dom.level(val);
@@ -181,6 +189,26 @@
             }
         }
     };
+    //一些常用方法
+    fn._method = {
+        //计算尺寸
+        //size:width，height
+        calcSize: function (val, size) {
+            var newval = Number(val);
+            if (isNaN(newval)) {
+                //如果是百分比
+                if (String(val).charAt(String(val).length - 1) == '%') {
+                    if (size == 'width') newval = Math.floor(window.innerWidth * parseInt(val) / 100);
+                    if (size == 'height') newval = Math.floor(window.innerHeight * parseInt(val) / 100);
+                }
+                //如果是像素                
+                if (String(val).substring(String(val).length - 2) == 'px') {
+                    newval = parseInt(val);
+                }
+            }
+            return newval;
+        }
+    };
     //打开pagebox窗体，并触发shown事件 
     fn.open = function () {
         if (!this._isinit) this._initialization();
@@ -215,10 +243,10 @@
         this.print = this._print;
         this.close = this._close;
         this.resize = this._resize;
+        this.width = this._width;
+        this.height = this._height;
         this.left = this._left;
         this.top = this._top;
-        this.width = this._width - 2;
-        this.height = this._height - 2;
         this.trigger('shown');
         return this.focus();
     };
@@ -584,6 +612,9 @@
             doc.document.oncontextmenu = function () {
                 return false
             };
+        });
+        pbox.onshown(function (s, e) {
+            if (s.full) s.toFull(true);
         });
         return pbox;
     };
