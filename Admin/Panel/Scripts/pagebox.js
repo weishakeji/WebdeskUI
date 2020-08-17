@@ -640,7 +640,8 @@
     //获取已经存在窗体对象
     box.get = function (id) {
         var ctrl = $ctrls.get(id);
-        return ctrl.obj;
+        if (ctrl) return ctrl.obj;
+        return null;
     };
     //用于事件中，取点击的pagebox的对象
     box._getObj = function (e) {
@@ -1044,6 +1045,58 @@
             var mask = $dom('pagebox_bg_mask');
             if (mask.length < 1) return;
             mask.width(document.documentElement.clientWidth).height(document.documentElement.clientHeight);
+        }
+    };
+    //执行来源对象中的方法
+    box.source = {
+        //父级为选项卡时
+        //name:为当前窗体的window.name
+        //func:要执行的方法，必须是window下的
+        //close:是否关闭当前窗体
+        tab: function (name, func, close) {
+            name = $dom.trim(name);
+            //当前pagebox窗体对象
+            var currbox = box.get(name);
+            if (currbox == null) return;
+            //tabs.js标签页的页面区域
+            var iframe = $dom('iframe[name=' + currbox.pid + ']');
+            if (iframe.length > 0) {
+                var win = iframe[0].contentWindow;
+                //刷新父页面数据
+                if (win && func != null) {
+                    if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
+                    else {
+                        var f = eval('win.' + func);
+                        if (f != null) f();
+                    }
+                }
+            }
+            if (close) {
+                window.setTimeout(function () {
+                    $pagebox.shut(name);
+                }, 1000);
+            }
+
+        },
+        //父级为pagebox
+        box: function (name, func, close) {
+            name = $dom.trim(name);
+            var pbox = box.parent(name);
+            if (pbox == null) return;
+            var win = pbox.document();
+            //tabs.js标签页的页面区域
+            if (win && func != null) {
+                if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
+                else {
+                    var f = eval('win.' + func);
+                    if (f != null) f();
+                }
+            }
+            if (close) {
+                window.setTimeout(function () {
+                    $pagebox.shut(name);
+                }, 1000);
+            }
         }
     }
     win.$pagebox = box;
