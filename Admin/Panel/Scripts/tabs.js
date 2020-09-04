@@ -271,7 +271,7 @@
         var mtag = this.domore.add('tab_tag');
         mtag.add('ico').html('&#x' + tab.ico);
         mtag.attr('tabid', tab.id);
-        mtag.add('tagtxt').html(tab.title).attr('title',tab.path.replace(/\,/g,">"));
+        mtag.add('tagtxt').html(tab.title).attr('title', tab.path.replace(/\,/g, ">"));
         mtag.add('close');
         //添加内容区
         var space = this.dombody.add('tabpace');
@@ -589,6 +589,25 @@
         var ctrl = $ctrls.get(node.getAttribute('ctrid'));
         return ctrl.obj;
     };
+    //刷新标签下的iframe
+    tabs.fresh = function (tabname, func) {
+        //tabs.js标签页的页面区域
+        var iframe = $dom('iframe[name=' + tabname + ']');
+        if (iframe.length > 0) {
+            var win = iframe[0].contentWindow;
+            //刷新父页面数据
+            if (win && func != null) {
+                if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
+                else {
+                    var f = eval('win.' + func);
+                    if (f != null) f();
+                }
+            }
+            if (win && func == null) {
+                win.location.reload();
+            }
+        }
+    }
     //一些基础事件
     tabs._baseEvents = function () {
 

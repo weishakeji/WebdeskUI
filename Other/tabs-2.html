@@ -155,6 +155,26 @@
                 </td>
             </tr>
         </table>
+        <b>静态方法：</b>
+        <div>
+            <p>静态方法不用构建即可调用，例如window.$tabs.fresh('name')。</p>
+        </div>
+        <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="80px">方法</th>
+                <th scope="col" width="150px">说明</th>
+                <th scope="col" width="100px">参数</th>
+              
+            </tr>
+            <tr>
+                <td>fresh</td>
+                <td>刷新某个标签页的iframe内页，这个不限于某个tabs对象</td>
+                <td>name:标签的id<br/>
+                func:要调用的方法，如果为空，则调用location.reload()进行刷新</td>
+                
+            </tr>
+           
+        </table>
         <b>事件：</b>
         <div>
             <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
