@@ -5,32 +5,38 @@
 	<title></title>
 	<meta charset="utf-8">
 	<style type="text/css">
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
 
-html,body{
-	width: 100%;
-	height: 100%;
-	overflow:hidden;
-}
+		.bg {
 
-.bg{
-	
-    position: relative;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    overflow: hidden;
-    background: url(images/big-bg.jpg) no-repeat center top;
-    background-size: cover;
-}
-	</style>	 
-	 <script type="text/javascript" src="jquery.js"></script>
-	  <script type="text/javascript" src="canvas.js"></script>
+			position: relative;
+			width: 100%;
+			height: 100%;
+			z-index: 10;
+			overflow: hidden;
+			background: url(images/big-bg.jpg) no-repeat center top;
+			background-size: cover;
+		}
+
+		.bg canvas {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+
+
 </head>
 
 <body>
-	<div class="bg">		
-		<canvas id="canv" class="canv" width="1559" height="790"></canvas>
+	<div class="bg">
+		<canvas id="canv" class="canv"></canvas>
 	</div>
+	<script type="text/javascript" src="canvas.js"></script>
 </body>
 
 </html>
