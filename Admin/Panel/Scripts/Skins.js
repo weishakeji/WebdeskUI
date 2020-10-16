@@ -1,12 +1,12 @@
 /*
- 	风格管理
+	  风格管理
 */
 (function (window) {
 	//皮肤管理
 	var skins = function () {
 		this.night = false;
 		this.list = [];
-		this._list = ['win10', 'win7', 'chinese'];
+		this._list = ['education', 'win10', 'win7'];
 		this._night = '_Night'; //夜间模式
 		this._cookies = {
 			curr: 'WebdeskUI-admin-skin',
@@ -21,7 +21,7 @@
 		this.setup = function (name) {
 			$api.cookie(this._cookies.curr, name, { expires: 999 });
 			if (this.isnight()) this.switch();
-			this.trigger('change');			
+			this.trigger('change');
 			this.trigger('setup', {
 				skin: name
 			});
@@ -78,7 +78,7 @@
 		});
 	}
 	window.$skins = new skins();
-	window.$skins.onchange(function(s,e){
+	window.$skins.onchange(function (s, e) {
 		s.loadCss();
 	});
 	//加载风格信息

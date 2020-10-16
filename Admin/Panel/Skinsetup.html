@@ -9,6 +9,9 @@
     <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
     <script type="text/javascript" src="Scripts/ctrls.js"></script>
     <style type="text/css">
+    html,body{
+        overflow: hidden;
+    }
     skin {
         display: block;
         margin: 15px 0 15px 15px;
@@ -51,7 +54,9 @@
         content: '* ';
         color: red;
     }
-
+    skin.curr{
+        box-shadow: 2px 2px 3px 3px rgba(180, 180, 180, 0.3), -2px -2px 3px 3px rgba(180, 180, 180, 0.3);
+    }
     skin.curr name {
         color: green;
         font-weight: bold;
