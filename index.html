@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WebdeskUI.首页</title>
     <link rel="stylesheet" type="text/css" href="admin/panel/styles/webdesk.ui.core.css" />
-   
+
     <style type="text/css">
         html,
         body {
@@ -15,49 +15,50 @@
             color: #333;
             margin: 0px;
             padding: 0px;
-            background-image: linear-gradient(#b1deff, #10a0ea);
+
+            background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
         }
-        
+
         body>*:not(:first-child) {
             width: 1000px;
             margin: 0px auto 0px auto;
         }
-        
+
         h1 {
             font-size: 60px;
             color: #fff;
             text-shadow: .2rem 0rem 1.2rem rgba(150, 150, 150, 1), -.2rem 0rem 1.2rem rgba(150, 150, 150, 1), 0rem .2rem 1.2rem rgba(150, 150, 150, 1), 0rem -.2rem 1.2rem rgba(150, 150, 150, 1);
         }
-        
+
         a {
             text-decoration: none;
             color: #333;
             transition: all .5s;
         }
-        
+
         a:hover {
             text-decoration: underline;
         }
-        
+
         p {
             text-align: left;
             text-indent: 2em;
         }
-        
+
         header {
             background-color: #1B9AF7;
             height: 40px;
             line-height: 40px;
-            box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 1px #0880d7, 0 1px 1px rgba(0, 0, 0, 0.3);
             text-shadow: 1px 1px 2px #666;
             color: #fff;
         }
-        
+
         header>div {
             width: 1000px;
             margin: 0px auto 0px auto;
         }
-        
+
         header i {
             font-family: "webdesk_icon" !important;
             font-style: normal;
@@ -65,101 +66,127 @@
             font-size: 20px;
             margin-right: 10px;
         }
-        
+
         header a {
             display: block;
             float: right;
             transition: all .5s;
             margin-left: 20px;
         }
-        
+
         header a:hover,
         header a:hover * {
             text-decoration: none;
             --color: rgba(200, 0, 0, .9);
             transform: scale(1.1);
         }
-        
+
         header .title {
             display: block;
+            height: 20px;
+            margin-top: 5px;
             width: auto;
+            padding: 5px;
             float: left;
-            font-size: 25px;
-            line-height: 40px;
+            font-size: 20px;
+            line-height: 20px;
             color: #eee !important;
+            background-color: #ffb83c;
+            border-radius: 3px;
+            box-shadow: 0px 1px 2px #fff, 1px 0px 2px #fff;
         }
-        
+
         header .title i {
-            font-size: 40px;
+            font-size: 30px;
             font-weight: normal;
-            line-height: 40px;
+            line-height: 20px;
             float: left;
         }
-        
+
         .intro p {
             font-size: 20px;
             line-height: 35px;
         }
-        
+
         .items {
             width: 900px !important;
             display: flex;
             flex-direction: row;
             margin-bottom: 20px !important;
         }
-        
-        .items dl {
-            margin: 0px 2% 0px 0px;
-            float: left;
-            border: solid 1px #ccc;
-            padding: 0px;
-            min-height: 300px;
-            position: relative;
-            transform: all .5s;
-            box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
-            cursor: default;
-            flex: 1;
-        }
-        
-        .items dl:last-child {
-            margin-right: 0px;
-        }
-        
-        dl:hover {
-            background-color: #eee;
-            background-image: linear-gradient(#b1dcfb, #1B9AF7);
-            box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
-        }
-        
-        .items dl:child-last {
-            margin: 0px;
-        }
-        
+
         dt,
         dd {
             margin: 0px;
             padding: 0px;
         }
-        
-        .items dl dt {
-            font-size: 20px;
-            line-height: 35px;
+
+        .items dl {
+            margin: 0px 2% 0px 0px;
+            float: left;
+            border: solid 1px #ccc;
+            padding: 0px;
+            min-height: 250px;
+            position: relative;
+            transform: all .5s;
+            box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
+            cursor: default;
+            flex: 1;
+            border-radius: 3px;
+            transition: all .5s;
         }
-        
+
+        .items dl:last-child {
+            margin-right: 0px;
+        }
+
+        dl:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.04);
+            box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
+        }
+
+        .items dl:child-last {
+            margin: 0px;
+        }
+
+
         dt {
             border-bottom: solid 1px #ccc;
-            box-shadow: 0 3px 0 #81c5f7;
-            box-shadow: rgb(255, 255, 255) 0px 0px 18px inset;
-            background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
+            position: relative;
+            height: 40px;
+            padding-top: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 16px;
+            line-height: 35px;
         }
-        
-        dt i {
+
+        dt::before {
+            content: attr(icon);
             font-family: "webdesk_icon" !important;
             font-style: normal;
             color: #666;
             font-size: 25px;
+            display: block;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 0px;
+            left: 5px;
         }
-        
+
+        dt::after {
+            content: attr(name);
+            font-family: "webdesk_icon" !important;
+            font-style: normal;
+            color: #666;
+            font-size: 16px;
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: 40px;
+        }
+
         dd {
             text-align: left;
             padding: 5px;
@@ -167,7 +194,7 @@
             font-size: 14px;
             counter-increment: item;
         }
-        
+
         dd:before {
             content: counter(item)".";
             display: block;
@@ -175,48 +202,29 @@
             margin-right: 10px;
             margin-left: -25px;
         }
-        
-        dl a.btn {
-            display: block;
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            width: 100%;
-            height: 35px;
-            line-height: 35px;
-            background-color: rgba(200, 200, 200, 0.3);
-            text-decoration: none;
-            color: #333;
-            box-shadow: rgb(255, 255, 255) 0px 0px 5px inset;
-            --background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .6), rgba(255, 255, 255, .2));
-        }
-        
-        dl a:hover {
-            text-decoration: underline;
-        }
-        
+
         .footer {
             width: 100% !important;
             margin-bottom: 50px;
-            background-color: #0880d7;
+            background-color: #3da5f1;
             padding: 20px 0px 20px 0px;
             color: #fff !important;
-            box-shadow: 0px -3px 0 #1B9AF7, 0px -3px 3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px -3px 1px #69bffc, 0px -3px 3px rgba(0, 0, 0, 0.3);
         }
-        
+
         .footer .company {
             font-size: 20px;
         }
-        
+
         .footer * {
             text-align: center;
             color: #fff !important;
         }
-        
+
         svg {
             margin-right: 5px;
         }
-        
+
         #adminbtn {
             display: block;
             width: 200px;
@@ -236,7 +244,7 @@
             transform: background-color .2s;
             margin: 20px auto 30px auto;
         }
-        
+
         #adminbtn:before {
             content: '\a010';
             font-family: "webdesk_icon" !important;
@@ -252,7 +260,7 @@
             border-right: solid 1px #ccc;
             box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.3);
         }
-        
+
         #adminbtn:hover {
             background-color: #3ea9f7;
             box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
@@ -264,12 +272,22 @@
     <header>
         <div>
             <div class="title"><i>&#xe77d</i>WebdeskUI</div>
-            <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=766ec248e65a3c25a090fc112eaf8319a8f0bd8e4a5d8e51f202af385f809ad9"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="WebdeskUI交流" title="WebdeskUI交流" style="margin-top:10px;" /></a>
-            <a href="https://github.com/weishakeji/WebdeskUI/blob/master/LICENSE" target="_blank"><svg height="16" viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z"></path>
+            <a target="_blank"
+                href="//shang.qq.com/wpa/qunwpa?idkey=766ec248e65a3c25a090fc112eaf8319a8f0bd8e4a5d8e51f202af385f809ad9"><img
+                    border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="WebdeskUI交流" title="WebdeskUI交流"
+                    style="margin-top:10px;" /></a>
+            <a href="https://github.com/weishakeji/WebdeskUI/blob/master/LICENSE" target="_blank"><svg height="16"
+                    viewBox="0 0 14 16" version="1.1" width="16" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z">
+                    </path>
                 </svg>MIT开源协议</a>
-            <a href="https://github.com/weishakeji/WebdeskUI" target="_blank"><svg class="octicon octicon-mark-github v-align-middle" height="16" viewBox="0 0 16 16" version="1.1" width="16" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            <a href="https://github.com/weishakeji/WebdeskUI" target="_blank"><svg
+                    class="octicon octicon-mark-github v-align-middle" height="16" viewBox="0 0 16 16" version="1.1"
+                    width="16" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                    </path>
                 </svg>Github开源库</a>
         </div>
     </header>
@@ -278,56 +296,66 @@
     </div>
     <div class="intro">
         <p>WebdeskUI，这个名字是我随便取的，可能会和别人重名吧。仓促写起，堆砌而成，懒得起名了。</p>
-        <p>原本没有打算自己写UI，毕竟开源且免费的UI库太多了，不过没有找到满足我需求的。有一些比较牛逼的，但不免费。考虑到产品开发和应用，不希望将来在版权上受制于人，还是自己写吧。由于精力有限，我只考虑写一些主要的控件。</p>
+        <p>原本没有打算自己写UI，毕竟开源且免费的UI库太多了，不过没有找到满足我需求的。有一些比较牛逼的，但不免费。考虑到产品开发和应用，不希望将来在版权上受制于人，还是自己写吧。由于精力有限，我只考虑写一些主要的控件。
+        </p>
         <p>其实我的需求并不复杂——我只是不希望我的B/S架构的管理系统看起来像个网页！</p>
     </div>
     <a id="adminbtn" href="admin/index.html">
         后台管理模板
     </a>
     <div class="items">
-        <dl>
-            <dt><i>&#xe77c</i> pagebox<br />弹窗</dt>
+        <dl href="ctrls/pagebox.html">
+            <dt icon='&#xe77c' name='pagebox'>弹窗</dt>
             <dd>可拖放，可缩放，模拟桌面窗体</dd>
             <dd>父子窗体可互动</dd>
             <dd>事件多播，可添加可移除</dd>
             <dd>双向绑定，属性可监听</dd>
-            <a class="btn" href="ctrls/pagebox.html" target="_blank">查看演示</a>
         </dl>
-        <dl>
-            <dt><i>&#xa004</i> tabs<br />选项卡</dt>
+        <dl href="ctrls/tabs.html">
+            <dt icon='&#xa004' name='tabs'>选项卡</dt>
             <dd>选项卡无限增加</dd>
             <dd>鼠标滚轴切换选项卡</dd>
             <dd>支持鼠标右键关闭</dd>
             <dd>可全屏操作</dd>
-            <a class="btn" href="ctrls/tabs.html" target="_blank">查看演示</a>
         </dl>
-        <dl>
-            <dt><i>&#xa009</i> treemenu<br />树形菜单</dt>
+        <dl href="ctrls/treemenu.html">
+            <dt icon='&#xa009' name='treemenu'>树形菜单</dt>
             <dd>无限级菜单划分</dd>
             <dd>可折叠、可自定义节点样式</dd>
             <dd>事件自定义</dd>
-            <a class="btn" href="ctrls/treemenu.html" target="_blank">查看演示</a>
         </dl>
-        <dl>
-            <dt><i>&#xa005</i> dropmenu<br />下拉菜单</dt>
+        <dl href="ctrls/dropmenu.html">
+            <dt icon='&#xa005' name='dropmenu'>下拉菜单</dt>
             <dd>无限级菜单下拉</dd>
             <dd>可折叠、可自定义节点样式</dd>
             <dd>事件自定义</dd>
             <dd>数据源双向绑定</dd>
-            <a class="btn" href="ctrls/dropmenu.html" target="_blank">查看演示</a>
         </dl>
     </div>
     <div class="items" style="text-align: left;margin: 0px auto 0px auto;">
-        其它控件：<a href='ctrls/verticalbar.html' target="_blank">竖形工具条</a>&nbsp;<a href='ctrls/timer.html' target="_blank">时间显示</a>&nbsp;<a href='ctrls/login.html' target="_blank">登录</a>
+        其它控件：<a href='ctrls/verticalbar.html' target="_blank">竖形工具条</a>&nbsp;<a href='ctrls/timer.html'
+            target="_blank">时间显示</a>&nbsp;<a href='ctrls/login.html' target="_blank">登录</a>
     </div>
     <div class="footer">
-        <p class="company"> <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">郑州微厦计算机科技有限公司 </a></p>
+        <p class="company"> <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">郑州微厦计算机科技有限公司
+            </a></p>
         <div>
             <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">Poweredby
                 Weishakeji.net</a> </div>
         <a href="http://www.miibeian.gov.cn" target="_blank">豫ICP备14012443号-3</a>
     </div>
     <script type="text/javascript">
+        var nodes = document.querySelectorAll(".items dl");
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].addEventListener('click', function (event) {
+                var node = event.target ? event.target : event.srcElement;
+                while (node.nodeName != 'DL') node = node.parentNode;
+                var href = node.getAttribute('href');
+                if (href != '' && href != null)
+                    document.location.href = href;
+            }, true);
+        }
+
     </script>
 </body>
 
