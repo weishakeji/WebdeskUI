@@ -85,7 +85,7 @@
                     {
             title: '超链接测试',
             type: 'link',
-            url: 'http: //www.weishakeji.net'
+            url: 'http://www.weishakeji.net'
                     },
                     {
             title: '脚本执行测试',
