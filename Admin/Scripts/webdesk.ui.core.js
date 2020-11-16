@@ -441,27 +441,35 @@
         return new webdom(arr);
     }
     //绑定事件
-    fn.bind = function (event, func, useCapture) {
-        this.each(function () {
-            this.addEventListener(event, func, useCapture);
-            if (event == 'click') {
-                var iframe = this.querySelector('iframe');
-                if (iframe) {
-                    webdom.IframeOnClick.track(iframe, function (sender, boxid) {
-                        sender.click();
-                    });
+    fn.bind = function (events, func, useCapture) {
+        var arr = events.split(',');
+        for (var i = 0; i < arr.length; i++) {
+            var event = arr[i];
+            this.each(function () {
+                this.addEventListener(event, func, useCapture);
+                if (event == 'click') {
+                    var iframe = this.querySelector('iframe');
+                    if (iframe) {
+                        webdom.IframeOnClick.track(iframe, function (sender, boxid) {
+                            sender.click();
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
         return this;
     };
     //触发事件
-    fn.trigger = function (event) {
-        this.each(function () {
-            var eObj = document.createEvent('HTMLEvents');
-            eObj.initEvent(event, true, false);
-            this.dispatchEvent(eObj);
-        });
+    fn.trigger = function (events) {
+        var arr = events.split(',');
+        for (var i = 0; i < arr.length; i++) {
+            var event = arr[i];
+            this.each(function () {
+                var eObj = document.createEvent('HTMLEvents');
+                eObj.initEvent(event, true, false);
+                this.dispatchEvent(eObj);
+            });
+        }
         return this;
     };
     //若含有参数就注册事件，无参数就触发事件
@@ -620,6 +628,9 @@
         } else if (e.clientX || e.clientY) {
             x = e.clientX;
             y = e.clientY;
+        } else if (e.touches[0]) {
+            x = e.touches[0].clientX;
+            y = e.touches[0].clientY;
         }
         return {
             'x': x,

@@ -124,6 +124,7 @@
     width: calc(100% - 40px);
     --flex: 1;
     border-radius: 2px;
+    background-color: rgba(255, 255, 255, .3);
 }
 
 .loginbox .login_body>* {
@@ -142,8 +143,7 @@
     text-align: center;
     font-size: 22px;
     float: left;
-    color: #999;
-    background-color: rgba(255, 255, 255, .5);
+    color: #999;    
 }
 
 .loginbox .login_body .login_user:before {
@@ -165,7 +165,7 @@
     float: right;
     text-indent: 10px;
     font-size: 18px;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: transparent;
 }
 
 .loginbox .login_body>* input:focus {

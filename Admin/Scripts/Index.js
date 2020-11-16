@@ -47,7 +47,7 @@ $dom.ctrljs(function () {
     });
     window.login.onsubmit(function (s, e) {
         s.loading = true;
-        ready(s);
+        if (s.success) ready(s);
 
     });
     if (window.login.success) {
@@ -155,7 +155,7 @@ function ready(loginbox) {
     });
 };
 /*
-	事件
+    事件
 */
 //节点点击事件，tree,drop,vbar统一用这一个
 function nodeClick(sender, eventArgs) {
