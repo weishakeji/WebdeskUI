@@ -46,6 +46,10 @@
         tips: '请输入4位数字'
     }]);
 ```
+## 控件说明
+* Pagebox.js 页面窗体
+   * 可拖放，可缩放，模拟windows桌面窗体
+   * 可上溯父级，遍历下级，父子窗体可互动
 
 ## 开源地址：
 * GitHub ：<a href="https://github.com/weishakeji/WebdeskUI" target="_blank">https://github.com/weishakeji/WebdeskUI</a> 
