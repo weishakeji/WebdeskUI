@@ -47,7 +47,7 @@
     }]);
 ```
 ## 控件说明
-* Pagebox.js 页面窗体 <a href="https://github.com/weishakeji/WebdeskUI" target="_blank">`演示`</a>
+* Pagebox.js 页面窗体 <a href="http://webdesk.weisha100.cn/ctrls/pagebox.html" target="_blank">`演示`</a>
    * 可拖放，可缩放，模拟windows桌面窗体
    * 可上溯父级，遍历下级，父子窗体可互动
 
