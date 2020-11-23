@@ -10,17 +10,14 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-window.onload = function () {
-    /*window.$skins.loadCss(function(){
-        console.log('初始加载css');
-        
-    });*/
-    //禁用iframe中的右键菜单
-    $dom('iframe').each(function () {
-        var doc = this.contentDocument.body;
-        doc.setAttribute('oncontextmenu', "javascript:return false;");
-    });
-};
+
+//数据源
+var datasource = {
+    drop: 'panel/datas/dropmenu.json',
+    user: 'panel/datas/userinfo.json',
+    vbar: 'panel/datas/vbar.json',
+    tree: 'panel/datas/treemenu.json'
+}
 //加载组件所需javascript文件完成后
 $dom.ctrljs(function () {
     window.login = $login.create({
@@ -28,7 +25,7 @@ $dom.ctrljs(function () {
         //width: '320px',
         title: '微厦在线学习系统',
         company: '微厦科技',
-        success: true,   //登录验证成功
+        success: true,   //默认登录验证的状态，成功登录
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
     });
@@ -42,12 +39,10 @@ $dom.ctrljs(function () {
         regex: /^\d{4}$/,
         tips: '请输入4位数字'
     }]);
-    window.login.ondragfinish(function (s, e) {
-
-    });
     window.login.onsubmit(function (s, e) {
         s.loading = true;
         if (s.success) ready(s);
+    }).ondragfinish(function (s, e) {
 
     });
     if (window.login.success) {
@@ -61,7 +56,7 @@ $dom.ctrljs(function () {
         plwidth: 120,
         level: 2000
     }).onclick(nodeClick);
-    $dom.get('panel/datas/userinfo.json', function (req) {
+    $dom.get(datasource.user, function (req) {
         usermenu.add(eval('(' + req + ')'));
     });
     //左上角下拉菜单
@@ -70,18 +65,9 @@ $dom.ctrljs(function () {
         //width: 280,
         id: 'main_menu'
     }).onclick(nodeClick);
-    $dom.get('panel/datas/dropmenu.json', function (d) {
+    $dom.get(datasource.drop, function (d) {
         drop.add(eval(d));
     });
-    /*
-    drop.ondata(function (s, e) {
-        window.setTimeout(function () {
-            var left = $dom('#dropmenu-area').width() + 10;
-            console.log('dropmenu:' + left);
-            $dom('#headbar').css('opacity', 1).left(left);
-            $dom('#headbar').width('calc(100% - ' + left + 'px - ' + (100) + 'px)');
-        }, 1000);
-    });*/
 });
 
 function ready(loginbox) {
@@ -101,7 +87,7 @@ function ready(loginbox) {
         var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
     }).onclick(nodeClick);
-    $dom.get('panel/datas/treemenu.json', function (req) {
+    $dom.get(datasource.tree, function (req) {
         tree.add(eval(req));
     });
     //竖形工具条
@@ -111,7 +97,7 @@ function ready(loginbox) {
         width: 30,
         height: 'calc(100% - 35px)'
     }).onclick(nodeClick);
-    $dom.get('panel/datas/vbar.json', function (req) {
+    $dom.get(datasource.vbar, function (req) {
         vbar.add(eval('(' + req + ')'));
     });
     //选项卡
@@ -264,3 +250,10 @@ function tabsChange(sender, eventArgs) {
     }
 
 }
+//禁用iframe中的右键菜单
+window.addEventListener('load', function () {
+    $dom('iframe').each(function () {
+        var doc = this.contentDocument.body;
+        doc.setAttribute('oncontextmenu', "javascript:return false;");
+    });
+});
