@@ -7,43 +7,45 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年2月1日
- * 最后修订：2020年2月28日
+ * 最后修订：2020年11月23日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
 
 //数据源
 var datasource = {
-    drop: 'panel/datas/dropmenu.json',
-    user: 'panel/datas/userinfo.json',
-    vbar: 'panel/datas/vbar.json',
-    tree: 'panel/datas/treemenu.json'
-}
+    drop: 'panel/datas/dropmenu.json',  //左上角，下拉菜单
+    user: 'panel/datas/userinfo.json',  //右上角，个人信息管理    
+    tree: 'panel/datas/treemenu.json',  //左侧，树形导航菜单
+    vbar: 'panel/datas/vbar.json'       //右侧，竖形工具条
+};
 //加载组件所需javascript文件完成后
 $dom.ctrljs(function () {
     //登录框的构建
-    var login = $login.create({
+    $login.create({
         target: '#login-area',
         //width: '320px',
         title: '微厦在线学习系统',
         company: '微厦科技',
-        success: true,   //默认登录验证的状态，成功登录
+        success: true,   //默认登录验证的状态，如果为true,则直接跳过登录
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
     }).onload(function (s, e) {  //加载后，判断是否为登录状态
+        /* 此处可编写：判断是否为已经登录的状态 */
         if (s.success) {
             s.loading = true;
             ready(s);
         }
+    }).ondragfinish(function (s, e) {
+        /* 此处可编写：当拖动滑块后，加载验证码图片 */
     }).onsubmit(function (s, e) {   //提交事件
         s.loading = true;
+        /* 此处可编写：登录校验相关代码 */
         if (s.success) ready(s);
     }).verify([{            //自定义验证
-        'ctrl': 'user',
-        'regex': /^[a-zA-Z0-9_-]{4,16}$/,
-        'tips': '长度不得小于4位大于16位'
+        ctrl: 'user', regex: /^[a-zA-Z0-9_-]{4,16}$/,
+        tips: '长度不得小于4位大于16位'
     }, {
-        ctrl: 'vcode',
-        regex: /^\d{4}$/,
+        ctrl: 'vcode', regex: /^\d{4}$/,
         tips: '请输入4位数字'
     }]);
 
@@ -80,7 +82,7 @@ function ready(loginbox) {
         loginbox.loading = false;
     }, 1000);
     //树形菜单
-    var tree = $treemenu.create({
+    $treemenu.create({
         target: '#treemenu-area',
         width: 200
     }).onresize(function (s, e) { //当宽高变更时
@@ -108,7 +110,7 @@ function ready(loginbox) {
 
     //选项卡
     window.tabsContent = $tabs.create({
-        target: '#tabs-area',     
+        target: '#tabs-area',
         //nowheel: true,
         default: {
             title: '启始页',
