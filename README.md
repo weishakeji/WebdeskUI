@@ -12,6 +12,13 @@
 
 > 同类软件有很多，但免费的太弱鸡，功能强的要收费。为了满足自身需求，同时不希望在版权上受制于人，趁春节疫情期间，就自己写了。
 
+## 控件说明
+* Pagebox.js 页面窗体 <a href="http://webdesk.weisha100.cn/ctrls/pagebox.html" target="_blank">`演示`</a>
+   * 可拖放，可缩放，模拟windows桌面窗体
+   * 可上溯父级，遍历下级，父子窗体可互动
+* Treemenu.js 树形菜单 <a href="http://webdesk.weisha100.cn/ctrls/treemenu.html" target="_blank">`演示`</a>
+   * 无限级菜单，可折叠，可自定义节点样式
+   * 节点事件自定义 
 ## 使用说明：
 > 该管理面板只提供了一些常用控件，内页采用iFrame嵌套；内页可以采用其它前端框架，例如我们产品采用了ElementUI。
 
@@ -46,10 +53,6 @@
         tips: '请输入4位数字'
     }]);
 ```
-## 控件说明
-* Pagebox.js 页面窗体 <a href="http://webdesk.weisha100.cn/ctrls/pagebox.html" target="_blank">`演示`</a>
-   * 可拖放，可缩放，模拟windows桌面窗体
-   * 可上溯父级，遍历下级，父子窗体可互动
 
 ## 开源地址：
 * GitHub ：<a href="http://webdesk.weisha100.cn/ctrls/pagebox.html" target="_blank">https://github.com/weishakeji/WebdeskUI</a> 
