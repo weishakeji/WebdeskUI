@@ -23,7 +23,18 @@
    * 选项卡无限增加、鼠标滚轴切换选项卡，支持鼠标右键关闭，关闭左侧、关闭右侧；可全屏化；
    * 选项卡切换时，关联的pagebox同步最小化或还原（通过onchange触发）
    * 可打印内页，带帮助按钮（数据源中help值关联帮助内容）
-   
+* Dropmenu.js 下拉菜单  <a href="http://webdesk.weisha100.cn/ctrls/dropmenu.html" target="_blank">`演示`</a>
+  * 支持无限级菜单分类
+  * 可自定义节点样式，例如：粗体、斜体、颜色
+* Login.js 登录框   <a href="http://webdesk.weisha100.cn/ctrls/login.html" target="_blank">`演示`</a>
+  * 支持手式滑动验证
+  * 支持图片验证码(需要调用服务端)
+* Verticalbar.js 竖形工具条   <a href="http://webdesk.weisha100.cn/ctrls/verticalbar.html" target="_blank">`演示`</a>
+  * 用于页面左侧或右侧的工具条
+* Timer.js 定时器   <a href="http://webdesk.weisha100.cn/ctrls/timer.html" target="_blank">`演示`</a>
+  * 功能比较简单，只是显示时间，另外带了一个时间格式的方法
+  * 可以设置初始时间，例如采用服务器端时间
+  
 ## 使用说明
 > 该管理面板只提供了一些常用控件，内页采用iFrame嵌套；内页可以采用其它前端框架，例如我们产品采用了ElementUI。
 
