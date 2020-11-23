@@ -515,6 +515,29 @@
         if (href.indexOf('.') > 0) href = href.substring(0, href.lastIndexOf('.'));
         return href;
     };
+    webdom.relativeDir = function (relative, absolute) {
+        var rela = relative.split('/');
+        rela.shift();
+        var abso = absolute.split('/');
+        abso.shift();
+        var num = 0;
+        for (var i = 0; i < rela.length; i++) {
+            if (rela[i] === abso[i]) {
+                num++;
+            } else {
+                break;
+            }
+        }
+        rela.splice(0, num);
+        abso.splice(0, num);
+        var str = '';
+        for (var j = 0; j < abso.length - 1; j++)
+            str += '../';
+        if (!str) str += './';
+        str += rela.join('/');
+        return str;
+    }
+
     //克隆对象
     webdom.clone = function (obj) {
         if (typeof obj == "object") {
@@ -800,7 +823,11 @@
         //要加载的js 
         var arr = ['vue', 'polyfill.min', 'axios_min', 'api'];
         for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
-        arr.push(webdom.path + 'Scripts/ctrls.js');
+        //当前路径转换为相对路径
+        var path = window.location.pathname;
+        if (path.indexOf('/') > -1) path = path.substring(0, path.lastIndexOf('/') + 1);
+        var dir = webdom.relativeDir(webdom.path, path);
+        arr.push(dir + 'Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
             var arr2 = new Array();
             arr2.push('/Utilities/ElementUi/index.js');
