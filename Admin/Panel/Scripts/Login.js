@@ -38,8 +38,8 @@
         for (var t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
-        //layout:布局完成; resize:改变大小；dragfinish:拖动完成; full:标签项全屏
-        eval($ctrl.event_generate(['layout', 'resize', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
+        //load:布局完成; resize:改变大小；dragfinish:拖动完成; full:标签项全屏
+        eval($ctrl.event_generate(['load', 'resize', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
         //以下不支持双向绑定
         this.dom = null; //控件的html对象
         this.domtit = null; //控件标签栏部分的html对象
@@ -179,12 +179,11 @@
         }
         var th = this;
         window.setTimeout(function () {
-            th.trigger('layout', {
+            th.trigger('load', {
                 'target': th.dom,
                 'data': th.attrs
             });
-        }, 200);
-
+        }, 200);        
         return this;
     };
     fn._builder = {
@@ -394,6 +393,7 @@
             regex: regex,
             tips: tips
         });
+        return this;
     };
     //显示提示框
     fn.tips = function (ctrl, success, msg) {
@@ -413,7 +413,7 @@
     *****/
     login.create = function (param) {
         if (param == null) param = {};
-        var obj = new login(param);
+        var obj = new login(param);       
         //当输入更改时
         obj.onchange(function (s, e) {
             if (e.action == 'user') s._user = e.value;

@@ -10,9 +10,9 @@
  * 最后修订：2020年2月4日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-(function(win) {
-	var treemenu = function(param) {
-		if (param == null || typeof(param) != 'object') param = {};
+(function (win) {
+	var treemenu = function (param) {
+		if (param == null || typeof (param) != 'object') param = {};
 		this.attrs = {
 			target: '', //所在Html区域			
 			width: '100%',
@@ -25,7 +25,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//fold,折叠或展开;data，数据源变化时; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['fold', 'data', 'change', 'resize', 'click']));
+		eval($ctrl.event_generate(['load', 'fold', 'data', 'change', 'resize', 'click']));
 
 		this.datas = new Array(); //子级	
 		this._datas = ''; //数据源的序列化字符串	
@@ -50,13 +50,17 @@
 			dom: this.dom,
 			type: 'treemenu'
 		});
+		var th = this;
+		window.setTimeout(function () {
+			th.trigger('load');
+		}, 100);
 	};
 	var fn = treemenu.prototype;
-	fn._initialization = function() {
+	fn._initialization = function () {
 		if (!this._id) this._id = 'treemenu_' + new Date().getTime();
 	};
 	//添加数据源
-	fn.add = function(item) {
+	fn.add = function (item) {
 		if (item instanceof Array) {
 			for (var i = 0; i < item.length; i++)
 				this.add(item[i]);
@@ -66,7 +70,7 @@
 	};
 	//当属性更改时触发相应动作
 	fn._watch = {
-		'width': function(obj, val, old) {
+		'width': function (obj, val, old) {
 			if (obj.dom) {
 				obj.dom.width(val);
 				obj.dombody.width(val - 40);
@@ -77,7 +81,7 @@
 				});
 			}
 		},
-		'height': function(obj, val, old) {
+		'height': function (obj, val, old) {
 			if (obj.dom) {
 				obj.dom.height(val);
 				obj.domtit.height(val);
@@ -90,7 +94,7 @@
 			}
 		},
 		//折叠与展开
-		'fold': function(obj, val, old) {
+		'fold': function (obj, val, old) {
 			obj.domtit.find('tree-foldbtn').attr('class', obj.fold ? 'fold' : '');
 			if (val) {
 				//折叠
@@ -102,7 +106,7 @@
 			} else {
 				obj.dom.width(obj.width);
 				obj.dombody.width(obj.width - 40);
-				window.setTimeout(function() {
+				window.setTimeout(function () {
 					obj.dombody.css('position', 'relative');
 					obj.dombody.left(0);
 				}, 300);
@@ -113,9 +117,9 @@
 			});
 		},
 		//是否启动实时数据绑定
-		'bind': function(obj, val, old) {
+		'bind': function (obj, val, old) {
 			if (val) {
-				obj._setinterval = window.setInterval(function() {
+				obj._setinterval = window.setInterval(function () {
 					var str = JSON.stringify(obj.datas);
 					if (str != obj._datas) {
 						//计算数据源的层深等信息
@@ -137,7 +141,7 @@
 		}
 	};
 	//重构
-	fn._restructure = function() {
+	fn._restructure = function () {
 		var area = $dom(this.target);
 		if (area.length < 1) {
 			console.log('treemenu所在区域不存在');
@@ -153,7 +157,7 @@
 
 	//生成结构
 	fn._builder = {
-		shell: function(obj) {
+		shell: function (obj) {
 			var area = $dom(obj.target);
 			if (area.length < 1) {
 				console.log('treemenu所在区域不存在');
@@ -163,7 +167,7 @@
 			obj.dom = area;
 		},
 		//左侧标题区
-		title: function(obj) {
+		title: function (obj) {
 			obj.domtit = obj.dom.add('tree_tags');
 			obj.domtit.add('tree-foldbtn');
 			//左侧选项卡
@@ -181,7 +185,7 @@
 			obj.domtit.add('tree-tagspace').height('calc(100% - ' + (obj.datas.length * 60) + 'px)');
 		},
 		//右侧内容区
-		body: function(obj) {
+		body: function (obj) {
 			obj.dombody = obj.dom.add('tree_body');
 			for (var i = 0; i < obj.datas.length; i++) {
 				var item = obj.datas[i];
@@ -216,9 +220,9 @@
 	//基础事件，初始化时即执行
 	fn._baseEvents = {
 		//树形菜单的收缩与展开
-		fold: function(obj) {
+		fold: function (obj) {
 			//左下角折叠按钮的事件
-			obj.domtit.find('tree-foldbtn').click(function(e) {
+			obj.domtit.find('tree-foldbtn').click(function (e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
@@ -226,19 +230,19 @@
 			});
 			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
 			obj.leavetime = 3;
-			obj.dombody.bind('mouseover', function(e) {
+			obj.dombody.bind('mouseover', function (e) {
 				var node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
 				crt.obj.leavetime = 3;
 			});
-			obj.leaveInterval = window.setInterval(function() {
+			obj.leaveInterval = window.setInterval(function () {
 				if (obj.fold && --obj.leavetime <= 0) obj.dombody.width(0);
 			}, 1000);
 		},
 		//左侧标签点击事件
-		rootclick: function(obj) {
-			obj.domtit.find('tree_tag').click(function(e) {
+		rootclick: function (obj) {
+			obj.domtit.find('tree_tag').click(function (e) {
 
 				var node = event.target ? event.target : event.srcElement;
 				//获取标签id
@@ -252,7 +256,7 @@
 				//切换选项卡
 				crt.obj.switch(obj, tag);
 			});
-			obj.domtit.find('tree_tag').bind('mouseover', function(e) {
+			obj.domtit.find('tree_tag').bind('mouseover', function (e) {
 				var node = event.target ? event.target : event.srcElement;
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
@@ -268,7 +272,7 @@
 		}
 	};
 	//创建树形节点
-	fn._createNode = function(item, box) {
+	fn._createNode = function (item, box) {
 		var node = box.add('tree-node');
 		node.css('padding-left', ((item.level - 1) * 15) + 'px');
 		if (item.intro) node.attr('title', item.intro);
@@ -294,7 +298,7 @@
 
 		//如果有下级节点
 		if (item.childs && item.childs.length > 0) {
-			node.addClass('folder').click(function(e) {
+			node.addClass('folder').click(function (e) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
@@ -310,7 +314,7 @@
 		} else {
 			if (item.type != 'link') {
 				//节点点击事件
-				node.click(function(e) {
+				node.click(function (e) {
 					var n = event.target ? event.target : event.srcElement;
 					while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
 					//节点id
@@ -330,7 +334,7 @@
 		return node;
 	};
 	//计算层深，并补全一些信息
-	fn._calcLevel = function(items, level) {
+	fn._calcLevel = function (items, level) {
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 			//补全一些信息
@@ -352,7 +356,7 @@
 		return items;
 	};
 	//获取数据源的节点
-	fn.getData = function(treeid) {
+	fn.getData = function (treeid) {
 		if (this.datas.length < 1) return null;
 		return $dom.clone(getdata(treeid, this.datas));
 		//
@@ -368,7 +372,7 @@
 		}
 	};
 	//切换选项卡
-	fn.switch = function(obj, tag) {
+	fn.switch = function (obj, tag) {
 		if (tag == null) return;
 		this.domtit.find('tree_tag').removeClass('curr');
 		tag.addClass('curr');
@@ -382,13 +386,13 @@
 	/*
 	treemenu的静态方法
 	*/
-	treemenu.create = function(param) {
+	treemenu.create = function (param) {
 		if (param == null) param = {};
 		var tobj = new treemenu(param);
 		return tobj;
 	};
-	treemenu._initEvent = function() {
-		window.addEventListener("resize", function() {
+	treemenu._initEvent = function () {
+		window.addEventListener("resize", function () {
 			var treebody = $dom('.treemenu tree_body');
 			treebody.height(treebody.parent().height());
 		}, false);

@@ -20,7 +20,8 @@ var datasource = {
 }
 //加载组件所需javascript文件完成后
 $dom.ctrljs(function () {
-    window.login = $login.create({
+    //登录框的构建
+    var login = $login.create({
         target: '#login-area',
         //width: '320px',
         title: '微厦在线学习系统',
@@ -28,9 +29,15 @@ $dom.ctrljs(function () {
         success: true,   //默认登录验证的状态，成功登录
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
-    });
-    //自定义验证
-    window.login.verify([{
+    }).onload(function (s, e) {  //加载后，判断是否为登录状态
+        if (s.success) {
+            s.loading = true;
+            ready(s);
+        }
+    }).onsubmit(function (s, e) {   //提交事件
+        s.loading = true;
+        if (s.success) ready(s);
+    }).verify([{            //自定义验证
         'ctrl': 'user',
         'regex': /^[a-zA-Z0-9_-]{4,16}$/,
         'tips': '长度不得小于4位大于16位'
@@ -39,35 +46,30 @@ $dom.ctrljs(function () {
         regex: /^\d{4}$/,
         tips: '请输入4位数字'
     }]);
-    window.login.onsubmit(function (s, e) {
-        s.loading = true;
-        if (s.success) ready(s);
-    }).ondragfinish(function (s, e) {
 
-    });
-    if (window.login.success) {
-        window.login.loading = true;
-        ready(window.login);
-    }
     //右上角菜单,用户信息
-    window.usermenu = window.$dropmenu.create({
+    $dropmenu.create({
         target: '#user-area',
         width: 100,
         plwidth: 120,
         level: 2000
+    }).onload(function (s, e) {
+        $dom.get(datasource.user, function (req) {
+            s.add(eval('(' + req + ')'));
+        });
     }).onclick(nodeClick);
-    $dom.get(datasource.user, function (req) {
-        usermenu.add(eval('(' + req + ')'));
-    });
+
     //左上角下拉菜单
-    var drop = window.$dropmenu.create({
+    $dropmenu.create({
         target: '#dropmenu-area',
         //width: 280,
         id: 'main_menu'
+    }).onload(function (s, e) {
+        $dom.get(datasource.drop, function (req) {
+            s.add(eval('(' + req + ')'));
+        });
     }).onclick(nodeClick);
-    $dom.get(datasource.drop, function (d) {
-        drop.add(eval(d));
-    });
+
 });
 
 function ready(loginbox) {
@@ -86,24 +88,27 @@ function ready(loginbox) {
     }).onfold(function (s, e) { //当右侧树形折叠时
         var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
+    }).onload(function (s, e) {
+        $dom.get(datasource.tree, function (req) {
+            s.add(eval(req));
+        });
     }).onclick(nodeClick);
-    $dom.get(datasource.tree, function (req) {
-        tree.add(eval(req));
-    });
+
     //竖形工具条
     var vbar = $vbar.create({
         target: '#vbar-area',
         id: 'rbar-156',
         width: 30,
         height: 'calc(100% - 35px)'
+    }).onload(function (s, e) {
+        $dom.get(datasource.vbar, function (req) {
+            vbar.add(eval('(' + req + ')'));
+        });
     }).onclick(nodeClick);
-    $dom.get(datasource.vbar, function (req) {
-        vbar.add(eval('(' + req + ')'));
-    });
+
     //选项卡
-    var tabs = $tabs.create({
-        target: '#tabs-area',
-        width: 1,
+    window.tabsContent = $tabs.create({
+        target: '#tabs-area',     
         //nowheel: true,
         default: {
             title: '启始页',
@@ -111,9 +116,7 @@ function ready(loginbox) {
             url: 'Help/startpage.html',
             ico: 'a020'
         }
-    });
-    tabs.onshut(tabsShut).onchange(tabsChange);
-    tabs.onhelp(function (s, e) {
+    }).onshut(tabsShut).onchange(tabsChange).onhelp(function (s, e) {
         $pagebox.create({
             pid: e.data.id, //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
             width: 600,
@@ -122,7 +125,6 @@ function ready(loginbox) {
             title: e.data.title + '- 帮助'
         }).open();
     });
-    window.tabsContent = tabs;
 
     //风格切换事件
     window.$skins.onchange(function (s, e) {

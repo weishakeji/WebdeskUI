@@ -23,7 +23,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//data:数据项源变动时;click:点击菜单项
-		eval($ctrl.event_generate(['data', 'click']));
+		eval($ctrl.event_generate(['load','data', 'click']));
 
 		this.datas = new Array(); //数据源
 		this._datas = ''; //数据源的序列化字符串
@@ -40,6 +40,10 @@
 			dom: this.dom,
 			type: 'dropmenu'
 		});
+		var th = this;
+		window.setTimeout(function () {
+			th.trigger('load');
+		}, 100);
 	};
 	var fn = verticalbar.prototype;
 	fn._initialization = function () {

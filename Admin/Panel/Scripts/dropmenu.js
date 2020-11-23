@@ -26,7 +26,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//data:数据项源变动时;click:点击菜单项
-		eval($ctrl.event_generate(['data', 'click']));
+		eval($ctrl.event_generate(['load', 'data', 'click']));
 
 		this.datas = new Array(); //数据源
 		this._datas = ''; //数据源的序列化字符串
@@ -52,6 +52,10 @@
 			dom: this.dom,
 			type: 'dropmenu'
 		});
+		var th = this;
+		window.setTimeout(function () {
+			th.trigger('load');
+		}, 100);
 	};
 	var fn = dropmenu.prototype;
 	fn._initialization = function () {
@@ -369,7 +373,7 @@
 		for (var i = 0; i < items.length; i++) {
 			var item = items[i];
 			//补全一些信息
-            if (!item.id || item.id < 0) item.id = 'nid_' + Math.floor(Math.random() * 100000);
+			if (!item.id || item.id < 0) item.id = 'nid_' + Math.floor(Math.random() * 100000);
 			if (!item.pid || item.pid < 0) item.pid = 0;
 			if (!item.level || item.level <= 0) item.level = level;
 			if (!item.path) item.path = item.title;
