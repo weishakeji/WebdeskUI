@@ -47,12 +47,12 @@
     }]);
 ```
 ## 控件说明
-* Pagebox.js 页面窗体 `[演示](http://webdesk.weisha100.cn/ctrls/pagebox.html)`
+* Pagebox.js 页面窗体 `<a href="https://github.com/weishakeji/WebdeskUI" target="_blank">演示</a>`
    * 可拖放，可缩放，模拟windows桌面窗体
    * 可上溯父级，遍历下级，父子窗体可互动
 
 ## 开源地址：
-* GitHub ：<a href="https://github.com/weishakeji/WebdeskUI" target="_blank">https://github.com/weishakeji/WebdeskUI</a> 
+* GitHub ：<a href="http://webdesk.weisha100.cn/ctrls/pagebox.html" target="_blank">https://github.com/weishakeji/WebdeskUI</a> 
 * Gitee（同步镜像）： <a href="https://gitee.com/weishakeji/WebdeskUI" target="_blank">https://gitee.com/weishakeji/WebdeskUI</a> 
 
 ## 开发团队：
