@@ -6,150 +6,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Verticalbar</title>
-    <script type="text/javascript" src="../admin/Scripts/webdesk.ui.core.js"></script>
-    <script type="text/javascript" src="../admin/panel/Scripts/ctrls.js"></script>
-    <script type="text/javascript" src="../admin/panel/Scripts/verticalbar.js"></script>
-    <link rel="stylesheet" type="text/css" href="../admin/panel/Skins/win7/verticalbar.css" />
+    <script type="text/javascript" src="/Utilities/webdesk/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="/Utilities/webdesk/scripts/ctrls.js"></script>
+    <script type="text/javascript" src="/Utilities/webdesk/Scripts/verticalbar.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Utilities/webdesk/Skins/win10/verticalbar.css" />
     <style type="text/css">
-    html,
-    body {
-        overflow: hidden;
-        background-size: 100% 100%;
-        background-color: #444;
-    }
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
 
-    h1 {
-        font-size: 25px;
-        color: #333;
-        margin: 0px;
-        display: block;
-        overflow: hidden;
-        height: 40px;
-        font-weight: 900;
-        white-space: nowrap;
-        text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
-    }
+        }
 
-    h1 span {
+        body {
+            overflow: hidden;
+            background: url('/Utilities/webdesk/Skins/win10/bg.jpg');
+            background-size: 100% 100%;
+            background-color: #444;
+        }
 
-        font-size: 15px;
-        margin-left: 20px;
-    }
+        h1 {
+            font-size: 25px;
+            color: #333;
+            margin: 0px;
+            display: block;
+            overflow: hidden;
+            height: 40px;
+            font-weight: 900;
+            white-space: nowrap;
+            text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+        }
 
-    h1 b:before {
-        content: "\a021";
-        font-size: 30px;
-        line-height: 40px;
-        margin-right: 10px;
-    }
+        h1 span {
 
-    a.home {
-        display: block;
-        width: 120px;
-        height: 40px;
-        line-height: 40px;
-        float: right;
-        font-size: 14px;
-        text-align: center;
-        color: #333;
-        text-decoration: none;
-        font-weight: normal;
-    }
+            font-size: 15px;
+            margin-left: 20px;
+        }
 
-    a.home:before {
-        content: "\a020";
-        font-size: 18px;
-        line-height: 40px;
-        margin-right: 2px;
+        h1 b:before {
+            content: "\a021";
+            font-size: 30px;
+            line-height: 40px;
+            margin-right: 10px;
+        }
 
-        font-family: "webdesk_icon" !important;
-    }
+        a.home {
+            display: block;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            float: right;
+            font-size: 14px;
+            text-align: center;
+            color: #333;
+            text-decoration: none;
+            font-weight: normal;
+        }
 
-    #space {
-        float: left;
-        background-color: yellow;
-        height: 200px;
-        width: 200px;
-        transition: width 0.3s, height 0.3s;
-    }
+        a.home:before {
+            content: "\a020";
+            font-size: 18px;
+            line-height: 40px;
+            margin-right: 2px;
+
+            font-family: "webdesk_icon" !important;
+        }
+
+        #space {
+            float: left;
+            background-color: yellow;
+            height: 200px;
+            width: 200px;
+            transition: width 0.3s, height 0.3s;
+        }
 
 
 
-    a {
-        color: #000;
-    }
+        a {
+            color: #000;
+        }
 
-    p {
-        font-size: 15px;
-        margin: 0px;
-        padding: 0px;
-        line-height: 25px;
-    }
+        p {
+            font-size: 15px;
+            margin: 0px;
+            padding: 0px;
+            line-height: 25px;
+        }
 
-    table {
-        --background-color: rgba(255, 255, 255, .6);
-        width: calc(100% - 20px);
-    }
+        table {
+            --background-color: rgba(255, 255, 255, .6);
+            width: calc(100% - 20px);
+        }
 
-    table th {
-        background-color: rgba(255, 255, 255, .9);
-        font-size: 16px;
-    }
+        table th {
+            background-color: rgba(255, 255, 255, .9);
+            font-size: 16px;
+        }
 
-    table td {
-        background-color: rgba(255, 255, 255, .6);
-    }
+        table td {
+            background-color: rgba(255, 255, 255, .6);
+        }
 
-    th,
-    td {
-        height: 25px;
-        line-height: 25px;
-    }
+        th,
+        td {
+            height: 25px;
+            line-height: 25px;
+        }
 
-    td {
-        padding: 0px 10px 0px 10px;
-    }
+        td {
+            padding: 0px 10px 0px 10px;
+        }
 
-    table tr td:first-child {
-        text-align: center;
-        padding: 0px;
-    }
+        table tr td:first-child {
+            text-align: center;
+            padding: 0px;
+        }
 
-    table#eventTable tr td:first-child:before {
-        content: 'on'
-    }
+        table#eventTable tr td:first-child:before {
+            content: 'on'
+        }
 
-    .intro-panel b {
-        font-size: 16px !important;
-        margin-top: 10px !important;
-        display: block;
-        margin: 10px 0px 10px 0px;
-    }
+        .intro-panel b {
+            font-size: 16px !important;
+            margin-top: 10px !important;
+            display: block;
+            margin: 10px 0px 10px 0px;
+        }
 
-    .intro-panel {
-        margin: 10px;
-        position: absolute;
-        width: calc(100% - 140px);
-        height: calc(100% - 140px);
-        left: 40px;
-        bottom: 0px;
-        padding: 20px;
-        overflow: auto;
-        background-color: rgba(255, 255, 255, 0.6);
-    }
+        .intro-panel {
+            margin: 10px;
+            position: absolute;
+            width: calc(100% - 140px);
+            height: calc(100% - 140px);
+            left: 40px;
+            bottom: 0px;
+            padding: 20px;
+            overflow: auto;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
 
-    #vbar-left {
-        position: absolute;
-        left: 10px;
-        bottom: 10px;
+        #vbar-left {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
 
-    }
+        }
 
-    #vbar-right {
-        position: absolute;
-        right: 10px;
-        bottom: 10px;
-    }
+        #vbar-right {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
     </style>
 </head>
 
@@ -173,8 +182,10 @@
         <div>
             <b>演示：</b>
             <div>
-                <p>演示地址：<a href='http://webdesk.weisha100.cn/ctrls/verticalbar.html' target="_blank">http://webdesk.weisha100.cn/ctrls/verticalbar.html</a></p>
-                <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI' target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
+                <p>演示地址：<a href='http://webdesk.weisha100.cn/ctrls/verticalbar.html'
+                        target="_blank">http://webdesk.weisha100.cn/ctrls/verticalbar.html</a></p>
+                <p>开源地址：<a href='https://github.com/weishakeji/WebdeskUI'
+                        target="_blank">https://github.com/weishakeji/WebdeskUI</a></p>
             </div>
             <b>示例：</b>
             <pre>
@@ -277,84 +288,84 @@
     <div id="vbar-right"></div>
 </body>
 <script type="text/javascript">
-var rbar = $vbar.create({
-    target: '#vbar-right',
-    id: 'rbar-156',
-    width: 30,
-    height: 'calc(100% - 100px)'
-});
-var lbar = $vbar.create({
-    target: '#vbar-left',
-    id: 'lbar-112',
-    width: 30,
-    height: 'calc(100% - 100px)'
-});
-var data = [{
-    title: '功能简介功能简介功能简介',
-    url: 'other/treemenu-1.html',
-    intro: '基本功能简介'
-}, {
-    title: '夜间模式/日间模式',
-    ico: 'a032'
+    var rbar = $vbar.create({
+        target: '#vbar-right',
+        id: 'rbar-156',
+        width: 30,
+        height: 'calc(100% - 100px)'
+    });
+    var lbar = $vbar.create({
+        target: '#vbar-left',
+        id: 'lbar-112',
+        width: 30,
+        height: 'calc(100% - 100px)'
+    });
+    var data = [{
+        title: '功能简介功能简介功能简介',
+        url: 'other/treemenu-1.html',
+        intro: '基本功能简介'
+    }, {
+        title: '夜间模式/日间模式',
+        ico: 'a032'
 
-}, {
-    title: '成员说明',
-    ico: 'a010',
-    childs: [{
-        title: '属性',
-        ico: 'a025',
-        intro: '成员属性的说明',
-        url: 'other/treemenu-2.html'
     }, {
-        title: '方法',
-        ico: 'a023',
-        url: 'other/treemenu-2.html'
+        title: '成员说明',
+        ico: 'a010',
+        childs: [{
+            title: '属性',
+            ico: 'a025',
+            intro: '成员属性的说明',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '方法',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '事件',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }, {
+            type: 'hr'
+        }, {
+            title: '超链接测试',
+            ico: 'a024',
+            type: 'link',
+            url: 'other/treemenu-2.html'
+        }]
     }, {
-        title: '事件',
-        ico: 'a024',
-        url: 'other/treemenu-2.html'
+        title: '在线帮助',
+        ico: 'e72f',
+        childs: [{
+            title: '在线学习',
+            ico: 'a025',
+            intro: '成员属性的说明',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '问题反馈',
+            ico: 'a023',
+            url: 'other/treemenu-2.html'
+        }, {
+            title: '技术咨询',
+            ico: 'a024',
+            url: 'other/treemenu-2.html'
+        }, {
+            type: 'hr'
+        }, {
+            title: '代理'
+        }]
     }, {
-        type: 'hr'
-    }, {
-        title: '超链接测试',
-        ico: 'a024',
-        type: 'link',
-        url: 'other/treemenu-2.html'
-    }]
-},  {
-    title: '在线帮助',
-    ico: 'e72f',
-    childs: [{
-        title: '在线学习',
-        ico: 'a025',
-        intro: '成员属性的说明',
-        url: 'other/treemenu-2.html'
-    }, {
-        title: '问题反馈',
-        ico: 'a023',
-        url: 'other/treemenu-2.html'
-    }, {
-        title: '技术咨询',
-        ico: 'a024',
-        url: 'other/treemenu-2.html'
-    }, {
-        type: 'hr'
-    }, {
-        title: '代理'
-    }]
-}, {
-    title: '关于我们',
-    ico: 'a031'
-}];
-lbar.add(data);
-lbar.onclick(function(s, e) {
-    console.log('点击：' + e.data.title);
-});
-var d = $dom.clone(data);
-rbar.add(d);
-rbar.onclick(function(s, e) {
-    console.log('点击：' + e.data.title);
-});
+        title: '关于我们',
+        ico: 'a031'
+    }];
+    lbar.add(data);
+    lbar.onclick(function (s, e) {
+        console.log('点击：' + e.data.title);
+    });
+    var d = $dom.clone(data);
+    rbar.add(d);
+    rbar.onclick(function (s, e) {
+        console.log('点击：' + e.data.title);
+    });
 </script>
 
 </html>
