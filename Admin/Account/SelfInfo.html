@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>个人信息</title>
-  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+  <script type="text/javascript" src="/Utilities/webdesk/webdesk.ui.core.js"></script>
 
 </head>
 
@@ -14,7 +14,7 @@
   <div id="app" v-cloak>
       <el-form label-width="80px">
           <el-form-item>
-              <img :src="!account.Acc_Photo ? '../panel/images/head1.jpg' : account.Acc_Photo" class="photo" />
+              <img :src="!account.Acc_Photo ? '../images/head1.jpg' : account.Acc_Photo" class="photo" />
               <span class="accname" v-html="account.Acc_Name">(未登录)</span>
               <span>({{account.Acc_AccName}})</span>
           </el-form-item>
