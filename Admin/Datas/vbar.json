@@ -1,7 +1,7 @@
 [{
     title: '主题皮肤',
     ico: 'a044',
-    url: 'panel/Skinsetup.html',
+    url: '/Utilities/WebDesk/Skinsetup.html',
     type: 'open',
     width: 565,
     height: 210,

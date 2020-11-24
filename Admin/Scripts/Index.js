@@ -13,13 +13,14 @@
 
 //数据源
 var datasource = {
-    drop: 'panel/datas/dropmenu.json',  //左上角，下拉菜单
-    user: 'panel/datas/userinfo.json',  //右上角，个人信息管理    
-    tree: 'panel/datas/treemenu.json',  //左侧，树形导航菜单
-    vbar: 'panel/datas/vbar.json'       //右侧，竖形工具条
+    drop: 'datas/dropmenu.json',  //左上角，下拉菜单
+    user: 'datas/userinfo.json',  //右上角，个人信息管理    
+    tree: 'datas/treemenu.json',  //左侧，树形导航菜单
+    vbar: 'datas/vbar.json'       //右侧，竖形工具条
 };
 //加载组件所需javascript文件完成后
 $dom.ctrljs(function () {
+    window.$skins.loadCss();
     //登录框的构建
     $login.create({
         target: '#login-area',

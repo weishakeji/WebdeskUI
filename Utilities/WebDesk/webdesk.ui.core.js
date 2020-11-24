@@ -817,16 +817,20 @@
         }
     };
     //项目路径
-    webdom.path = '/admin/panel/';
+    webdom.path = '/Utilities/WebDesk/';
+    webdom.uipath = function () {
+        //当前路径转换为相对路径
+        var path = window.location.pathname;
+        if (path.indexOf('/') > -1) path = path.substring(0, path.lastIndexOf('/') + 1);
+        var dir = webdom.relativeDir(webdom.path, path);
+        return dir;
+    };
     //加载admin面板所需的javascript文件
     webdom.corejs = function (f) {
         //要加载的js 
         var arr = ['vue', 'polyfill.min', 'axios_min', 'api'];
         for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
-        //当前路径转换为相对路径
-        var path = window.location.pathname;
-        if (path.indexOf('/') > -1) path = path.substring(0, path.lastIndexOf('/') + 1);
-        var dir = webdom.relativeDir(webdom.path, path);
+        var dir = webdom.uipath();
         arr.push(dir + 'Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
             var arr2 = new Array();

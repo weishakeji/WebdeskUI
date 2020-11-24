@@ -57,10 +57,11 @@
 		//清除之前的
 		$dom('link[tag=skin]').remove();
 		//加载控件资源
-		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
+		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox', 'login'];
 		var skin = this.isnight() ? this._night : this.current();
+		var dir = $dom.uipath();
 		for (var i = 0; i < resources.length; i++) {
-			resources[i] = 'panel/skins/' + skin + '/' + resources[i] + '.css';
+			resources[i] = dir + '/skins/' + skin + '/' + resources[i] + '.css';
 		}
 		var th = this;
 		window.$dom.load.css(resources, function () {
@@ -69,7 +70,8 @@
 		}, 'skin');
 	};
 	fn.loadskin = function (skin) {
-		$dom.get('panel/skins/' + skin + '/intro.json', function (d) {
+		var dir = $dom.uipath();
+		$dom.get(dir + '/skins/' + skin + '/intro.json', function (d) {
 			if (d == null || d == '') return;
 			var obj = eval('(' + d + ')');
 			obj.tag = skin;
