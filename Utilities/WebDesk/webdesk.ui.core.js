@@ -511,6 +511,8 @@
     webdom.file = function () {
         var href = window.location.href;
         if (href.substring(href.length - 1) == '/') href = href.substring(0, href.length - 1);
+        if (href.indexOf('?') > 0) href = href.substring(0, href.lastIndexOf('?'));
+        if (href.indexOf('#') > 0) href = href.substring(0, href.lastIndexOf('#'));
         if (href.indexOf('/') > 0) href = href.substring(href.lastIndexOf('/') + 1);
         if (href.indexOf('.') > 0) href = href.substring(0, href.lastIndexOf('.'));
         return href;
