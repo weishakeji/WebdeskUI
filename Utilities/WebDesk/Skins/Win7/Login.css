@@ -165,13 +165,20 @@
     float: right;
     text-indent: 10px;
     font-size: 18px;
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .loginbox .login_body>* input:focus {
     font-size: 23px;
     border: none !important;
     outline: none;
+}
+
+.loginbox .login_body>* input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-text-fill-color: #333 !important;
+    transition: background-color 5000s ease-in-out 0s;
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 
 .loginbox .login_body login_row.login_code {
