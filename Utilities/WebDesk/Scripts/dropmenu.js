@@ -17,7 +17,7 @@
 			target: '', //所在Html区域			
 			width: 0,
 			height: 30,
-			plwidth: 150, //子菜单面板的宽度
+			plwidth: 180, //子菜单面板的宽度
 			level: 1000, //菜单的初始深度
 			id: '',
 			bind: true //是否实时数据绑定
@@ -26,7 +26,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//data:数据项源变动时;click:点击菜单项
-		eval($ctrl.event_generate(['load', 'data', 'click']));
+		eval($ctrl.event_generate(['data', 'click']));
 
 		this.datas = new Array(); //数据源
 		this._datas = ''; //数据源的序列化字符串
@@ -52,10 +52,6 @@
 			dom: this.dom,
 			type: 'dropmenu'
 		});
-		var th = this;
-		window.setTimeout(function () {
-			th.trigger('load');
-		}, 100);
 	};
 	var fn = dropmenu.prototype;
 	fn._initialization = function () {
@@ -219,7 +215,7 @@
 	fn._baseEvents = {
 		interval: function (obj) {
 			obj.dombody.find('drop-panel').bind('mouseover', function (e) {
-				obj.leavetime = 3;
+				obj.leavetime = 1;
 				obj.leave = false;
 			});
 			obj.leaveInterval = window.setInterval(function () {
@@ -261,7 +257,7 @@
 					//当前面板的位置
 					panel.left(left).top(top).attr('x', left - offset.left).attr('y', top - offset.top);
 				}
-				obj.leavetime = 3;
+				obj.leavetime = 1;
 				obj.leave = false;
 			});
 		},
@@ -301,7 +297,7 @@
 			//当鼠标离开面板时，才允许计算消失时间
 			obj.dombody.find('drop-panel').merge(obj.domtit.find('drop-node'))
 				.bind('mouseleave', function (e) {
-					obj.leavetime = 3;
+					obj.leavetime = 1;
 					obj.leave = true;
 				});
 		},
@@ -359,7 +355,10 @@
 
 		//字体样式
 		if (item.font) {
-			if (item.font.color) node.css('color', item.font.color);
+			if (item.font.color && item.font.color != null) {
+				node.find("span").css('color', item.font.color, true);
+				node.find("ico").css('color', item.font.color, true);
+			}
 			if (item.font.bold) span.css('font-weight', item.font.bold ? 'bold' : 'normal');
 			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
 		}
