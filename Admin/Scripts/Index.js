@@ -30,7 +30,7 @@ $dom.ctrljs(function () {
         success: true,   //默认登录验证的状态，如果为true,则直接跳过登录
         website: 'http://www.weishakeji.net',
         tel: '400 6015615'
-    }).onload(function (s, e) {  //加载后，判断是否为登录状态
+    }).onlayout(function (s, e) {  //加载后，判断是否为登录状态
         /* 此处可编写：判断是否为已经登录的状态 */
         if (s.success) {
             s.loading = true;
@@ -51,27 +51,26 @@ $dom.ctrljs(function () {
     }]);
 
     //右上角菜单,用户信息
-    $dropmenu.create({
+    window.usermenu = $dropmenu.create({
         target: '#user-area',
         width: 100,
         plwidth: 120,
         level: 2000
-    }).onload(function (s, e) {
-        $dom.get(datasource.user, function (req) {
-            s.add(eval('(' + req + ')'));
-        });
     }).onclick(nodeClick);
+    $dom.get(datasource.user, function (req) {
+        usermenu.add(eval('(' + req + ')'));
+    });
 
     //左上角下拉菜单
-    $dropmenu.create({
+    var dropmenu = $dropmenu.create({
         target: '#dropmenu-area',
         //width: 280,
         id: 'main_menu'
-    }).onload(function (s, e) {
-        $dom.get(datasource.drop, function (req) {
-            s.add(eval('(' + req + ')'));
-        });
     }).onclick(nodeClick);
+    $dom.get(datasource.drop, function (req) {
+        dropmenu.add(eval('(' + req + ')'));
+    });
+
 
 });
 
@@ -83,7 +82,7 @@ function ready(loginbox) {
         loginbox.loading = false;
     }, 1000);
     //树形菜单
-    $treemenu.create({
+    window.tree = $treemenu.create({
         target: '#treemenu-area',
         width: 200
     }).onresize(function (s, e) { //当宽高变更时
@@ -91,23 +90,24 @@ function ready(loginbox) {
     }).onfold(function (s, e) { //当右侧树形折叠时
         var width = e.action == 'fold' ? vbar.width + 50 : s.width + vbar.width + 10;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
-    }).onload(function (s, e) {
-        $dom.get(datasource.tree, function (req) {
-            s.add(eval(req));
-        });
     }).onclick(nodeClick);
 
+    $dom.get(datasource.tree, function (req) {
+        window.tree.add(eval(req));
+    });
+
+
     //竖形工具条
-    var vbar = $vbar.create({
+    window.vbar = $vbar.create({
         target: '#vbar-area',
         id: 'rbar-156',
         width: 30,
         height: 'calc(100% - 35px)'
-    }).onload(function (s, e) {
-        $dom.get(datasource.vbar, function (req) {
-            vbar.add(eval('(' + req + ')'));
-        });
     }).onclick(nodeClick);
+    $dom.get(datasource.vbar, function (req) {
+        vbar.add(eval('(' + req + ')'));
+    });
+
 
     //选项卡
     window.tabsContent = $tabs.create({

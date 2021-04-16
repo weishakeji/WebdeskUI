@@ -124,7 +124,7 @@ timer {
 }
 
 #dropmenu-area drop_roots * {
-    color: #ccc !important;
+    color: #ccc;
 }
 
 #dropmenu-area drop_roots drop-node:hover,

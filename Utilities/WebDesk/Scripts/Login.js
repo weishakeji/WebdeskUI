@@ -18,7 +18,7 @@
             width: '',
             height: '',
             title: '', //标题
-            ico: 'e77d', //图标的字体符号
+            ico: 'a003', //图标的字体符号
             icoimg: '', //图标的图片样式
             company: '', //公司名称
             website: '', //公司的网址
@@ -38,8 +38,8 @@
         for (var t in param) this.attrs[t] = param[t];
         eval($ctrl.attr_generate(this.attrs));
         /* 自定义事件 */
-        //load:布局完成; resize:改变大小；dragfinish:拖动完成; full:标签项全屏
-        eval($ctrl.event_generate(['load', 'resize', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
+        //layout:布局完成; resize:改变大小；dragfinish:拖动完成; full:标签项全屏
+        eval($ctrl.event_generate(['layout', 'resize', 'dragfinish', 'change', 'vefiry', 'submit', 'success', 'error']));
         //以下不支持双向绑定
         this.dom = null; //控件的html对象
         this.domtit = null; //控件标签栏部分的html对象
@@ -79,13 +79,23 @@
             if (obj.domtit) obj.domtit.find('login_tit').html(val);
         },
         'company': function (obj, val, old) {
-            if (obj.domfoot) obj.domfoot.find('login_company a').html(val);
+            if (obj.domfoot) {
+                obj.domfoot.find('login_company a').html(val);
+                if (val == '') obj.domfoot.find('login_company').hide();
+                else
+                    obj.domfoot.find('login_company').show();
+            }
         },
         'website': function (obj, val, old) {
             if (obj.domfoot) obj.domfoot.find('login_company a').attr('href', val);
         },
         'tel': function (obj, val, old) {
-            if (obj.domfoot) obj.domfoot.find('login_tel').html(val);
+            if (obj.domfoot) {
+                obj.domfoot.find('login_tel').html(val);
+                if (val == '') obj.domfoot.find('login_tel').hide();
+                else
+                    obj.domfoot.find('login_tel').show();
+            }
         },
         'user': function (obj, val, old) {
             if (obj.dom) obj.dom.find('input[name=\'login_user\']').val(val);
@@ -179,11 +189,12 @@
         }
         var th = this;
         window.setTimeout(function () {
-            th.trigger('load', {
+            th.trigger('layout', {
                 'target': th.dom,
                 'data': th.attrs
             });
-        }, 200);        
+        }, 200);
+
         return this;
     };
     fn._builder = {
@@ -249,11 +260,15 @@
         footer: function (obj) {
             obj.domfoot = obj.dom.add('login_footbar');
             var company = obj.domfoot.add('login_company');
+            if (obj.company == '') company.hide();
             company.add('a').html(obj.company).attr({
                 'target': '_blank',
                 'href': obj.website
             });
-            obj.domfoot.add('login_tel').html(obj.tel);
+            //联系电话
+            var tel = obj.domfoot.add('login_tel');
+            if (obj.tel == '') tel.hide();
+            tel.html(obj.tel);
         }
     };
     //基础事件
@@ -281,25 +296,25 @@
         },
         //滑块拖动
         drag: function (obj) {
-            obj.dom.find('login_dragbox').bind('mousedown,touchstart', function (e) {
+            obj.dom.find('login_dragbox').mousedown(function (e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return;
                 obj.drag = true;
                 obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
 
-            }).bind('mouseup,touchend', function (e) {
+            }).bind('mouseup', function (e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mouseleave,touchend', function (e) {
+            obj.dom.find('login_drag>div').bind('mouseleave', function (e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mousemove,touchmove', function (e) {
+            obj.dom.find('login_drag>div').bind('mousemove', function (e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return; //如果拖动完成，则不能拖动
                 //计算移动最大宽度范围
-                var node = e.target ? e.target : e.srcElement;
+                var node = event.target ? event.target : event.srcElement;
                 var parent = $dom(node).parent();
                 var min = 5;
                 var dragbox = obj.dom.find('login_dragbox');
@@ -323,7 +338,7 @@
         //输入更改时
         change: function (obj) {
             obj.dom.find('form input').bind('input', function (e) {
-                var input = event.target ? event.target : event.srcElement;
+                var input = e.target ? e.target : e.srcElement;
                 var word = e.data ? e.data : ''; //新输入的字符
                 var val = input.value; //当前输入框中的字符串
                 if (val == '') return;
@@ -393,7 +408,6 @@
             regex: regex,
             tips: tips
         });
-        return this;
     };
     //显示提示框
     fn.tips = function (ctrl, success, msg) {
@@ -413,7 +427,7 @@
     *****/
     login.create = function (param) {
         if (param == null) param = {};
-        var obj = new login(param);       
+        var obj = new login(param);
         //当输入更改时
         obj.onchange(function (s, e) {
             if (e.action == 'user') s._user = e.value;
@@ -482,7 +496,7 @@
         return obj.open();
     };
     login._getObj = function (e) {
-        var node = event.target ? event.target : event.srcElement;
+        var node = e.target ? e.target : e.srcElement;
         while (!node.getAttribute('ctrid')) node = node.parentNode;
         var ctrl = $ctrls.get(node.getAttribute('ctrid'));
         return ctrl.obj;

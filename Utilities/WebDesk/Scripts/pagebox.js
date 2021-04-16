@@ -645,7 +645,7 @@
     };
     //用于事件中，取点击的pagebox的对象
     box._getObj = function (e) {
-        var node = event.target ? event.target : event.srcElement;
+        var node = e.target ? e.target : e.srcElement;
         while (!node.getAttribute('boxid')) node = node.parentNode;
         var ctrl = $ctrls.get(node.getAttribute('boxid'));
         return ctrl.obj;

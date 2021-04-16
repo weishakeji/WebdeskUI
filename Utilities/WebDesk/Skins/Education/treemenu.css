@@ -225,9 +225,22 @@
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: nowrap;  
+    border-image-slice: 10;
 }
-
+.treemenu tree-node complete{   
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 6px;
+    position: absolute;
+    background-color: red;
+    bottom: -5px;
+    left: 1px;   
+}
 .treemenu tree_box {
     display: block;
     overflow: hidden;
@@ -308,10 +321,10 @@
 /*子节点右侧的三角号*/
 
 .treemenu tree-node.folder:after {
-    content: '\a006';
+    content: '\a01e';
     transform: rotate(90deg);
 }
 
 .treemenu tree-node.folderclose:after {
-    content: '\a006';
+    content: '\a01e';
 }

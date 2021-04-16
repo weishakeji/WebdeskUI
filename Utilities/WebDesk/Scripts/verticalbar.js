@@ -23,7 +23,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//data:数据项源变动时;click:点击菜单项
-		eval($ctrl.event_generate(['load','data', 'click']));
+		eval($ctrl.event_generate(['data', 'click']));
 
 		this.datas = new Array(); //数据源
 		this._datas = ''; //数据源的序列化字符串
@@ -40,10 +40,6 @@
 			dom: this.dom,
 			type: 'dropmenu'
 		});
-		var th = this;
-		window.setTimeout(function () {
-			th.trigger('load');
-		}, 100);
 	};
 	var fn = verticalbar.prototype;
 	fn._initialization = function () {
@@ -228,7 +224,7 @@
 		},
 		//根菜单滑过事件
 		root_hover: function (obj) {
-			obj.dom.find('vbar-item').bind('mouseover', function (e) {
+			obj.dom.find('vbar-item').bind('mouseover', function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'vbar-item') n = n.parentNode;
 				var node = $dom(n);
@@ -271,7 +267,7 @@
 		//节点鼠标点击事件
 		node_click: function (obj) {
 			obj.dom.find('vbar-item:not([type=link])').merge(obj.dombody.find('vbar-node:not([type=link])'))
-				.click(function (e) {
+				.click(function (event) {
 					var n = event.target ? event.target : event.srcElement;
 					while ($dom(n).attr('nid') == null) n = n.parentNode;
 					//节点id
@@ -361,8 +357,7 @@
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
-	verticalbar._getObj = function (e) {
-		var node = event.target ? event.target : event.srcElement;
+	verticalbar._getObj = function (node) {		
 		while (!node.classList.contains('verticalbar')) node = node.parentNode;
 		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
 		return ctrl.obj;

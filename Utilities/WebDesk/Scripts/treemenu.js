@@ -18,6 +18,7 @@
 			width: '100%',
 			height: '100%',
 			id: '',
+			complete: false,	//是否显示完成度
 			bind: true, //是否实时数据绑定
 			fold: false //是否折叠
 		};
@@ -25,7 +26,7 @@
 		eval($ctrl.attr_generate(this.attrs));
 		/* 自定义事件 */
 		//fold,折叠或展开;data，数据源变化时; change，切换根菜单,click点击菜单项
-		eval($ctrl.event_generate(['load', 'fold', 'data', 'change', 'resize', 'click']));
+		eval($ctrl.event_generate(['fold', 'data', 'change', 'resize', 'click']));
 
 		this.datas = new Array(); //子级	
 		this._datas = ''; //数据源的序列化字符串	
@@ -50,10 +51,6 @@
 			dom: this.dom,
 			type: 'treemenu'
 		});
-		var th = this;
-		window.setTimeout(function () {
-			th.trigger('load');
-		}, 100);
 	};
 	var fn = treemenu.prototype;
 	fn._initialization = function () {
@@ -91,6 +88,15 @@
 					height: val,
 					action: 'height'
 				});
+			}
+		},
+		'complete': function (obj, val, old) {
+			if (obj.dom) {
+				if (val) {
+					obj.dom.find('complete').show();
+				} else {
+					obj.dom.find('complete').hide();
+				}
 			}
 		},
 		//折叠与展开
@@ -152,6 +158,7 @@
 			for (var t in this._baseEvents) this._baseEvents[t](this);
 			this.width = this._width;
 			this.height = this._height;
+			this.complete = this._complete;
 		}
 	};
 
@@ -222,7 +229,7 @@
 		//树形菜单的收缩与展开
 		fold: function (obj) {
 			//左下角折叠按钮的事件
-			obj.domtit.find('tree-foldbtn').click(function (e) {
+			obj.domtit.find('tree-foldbtn').click(function (event) {
 				var node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
@@ -230,7 +237,7 @@
 			});
 			//当折叠时，鼠标滑过左侧标签后显示主体菜单，过几秒后自动消失
 			obj.leavetime = 3;
-			obj.dombody.bind('mouseover', function (e) {
+			obj.dombody.bind('mouseover', function (event) {
 				var node = event.target ? event.target : event.srcElement;
 				while (!$dom(node).hasClass('treemenu')) node = node.parentNode;
 				var crt = $ctrls.get($dom(node).attr('ctrid'));
@@ -242,8 +249,7 @@
 		},
 		//左侧标签点击事件
 		rootclick: function (obj) {
-			obj.domtit.find('tree_tag').click(function (e) {
-
+			obj.domtit.find('tree_tag').click(function (event) {
 				var node = event.target ? event.target : event.srcElement;
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
@@ -256,7 +262,7 @@
 				//切换选项卡
 				crt.obj.switch(obj, tag);
 			});
-			obj.domtit.find('tree_tag').bind('mouseover', function (e) {
+			obj.domtit.find('tree_tag').bind('mouseover', function (event) {
 				var node = event.target ? event.target : event.srcElement;
 				//获取标签id
 				while (node.tagName.toLowerCase() != 'tree_tag') node = node.parentNode;
@@ -287,18 +293,32 @@
 		} else {
 			span = node.add('span');
 		}
+		//完成度	
+		if (item.complete < 100 && this.complete) {
+			var surplus = 100 - item.complete;
+			var color = "#00ca08";
+			if (surplus >= 90) color = "#ff0000";
+			else if (surplus >= 70) color = "#ff8a49";
+			else if (surplus >= 50) color = "#e6a23c";
+			else if (surplus >= 30) color = "#127ba0";
+			node.add('complete').html(surplus).css('background-color', color);
+			surplus = surplus < 20 ? 20 : surplus;
+			node.css('border-image', 'linear-gradient( to right,' + color + ' ' + surplus + '%, rgba(255, 255, 255,0) ' + (surplus + 5) + '%, rgba(255, 255, 255,0))');
+			node.css('border-bottom', 'solid 2px');
+		}
 		//字体样式
 		if (item.font) {
-			if (item.font.color) span.css('color', item.font.color);
-			if (item.font.bold) span.css('font-weight', item.font.bold ? 'bold' : 'normal');
-			if (item.font.italic) span.css('font-style', item.font.italic ? 'italic' : 'normal');
+			var fonts = span.merge(node.find('ico'));
+			if (item.font.color) fonts.css('color', item.font.color, true);
+			if (item.font.bold) fonts.css('font-weight', item.font.bold ? 'bold' : 'normal', true);
+			if (item.font.italic) fonts.css('font-style', item.font.italic ? 'italic' : 'normal', true);
 		}
 		span.html(item.title);
 		span.width('calc(100% - ' + ((item.level - 1) * 15 + 40) + 'px)');
 
 		//如果有下级节点
 		if (item.childs && item.childs.length > 0) {
-			node.addClass('folder').click(function (e) {
+			node.addClass('folder').click(function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;
 				var tnode = $dom(n);
@@ -314,7 +334,7 @@
 		} else {
 			if (item.type != 'link') {
 				//节点点击事件
-				node.click(function (e) {
+				node.click(function (event) {
 					var n = event.target ? event.target : event.srcElement;
 					while (n.tagName.toLowerCase() != 'tree_box') n = n.parentNode;
 					//节点id

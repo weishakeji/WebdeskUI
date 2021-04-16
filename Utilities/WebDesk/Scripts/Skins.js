@@ -2,6 +2,13 @@
 	  风格管理
 */
 (function (window) {
+	var url = window.location.href;
+	if (url.charAt(url.length - 1) == "/")
+		url = url.substring(0, url.length - 1);
+	if (url.indexOf("/") > -1)
+		url = url.substring(url.lastIndexOf("/") + 1);
+	window.module = url;
+
 	//皮肤管理
 	var skins = function () {
 		this.night = false;
@@ -9,8 +16,8 @@
 		this._list = ['education', 'win10', 'win7'];
 		this._night = '_Night'; //夜间模式
 		this._cookies = {
-			curr: 'WebdeskUI-admin-skin',
-			night: 'WebdeskUI-admin-night'
+			curr: 'WebdeskUI-' + window.module + '-skin',
+			night: 'WebdeskUI-' + window.module + '-night'
 		};
 		//当前皮肤
 		this.current = function () {
@@ -57,11 +64,10 @@
 		//清除之前的
 		$dom('link[tag=skin]').remove();
 		//加载控件资源
-		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox', 'login'];
+		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox','login'];
 		var skin = this.isnight() ? this._night : this.current();
-		var dir = $dom.uipath();
 		for (var i = 0; i < resources.length; i++) {
-			resources[i] = dir + '/skins/' + skin + '/' + resources[i] + '.css';
+			resources[i] = '/Utilities/WebDesk/skins/' + skin + '/' + resources[i] + '.css';
 		}
 		var th = this;
 		window.$dom.load.css(resources, function () {
@@ -70,12 +76,11 @@
 		}, 'skin');
 	};
 	fn.loadskin = function (skin) {
-		var dir = $dom.uipath();
-		$dom.get(dir + '/skins/' + skin + '/intro.json', function (d) {
+		$dom.get('/Utilities/WebDesk/skins/' + skin + '/intro.json', function (d) {
 			if (d == null || d == '') return;
 			var obj = eval('(' + d + ')');
 			obj.tag = skin;
-			obj.path = 'skins/' + skin;
+			obj.path = '/Utilities/WebDesk/skins/' + skin;
 			window.$skins.list.push(obj);
 		});
 	}

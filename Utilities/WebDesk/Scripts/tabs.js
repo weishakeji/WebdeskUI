@@ -153,7 +153,7 @@
         },
         //右上角按钮事件
         morebtn: function (obj) {
-            obj.dom.find('tabs_more').click(function (e) {
+            obj.dom.find('tabs_more').click(function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
@@ -161,14 +161,14 @@
                 crt.obj.morebox = !crt.obj.morebox;
             });
             //当鼠标滑动到面板上时
-            obj.domore.bind('mouseover', function (e) {
+            obj.domore.bind('mouseover', function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
                 var crt = $ctrls.get($dom(node).attr('ctrid'));
                 crt.obj.morebox = true;
             });
-            obj.domore.bind('mouseleave', function (e) {
+            obj.domore.bind('mouseleave', function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 //获取组件id
                 while (!node.classList.contains('tabsbox')) node = node.parentNode;
@@ -183,18 +183,20 @@
         },
         //右键菜单事件
         dropmenu: function (obj) {
-            obj.domenu.bind('mouseover', function (e) {
-                tabs._getObj(e).cntmenu = true;
+            obj.domenu.bind('mouseover', function (event) {
+                var node = event.target ? event.target : event.srcElement;
+                tabs._getObj(node).cntmenu = true;
             });
-            obj.domenu.bind('mouseleave', function (e) {
-                var obj = tabs._getObj(e);
+            obj.domenu.bind('mouseleave', function (event) {
+                var node = event.target ? event.target : event.srcElement;
+                var obj = tabs._getObj(node);
                 obj._cntmenu = false;
                 window.setTimeout(function () {
                     if (!obj._cntmenu) obj.cntmenu = false;
                 }, 500);
             });
             //菜单项的事件
-            obj.dom.find('tabs_contextmenu>*').click(function (e) {
+            obj.dom.find('tabs_contextmenu>*').click(function (event) {
                 //识别按钮，获取事件动作             
                 var node = event.target ? event.target : event.srcElement;
                 if (node.tagName.indexOf('_') < 0) return;
@@ -286,9 +288,9 @@
             'marginheight': 0,
             'src': tab.url ? tab.url : ''
         });
-        iframe.bind('load', function (e) {
+        iframe.bind('load', function (event) {
             var node = event.target ? event.target : event.srcElement;
-            var obj = tabs._getObj(e);
+            var obj = tabs._getObj(node);
             obj.trigger('load', {
                 tabid: $dom(node).attr('id'), //标签id
                 data: tab, //标签数据源
@@ -345,7 +347,7 @@
         tagclick: function (obj, tabid) {
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
                 .merge(obj.domore.find('tab_tag[tabid=\'' + tabid + '\']'))
-                .click(function (e) {
+                .click(function (event) {
                     var node = event.target ? event.target : event.srcElement;
                     //是否移除
                     var isremove = node.tagName.toLowerCase() == 'close';
@@ -361,7 +363,7 @@
                     obj.focus(String(tabid), true);
                 });
             //双击标签关闭
-            obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').dblclick(function (e) {
+            obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']').dblclick(function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tab_tag') node = node.parentNode;
                 var tabid = $dom(node).attr('tabid');
@@ -377,7 +379,7 @@
                 var whell = e.wheelDelta ? e.wheelDelta : e.detail;
                 var action = whell > 0 ? "up" : "down"; //上滚或下滚
                 //获取组件
-                var node = event.target ? event.target : event.srcElement;
+                var node = e.target ? e.target : e.srcElement;
                 while (node.tagName.toLowerCase() != 'tabs_tagarea') node = node.parentNode;
                 var ctrid = $dom(node).parent().attr('ctrid');
                 var crt = $ctrls.get(ctrid);
@@ -399,7 +401,7 @@
         contextmenu: function (obj, tabid) {
             obj.domtit.find('tab_tag[tabid=\'' + tabid + '\']')
                 .merge(obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] tabpath'))
-                .bind('contextmenu', function (e) {
+                .bind('contextmenu', function (event) {
                     var node = event.target ? event.target : event.srcElement;
                     while ($dom(node).attr('tabid') == null) node = node.parentNode;
                     //当前tabs对象
@@ -412,7 +414,7 @@
                     obj.cntmenu = true; //显示右键菜单
                     var maxwid = obj.dombody.width() + obj.dombody.offset().left; //右侧最大区域               
                     var off = obj.dom.offset();
-                    var mouse = $dom.mouse(e);
+                    var mouse = $dom.mouse(event);
                     var left = (mouse.x + obj.domenu.width()) > maxwid ? mouse.x - off.left - obj.domenu.width() + 10 : mouse.x - off.left - 10;
                     obj.domenu.left(left).top(mouse.y - off.top - 5);
                     obj.domenu.attr('tabid', tabid).attr('index', index);
@@ -423,7 +425,7 @@
         },
         //帮助按钮点击事件
         help: function (obj, tabid) {
-            obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] help').click(function (e) {
+            obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] help').click(function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
                 var tabid = $dom(node).attr('tabid');
@@ -438,7 +440,7 @@
         },
         //打印按钮的事件
         print: function (obj, tabid) {
-            obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] print').click(function (e) {
+            obj.dombody.find('tabpace[tabid=\'' + tabid + '\'] print').click(function (event) {
                 var node = event.target ? event.target : event.srcElement;
                 while (node.tagName.toLowerCase() != 'tabpace') node = node.parentNode;
                 var tabid = $dom(node).attr('tabid');
@@ -583,9 +585,10 @@
         return tobj;
     };
     //用于事件中，取点击的对象
-    tabs._getObj = function (e) {
-        var node = event.target ? event.target : event.srcElement;
-        while (!node.classList.contains('tabsbox')) node = node.parentNode;
+    tabs._getObj = function (node) {
+        //var node = event.target ? event.target : event.srcElement;
+        while (node.classList.contains && !node.classList.contains('tabsbox'))
+            node = node.parentNode;
         var ctrl = $ctrls.get(node.getAttribute('ctrid'));
         return ctrl.obj;
     };

@@ -133,7 +133,7 @@
     height: 30px;
     line-height: 30px;
     width: calc(100% - 110px - 20px);
-    font-size: 14px;
+    font-size: 13px;
     overflow: hidden;
     padding-right: 5px;
     text-indent: 5px;
@@ -217,7 +217,7 @@
 /*刷新的菜单项*/
 
 .pagebox .ui_menu>menu_fresh:before {
-    content: '\e695';
+    content: '\e651';
 }
 .pagebox .ui_menu>menu_print:before {
     content: '\a046';
@@ -235,7 +235,7 @@
 }
 
 .pagebox .ui_menu>menu_max:before {
-    content: '\697';
+    content: '\e6a6';
 }
 
 .pagebox .ui_menu>menu_win:before {
@@ -464,7 +464,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a002';
+    content: '\a01b';
     display: block;
     height: 100%;
     width: 100%;

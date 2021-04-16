@@ -180,7 +180,7 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_more:before {
-    content: '\a006';
+    content: '\a01e';
     line-height: 20px;
     height: 20px;
     width: 30px;
@@ -432,7 +432,7 @@ tabs_morebox tab_tag close:before {
 /*刷新的菜单项*/
 
 .tabsbox tabs_contextmenu>menu_fresh:before {
-    content: '\e695';
+    content: '\e651';
 }
 
 .tabsbox tabs_contextmenu>menu_print:before {
@@ -441,7 +441,7 @@ tabs_morebox tab_tag close:before {
 }
 
 .tabsbox tabs_contextmenu>menu_full:before {
-    content: '\697';
+    content: '\e6a6';
 }
 
 .tabsbox tabs_contextmenu>menu_restore:before {

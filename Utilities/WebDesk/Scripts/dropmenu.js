@@ -228,7 +228,7 @@
 		},
 		//根菜单滑过事件
 		root_hover: function (obj) {
-			obj.domtit.find('drop-node').bind('mouseover', function (e) {
+			obj.domtit.find('drop-node').bind('mouseover', function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				var node = $dom(n);
@@ -263,7 +263,7 @@
 		},
 		//子菜单滑过事件
 		node_hover: function (obj) {
-			obj.dombody.find('drop-panel drop-node').bind('mouseover', function (e) {
+			obj.dombody.find('drop-panel drop-node').bind('mouseover', function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 				var node = $dom(n);
@@ -305,7 +305,7 @@
 		node_click: function (obj) {
 			obj.dombody.find('drop-node:not([type=link])')
 				.merge(obj.dom.find('drop-node:not([type=link])'))
-				.click(function (e) {
+				.click(function (event) {
 					var n = event.target ? event.target : event.srcElement;
 					while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
 					//节点id
@@ -442,8 +442,8 @@
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
-	dropmenu._getObj = function (e) {
-		var node = event.target ? event.target : event.srcElement;
+	dropmenu._getObj = function (node) {
+		//var node = event.target ? event.target : event.srcElement;
 		while (!node.classList.contains('dropmenu')) node = node.parentNode;
 		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
 		return ctrl.obj;
