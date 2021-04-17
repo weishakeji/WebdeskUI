@@ -28,7 +28,7 @@
             level: null, //窗体的层深
             initLvl: 10000, //初始层深
             title: '默认标题',
-            ico: 'e77c', //图标
+            ico: 'a021', //图标
             url: '',
             id: 0,
             pid: '', //父级窗体名称

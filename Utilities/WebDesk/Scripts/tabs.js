@@ -261,7 +261,7 @@
         var size = this.childs.length;
         if (!tab.id) tab.id = 'tab_' + Math.floor(Math.random() * 100000) + '_' + (size + 1);
         if (!tab.index) tab.index = size + 1;
-        if (!tab.ico) tab.ico = 'a004';
+        if (!tab.ico) tab.ico = 'a01d';
         this.childs.push(tab);
         //添加标签
         var tabtag = this.domtit.add('tab_tag');
