@@ -296,25 +296,25 @@
         },
         //滑块拖动
         drag: function (obj) {
-            obj.dom.find('login_dragbox').mousedown(function (e) {
+            obj.dom.find('login_dragbox').bind('mousedown,touchstart', function (e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return;
                 obj.drag = true;
                 obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
 
-            }).bind('mouseup', function (e) {
+            }).bind('mouseup,touchend', function (e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mouseleave', function (e) {
+            obj.dom.find('login_drag>div').bind('mouseleave,touchend', function (e) {
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
-            obj.dom.find('login_drag>div').bind('mousemove', function (e) {
+            obj.dom.find('login_drag>div').bind('mousemove,touchmove', function (e) {
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return; //如果拖动完成，则不能拖动
                 //计算移动最大宽度范围
-                var node = event.target ? event.target : event.srcElement;
+                var node = e.target ? e.target : e.srcElement;
                 var parent = $dom(node).parent();
                 var min = 5;
                 var dragbox = obj.dom.find('login_dragbox');
