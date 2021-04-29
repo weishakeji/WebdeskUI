@@ -46,6 +46,7 @@
         this.dombody = null;
         this.domfoot = null;
         this.customVerify = []; //自定义验证方法
+        this.$slot = null;         //插槽
         //
         if (!this._id) this._id = 'login_' + new Date().getTime();
         $ctrls.add({
@@ -57,6 +58,13 @@
     };
     var fn = login.prototype;
     fn._initialization = function () {
+        var area = $dom(this.target);
+        if (area.length < 1) {
+            console.log('Login所在区域不存在');
+            return;
+        }
+        this.$slot = area.html();
+        area.html('');
         if (!this._id) this._id = 'login_' + new Date().getTime();
     };
     //当属性更改时触发相应动作
@@ -162,6 +170,9 @@
         loading: function (obj, val, old) {
             if (obj.dom) {
                 if (val) {
+                    var form = obj.dom.find('form.login_body');
+                    console.log('表单');
+                    console.log(form);
                     obj.dom.find('form.login_body').hide();
                     obj.dom.find('div.login_loding').show();
                 } else {
@@ -269,6 +280,11 @@
             var tel = obj.domfoot.add('login_tel');
             if (obj.tel == '') tel.hide();
             tel.html(obj.tel);
+        },
+        slot: function (obj) {
+            var slot = obj.dom.add('div').addClass("slot");
+            slot.html(obj.$slot);
+            //obj.dom.html(obj.dom.html()+obj.$slot);
         }
     };
     //基础事件
@@ -297,20 +313,23 @@
         //滑块拖动
         drag: function (obj) {
             obj.dom.find('login_dragbox').bind('mousedown,touchstart', function (e) {
+                if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return;
                 obj.drag = true;
-                obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
-
+                obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值               
             }).bind('mouseup,touchend', function (e) {
+                if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
                 obj.drag = false;
             });
             obj.dom.find('login_drag>div').bind('mouseleave,touchend', function (e) {
+                if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
-                obj.drag = false;
+                obj.drag = false;               
             });
             obj.dom.find('login_drag>div').bind('mousemove,touchmove', function (e) {
+                if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return; //如果拖动完成，则不能拖动
                 //计算移动最大宽度范围
@@ -332,7 +351,7 @@
                     } else {
                         obj.dom.find("login_drag").removeClass('complete').css("opacity", 1);
                     }
-                }
+                }               
             });
         },
         //输入更改时
