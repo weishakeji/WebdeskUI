@@ -27,8 +27,6 @@
     z-index: 2;
 }
 
-.pagebox margin nw {}
-
 .pagebox margin w {
     height: calc(100% - 20px);
     top: 10px;
@@ -132,7 +130,7 @@
 .pagebox pagebox_title pb-text {
     height: 30px;
     line-height: 30px;
-    width: calc(100% - 110px - 20px);
+    width: calc(100% - 50px);
     font-size: 13px;
     overflow: hidden;
     padding-right: 5px;
@@ -285,8 +283,6 @@
     background-color: #eee;
 }
 
-.pagebox btnbox>*:first-child {}
-
 .pagebox btnbox>*:last-child {
     border-top: none;
 }
@@ -302,8 +298,6 @@
     line-height: 18px;
     cursor: pointer;
 }
-
-.pagebox btnbox btn_min {}
 
 .pagebox btnbox btn_min::before {
     content: "\e600";
@@ -323,10 +317,6 @@
     content: "\e6c4";
     padding-top: 1px;
     font-size: 15px;
-}
-
-.pagebox btnbox btn_close {
-   
 }
 
 .pagebox btnbox btn_close:hover {

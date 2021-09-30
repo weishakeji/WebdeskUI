@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：下拉菜单
  * 说 明：
  * 1、支持无限级菜单分类;
@@ -191,6 +191,7 @@
 
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
+				panel.attr('root',obj.target);
 				panel.attr('pid', item.id).level(item.level + item.index + 1);
 				if (item.level == 1) panel.addClass('level1');
 				//计算高度

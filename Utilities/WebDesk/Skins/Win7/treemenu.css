@@ -1,15 +1,10 @@
 ﻿@charset "utf-8";
-
 .treemenu {
-  
     width: 100%;
     height: 100%;
     overflow: hidden;
     transition: width 0.3s, height 0.3s;
-    box-shadow: 
-        0 -1px #fff,
-        1px 0 #333,
-        0 1px #333;
+    box-shadow: 0 -1px #fff, 1px 0 #333, 0 1px #333;
 }
 
 .treemenu * {
@@ -20,9 +15,7 @@
     text-decoration: none;
 }
 
-.treemenu a,
-.treemenu span,
-.treemenu tree-node ico {
+.treemenu a, .treemenu span, .treemenu tree-node ico {
     color: #1b1b1b;
 }
 
@@ -30,7 +23,7 @@
     width: 40px;
     height: 100%;
     float: left;
-    position: relative;   
+    position: relative;
 }
 
 .treemenu tree_tags tree_tag {
@@ -39,9 +32,6 @@
     height: 60px;
     background-color: rgb(195, 195, 195);
     transform: background-color .1s;
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: .3s;
-    -webkit-transition-timing-function: ease;
     color: #095db3;
     background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .8) 100%);
 }
@@ -57,11 +47,6 @@
 }
 
 .treemenu tree_tags tree_tag.loading ico {
-
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
     -webkit-animation: rotate 1s linear infinite;
     -moz-animation: rotate 1s linear infinite;
     -o-animation: rotate 1s linear infinite;
@@ -72,7 +57,6 @@
     from {
         -webkit-transform: rotate(0deg)
     }
-
     to {
         -webkit-transform: rotate(360deg)
     }
@@ -82,7 +66,6 @@
     from {
         -moz-transform: rotate(0deg)
     }
-
     to {
         -moz-transform: rotate(359deg)
     }
@@ -92,7 +75,6 @@
     from {
         -o-transform: rotate(0deg)
     }
-
     to {
         -o-transform: rotate(359deg)
     }
@@ -102,7 +84,6 @@
     from {
         transform: rotate(0deg)
     }
-
     to {
         transform: rotate(359deg)
     }
@@ -117,20 +98,23 @@
     padding: 0px 5px 0px 5px;
 }
 
-.treemenu tree_tags tree_tag.curr {   
-   color: #1b1b1b;  
-   --background-color: rgba(255, 255, 255, .8);
-   background:linear-gradient(to right, rgba(161, 197, 247, 1) 0%, rgba(161, 197, 247, 1) 10%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, .8) 100%);
+.treemenu tree_tags tree_tag.curr {
+    color: #1b1b1b;
+    --background-color: rgba(255, 255, 255, .8);
+    background: linear-gradient(to right, rgba(161, 197, 247, 1) 0%, rgba(161, 197, 247, 1) 10%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, .8) 100%);
 }
-.treemenu tree_tags tree_tag.curr:before {   
-  content: '>';
-  position: absolute;
-  display: block;
-  right: 0px;
-  top:10px;
-  font: 800 9px/14px consolas;
+
+.treemenu tree_tags tree_tag.curr:before {
+    content: '>';
+    position: absolute;
+    display: block;
+    right: 0px;
+    top: 10px;
+    font: 800 9px/14px consolas;
 }
+
 /*折叠按钮*/
+
 .treemenu tree_tags tree-foldbtn {
     position: absolute;
     bottom: 0px;
@@ -160,6 +144,7 @@
 }
 
 /*左侧标签区，用于填充空白的*/
+
 .treemenu tree_tags tree-tagspace {
     width: 100%;
     display: block;
@@ -168,29 +153,31 @@
     background-color: rgb(195, 195, 195);
     bottom: 0px;
     z-index: 1;
-background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .8) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .8) 100%);
 }
 
 /*树形菜单区域*/
+
 .treemenu tree_body {
-     background-color: rgba(255, 255, 255, .8);
-   
+    background-color: rgba(255, 255, 255, .8);
     height: 100%;
     float: right;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
     transition: width 0.3s, height 0.3s;
 }
 
 .treemenu tree_area {
     width: 100%;
-    height: calc(100% - 10px);
+    height: 100%;
     display: block;
     margin: 0px;
     padding: 0px;
     cursor: default;
-    --background-color: green;
+    box-sizing: border-box;
+    position: relative;
+    padding: 50px 0px 0px 0px;
+    overflow: hidden;
 }
 
 .treemenu tree_area loading {
@@ -202,10 +189,6 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     color: #999;
     font-size: 35px;
     font-family: "webdesk_icon" !important;
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 2s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 2s;
     -webkit-animation: rotate 2s linear infinite;
     -moz-animation: rotate 2s linear infinite;
     -o-animation: rotate 2s linear infinite;
@@ -216,22 +199,36 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     height: 30px;
     line-height: 30px;
     width: calc(100% - 20px);
+    box-sizing: border-box;
     margin: 10px 10px 10px 10px;
     font-size: 15px;
     border-radius: 3px;
     text-align: center;
     font-weight: bold;
-   background-color: rgba(107, 106, 106, 0.2);
-    color: #4e4e4e;
+    background-color: rgba(107, 106, 106, 0.2);  
     text-shadow: 1px 1px 2px #f9f9f9;
     background-image: linear-gradient(rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
-    box-shadow: -1px 0 #333,
-        0 -1px #333,
-        1px 0 #fff,
-        0 1px #fff;
+    box-shadow: -1px 0 #333, 0 -1px #333, 1px 0 #fff, 0 1px #fff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
-
+.treemenu tree_area tree_tit *{
+    display: inline;
+    color: #4e4e4e;
+}
+.treemenu tree_area tree_tit i{
+    font-style:normal;
+    margin-right: 5px;
+    font-family: "webdesk_icon" !important;
+}
+.treemenu tree_area>div{
+    height: calc(100%);
+    width: calc(100%);
+    overflow-y: auto;
+}
 /*树形节点*/
+
 .treemenu tree-node {
     position: relative;
     font-size: 14px;
@@ -245,7 +242,8 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     white-space: nowrap;
     border-image-slice: 10;
 }
-.treemenu tree-node complete{   
+
+.treemenu tree-node complete {
     color: #ffffff;
     width: 20px;
     height: 20px;
@@ -256,13 +254,15 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     position: absolute;
     background-color: red;
     bottom: -5px;
-    left: 1px;   
+    left: 1px;
 }
-.treemenu tree_box{
+
+.treemenu tree_box {
     display: block;
     overflow: hidden;
     transition: all 0.3s;
 }
+
 .treemenu tree-node span {
     width: auto;
     display: inline-block;
@@ -280,7 +280,6 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     height: 30px;
     font-weight: normal;
     width: 20px;
-    float: left;
     margin-right: 5px;
     display: inline-block;
     font-family: "webdesk_icon" !important;
@@ -308,13 +307,10 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
 .treemenu tree-node:hover {
     --background-color: rgba(200, 200, 200, 1);
     text-shadow: 1px 1px 2px #999;
-
 }
 
-.treemenu tree-node:hover span,
-.treemenu tree-node:hover a {
+.treemenu tree-node:hover span, .treemenu tree-node:hover a {
     color: #333;
-
 }
 
 .treemenu tree-node:hover:after {
@@ -330,15 +326,13 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
     left: 3px;
     top: 3px;
     z-index: 1;
-    border-radius: 3px;    
-    box-shadow: -1px 0 #eee,
-        0 -1px #eee,
-        1px 0 #666,
-        0 1px #666;
+    border-radius: 3px;
+    box-shadow: -1px 0 #eee, 0 -1px #eee, 1px 0 #666, 0 1px #666;
     background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
 
 /*子节点右侧的三角号*/
+
 .treemenu tree-node.folder:after {
     content: '\a01e';
     transform: rotate(90deg);
@@ -346,5 +340,4 @@ background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255
 
 .treemenu tree-node.folderclose:after {
     content: '\a01e';
-
 }

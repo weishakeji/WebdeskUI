@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：选项卡
  * 说 明：
  * 1、选项卡无限增加；
@@ -227,7 +227,7 @@
                     }
                     //批量关闭
                     for (var i = 0; i < tabids.length; i++) {
-                        obj.remove(tabids[i], true);
+                        obj.remove(tabids[i], true, true);
                     }
                 }
                 //最大化
@@ -358,7 +358,7 @@
                     while (!node.classList.contains('tabsbox')) node = node.parentNode;
                     var obj = tabs._getObj(node);
                     //是否移除标签
-                    if (isremove) return obj.remove(tabid, true);
+                    if (isremove) return obj.remove(tabid, true, true);
                     //切换焦点
                     obj.focus(String(tabid), true);
                 });
@@ -537,7 +537,8 @@
     };
     //移除某个选项卡
     //istrigger：是否触发事件
-    fn.remove = function (tabid, istrigger) {
+    //isdefault: 当移除所有选项卡，是否打开默认页
+    fn.remove = function (tabid, istrigger, isdefault) {
         var data = this.getData(tabid);
         //触发关闭事件,如果返回false,则不再关闭
         if (istrigger) {
@@ -570,10 +571,17 @@
         if (next != null) this.focus(next, true);
 
         //如果全都没有了，则显示默认标签
-        if (this.childs.length < 1 && this.default) {
+        if (this.childs.length < 1 && this.default && isdefault) {
             this.add(this.default);
         }
         return this;
+    };
+    //清空所有选项卡
+    fn.clear = function () {
+        var arr = Object.assign({}, this.childs);
+        for (var i in arr) {
+            this.remove(arr[i].id, false, false);
+        }
     };
     /*** 
     以下是静态方法
@@ -625,6 +633,7 @@
             crtid: obj.id,
             tabid: tabid
         });
+        //fbox.find("iframe").width('100%').height('100%');
         tabpace.find('iframe').remove();
         //设置fullbox的初始位置
         var offset = tabpace.offset();

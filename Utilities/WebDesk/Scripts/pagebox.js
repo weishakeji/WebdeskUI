@@ -287,16 +287,40 @@
             var btnbox = obj.dom.find('btnbox');
             if (btnbox.length < 1) btnbox = obj.dom.add('btnbox');
             btnbox.childs().remove();
+            //标题文本的宽度值（是负值，100%要减去的值）
+            var pbtext_width = 25;
+            //如果最小化或最大化，有任意一个允许，则两个都显示
             if (obj._min || obj._max) {
                 btnbox.append('btn_min').append('btn_max');
                 if (!obj._min) btnbox.find('btn_min').addClass('btndisable');
                 if (!obj._max) btnbox.find('btn_max').addClass('btndisable');
                 obj._baseEvents.min_max(obj.dom[0]);
+                pbtext_width += 50;
             }
             if (obj._close) {
                 btnbox.append('btn_close');
                 obj._baseEvents.close(obj.dom[0]);
+                pbtext_width += 20;
             }
+            //设置标题的宽度
+            obj.dom.find('pb-text').width('calc(100% - ' + pbtext_width + 'px)');
+            /*
+            //如果右上角，最小化、最大化、关闭三个按钮都不显示，则标题可以宽一些
+            if (!obj._min && !obj._max && !obj._close) {
+                obj.dom.find('pb-text').width('calc(100% - 25px)');
+            }
+            //如果仅显示关闭按钮
+            if (!obj._min && !obj._max && obj._close) {
+                obj.dom.find('pb-text').width('calc(100% - 40px)');
+            }
+            //如果三个按钮全部显示
+            if ((obj._min || obj._max) && obj._close) {
+                obj.dom.find('pb-text').width('calc(100% - 120px)');
+            }
+            //如果只显示最大化和最小化，不显示关闭
+            if ((obj._min || obj._max) && !obj._close) {
+                obj.dom.find('pb-text').width('calc(100% - 90px)');
+            }*/
         },
         //主体内容区
         body: function (obj) {

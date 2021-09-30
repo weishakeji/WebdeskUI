@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：树形菜单
  * 说 明：
  * 1、支持无限级菜单分类;
@@ -20,7 +20,8 @@
 			id: '',
 			complete: false,	//是否显示完成度
 			bind: true, //是否实时数据绑定
-			fold: false //是否折叠
+			fold: false, //是否折叠
+			taghide: false		//是否隐藏标签项
 		};
 		for (var t in param) this.attrs[t] = param[t];
 		eval($ctrl.attr_generate(this.attrs));
@@ -70,7 +71,9 @@
 		'width': function (obj, val, old) {
 			if (obj.dom) {
 				obj.dom.width(val);
-				obj.dombody.width(val - 40);
+				if (obj.taghide) obj.dombody.width(val)
+				else
+					obj.dombody.width(val - 40);
 				obj.trigger('resize', {
 					width: val,
 					height: obj._height,
@@ -173,9 +176,12 @@
 			area.addClass('treemenu').attr('ctrid', obj.id);
 			obj.dom = area;
 		},
-		//左侧标题区
+		//左侧标签区
 		title: function (obj) {
+			//if (obj.taghide) return;
 			obj.domtit = obj.dom.add('tree_tags');
+			//隐藏左侧标签栏
+			if (obj.taghide) obj.domtit.hide();
 			obj.domtit.add('tree-foldbtn');
 			//左侧选项卡
 			for (var i = 0; i < obj.datas.length; i++) {
@@ -200,14 +206,18 @@
 				var area = obj.dombody.add('tree_area');
 				area.attr('treeid', item.id).hide();
 				//右侧菜单的大标题
-				area.add('tree_tit').html(item.title);
+				var tit = area.add('tree_tit');
+				if (item.ico != '')
+					tit.add("i").html("&#x" + item.ico);
+				tit.add("span").html(item.title);
 				if (item.type == 'loading') {
 					area.add('loading').html('&#x' + item.ico);
 					continue;
 				}
+				var div = area.add('div');
 				if (item.childs) {
 					for (var j = 0; j < item.childs.length; j++) {
-						_addchild(area, item.childs[j], obj);
+						_addchild(div, item.childs[j], obj);
 					}
 				}
 			}
@@ -216,7 +226,7 @@
 				var box = area.add('tree_box');
 				box.attr('treeid', item.id);
 				obj._createNode(item, box);
-				if (item.childs && item.childs.length > 0) {
+				if (item.type != 'node' && item.childs && item.childs.length > 0) {
 					for (var i = 0; i < item.childs.length; i++) {
 						_addchild(box, item.childs[i], obj);
 					}
@@ -317,7 +327,7 @@
 		span.width('calc(100% - ' + ((item.level - 1) * 15 + 40) + 'px)');
 
 		//如果有下级节点
-		if (item.childs && item.childs.length > 0) {
+		if (item.type != 'node' && item.childs && item.childs.length > 0) {
 			node.addClass('folder').click(function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'tree-node') n = n.parentNode;

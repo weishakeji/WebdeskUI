@@ -1,4 +1,4 @@
-/*
+﻿/*
 	  风格管理
 */
 (function (window) {
@@ -12,6 +12,7 @@
 	//皮肤管理
 	var skins = function () {
 		this.night = false;
+		this.rootpath = '/Utilities/webdesk/skins/';
 		this.list = [];
 		this._list = ['education', 'win10', 'win7'];
 		this._night = '_Night'; //夜间模式
@@ -64,10 +65,10 @@
 		//清除之前的
 		$dom('link[tag=skin]').remove();
 		//加载控件资源
-		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox','login'];
+		var resources = ['admin', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'pagebox'];
 		var skin = this.isnight() ? this._night : this.current();
 		for (var i = 0; i < resources.length; i++) {
-			resources[i] = '/Utilities/WebDesk/skins/' + skin + '/' + resources[i] + '.css';
+			resources[i] = this.rootpath + skin + '/' + resources[i] + '.css';
 		}
 		var th = this;
 		window.$dom.load.css(resources, function () {
@@ -76,11 +77,12 @@
 		}, 'skin');
 	};
 	fn.loadskin = function (skin) {
-		$dom.get('/Utilities/WebDesk/skins/' + skin + '/intro.json', function (d) {
+		var th = this;
+		$dom.get(th.rootpath + skin + '/intro.json', function (d) {
 			if (d == null || d == '') return;
 			var obj = eval('(' + d + ')');
 			obj.tag = skin;
-			obj.path = '/Utilities/WebDesk/skins/' + skin;
+			obj.path = th.rootpath + skin;
 			window.$skins.list.push(obj);
 		});
 	}

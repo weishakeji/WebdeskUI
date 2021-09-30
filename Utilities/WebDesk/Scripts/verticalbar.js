@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：竖形工具条
  * 说 明：
  * 1、用于页面左侧或右侧的工具条;
@@ -147,7 +147,7 @@
 				} else {
 					node.html('&#x' + (item.ico ? item.ico : 'a022'));
 				}
-				
+
 				return node;
 			}
 		},
@@ -244,14 +244,15 @@
 				var panel = $dom('vbar-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
 					panel.show();
-					var maxwd = window.innerWidth;
-					var maxhg = window.innerHeight;
-					var left = offset.left + panel.width() > maxwd ? offset.left - panel.width() - 8 : offset.left + obj.width + 8;
+					var maxset = obj.dom.offset();
+					var maxwd = maxset.left + obj.dom.width();
+					var maxhg = maxset.top + obj.dom.height();				
+					if (maxwd > window.innerWidth / 2) panel.left(offset.left - panel.width() - 20);
+					if (maxwd < window.innerWidth / 2) panel.left(offset.left + obj.width + 20);
+					//var left = offset.left + panel.width() > maxwd ? offset.left - panel.width() - 20 : offset.left + obj.width + 20;
 					var top = offset.top + panel.width() > maxhg ? offset.top - panel.height() : offset.top;
 					//当前面板的位置
-					panel.left(left).top(top);
-					if (left - offset.left > 0) panel.attr('direction', 'left');
-					//.attr('x', left - offset.left).attr('y', top - offset.top);
+					panel.top(top);				
 				}
 				obj.leavetime = 3;
 				obj.leave = false;
@@ -357,7 +358,7 @@
 		return tobj;
 	};
 	//用于事件中，取点击的pagebox的对象
-	verticalbar._getObj = function (node) {		
+	verticalbar._getObj = function (node) {
 		while (!node.classList.contains('verticalbar')) node = node.parentNode;
 		var ctrl = $ctrls.get(node.getAttribute('ctrid'));
 		return ctrl.obj;

@@ -13,10 +13,6 @@
 }
 .dropmenu .loading  ico{
     display: inline-block;
-     -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1s;
-    -moz-transition-property: -moz-transform;
-    -moz-transition-duration: 1s;
     -webkit-animation: rotate 1s linear infinite;
     -moz-animation: rotate 1s linear infinite;
     -o-animation: rotate 1s linear infinite;
@@ -52,9 +48,6 @@
     width: 120px;
     cursor: pointer;
     transform: background-color .1s;
-    -webkit-transition-property: background-color;
-    -webkit-transition-duration: .3s;
-    -webkit-transition-timing-function: ease;
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * 主 题：登录框
  * 说 明：
  * 1、支持支持滑块；
@@ -20,6 +20,7 @@
             title: '', //标题
             ico: 'a003', //图标的字体符号
             icoimg: '', //图标的图片样式
+            buttontxt: '登录',       //提交按钮上的文字
             company: '', //公司名称
             website: '', //公司的网址
             tel: '', //联系电话
@@ -85,6 +86,19 @@
         },
         'title': function (obj, val, old) {
             if (obj.domtit) obj.domtit.find('login_tit').html(val);
+        },
+        'icoimg': function (obj, val, old) {
+            if (obj.domtit) {
+                var ico = obj.domtit.find('login_ico');
+                if (obj.icoimg != '') {
+                    ico.find('i').remove();
+                    ico.add('img').attr('src', obj.icoimg);
+                }
+                if (obj.icoimg == '') {
+                    ico.find('img').remove();
+                    ico.add('i').html('&#x' + obj.ico);
+                }
+            }
         },
         'company': function (obj, val, old) {
             if (obj.domfoot) {
@@ -256,7 +270,7 @@
             drag.add('div').html('<span>向右拖动滑块</span>').add('login_dragbox');
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
-            btnarea.add('button').attr('type', 'submit').html('登录');
+            btnarea.add('button').attr('type', 'submit').html(obj.buttontxt);
             //各项提示框
             obj.dombody.find('login_row').add('login_tips');
             //.html('不得为空！');
@@ -326,7 +340,7 @@
             obj.dom.find('login_drag>div').bind('mouseleave,touchend', function (e) {
                 if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
-                obj.drag = false;               
+                obj.drag = false;
             });
             obj.dom.find('login_drag>div').bind('mousemove,touchmove', function (e) {
                 if (e && e.preventDefault) e.preventDefault();
@@ -351,7 +365,7 @@
                     } else {
                         obj.dom.find("login_drag").removeClass('complete').css("opacity", 1);
                     }
-                }               
+                }
             });
         },
         //输入更改时
