@@ -7,267 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WebdeskUI.首页</title>
     <link rel="stylesheet" type="text/css" href="Utilities/WebDesk/styles/webdesk.ui.core.css" />
-
-    <style type="text/css">
-        html,
-        body {
-            text-align: center;
-            color: #333;
-            margin: 0px;
-            padding: 0px;
-
-            background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
-        }
-
-        body>*:not(:first-child) {
-            width: 1000px;
-            margin: 0px auto 0px auto;
-        }
-
-        h1 {
-            font-size: 60px;
-            color: #fff;
-            text-shadow: .2rem 0rem 1.2rem rgba(150, 150, 150, 1), -.2rem 0rem 1.2rem rgba(150, 150, 150, 1), 0rem .2rem 1.2rem rgba(150, 150, 150, 1), 0rem -.2rem 1.2rem rgba(150, 150, 150, 1);
-        }
-
-        a {
-            text-decoration: none;
-            color: #333;
-            transition: all .5s;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        p {
-            text-align: left;
-            text-indent: 2em;
-        }
-
-        header {
-            background-color: #1B9AF7;
-            height: 40px;
-            line-height: 40px;
-            box-shadow: 0 1px 1px #0880d7, 0 1px 1px rgba(0, 0, 0, 0.3);
-            text-shadow: 1px 1px 2px #666;
-            color: #fff;
-        }
-
-        header>div {
-            width: 1000px;
-            margin: 0px auto 0px auto;
-        }
-
-        header i {
-            font-family: "webdesk_icon" !important;
-            font-style: normal;
-            color: #fff;
-            font-size: 20px;
-            margin-right: 10px;
-        }
-
-        header a {
-            display: block;
-            float: right;
-            transition: all .5s;
-            margin-left: 20px;
-        }
-
-        header a:hover,
-        header a:hover * {
-            text-decoration: none;
-            --color: rgba(200, 0, 0, .9);
-            transform: scale(1.1);
-        }
-
-        header .title {
-            display: block;
-            height: 20px;
-            margin-top: 5px;
-            width: auto;
-            padding: 5px;
-            float: left;
-            font-size: 20px;
-            line-height: 20px;
-            color: #eee !important;
-            background-color: #ffb83c;
-            border-radius: 3px;
-            box-shadow: 0px 1px 2px #fff, 1px 0px 2px #fff;
-        }
-
-        header .title i {
-            font-size: 30px;
-            font-weight: normal;
-            line-height: 20px;
-            float: left;
-        }
-
-        .intro p {
-            font-size: 20px;
-            line-height: 35px;
-        }
-
-        .items {
-            width: 900px !important;
-            display: flex;
-            flex-direction: row;
-            margin-bottom: 20px !important;
-        }
-
-        dt,
-        dd {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .items dl {
-            margin: 0px 2% 0px 0px;
-            float: left;
-            border: solid 1px #ccc;
-            padding: 0px;
-            min-height: 250px;
-            position: relative;
-            transform: all .5s;
-            box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
-            cursor: default;
-            flex: 1;
-            border-radius: 3px;
-            transition: all .5s;
-        }
-
-        .items dl:last-child {
-            margin-right: 0px;
-        }
-
-        dl:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-            transform: scale(1.04);
-            box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
-        }
-
-        .items dl:child-last {
-            margin: 0px;
-        }
-
-
-        dt {
-            border-bottom: solid 1px #ccc;
-            position: relative;
-            height: 40px;
-            padding-top: 30px;
-            background-color: rgba(255, 255, 255, 0.2);
-            font-size: 18px;
-            line-height: 35px;
-            text-align: left;
-            padding-left: 10px;
-        }
-
-        dt::before {
-            content: attr(icon);
-            font-family: "webdesk_icon" !important;
-            font-style: normal;
-            color: #666;
-            font-size: 25px;
-            display: block;
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            top: 0px;
-            left: 10px;
-        }
-
-        dt::after {
-            content: attr(name);
-            font-family: "webdesk_icon" !important;
-            font-style: normal;
-            color: #666;
-            font-size: 16px;
-            display: block;
-            position: absolute;
-            top: 0px;
-            left: 45px;
-        }
-
-        dd {
-            text-align: left;
-            padding: 5px;
-            margin: 0px 20px 0px 40px;
-            font-size: 14px;
-            counter-increment: item;
-        }
-
-        dd:before {
-            content: counter(item)".";
-            display: block;
-            float: left;
-            margin-right: 10px;
-            margin-left: -25px;
-        }
-
-        .footer {
-            width: 100% !important;
-            margin-bottom: 50px;
-            background-color: #3da5f1;
-            padding: 20px 0px 20px 0px;
-            color: #fff !important;
-            box-shadow: 0px -3px 1px #69bffc, 0px -3px 3px rgba(0, 0, 0, 0.3);
-        }
-
-        .footer .company {
-            font-size: 20px;
-        }
-
-        .footer * {
-            text-align: center;
-            color: #fff !important;
-        }
-
-        svg {
-            margin-right: 5px;
-        }
-
-        #adminbtn {
-            display: block;
-            width: 200px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 20px;
-            border: solid 1px #999;
-            color: #FFF;
-            border-radius: 4px;
-            background-color: #1B9AF7;
-            border-color: #1B9AF7;
-            font-style: normal;
-            text-align: left;
-            text-decoration: none;
-            box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
-            text-shadow: 1px 1px 2px #666;
-            transform: background-color .2s;
-            margin: 20px auto 30px auto;
-        }
-
-        #adminbtn:before {
-            content: '\a010';
-            font-family: "webdesk_icon" !important;
-            font-style: normal;
-            color: #eee;
-            font-size: 30px;
-            margin-right: 10px;
-            width: 40px;
-            height: 40px;
-            display: block;
-            float: left;
-            margin-left: 10px;
-            border-right: solid 1px #ccc;
-            box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.3);
-        }
-
-        #adminbtn:hover {
-            background-color: #3ea9f7;
-            box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="Utilities/WebDesk/Fonts/icon.css" />
+    <link rel="stylesheet" type="text/css" href="styles/index.css" />
 </head>
 
 <body>
@@ -284,27 +25,58 @@
                         d="M7 4c-.83 0-1.5-.67-1.5-1.5S6.17 1 7 1s1.5.67 1.5 1.5S7.83 4 7 4zm7 6c0 1.11-.89 2-2 2h-1c-1.11 0-2-.89-2-2l2-4h-1c-.55 0-1-.45-1-1H8v8c.42 0 1 .45 1 1h1c.42 0 1 .45 1 1H3c0-.55.58-1 1-1h1c0-.55.58-1 1-1h.03L6 5H5c0 .55-.45 1-1 1H3l2 4c0 1.11-.89 2-2 2H2c-1.11 0-2-.89-2-2l2-4H1V5h3c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h3v1h-1l2 4zM2.5 7L1 10h3L2.5 7zM13 10l-1.5-3-1.5 3h3z">
                     </path>
                 </svg>MIT开源协议</a>
-            <a href="https://github.com/weishakeji/WebdeskUI" target="_blank"><svg
-                    class="octicon octicon-mark-github v-align-middle" height="16" viewBox="0 0 16 16" version="1.1"
-                    width="16" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-                    </path>
-                </svg>Github开源库</a>
+
         </div>
     </header>
     <div class="intro">
-        <p style="color: red;">主要代码写于2020年春节新冠病毒流行期间，余毒尚存，谨慎使用！</p>
+        <p style="color: red;">写于2020年春节新冠病毒流行期间，余毒尚存，谨慎使用！</p>
     </div>
-    <div class="intro">
-        <p>WebdeskUI，这个名字是我随便取的，可能会和别人重名吧。仓促写起，堆砌而成，懒得起名了。</p>
-        <p>原本没有打算自己写UI，毕竟开源且免费的UI库太多了，不过没有找到满足我需求的。有一些比较牛逼的，但不免费。考虑到产品开发和应用，不希望将来在版权上受制于人，还是自己写吧。由于精力有限，我只考虑写一些主要的控件。
-        </p>
-        <p>其实我的需求并不复杂——我只是不希望我的B/S架构的管理系统看起来像个网页！</p>
+    <div class="abovearea">
+        <section>
+
+            <p>WebdeskUI，这个名字是我随便取的，可能会和别人重名吧。仓促写起，堆砌而成，懒得起名了。</p>
+            <p>原本没有打算自己写UI，毕竟开源且免费的UI库太多了，不过没有找到满足我需求的。有钟意的但人家不免费。
+                考虑到产品开发和应用，不希望将来在版权上受制于人，春节疫情封控期间用了十天左右完成。
+                不过由于精力有限，我只写了一些主要的控件。
+            </p>
+            <p>其实我的需求并不复杂——我只是不希望我的B/S架构的管理系统看起来像个网页！</p>
+
+        </section>
+        <section>
+            <a id="adminbtn" href="admin/index.html">
+                后台管理模板
+            </a>
+            <div>
+                <a href="https://gitee.com/weishakeji/WebdeskUI" target="_blank"><svg t="1689319627254" class="icon"
+                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1455"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18">
+                        <path
+                            d="M512 1024C229.222 1024 0 794.778 0 512S229.222 0 512 0s512 229.222 512 512-229.222 512-512 512z m259.149-568.883h-290.74a25.293 25.293 0 0 0-25.292 25.293l-0.026 63.206c0 13.952 11.315 25.293 25.267 25.293h177.024c13.978 0 25.293 11.315 25.293 25.267v12.646a75.853 75.853 0 0 1-75.853 75.853h-240.23a25.293 25.293 0 0 1-25.267-25.293V417.203a75.853 75.853 0 0 1 75.827-75.853h353.946a25.293 25.293 0 0 0 25.267-25.292l0.077-63.207a25.293 25.293 0 0 0-25.268-25.293H417.152a189.62 189.62 0 0 0-189.62 189.645V771.15c0 13.977 11.316 25.293 25.294 25.293h372.94a170.65 170.65 0 0 0 170.65-170.65V480.384a25.293 25.293 0 0 0-25.293-25.267z"
+                            fill="#C71D23" p-id="1456"></path>
+                    </svg>Gitee 代码库</a>
+            </div>
+            <div>
+                <a href="https://github.com/weishakeji/WebdeskUI" target="_blank"><svg
+                        class="octicon octicon-mark-github v-align-middle" height="16" viewBox="0 0 16 16" version="1.1"
+                        width="16" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                        </path>
+                    </svg>Github 代码库</a>
+            </div>
+            <div class="divider">
+                <span>主打产品</span>
+            </div>
+            <div class="product">
+                <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">
+                    <icon>&#xa001</icon>在线学习考试系统</a>
+            </div>
+        </section>
     </div>
-    <a id="adminbtn" href="admin/index.html">
-        后台管理模板
-    </a>
+
+    <div class="area">
+        <b>主要控件</b>
+    </div>
     <div class="items">
         <dl href="ctrls/pagebox.html">
             <dt icon='&#xa017' name='pagebox'>仿Windows窗体</dt>
@@ -314,7 +86,7 @@
             <dd>属性监听，双向绑定</dd>
         </dl>
         <dl href="ctrls/tabs.html">
-            <dt icon='&#xa01d' name='tabs'>选项卡</dt>
+            <dt icon='&#xa018' name='tabs'>选项卡</dt>
             <dd>选项卡无限增加</dd>
             <dd>鼠标滚轴切换选项卡</dd>
             <dd>支持鼠标右键关闭</dd>
@@ -343,7 +115,8 @@
             </a></p>
         <div>
             <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">Poweredby
-                Weishakeji.net</a> </div>
+                Weishakeji.net</a>
+        </div>
         <a href="http://www.miibeian.gov.cn" target="_blank">豫ICP备14012443号-3</a>
     </div>
     <script type="text/javascript">

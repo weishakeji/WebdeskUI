@@ -1,0 +1,315 @@
+html,
+body {
+    text-align: center;
+    color: #333;
+    margin: 0px;
+    padding: 0px;
+
+    --background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
+}
+
+body>*:not(:first-child) {
+    width: 1000px;
+    margin: 0px auto 0px auto;
+}
+
+h1 {
+    font-size: 60px;
+    color: #fff;
+    text-shadow: .2rem 0rem 1.2rem rgba(150, 150, 150, 1), -.2rem 0rem 1.2rem rgba(150, 150, 150, 1), 0rem .2rem 1.2rem rgba(150, 150, 150, 1), 0rem -.2rem 1.2rem rgba(150, 150, 150, 1);
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    transition: all .5s;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    text-align: left;
+}
+
+header {
+    height: 40px;
+    line-height: 40px;
+    padding: 20px;
+
+    box-shadow: 0 1px 1px #eee, 0 1px 1px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 2px #666;
+    color: #fff;
+}
+
+header>div {
+    width: 1000px;
+    margin: 0px auto 0px auto;
+}
+
+header i {
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+header a {
+    display: block;
+    float: right;
+    transition: all .5s;
+    margin-left: 20px;
+}
+
+header a:hover,
+header a:hover * {
+    text-decoration: none;
+    --color: rgba(200, 0, 0, .9);
+    transform: scale(1.1);
+}
+
+header .title {
+    display: block;
+    height: 20px;
+    margin-top: 5px;
+    width: auto;
+    padding: 8px;
+    float: left;
+    font-size: 20px;
+    line-height: 20px;
+    background-color: #ffb83c;
+    border-radius: 3px;
+    box-shadow: 0px 1px 5px #fb8686, 1px 0px 5px #fb8686;
+}
+
+header .title i {
+    font-size: 50px;
+    font-weight: normal;
+    line-height: 20px;
+    float: left;
+    box-shadow: 0px 1px 2px #ffb83c, 1px 0px 2px #ffb83c;
+}
+
+.intro p {
+    font-size: 20px;
+    line-height: 35px;
+}
+/*上方区域*/
+.abovearea{
+    display: flex;
+    margin: 20px auto 50px auto !important;
+}
+.abovearea section:first-child{
+    margin-right: 80px;
+}
+.abovearea p {
+    font-size: 16px;
+    line-height: 35px;   
+}
+.abovearea p  {
+    padding: 8px 16px;
+    background-color: #ecf8ff;
+    border-radius: 4px;
+    border-left: 5px solid #50bfff;
+    margin: 20px 0;
+}
+.abovearea section:last-child>div{
+    padding: 8px 30px;
+    text-align: left;
+}
+
+.abovearea svg {
+    margin-right: 5px;
+}
+
+#adminbtn {
+    display: block;
+    width: 220px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    border: solid 1px #999;
+    color: #FFF;
+    border-radius: 4px;
+    background-color: #1B9AF7;
+    border-color: #1B9AF7;
+    font-style: normal;
+    text-align: left;
+    text-decoration: none;
+    box-shadow: 0 3px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 2px #666;
+    transform: background-color .2s;
+    margin: 20px auto 45px auto;
+    padding: 10px 20px 10px 20px;
+}
+
+#adminbtn:before {
+    content: '\a010';
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    color: #eee;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    display: block;
+    float: left;
+    border-right: solid 1px #ccc;
+    padding-right: 15px;
+    margin: 3px 20px 0px 10px;
+}
+
+#adminbtn:hover {
+    background-color: #3ea9f7;
+    box-shadow: 0 4px 0 #3ea9f7, 0 4px 3px rgba(0, 0, 0, 0.3);
+}
+.area{   
+    margin: 20px auto 30px auto !important;
+    
+}
+.area b{
+    font-size: 20px;
+}
+.divider{
+    display: block;
+    height: 1px;
+    width: 100%;
+    margin: 24px 0; 
+    position: relative;
+    box-sizing: border-box;
+    border-bottom: solid 1px #ccc ;
+}
+.divider span{
+    display: block;
+    position: absolute;
+    background-color: #fff;
+    padding: 0 20px;
+    font-weight: 500;
+    color: #303133;
+    font-size: 14px;
+    left: 20px;
+    top: 13px;
+    transform: translateY(-50%);
+}
+.product a{
+    font-size: 20px;
+    display: flex;
+    
+}
+.product a:hover{
+    text-decoration: none;
+}
+.product icon{
+    font-size: 28px;
+}
+.product a:hover{
+    border-bottom: solid 1px #eee;
+}
+/*控件说明区域*/
+.items {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px !important;
+}
+
+dt,
+dd {
+    margin: 0px;
+    padding: 0px;
+}
+
+.items dl {
+    margin: 0px;
+    border: solid 1px #ccc;
+    padding: 15px;
+    min-height: 250px;
+    position: relative;
+    box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    flex: 1;
+    border-radius: 3px;
+    transition: all .5s;
+}
+
+.items dl:not(dl:last-child) {
+    margin: 0px 30px 0px 0px;
+}
+
+.items dl:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.04);
+    box-shadow: 1px 1px 10px rgba(60, 60, 60, 0.3), -1px -1px 10px rgba(60, 60, 60, 0.3);
+}
+
+.items dl dt {
+    border-bottom: solid 1px #ccc;
+    position: relative;
+    padding: 30px 0px 10px 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-size: 18px;
+    line-height: 40px;
+    text-align: left;
+    margin: 0px 0px 15px 0px;
+}
+
+.items dl dt::before {
+    content: attr(icon);
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    color: #666;
+    font-size: 25px;
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 0px;
+    left: 10px;
+}
+
+.items dl dt::after {
+    content: attr(name);
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    color: #666;
+    font-size: 16px;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 45px;
+}
+
+.items dl dd {
+    text-align: left;
+    padding: 5px;
+    margin: 0px 0px 0px 30px;
+    font-size: 14px;
+    counter-increment: item;
+}
+
+.items dl dd:before {
+    content: counter(item)".";
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-left: -25px;
+}
+
+.footer {
+    width: 100% !important;
+    margin: 50px auto 0px auto !important;
+    padding: 20px 20px 50px 20px;
+    box-sizing: border-box;
+    color: #fff !important;
+    box-shadow: 0px -2px 1px #eee;
+}
+
+.footer .company {
+    font-size: 20px;
+}
+
+.footer * {
+    text-align: center;
+    color: #333 !important;
+}
