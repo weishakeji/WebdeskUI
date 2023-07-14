@@ -165,15 +165,15 @@ header .title icon {
 
 }
 
-.area b {
-    font-size: 20px;
+.area span {
+    font-size: 22px;
 }
 
 .divider {
     display: block;
     height: 1px;
     width: 100%;
-    margin: 24px 0;
+    margin: 20px 0;
     position: relative;
     box-sizing: border-box;
     border-bottom: solid 1px #ccc;
@@ -191,7 +191,10 @@ header .title icon {
     top: 13px;
     transform: translateY(-50%);
 }
-
+.product{
+    margin: 0px;
+    padding: 5px 10px !important;
+}
 .product a {
     font-size: 20px;
     display: flex;
@@ -209,7 +212,10 @@ header .title icon {
 .product a:hover {
     border-bottom: solid 1px #eee;
 }
-
+.product span{
+    color: #999;
+    font-size: 14px;
+}
 /*控件说明区域*/
 .items {
     display: flex;
