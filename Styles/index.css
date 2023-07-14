@@ -71,6 +71,8 @@ header .title {
     background-color: #ffb83c;
     border-radius: 3px;
     box-shadow: 0px 1px 5px #fb8686, 1px 0px 5px #fb8686;
+    cursor: default;
+    user-select: none;
 }
 
 header .title icon {
