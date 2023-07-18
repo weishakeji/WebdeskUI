@@ -45,6 +45,7 @@
 .pagebox margin ne {
     top: 0px;
     right: 0px;
+    z-index: 10;
 }
 
 .pagebox margin e {
@@ -351,14 +352,14 @@
 }
 
 .pagebox btnbox btn_close {
-    --background-color: rgb(195, 7, 7);
-    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    --background-color: rgb(195, 7, 7);  
     width: 45px;
 }
 
-.pagebox btnbox btn_close:hover {
-    background-color: rgb(228, 32, 32);
-}
+    .pagebox btnbox btn_close:hover {
+        background-color: rgb(228, 32, 32);
+        box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    }
 
 .pagebox btnbox btn_close::before {
     content: "\e606";
@@ -485,7 +486,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;
@@ -501,6 +502,8 @@ pagebox-minarea {
     border: solid 1px #ccc;
     position: absolute;
     z-index: 999999;
+    left: -1000px;
+    bottom: -5000px;
     border-radius: 3px;
     transition: opacity 0.3s, width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
@@ -596,9 +599,9 @@ pageboxcollect_contextmenu {
     border: 1px solid #999;
     width: 140px;
 }
-pageboxcollect_contextmenu.ui_menu>menu_all_towindow:before{
-    content: '\a001';
-}
+    pageboxcollect_contextmenu.ui_menu > menu_all_towindow:before {
+        content: '\a021';
+    }
 pageboxcollect_contextmenu.ui_menu>menu_all_min:before{
     content: '\a024';
 }

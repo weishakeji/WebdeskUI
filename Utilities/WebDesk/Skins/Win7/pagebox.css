@@ -47,6 +47,7 @@
 .pagebox margin ne {
     top: 0px;
     right: 0px;
+    z-index: 10;
 }
 
 .pagebox margin e {
@@ -490,7 +491,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;
@@ -507,6 +508,8 @@ pagebox-minarea {
     position: absolute;
     z-index: 999999;
     border-radius: 3px;
+    left: -1000px;
+    bottom: -5000px;
     transition: opacity 0.3s, width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     box-shadow: rgb(238, 238, 238) 0px 0px 8px inset;
@@ -601,9 +604,9 @@ pageboxcollect_contextmenu {
     border: 1px solid #999;
     width: 140px;
 }
-pageboxcollect_contextmenu.ui_menu>menu_all_towindow:before{
-    content: '\a001';
-}
+    pageboxcollect_contextmenu.ui_menu > menu_all_towindow:before {
+        content: '\a021';
+    }
 pageboxcollect_contextmenu.ui_menu>menu_all_min:before{
     content: '\a024';
 }

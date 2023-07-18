@@ -12,7 +12,7 @@
 	//皮肤管理
 	var skins = function () {
 		this.night = false;
-		this.rootpath = '/Utilities/webdesk/skins/';
+		this.rootpath = '/Utilities/WebDesk/skins/';
 		this.list = [];
 		this._list = ['education', 'win10', 'win7'];
 		this._night = '_Night'; //夜间模式

@@ -43,6 +43,7 @@
 .pagebox margin ne {
     top: 0px;
     right: 0px;
+    z-index: 10;
 }
 
 .pagebox margin e {
@@ -111,7 +112,7 @@
     top: 3px;
     left: 6px;
     z-index: 1;
-    font-family: "webdesk_icon" !important;
+    font-family: 'webdesk_icon' !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
@@ -326,13 +327,12 @@
     font-size: 15px;
 }
 
-.pagebox btnbox btn_close {
-    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
-}
+
 
 .pagebox btnbox btn_close:hover {
-    background-color: rgb(228, 32, 32);
     color: rgba(255,255,255,1);
+    background-color: rgb(228, 32, 32);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
 }
 
 .pagebox btnbox btn_close::before {
@@ -463,7 +463,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;
@@ -479,6 +479,8 @@ pagebox-minarea {
     border: solid 1px #ccc;
     position: absolute;
     z-index: 999999;
+    left: -1000px;
+    bottom: -5000px;
     border-radius: 3px;
     transition: opacity 0.3s, width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
@@ -577,9 +579,9 @@ pageboxcollect_contextmenu {
     width: 140px;
 }
 
-pageboxcollect_contextmenu.ui_menu>menu_all_towindow:before {
-    content: '\a001';
-}
+    pageboxcollect_contextmenu.ui_menu > menu_all_towindow:before {
+        content: '\a021';
+    }
 
 pageboxcollect_contextmenu.ui_menu>menu_all_min:before {
     content: '\a024';

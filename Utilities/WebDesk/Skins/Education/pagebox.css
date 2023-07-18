@@ -1,11 +1,13 @@
 ﻿@charset "utf-8";
+
 .pagebox {
-    background-color: rgba(246, 253, 227, 0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 1px;
     position: absolute;
-    border: 1px  solid rgba(24, 109, 40, 0.6);
+    border: 1px solid rgba(62, 63, 63, 0.6);
     user-select: none;
-    overflow:hidden;
+    overflow: hidden;
+    text-align: left;
 }
 
 
@@ -16,7 +18,7 @@
     position: relative;
     width: calc(100% - 2px);
     height: calc(100% - 2px);
-    border: 1px solid #fff;    
+    border: 1px solid #fff;
 }
 
 .pagebox margin>* {
@@ -26,6 +28,8 @@
     height: 10px;
     z-index: 2;
 }
+
+.pagebox margin nw {}
 
 .pagebox margin w {
     height: calc(100% - 20px);
@@ -41,6 +45,7 @@
 .pagebox margin ne {
     top: 0px;
     right: 0px;
+    z-index: 10;
 }
 
 .pagebox margin e {
@@ -92,6 +97,7 @@
     user-select: none;
     cursor: default;
     z-index: 1;
+
 }
 
 .pagebox pagebox_title>* {
@@ -109,7 +115,7 @@
     top: 3px;
     left: 6px;
     z-index: 1;
-    font-family: "webdesk_icon" !important;
+    font-family: 'webdesk_icon' !important;
     text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
@@ -122,6 +128,7 @@
     from {
         transform: rotate(0deg)
     }
+
     to {
         transform: rotate(359deg)
     }
@@ -135,6 +142,7 @@
     overflow: hidden;
     padding-right: 5px;
     text-indent: 5px;
+    text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 1;
@@ -151,8 +159,9 @@
     width: 150px;
     position: absolute;
     z-index: 5;
+    text-align: left;
     background-color: rgba(238, 238, 238, 1);
-    border: 1px solid #999;
+    border: 1px solid #ccc;
     --border-top: none;
     --border-left: none;
 }
@@ -200,7 +209,7 @@
     top: 2px;
     border-radius: 3px;
     background: rgba(161, 197, 247, 0.2);
-    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+    --background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
 }
 
 .ui_menu>hr {
@@ -212,11 +221,13 @@
 }
 
 
+
 /*刷新的菜单项*/
 
 .pagebox .ui_menu>menu_fresh:before {
     content: '\e651';
 }
+
 .pagebox .ui_menu>menu_print:before {
     content: '\a046';
 }
@@ -283,6 +294,8 @@
     background-color: #eee;
 }
 
+.pagebox btnbox>*:first-child {}
+
 .pagebox btnbox>*:last-child {
     border-top: none;
 }
@@ -298,6 +311,8 @@
     line-height: 18px;
     cursor: pointer;
 }
+
+.pagebox btnbox btn_min {}
 
 .pagebox btnbox btn_min::before {
     content: "\e600";
@@ -319,9 +334,14 @@
     font-size: 15px;
 }
 
+.pagebox btnbox btn_close {
+    font-size: 15px;
+}
+
 .pagebox btnbox btn_close:hover {
     background-color: rgb(228, 32, 32);
-    color: rgba(255,255,255,1);
+    color: rgba(255, 255, 255, 1);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
 }
 
 .pagebox btnbox btn_close::before {
@@ -332,9 +352,11 @@
     font-size: 12px;
     line-height: 22px;
 }
+
 .pagebox btnbox btn_close:hover::before {
-    color: rgba(255,255,255,1);
+    color: rgba(255, 255, 255, 1);
 }
+
 .pagebox btnbox btn_close:hover::after {
     display: none;
 }
@@ -375,8 +397,6 @@
     position: absolute;
     background-color: transparent;
     z-index: 3;
-    border: 1px solid rgba(24, 109, 40, 0.6);   
-    box-shadow: 0px -1px 2px 1px rgba(255, 255, 255, 0.8);
 }
 
 
@@ -412,14 +432,16 @@ pagebox_bg_mask {
     position: absolute;
     top: 0px;
     left: 0px;
-    background-color: rgba(255, 255, 255, .01);
+    background-color: rgba(255, 255, 255, .3);
 }
-
+body.pagebox_overflow, body.pagebox_overflow>*{
+    overflow: hidden !important;
+}
 
 /* 焦点窗体的样式 */
 
 .pagebox_focus {
-    background-color:rgb(182, 226, 172);
+    background-color: rgba(255, 255, 255, 1);
     box-shadow: 2px 2px 3px 3px rgba(180, 180, 180, 0.3), -2px -2px 3px 3px rgba(180, 180, 180, 0.3);
 }
 
@@ -454,7 +476,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;
@@ -471,6 +493,8 @@ pagebox-minarea {
     position: absolute;
     z-index: 999999;
     border-radius: 3px;
+    left: -1000px;
+    bottom: -5000px;
     transition: opacity 0.3s, width 0.5s, height 0.5s;
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     box-shadow: rgb(238, 238, 238) 0px 0px 8px inset;
@@ -485,7 +509,7 @@ pagebox-min {
     height: 30px;
     user-select: none;
     cursor: default;
-    background-color:rgba(182, 226, 172, 0.4);
+    background-color: rgba(161, 197, 247, 0.4);
     box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
     border-radius: 3px;
     border: 1px solid rgba(62, 63, 63, 0.3);
@@ -497,7 +521,7 @@ pagebox-min {
 }
 
 pagebox-min:hover {
-    background-color: rgba(74, 182, 92, 0.8);
+    background-color: rgba(161, 197, 247, 0.8);
     box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
 }
 
@@ -538,7 +562,6 @@ pagebox-min btn_close {
     top: 7px;
     right: 7px;
     cursor: pointer;
-    border-radius: 4px;
 }
 
 pagebox-min btn_close.disable {
@@ -553,7 +576,8 @@ pagebox-min btn_close:before {
     font-size: 12px;
     font-weight: 800;
     color: #fff;
-    line-height: 15px;    
+    line-height: 15px;
+    border-radius: 0px 0px 4px 0px;
     font-family: "webdesk_icon" !important;
 }
 
@@ -569,7 +593,7 @@ pageboxcollect_contextmenu {
 }
 
 pageboxcollect_contextmenu.ui_menu>menu_all_towindow:before {
-    content: '\a001';
+    content: '\a021';
 }
 
 pageboxcollect_contextmenu.ui_menu>menu_all_min:before {

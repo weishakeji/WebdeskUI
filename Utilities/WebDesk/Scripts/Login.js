@@ -32,6 +32,7 @@
             vcodemd5: '', //验证码的md5编码
             id: '',
             drag: false, //是否处于拖动状态
+            draggvalue: 0,   //  拖动值，即离左侧起始位置的x坐标值
             dragfinish: false, //拖动完成
             success: false, //是否登录成功
             loading: false //加载中
@@ -47,6 +48,7 @@
         this.dombody = null;
         this.domfoot = null;
         this.customVerify = []; //自定义验证方法
+        this.dragfinish_value = 85;       //滑块拖动完成达到这个值，就表示拖动完成
         this.$slot = null;         //插槽
         //
         if (!this._id) this._id = 'login_' + new Date().getTime();
@@ -85,18 +87,25 @@
             });
         },
         'title': function (obj, val, old) {
-            if (obj.domtit) obj.domtit.find('login_tit').html(val);
+            if (obj.domtit) {
+                if (val != '')
+                    obj.domtit.find('login_tit').css('display','inline').html(val);
+                else
+                    obj.domtit.find('login_tit').hide();
+            }
         },
         'icoimg': function (obj, val, old) {
             if (obj.domtit) {
                 var ico = obj.domtit.find('login_ico');
                 if (obj.icoimg != '') {
                     ico.find('i').remove();
-                    ico.add('img').attr('src', obj.icoimg);
+                    if (ico.find('img').length < 1)
+                        ico.add('img').attr('src', obj.icoimg);
                 }
                 if (obj.icoimg == '') {
                     ico.find('img').remove();
-                    ico.add('i').html('&#x' + obj.ico);
+                    if (ico.find('i').length < 1)
+                        ico.add('i').html('&#x' + obj.ico);
                 }
             }
         },
@@ -136,61 +145,79 @@
             if (val == old) return;
             if (obj.dom) obj.dom.find('img[class=\'vcode_img\']').attr('src', val);
         },
-        //滑块拖动
+        //滑块是否在拖动,val为true为拖动中
         'drag': function (obj, val, old) {
             if (!obj.dom) return;
             var box = obj.dom.find('login_dragbox');
             if (!val) {
                 box.css('transition', 'left 0.3s').removeClass('drag');
-                var p = box.parent();
-                var perecnt = 70; //拖动完成百分多少，算完成
-                if (parseInt(box.css('left') + box.width() / 2) > p.width() * perecnt / 100) {
-                    box.left(p.width() - box.width() - 5);
+                var parent = box.parent();
+                var perecnt = obj.dragfinish_value; //拖动完成百分多少，算完成             
+                if (parseInt(box.css('left')) / (parent.width() - box.width()) * 100 >= perecnt) {
+                    box.left(parent.width() - box.width() - 5);
                     if (!obj.dragfinish) obj.dragfinish = true;
                 } else {
                     box.left(5);
                 }
+                //隐藏滑道，渐隐
+                obj.dom.find('slideway').css({ 'transition': 'width 0.3s', 'width': '0px' });
+                window.setTimeout(function () {
+                    obj.dom.find('slideway').hide();
+                }, 300);
             }
+            //如果处在拖动中，则滑块去除动态效果
             if (val) {
-                box.addClass('drag');
-                box.css('transition', '');
-                box.css("opacity", 1)
+                box.addClass('drag').css({ 'transition': '', 'opacity': 1 });
+                obj.dom.find('slideway').css({ 'transition': '' }).show();
             }
-
+        },
+        //拖动值，滑块在拖动区间的百分比位置
+        draggvalue: function (obj, val, old) {
+            var slideway = obj.dom.find('slideway');
+            if (val > 10)
+                slideway.css('width', 'calc(' + val + '% - 10px)');
+            else
+                slideway.css('width', 'calc(' + val + '%)');
         },
         //滑块拖动完成
         'dragfinish': function (obj, val, old) {
             //滑块拖动区域
             var box = obj.dom.find('login_drag');
+            //要隐藏的元素，当未滑动时，输入框与验证码都隐藏        
+            var elements = box.prev().merge(box.prev().prev());
             if (val) {
-                box.addClass('complete');
-                box.css('transition', 'opacity 1s')
-                box.css('opacity', 0);
+                box.addClass('complete').css({ 'transition': 'opacity 1s', 'opacity': 0 });
                 window.setTimeout(function () {
                     if (obj.dragfinish) box.hide();
                 }, 1000);
                 obj.trigger('dragfinish');
                 obj.vcode = '';
                 obj.dom.find('input[name=\'login_vcode\']').focus().parent().removeClass('login_error');
+                elements.show();
+                //隐藏滑道，渐隐
+                obj.dom.find('slideway').css({ 'transition': 'width 0.3s', 'width': '0px' });
+                window.setTimeout(function () {
+                    obj.dom.find('slideway').hide();
+                }, 300);
+                box.prev().focus();
             } else {
-                box.removeClass('complete');
-                box.css('transition', '')
-                box.css('opacity', 1);
-                box.show();
+                box.removeClass('complete').css({ 'transition': '', 'opacity': 1 }).show();
                 obj.dom.find('login_dragbox').left(5);
+                elements.hide();
             }
         },
         //加载状态变化时
         loading: function (obj, val, old) {
             if (obj.dom) {
                 if (val) {
-                    var form = obj.dom.find('form.login_body');
-                    console.log('表单');
-                    console.log(form);
                     obj.dom.find('form.login_body').hide();
+                    obj.dom.find('login_titlebar').hide();
+                    obj.dom.find('div.slot').hide();
                     obj.dom.find('div.login_loding').show();
                 } else {
                     obj.dom.find('form.login_body').show();
+                    obj.dom.find('div.slot').show();
+                    obj.dom.find('login_titlebar').show();
                     obj.dom.find('div.login_loding').hide();
                 }
             }
@@ -210,7 +237,7 @@
         this.inputs = {
             user: this.dom.find('input[type=text][name=login_user]'),
             pw: this.dom.find('input[type=password][name=login_pw]'),
-            vcode: this.dom.find('input[type=text][name=login_vcode]')
+            vcode: this.dom.find('input[type=number][name=login_vcode]')
         }
         var th = this;
         window.setTimeout(function () {
@@ -218,6 +245,7 @@
                 'target': th.dom,
                 'data': th.attrs
             });
+            th.dom.show();
         }, 200);
 
         return this;
@@ -247,6 +275,7 @@
             user.addClass('login_user').add('input').attr({
                 'type': 'text',
                 'name': 'login_user',
+                'autocomplete': 'off',
                 'placeholder': '账号'
             });
             //密码
@@ -254,20 +283,23 @@
             pw.addClass('login_pw').add('input').attr({
                 'type': 'password',
                 'name': 'login_pw',
+                'autocomplete': 'off',
                 'placeholder': '密码'
             });
             //验证码
             var code = obj.dombody.add('login_row');
             code.add('img').addClass('vcode_img');
             code.addClass('login_code').add('input').attr({
-                'type': 'text',
+                'type': 'number',
                 'name': 'login_vcode',
+                'autocomplete': 'off',
                 'maxlength': obj.vcodelen,
                 'placeholder': '验证码'
             });
             //拖动滑块
             var drag = code.add('login_drag');
             drag.add('div').html('<span>向右拖动滑块</span>').add('login_dragbox');
+            drag.find('div').first().add('slideway').hide();   //滑道
             //登录按钮
             var btnarea = obj.dombody.add('login_row');
             btnarea.add('button').attr('type', 'submit').html(obj.buttontxt);
@@ -298,7 +330,7 @@
         slot: function (obj) {
             var slot = obj.dom.add('div').addClass("slot");
             slot.html(obj.$slot);
-            //obj.dom.html(obj.dom.html()+obj.$slot);
+            slot.hide();
         }
     };
     //基础事件
@@ -331,7 +363,7 @@
                 var obj = login._getObj(e);
                 if (obj.dragfinish) return;
                 obj.drag = true;
-                obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值               
+                obj._drag_init_x = $dom.mouse(e).x; //拖动时的初始鼠标值
             }).bind('mouseup,touchend', function (e) {
                 if (e && e.preventDefault) e.preventDefault();
                 var obj = login._getObj(e);
@@ -351,20 +383,22 @@
                 var parent = $dom(node).parent();
                 var min = 5;
                 var dragbox = obj.dom.find('login_dragbox');
-                var max = parent.width() - dragbox.width() - 5;
+                var max = parent.width() - dragbox.width() - 10;
                 //
                 var mouse = $dom.mouse(e);
                 var left = mouse.x - obj._drag_init_x;
                 left = left <= min ? min : (left >= max ? max : left);
                 if (obj.drag) {
                     dragbox.left(left);
-                    var perecnt = 70;
-                    var per = parseInt(dragbox.css('left') + dragbox.width() / 2) / parent.width() * 100;
-                    if (per > perecnt) {
+                    var perecnt = obj.dragfinish_value;       //允许完成拖动的百分比，即达到这个值就算拖动成功
+                    //console.error(perecnt);
+                    var per = parseInt(dragbox.css('left')) / (parent.width() - dragbox.width()) * 100;
+                    if (per >= perecnt) {
                         obj.dom.find("login_drag").addClass('complete').css("opacity", 0.8);
                     } else {
                         obj.dom.find("login_drag").removeClass('complete').css("opacity", 1);
                     }
+                    obj.draggvalue = per;
                 }
             });
         },
@@ -435,7 +469,7 @@
         var input = null;
         if (ctrl == 'user') input = this.dom.find('input[type=text][name=login_user]');
         if (ctrl == 'pw') input = this.dom.find('input[type=password][name=login_pw]');
-        if (ctrl == 'vcode') input = this.dom.find('input[type=text][name=login_vcode]');
+        if (ctrl == 'vcode') input = this.dom.find('input[type=number][name=login_vcode]');
         this.customVerify.push({
             ctrl: input,
             regex: regex,
@@ -491,7 +525,7 @@
         //当提交表单时
         obj.onsubmit(function (s, e) {
             //验证表单
-            var inputs = s.dom.find('input[type=text],input[type=password]');
+            var inputs = s.dom.find('input[type=text],input[type=number],input[type=password]');
             var pass = false;
             pass = inputs.each(function () {
                 for (var t in s._baseVefiry) {
