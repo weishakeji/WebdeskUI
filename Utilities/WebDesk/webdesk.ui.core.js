@@ -869,7 +869,7 @@
     //创建全局对象，方便调用
     window.$dom = webdom;
     window.$dom.load.css([webdom.path + 'Styles/webdesk.ui.core.css']);
-    window.$dom.load.css([webdom.path + 'Styles/public.css']);
+    window.$dom.load.css([webdom.path + 'Styles/Public.css']);
     window.$dom.load.css(['../Utilities/ElementUi/index.css']);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
