@@ -819,7 +819,7 @@
         }
     };
     //项目路径
-    webdom.path = '/Utilities/WebDesk/';
+    webdom.path = '../Utilities/WebDesk/';
     webdom.uipath = function () {
         //当前路径转换为相对路径
         var path = window.location.pathname;
@@ -831,13 +831,13 @@
     webdom.corejs = function (f) {
         //要加载的js 
         var arr = ['vue', 'polyfill.min', 'axios_min', 'api'];
-        for (var t in arr) arr[t] = '/Utilities/Scripts/' + arr[t] + '.js';
+        for (var t in arr) arr[t] = '../Utilities/Scripts/' + arr[t] + '.js';
         var dir = webdom.uipath();
         arr.push(dir + 'Scripts/ctrls.js');
         window.$dom.load.js(arr, function () {
             var arr2 = new Array();
-            arr2.push('/Utilities/ElementUi/index.js');
-            arr2.push('/Utilities/Scripts/vuecomponent.js');
+            arr2.push('../Utilities/ElementUi/index.js');
+            arr2.push('../Utilities/Scripts/vuecomponent.js');
             window.$dom.load.js(arr2, f);
         });
     };
@@ -868,9 +868,9 @@
     };
     //创建全局对象，方便调用
     window.$dom = webdom;
-    window.$dom.load.css([webdom.path + 'styles/webdesk.ui.core.css']);
-    window.$dom.load.css([webdom.path + 'styles/public.css']);
-    window.$dom.load.css(['/Utilities/ElementUi/index.css']);
+    window.$dom.load.css([webdom.path + 'Styles/webdesk.ui.core.css']);
+    window.$dom.load.css([webdom.path + 'Styles/public.css']);
+    window.$dom.load.css(['../Utilities/ElementUi/index.css']);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
         var file = webdom.file();
